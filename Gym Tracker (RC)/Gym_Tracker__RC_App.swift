@@ -1,5 +1,4 @@
-//
-//  Gym_Tracker__RC_App.swift
+//  GymTrackerRCApp.swift
 //  Gym Tracker (RC)
 //
 //  Created by Jack on 9/26/24.
