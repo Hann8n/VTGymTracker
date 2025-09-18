@@ -17,6 +17,9 @@ struct HoursCard: View {
     let currentTime: Date
     @Binding var isExpanded: Bool
 
+    // Access current color scheme
+    @Environment(\.colorScheme) private var colorScheme
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             // Get current gym status using GymStatusHelper
@@ -46,7 +49,7 @@ struct HoursCard: View {
 
                 // Chevron for expand/collapse
                 Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                    .foregroundColor(.blue)
+                    .foregroundColor(colorScheme == .dark ? .white : .black) // Dynamic chevron color
                     .font(.system(size: 14, weight: .bold))
             }
             .contentShape(Rectangle())   // Makes the whole HStack tappable
@@ -55,7 +58,7 @@ struct HoursCard: View {
                 isExpanded.toggle()
             }
             .padding(.horizontal)
-            .padding(.vertical, 5)
+            .padding(.vertical, 3.4)
             .fixedSize(horizontal: false, vertical: true)
 
             // Dropdown section with full schedule
@@ -98,7 +101,7 @@ struct HoursCard: View {
                         Spacer()
                         Link("More Info", destination: URL(string: "https://recsports.vt.edu/facilities/hours.html")!)
                             .font(.footnote)
-                            .foregroundColor(.blue)
+                            .foregroundColor(colorScheme == .dark ? .white : .black)
                     }
                 }
             }
@@ -109,6 +112,6 @@ struct HoursCard: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 0)
         .background(Color.clear)
-        .cornerRadius(8)
+        .cornerRadius(0)
     }
 }

@@ -4,6 +4,8 @@
 // Created by Jack on 1/13/25.
 //
 
+// MARK: - BarcodeGenerator.swift
+
 import UIKit
 import CDCodabarView
 
