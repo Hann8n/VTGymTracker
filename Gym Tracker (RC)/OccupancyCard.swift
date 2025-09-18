@@ -11,46 +11,41 @@ struct OccupancyCard: View {
     }
 
     var body: some View {
-        ZStack {
-            VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    // Display current occupancy and max capacity
-                    Text("\(occupancy)")
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                // Display current occupancy and max capacity
+                Text("\(occupancy)")
+                    .font(.subheadline)
+                    .bold()
+                +
+                Text(" / \(maxCapacity)")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+
+                // Display occupancy percentage
+                HStack(spacing: 0) {
+                    Text("\(Int(percentageCapacity * 100))")
                         .font(.subheadline)
-                        .bold()
-                    +
-                    Text(" / \(maxCapacity)")
+                        .foregroundColor(.primary)
+                    Text("%")
+                        .font(.subheadline)
+                        .foregroundColor(.primary)
+                    Text(" capacity")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
-                    
-                    Spacer()
-
-                    // Display occupancy percentage
-                    HStack(spacing: 0) {
-                        Text("\(Int(percentageCapacity * 100))")
-                            .font(.subheadline)
-                            .foregroundColor(.primary)
-                        Text("%")
-                            .font(.subheadline)
-                            .foregroundColor(.primary)
-                        Text(" capacity")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                    }
                 }
-
-                // Progress bar for occupancy
-                SegmentedProgressBar(
-                    height: 12,
-                    occupancyPercentage: percentageCapacity
-                )
-                .padding(.top, 2)
             }
-            .padding(.vertical, 2)
-            .padding(.horizontal)
-            .background(Color.clear)
-            .cornerRadius(8)
+
+            // Progress bar for occupancy
+            SegmentedProgressBar(
+                height: 12,
+                occupancyPercentage: percentageCapacity
+            )
+            .padding(.top, 2)
         }
+        .padding(.vertical, 8)
         .grayscale(networkMonitor.isConnected ? 0 : 1) // Grey out when offline
         .opacity(networkMonitor.isConnected ? 1 : 0.5) // Dim view when offline
         .allowsHitTesting(networkMonitor.isConnected) // Disable interactions when offline

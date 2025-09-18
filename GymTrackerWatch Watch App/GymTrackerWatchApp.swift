@@ -7,11 +7,17 @@
 
 import SwiftUI
 
+struct WatchContentView: View {
+    var body: some View {
+        WatchFacilitiesView()
+    }
+}
+
 @main
-struct GymTrackerWatch_Watch_AppApp: App {
+struct GymTrackerWatch_App: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            WatchContentView()
         }
     }
 }

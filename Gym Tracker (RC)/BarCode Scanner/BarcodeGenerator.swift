@@ -1,45 +1,37 @@
-// BarcodeGenerator.swift
-// Gym Tracker
-//
-// Created by Jack on 1/13/25.
-//
-
-// MARK: - BarcodeGenerator.swift
-
 import UIKit
 import CDCodabarView
 
 struct BarcodeGenerator {
-    /// Generates a UIImage of a Codabar barcode using CDCodabarView.
-    /// - Parameter input: The Codabar string to encode (e.g., "A12345B").
-    /// - Returns: A UIImage representing the Codabar barcode, or nil if generation fails.
+    // Shared instance for convenient access.
+    static let shared = BarcodeGenerator()
+    
+    /// Generates a Codabar barcode image from the provided input.
+    /// - Parameter input: The Codabar string (e.g., "A12345B").
+    /// - Returns: A UIImage of the generated barcode, or nil if generation fails.
     func generateCodabarBarcode(from input: String) -> UIImage? {
-        // Initialize CDCodabarView with desired properties
+        let barcodeWidth: CGFloat = 300
+        let barcodeHeight: CGFloat = 100
+        let barcodeSize = CGSize(width: barcodeWidth, height: barcodeHeight)
+        
         let codabarView = CDCodabarView()
         codabarView.code = input
-        codabarView.barColor = .black // Set bar color to black
-        codabarView.textColor = .clear // Hide the code text
-        codabarView.padding = 15 // Increase padding
-        codabarView.hideCode = true // Ensure the code text is hidden
+        codabarView.barColor = .black
+        codabarView.hideCode = true
         codabarView.font = UIFont(name: "AvenirNext-Regular", size: 15.0) ?? UIFont.systemFont(ofSize: 15)
-        
-        // Set the frame size based on desired barcode dimensions
-        let width: CGFloat = 300
-        let height: CGFloat = 100
-        codabarView.frame = CGRect(x: 0, y: 0, width: width, height: height)
-        codabarView.backgroundColor = .white
-
-        // Remove rounded corners (default appearance)
+        codabarView.backgroundColor = .clear
+        codabarView.frame = CGRect(origin: .zero, size: barcodeSize)
         codabarView.layer.cornerRadius = 0
         codabarView.layer.masksToBounds = false
-
-        // Render CDCodabarView into a UIImage
-        UIGraphicsBeginImageContextWithOptions(codabarView.bounds.size, codabarView.isOpaque, 0.0)
+        
+        UIGraphicsBeginImageContextWithOptions(barcodeSize, false, 0.0)
         defer { UIGraphicsEndImageContext() }
+        
+        UIColor.white.setFill()
+        UIRectFill(CGRect(origin: .zero, size: barcodeSize))
+        
         guard let context = UIGraphicsGetCurrentContext() else { return nil }
         codabarView.layer.render(in: context)
-        let barcodeImage = UIGraphicsGetImageFromCurrentImageContext()
         
-        return barcodeImage
+        return UIGraphicsGetImageFromCurrentImageContext()
     }
 }

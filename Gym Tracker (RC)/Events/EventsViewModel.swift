@@ -4,12 +4,16 @@
 //
 //  Created by Jack on 1/14/25.
 //
+//  This file defines the EventsViewModel which is responsible for
+//  fetching events from an RSS feed, monitoring network connectivity,
+//  and caching upcoming events (those whose endDate is in the future).
+//
 
 import Foundation
 import Combine
 
 // MARK: - NetworkError
-
+// Define possible network errors that can occur while fetching events.
 enum NetworkError: LocalizedError {
     case noInternet
     case fetchFailed(description: String)
@@ -19,51 +23,72 @@ enum NetworkError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .noInternet:
-            return "No internet connection"
-        case .fetchFailed(let description):
-            return "Failed to fetch events: \(description)"
+            return "Please check your internet connection"
+        case .fetchFailed(_):
+            return "Unable to load events right now"
         case .noData:
-            return "No data received."
+            return "No events available at the moment"
         case .parseFailed:
-            return "Failed to parse events."
+            return "Unable to load events right now"
         }
     }
 }
 
 // MARK: - EventsViewModel
-
+// This view model fetches events from an RSS feed, updates the UI,
+// and manages caching of upcoming events.
 class EventsViewModel: ObservableObject {
-    // Published properties to update the UI
+    // Published properties to update the UI.
     @Published var events: [Event] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
     
-    // Private properties
+    // Private properties.
     private var cancellables = Set<AnyCancellable>()
     private var networkMonitor: NetworkMonitor
     
-    // RSS Feed URL
+    // RSS Feed URL (unchanged).
     private let rssURL = URL(string: "https://gobblerconnect.vt.edu/organization/www_recsports_vt_edu/events.rss")!
     
-    // Initializer with dependency injection for NetworkMonitor
+    // Cache file location: stored in the app's caches directory.
+    private var cacheFileURL: URL {
+        let fm = FileManager.default
+        // Get the caches directory URL for the user domain.
+        let cachesDir = try? fm.url(for: .cachesDirectory,
+                                    in: .userDomainMask,
+                                    appropriateFor: nil,
+                                    create: true)
+        // Append the filename for cached events.
+        return cachesDir?.appendingPathComponent("cachedEvents.json") ?? URL(fileURLWithPath: "cachedEvents.json")
+    }
+    
+    // Initializer with dependency injection for NetworkMonitor.
+    // Loads cached events immediately if available.
     init(networkMonitor: NetworkMonitor = NetworkMonitor()) {
         self.networkMonitor = networkMonitor
         setupNetworkMonitor()
+        
+        // Attempt to load cached events (if available) so the UI displays them immediately.
+        let cachedEvents = loadCache()
+        if !cachedEvents.isEmpty {
+            self.events = cachedEvents
+        }
     }
     
-    // Setup network monitoring to handle connectivity changes
+    // MARK: - Network Monitoring
+    // Sets up network connectivity monitoring to handle changes in connection state.
     private func setupNetworkMonitor() {
         networkMonitor.$isConnected
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isConnected in
                 guard let self = self else { return }
                 if !isConnected {
+                    // Set error message if no internet.
                     self.errorMessage = NetworkError.noInternet.errorDescription
                 } else {
-                    // Clear the no-internet error message when connection is restored
+                    // When connection is restored, clear the error message and optionally refetch events.
                     if self.errorMessage == NetworkError.noInternet.errorDescription {
                         self.errorMessage = nil
-                        // Optionally, refetch events when connection is restored
                         self.fetchEvents()
                     }
                 }
@@ -71,9 +96,10 @@ class EventsViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    // Function to fetch events from the RSS feed
+    // MARK: - Fetch Events
+    // Fetches events from the RSS feed without performing a Google connectivity check.
     func fetchEvents() {
-        // Check network connectivity before attempting to fetch
+        // Check network connectivity before attempting to fetch.
         guard networkMonitor.isConnected else {
             DispatchQueue.main.async {
                 self.errorMessage = NetworkError.noInternet.errorDescription
@@ -86,25 +112,30 @@ class EventsViewModel: ObservableObject {
             self.errorMessage = nil
         }
         
-        let task = URLSession.shared.dataTask(with: rssURL) { [weak self] data, response, error in
+        // Directly fetch the RSS feed.
+        let task = URLSession.shared.dataTask(with: self.rssURL) { [weak self] data, response, error in
             DispatchQueue.main.async {
                 self?.isLoading = false
                 
+                // Handle errors during fetch.
                 if let error = error {
-                    // Corrected assignment using errorDescription
                     self?.errorMessage = NetworkError.fetchFailed(description: error.localizedDescription).errorDescription
                     return
                 }
                 
+                // Check that data was received.
                 guard let data = data else {
                     self?.errorMessage = NetworkError.noData.errorDescription
                     return
                 }
                 
-                // Parse the RSS feed data
+                // Parse the fetched RSS feed.
                 let parser = RSSParser()
                 if let parsedEvents = parser.parse(data: data) {
+                    // Update the in-memory events.
                     self?.events = parsedEvents
+                    // Save only upcoming events (those with an endDate in the future) to cache.
+                    self?.saveCache(with: parsedEvents)
                 } else {
                     self?.errorMessage = NetworkError.parseFailed.errorDescription
                 }
@@ -112,10 +143,44 @@ class EventsViewModel: ObservableObject {
         }
         task.resume()
     }
+    
+    // MARK: - Caching Methods
+    
+    /// Saves upcoming events to a local JSON cache file.
+    /// - Parameter events: The full list of fetched events.
+    private func saveCache(with events: [Event]) {
+        // Filter events to include only those that have not ended.
+        let upcomingEvents = events.filter { $0.endDate > Date() }
+        do {
+            // Encode the upcoming events into JSON.
+            let data = try JSONEncoder().encode(upcomingEvents)
+            // Write the JSON data to the cache file atomically.
+            try data.write(to: cacheFileURL, options: .atomic)
+        } catch {
+            print("Error saving cache: \(error)")
+        }
+    }
+    
+    /// Loads cached events from the local JSON cache file.
+    /// - Returns: An array of upcoming events, or an empty array if loading fails.
+    private func loadCache() -> [Event] {
+        do {
+            // Read the data from the cache file.
+            let data = try Data(contentsOf: cacheFileURL)
+            // Decode the JSON data into an array of Event objects.
+            let events = try JSONDecoder().decode([Event].self, from: data)
+            // Return only events that are still upcoming.
+            return events.filter { $0.endDate > Date() }
+        } catch {
+            print("Error loading cache: \(error)")
+            return []
+        }
+    }
 }
 
 // MARK: - RSSParser
-
+// RSSParser is provided here so that no other files need to change.
+// It parses the RSS XML feed into an array of Event objects.
 class RSSParser: NSObject, XMLParserDelegate {
     private var events: [Event] = []
     private var currentElement = ""
@@ -128,13 +193,17 @@ class RSSParser: NSObject, XMLParserDelegate {
     private var currentLocation = ""
     private var currentHostingBody = ""
     
+    // DateFormatter to parse dates in the RSS feed.
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "E, d MMM yyyy HH:mm:ss Z" // Example: "Tue, 14 Jan 2025 22:15:11 GMT"
+        // Expected format: "Tue, 14 Jan 2025 22:15:11 GMT"
+        formatter.dateFormat = "E, d MMM yyyy HH:mm:ss Z"
         return formatter
     }()
     
-    // Function to parse XML data and return an array of Event objects
+    /// Parses XML data and returns an array of Event objects.
+    /// - Parameter data: The XML data to parse.
+    /// - Returns: An array of Event objects if parsing succeeds, otherwise nil.
     func parse(data: Data) -> [Event]? {
         let parser = XMLParser(data: data)
         parser.delegate = self
@@ -143,11 +212,12 @@ class RSSParser: NSObject, XMLParserDelegate {
     
     // MARK: - XMLParserDelegate Methods
     
+    // Called when the parser starts a new element.
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?,
                 qualifiedName qName: String?, attributes attributeDict: [String: String] = [:]) {
         currentElement = elementName
+        // When a new "item" element starts, reset the current event properties.
         if elementName == "item" {
-            // Reset current event properties
             currentTitle = ""
             currentDescription = ""
             currentLink = ""
@@ -159,40 +229,44 @@ class RSSParser: NSObject, XMLParserDelegate {
         }
     }
     
+    // Called when the parser finds characters within an element.
     func parser(_ parser: XMLParser, foundCharacters string: String) {
-        let trimmedString = string.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedString.isEmpty else { return }
+        // Remove unnecessary whitespace.
+        let trimmed = string.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
         
+        // Append the trimmed string to the appropriate property based on the current element.
         switch currentElement {
         case "title":
-            currentTitle += trimmedString
+            currentTitle += trimmed
         case "description":
-            currentDescription += trimmedString
+            currentDescription += trimmed
         case "link":
-            currentLink += trimmedString
+            currentLink += trimmed
         case "pubDate":
-            currentPubDate += trimmedString
+            currentPubDate += trimmed
         case "start":
-            currentStartDate += trimmedString
+            currentStartDate += trimmed
         case "end":
-            currentEndDate += trimmedString
+            currentEndDate += trimmed
         case "location":
-            currentLocation += trimmedString
+            currentLocation += trimmed
         case "host":
+            // Concatenate multiple host values if needed.
             if currentHostingBody.isEmpty {
-                currentHostingBody = trimmedString
+                currentHostingBody = trimmed
             } else {
-                currentHostingBody += ", \(trimmedString)"
+                currentHostingBody += ", \(trimmed)"
             }
         default:
             break
         }
     }
     
-    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?,
-                qualifiedName qName: String?) {
+    // Called when the parser ends an element.
+    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
-            // Validate and create an Event object
+            // Validate and create an Event object.
             guard
                 let linkURL = URL(string: currentLink),
                 let pubDate = dateFormatter.date(from: currentPubDate),

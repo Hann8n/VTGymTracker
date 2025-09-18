@@ -3,6 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>com.apple.security.application-groups</key>
-	<array/>
+	<array>
+		<string>group.VTGymApp.D8VXFBV8SJ</string>
+	</array>
 </dict>
 </plist>

@@ -1,65 +1,10 @@
-//GymTrackerWidget.swift
-//
 import WidgetKit
 import SwiftUI
 
-struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(
-            date: Date(),
-            mcComasOccupancyData: "Loading...",
-            warMemorialOccupancyData: "Loading...",
-            mcComasOccupancy: 0,
-            warMemorialOccupancy: 0
-        )
-    }
-
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
-        let entry = SimpleEntry(
-            date: Date(),
-            mcComasOccupancyData: "300/600",
-            warMemorialOccupancyData: "480/1200",
-            mcComasOccupancy: 300,
-            warMemorialOccupancy: 480
-        )
-        completion(entry)
-    }
-
-    func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
-        let currentDate = Date()
-        let nextUpdateDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
-
-        Task {
-            let mcComasData = await GymService.shared.fetchGymOccupancy(for: Constants.mcComasFacilityId)
-            let warMemorialData = await GymService.shared.fetchGymOccupancy(for: Constants.warMemorialFacilityId)
-
-            let mcComasText = mcComasData != nil ? "\(mcComasData!.occupancy)/\(Constants.mcComasMaxCapacity)" : "N/A"
-            let warMemorialText = warMemorialData != nil ? "\(warMemorialData!.occupancy)/\(Constants.warMemorialMaxCapacity)" : "N/A"
-
-            let entry = SimpleEntry(
-                date: currentDate,
-                mcComasOccupancyData: mcComasText,
-                warMemorialOccupancyData: warMemorialText,
-                mcComasOccupancy: mcComasData?.occupancy ?? 0,
-                warMemorialOccupancy: warMemorialData?.occupancy ?? 0
-            )
-
-            let timeline = Timeline(entries: [entry], policy: .after(nextUpdateDate))
-            completion(timeline)
-        }
-    }
-}
-
-struct SimpleEntry: TimelineEntry {
-    let date: Date
-    let mcComasOccupancyData: String
-    let warMemorialOccupancyData: String
-    let mcComasOccupancy: Int
-    let warMemorialOccupancy: Int
-}
+// Ensure UnifiedTimelineProvider.swift is part of the same target/module
 
 struct GymTrackerWidgetEntryView: View {
-    var entry: Provider.Entry
+    var entry: UnifiedGymTrackerEntry
     @Environment(\.widgetFamily) var widgetFamily
     @Environment(\.widgetRenderingMode) var widgetRenderingMode
 
@@ -75,197 +20,141 @@ struct GymTrackerWidgetEntryView: View {
     }
 }
 
+// MARK: - Small Widget
 struct SmallWidgetView: View {
-    let entry: Provider.Entry
+    let entry: UnifiedGymTrackerEntry
     let widgetRenderingMode: WidgetRenderingMode
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(alignment: .leading, spacing: 8) { // Reduced spacing from 16 to 8
+            // War Memorial Section
             HStack(spacing: 8) {
-                if entry.warMemorialOccupancyData == "Loading..." {
-                    ZStack {
-                        Circle()
-                            .stroke(lineWidth: 6)
-                            .opacity(0.3)
-                            .foregroundColor(.secondary)
-                            .frame(width: 40, height: 40)
-
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .secondary))
-                            .frame(width: 40, height: 40)
-                    }
-                } else {
-                    CircularProgressView(
-                        percentage: (Double(entry.warMemorialOccupancy) / Double(Constants.warMemorialMaxCapacity)) * 100,
-                        size: 40,
-                        lineWidth: 6,
-                        fontScale: 0.25, // Decreased from 0.3 to 0.25
-                        widgetRenderingMode: widgetRenderingMode,
-                        totalSegments: 10 // Set to 10 for small widget
-                    )
-                }
-                VStack(alignment: .leading, spacing: 4) {
+                CircularProgressView(
+                    percentage: calculatePercentage(occupancy: entry.warMemorialOccupancy, maxCapacity: entry.maxWarMemorialCapacity),
+                    size: 40,
+                    lineWidth: 6,
+                    fontScale: 0.30,
+                    widgetRenderingMode: widgetRenderingMode,
+                    totalSegments: 10,
+                    isEmpty: entry.warMemorialOccupancy == 0,
+                    showPercentageSymbol: false // Disable "%"
+                )
+                VStack(alignment: .leading, spacing: 4) { // Reduced spacing from 4 to 2
                     Text("War Memorial")
-                        .font(.system(size: 12, weight: .bold))
-                        .lineLimit(1)
-                        .fixedSize(horizontal: true, vertical: false)
+                        .font(.system(size: 11, weight: .bold))
                         .widgetAccentable()
-
+                        .lineLimit(1) // Ensure single line
                     HStack(spacing: 0) {
                         Text("\(entry.warMemorialOccupancy)")
-                            .font(.system(size: 14))
+                            .font(.system(size: 13))
                             .widgetAccentable()
-                        Text(" / \(Constants.warMemorialMaxCapacity)")
-                            .font(.system(size: 14))
+                            .layoutPriority(1) // Ensures this text gets priority
+                        Text(" / \(entry.maxWarMemorialCapacity)")
+                            .font(.system(size: 13))
                             .foregroundColor(.secondary)
+                            .lineLimit(1) // Ensure single line
                     }
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
             }
 
-            Divider().frame(maxWidth: 80)
+            // Divider with default appearance
+            Divider()
+                .padding(.vertical, 10) // Reduced vertical padding from 4 to 2
 
+            // McComas Section
             HStack(spacing: 8) {
-                if entry.mcComasOccupancyData == "Loading..." {
-                    ZStack {
-                        Circle()
-                            .stroke(lineWidth: 6)
-                            .opacity(0.3)
-                            .foregroundColor(.secondary)
-                            .frame(width: 40, height: 40)
-
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .secondary))
-                            .frame(width: 40, height: 40)
-                    }
-                } else {
-                    CircularProgressView(
-                        percentage: (Double(entry.mcComasOccupancy) / Double(Constants.mcComasMaxCapacity)) * 100,
-                        size: 40,
-                        lineWidth: 6,
-                        fontScale: 0.25, // Decreased from 0.3 to 0.25
-                        widgetRenderingMode: widgetRenderingMode,
-                        totalSegments: 10 // Set to 10 for small widget
-                    )
-                }
-                VStack(alignment: .leading, spacing: 4) {
+                CircularProgressView(
+                    percentage: calculatePercentage(occupancy: entry.mcComasOccupancy, maxCapacity: entry.maxMcComasCapacity),
+                    size: 40,
+                    lineWidth: 6,
+                    fontScale: 0.30,
+                    widgetRenderingMode: widgetRenderingMode,
+                    totalSegments: 10,
+                    isEmpty: entry.mcComasOccupancy == 0,
+                    showPercentageSymbol: false // Disable "%"
+                )
+                VStack(alignment: .leading, spacing: 4) { // Reduced spacing from 4 to 2
                     Text("McComas")
-                        .font(.system(size: 12, weight: .bold))
-                        .lineLimit(1)
-                        .fixedSize(horizontal: true, vertical: false)
+                        .font(.system(size: 11, weight: .bold))
                         .widgetAccentable()
-
+                        .lineLimit(1) // Ensure single line
                     HStack(spacing: 0) {
                         Text("\(entry.mcComasOccupancy)")
-                            .font(.system(size: 14))
+                            .font(.system(size: 13))
                             .widgetAccentable()
-                        Text(" / \(Constants.mcComasMaxCapacity)")
-                            .font(.system(size: 14))
+                            .layoutPriority(1) // Ensures this text gets priority
+                        Text(" / \(entry.maxMcComasCapacity)")
+                            .font(.system(size: 13))
                             .foregroundColor(.secondary)
+                            .lineLimit(1) // Ensure single line
                     }
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
-        .padding(.horizontal, 4)
-        .padding(.vertical, 8)
-        .widgetAccentable()
+        .padding(.horizontal, 0) // Removed horizontal padding
+        .padding(.vertical, 0)
         .containerBackground(Color(.systemBackground), for: .widget)
+    }
+
+    private func calculatePercentage(occupancy: Int, maxCapacity: Int) -> Double {
+        guard maxCapacity > 0 else { return 0 }
+        return (Double(occupancy) / Double(maxCapacity)) * 100
     }
 }
 
+// MARK: - Medium Widget
 struct MediumWidgetView: View {
-    let entry: Provider.Entry
+    let entry: UnifiedGymTrackerEntry
     let widgetRenderingMode: WidgetRenderingMode
 
     var body: some View {
         HStack {
             Spacer()
-
+            // War Memorial Section
             VStack(spacing: 4) {
-                if entry.warMemorialOccupancyData == "Loading..." {
-                    ZStack {
-                        Circle()
-                            .stroke(lineWidth: 8)
-                            .opacity(0.3)
-                            .foregroundColor(.secondary)
-                            .frame(width: 70, height: 70)
-
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .secondary))
-                            .frame(width: 70, height: 70)
-                    }
-                } else {
-                    CircularProgressView(
-                        percentage: (Double(entry.warMemorialOccupancy) / Double(Constants.warMemorialMaxCapacity)) * 100,
-                        size: 70,
-                        lineWidth: 8,
-                        fontScale: 0.25,
-                        widgetRenderingMode: widgetRenderingMode,
-                        totalSegments: 20 // Set to 20 for medium widget
-                    )
-                }
-
+                CircularProgressView(
+                    percentage: calculatePercentage(occupancy: entry.warMemorialOccupancy, maxCapacity: entry.maxWarMemorialCapacity),
+                    size: 70,
+                    lineWidth: 8,
+                    fontScale: 0.25,
+                    widgetRenderingMode: widgetRenderingMode,
+                    totalSegments: 20,
+                    isEmpty: entry.warMemorialOccupancy == 0,
+                    showPercentageSymbol: true
+                )
                 Text("War Memorial")
                     .font(.system(size: 14, weight: .bold))
-                    .lineLimit(1)
-                    .fixedSize(horizontal: true, vertical: false)
-                    .widgetAccentable()
                     .padding(.top, 8)
-
                 HStack(spacing: 0) {
                     Text("\(entry.warMemorialOccupancy)")
                         .font(.system(size: 14))
-                        .widgetAccentable()
-                    Text(" / \(Constants.warMemorialMaxCapacity)")
+                    Text(" / \(entry.maxWarMemorialCapacity)")
                         .font(.system(size: 14))
                         .foregroundColor(.secondary)
                 }
             }
             Spacer()
-
-            Divider()
-                .frame(height: 90)
-                .padding(.horizontal)
-
+            Divider().frame(height: 90).padding(.horizontal)
             Spacer()
-
+            // McComas Section
             VStack(spacing: 4) {
-                if entry.mcComasOccupancyData == "Loading..." {
-                    ZStack {
-                        Circle()
-                            .stroke(lineWidth: 8)
-                            .opacity(0.3)
-                            .foregroundColor(.secondary)
-                            .frame(width: 70, height: 70)
-
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .secondary))
-                            .frame(width: 70, height: 70)
-                    }
-                } else {
-                    CircularProgressView(
-                        percentage: (Double(entry.mcComasOccupancy) / Double(Constants.mcComasMaxCapacity)) * 100,
-                        size: 70,
-                        lineWidth: 8,
-                        fontScale: 0.25,
-                        widgetRenderingMode: widgetRenderingMode,
-                        totalSegments: 20 // Set to 20 for medium widget
-                    )
-                }
-
+                CircularProgressView(
+                    percentage: calculatePercentage(occupancy: entry.mcComasOccupancy, maxCapacity: entry.maxMcComasCapacity),
+                    size: 70,
+                    lineWidth: 8,
+                    fontScale: 0.25,
+                    widgetRenderingMode: widgetRenderingMode,
+                    totalSegments: 20,
+                    isEmpty: entry.mcComasOccupancy == 0,
+                    showPercentageSymbol: true
+                )
                 Text("McComas")
                     .font(.system(size: 14, weight: .bold))
-                    .lineLimit(1)
-                    .fixedSize(horizontal: true, vertical: false)
-                    .widgetAccentable()
                     .padding(.top, 8)
-
                 HStack(spacing: 0) {
                     Text("\(entry.mcComasOccupancy)")
                         .font(.system(size: 14))
-                        .widgetAccentable()
-                    Text(" / \(Constants.mcComasMaxCapacity)")
+                    Text(" / \(entry.maxMcComasCapacity)")
                         .font(.system(size: 14))
                         .foregroundColor(.secondary)
                 }
@@ -273,20 +162,26 @@ struct MediumWidgetView: View {
             Spacer()
         }
         .padding(.vertical, 12)
-        .widgetAccentable()
         .containerBackground(Color(.systemBackground), for: .widget)
+    }
+
+    private func calculatePercentage(occupancy: Int, maxCapacity: Int) -> Double {
+        guard maxCapacity > 0 else { return 0 }
+        return (Double(occupancy) / Double(maxCapacity)) * 100
     }
 }
 
+// MARK: - Circular Progress Components
 struct CircularProgressView: View {
     let percentage: Double
     let size: CGFloat
     let lineWidth: CGFloat
     let fontScale: CGFloat
     let widgetRenderingMode: WidgetRenderingMode
-    let totalSegments: Int           // Made configurable
-    var segmentSpacing: Double = 2.0 // Adjusted spacing between segments
-    let minimumBrightness: Double = 0.3   // Minimum opacity for partially filled segments
+    let totalSegments: Int
+    var segmentSpacing: Double = 2.0
+    let isEmpty: Bool // New parameter to indicate empty state
+    let showPercentageSymbol: Bool // New parameter to control "%" display
 
     private var segmentAngle: Double {
         (360.0 / Double(totalSegments)) - segmentSpacing
@@ -296,54 +191,42 @@ struct CircularProgressView: View {
         ZStack {
             // Background segments
             ForEach(0..<totalSegments, id: \.self) { index in
-                let startAngle = segmentStartAngle(for: index)
-                let endAngle = startAngle + segmentAngle
-
                 SegmentShape(
-                    startAngle: startAngle,
-                    endAngle: endAngle,
+                    startAngle: segmentStartAngle(for: index),
+                    endAngle: segmentStartAngle(for: index) + segmentAngle,
                     lineWidth: lineWidth
                 )
                 .stroke(lineWidth: lineWidth)
-                .foregroundColor(self.segmentColor(for: index).opacity(0.2))
-                .frame(width: size, height: size)
+                .foregroundColor(isEmpty ? Color.gray.opacity(0.2) : segmentColor(index).opacity(0.2))
             }
-
+            
             // Foreground segments
             ForEach(0..<totalSegments, id: \.self) { index in
-                let startAngle = segmentStartAngle(for: index)
-                let endAngle = startAngle + segmentAngle
-
                 SegmentShape(
-                    startAngle: startAngle,
-                    endAngle: endAngle,
+                    startAngle: segmentStartAngle(for: index),
+                    endAngle: segmentStartAngle(for: index) + segmentAngle,
                     lineWidth: lineWidth
                 )
                 .stroke(lineWidth: lineWidth)
-                .foregroundColor(self.segmentColor(for: index))
-                .opacity(self.opacityForSegment(index: index, adjustedPercentage: percentage / 100.0))
-                .frame(width: size, height: size)
+                .foregroundColor(isEmpty ? Color.gray : segmentColor(index))
+                .opacity(opacityForSegment(index: index, adjustedPercentage: percentage / 100.0))
             }
 
-            // Center text
-            Text(String(format: "%.0f%%", percentage))
+            // Percentage Text
+            Text(String(format: "%.0f%@", percentage, showPercentageSymbol ? "%" : ""))
                 .font(.system(size: size * fontScale, weight: .bold))
-                .foregroundColor(widgetRenderingMode == .accented ? .accentColor : .primary)
+                .foregroundColor(widgetRenderingMode == .accented ? (isEmpty ? Color.gray : .accentColor) : (isEmpty ? Color.gray : .primary))
         }
+        .frame(width: size, height: size)
     }
 
     private func segmentStartAngle(for index: Int) -> Double {
         (Double(index) * (segmentAngle + segmentSpacing)) - 90
     }
 
-    private func segmentColor(for index: Int) -> Color {
-        if index < totalSegments / 2 {
-            return Color.green
-        } else if index < (totalSegments * 3) / 4 {
-            return Color(red: 229/255, green: 117/255, blue: 31/255)
-        } else {
-            return Color(red: 134/255, green: 31/255, blue: 65/255)
-        }
+    private func segmentColor(_ index: Int) -> Color {
+        index < totalSegments / 2 ? Color("WidgetCustomGreen") :
+        index < (totalSegments * 3) / 4 ? Color("WidgetCustomOrange") : Color("WidgetCustomMaroon")
     }
 
     private func opacityForSegment(index: Int, adjustedPercentage: Double) -> Double {
@@ -351,16 +234,11 @@ struct CircularProgressView: View {
         let nextSegmentProgress = Double(index + 1) / Double(totalSegments)
 
         if adjustedPercentage >= nextSegmentProgress {
-            // Fully filled segment
             return 1.0
         } else if adjustedPercentage > segmentProgress {
-            // Partially filled segment with minimum brightness
-            let segmentFraction = (adjustedPercentage - segmentProgress) / (nextSegmentProgress - segmentProgress)
-            return max(segmentFraction, minimumBrightness)
-        } else {
-            // Not filled segment
-            return 0.0
+            return (adjustedPercentage - segmentProgress) / (nextSegmentProgress - segmentProgress)
         }
+        return 0.0
     }
 }
 
@@ -381,45 +259,46 @@ struct SegmentShape: Shape {
             endAngle: Angle(degrees: endAngle),
             clockwise: false
         )
-
         return path
     }
 }
 
+// MARK: - Widget Configuration
 struct GymTrackerWidget: Widget {
     let kind: String = "GymTrackerWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: Provider()) { entry in
+        StaticConfiguration(kind: kind, provider: UnifiedGymTrackerProvider()) { entry in
             GymTrackerWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Gym Tracker Widget")
-        .description("Shows gym occupancy for McComas and War Memorial Hall.")
+        .configurationDisplayName("Gym Tracker")
+        .description("Displays live occupancy for campus gyms")
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
 
+// MARK: - Previews
 struct GymTrackerWidget_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             GymTrackerWidgetEntryView(
-                entry: SimpleEntry(
+                entry: UnifiedGymTrackerEntry(
                     date: Date(),
-                    mcComasOccupancyData: "200 / 600",
-                    warMemorialOccupancyData: "680 / 1,200",
-                    mcComasOccupancy: 200,
-                    warMemorialOccupancy: 680
+                    mcComasOccupancy: 450,
+                    warMemorialOccupancy: 900,
+                    maxMcComasCapacity: Constants.mcComasMaxCapacity,
+                    maxWarMemorialCapacity: Constants.warMemorialMaxCapacity
                 )
             )
             .previewContext(WidgetPreviewContext(family: .systemSmall))
 
             GymTrackerWidgetEntryView(
-                entry: SimpleEntry(
+                entry: UnifiedGymTrackerEntry(
                     date: Date(),
-                    mcComasOccupancyData: "200 / 600",
-                    warMemorialOccupancyData: "680 / 1,200",
-                    mcComasOccupancy: 200,
-                    warMemorialOccupancy: 680
+                    mcComasOccupancy: 0, // Empty state
+                    warMemorialOccupancy: 0, // Empty state
+                    maxMcComasCapacity: Constants.mcComasMaxCapacity,
+                    maxWarMemorialCapacity: Constants.warMemorialMaxCapacity
                 )
             )
             .previewContext(WidgetPreviewContext(family: .systemMedium))

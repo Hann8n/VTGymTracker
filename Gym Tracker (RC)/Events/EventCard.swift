@@ -6,7 +6,7 @@ struct EventCard: View {
 
     var body: some View {
         Link(destination: event.link) {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 6) {
                 HStack {
                     Text(event.title)
                         .font(.headline)
@@ -16,7 +16,7 @@ struct EventCard: View {
                         .foregroundColor(.secondary)
                 }
 
-                HStack(spacing: 4) {
+                HStack(spacing: 6) {
                     Image(systemName: "calendar")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
@@ -25,7 +25,7 @@ struct EventCard: View {
                         .foregroundColor(.secondary)
                 }
 
-                HStack(spacing: 4) {
+                HStack(spacing: 6) {
                     Image(systemName: "mappin.and.ellipse")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
@@ -35,22 +35,16 @@ struct EventCard: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.vertical, 8)
-            .padding(.horizontal, 30) // Ensure consistent padding
-            .background(
-                RoundedRectangle(cornerRadius: 0)
-                    .fill(colorScheme == .dark ? Color.clear : Color.clear)
-                    .shadow(radius: 0)
-            )
+            .padding(.vertical, 12)
         }
-        .buttonStyle(PlainButtonStyle()) // Removes default link styling
+        .buttonStyle(.plain)
     }
 
     private func formattedStartDate(_ date: Date) -> String {
         let calendar = Calendar.current
         let formatter = DateFormatter()
-        formatter.amSymbol = "am" // Changed to lowercase
-        formatter.pmSymbol = "pm" // Changed to lowercase
+        formatter.amSymbol = " AM" // Changed to lowercase
+        formatter.pmSymbol = " PM" // Changed to lowercase
         let now = Date()
         
         if calendar.isDateInToday(date) {

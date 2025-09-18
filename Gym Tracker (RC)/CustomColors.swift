@@ -6,11 +6,34 @@
 //
 import SwiftUI
 
-// MARK: - Custom Orange
+// MARK: - Color System
+// Note: Brand colors (customOrange, customMaroon, customGreen) and semantic colors 
+// (cardBackground, secondaryBackground, borderColor) are automatically generated 
+// by Xcode from the Asset Catalog and available as Color.customOrange, Color.cardBackground, etc.
+
 extension Color {
-    static let customOrange = Color(red: 229 / 255, green: 117 / 255, blue: 31 / 255)
-}
-// MARK: - Custom Maroon
-extension Color {
-    static let customMaroon = Color(red: 134 / 255, green: 31 / 255, blue: 65 / 255)
+    // MARK: - Progress/Status Colors
+    /// Returns appropriate color based on occupancy percentage
+    /// - Parameter percentage: Value between 0.0 and 1.0
+    /// - Returns: Green for low, orange for medium, maroon for high occupancy
+    static func occupancyColor(for percentage: CGFloat) -> Color {
+        switch percentage {
+        case 0..<0.5:
+            return .customGreen
+        case 0.5..<0.75:
+            return .customOrange
+        default:
+            return .customMaroon
+        }
+    }
+    
+    /// Returns appropriate color for segment-based progress indicators
+    /// - Parameters:
+    ///   - segmentIndex: Current segment index
+    ///   - totalSegments: Total number of segments
+    /// - Returns: Appropriate color for the segment position
+    static func segmentColor(index: Int, totalSegments: Int) -> Color {
+        let fraction = CGFloat(index + 1) / CGFloat(totalSegments)
+        return occupancyColor(for: fraction)
+    }
 }

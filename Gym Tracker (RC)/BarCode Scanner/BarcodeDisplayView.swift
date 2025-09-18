@@ -1,86 +1,86 @@
-// BarcodeDisplayView.swift
-
 import SwiftUI
 
+// Removed custom card modifier to let system handle Liquid Glass styling
+
+/// The barcode display view.
 struct BarcodeDisplayView: View {
+    @AppStorage("gymBarcode") private var gymBarcode = ""
+    // The binding is kept for potential future use.
     @Binding var isPresented: Bool
-    @AppStorage("gymBarcode") private var gymBarcode: String = ""
-    
-    let barcodeGenerator = BarcodeGenerator()
-    @State private var originalBrightness: CGFloat = UIScreen.main.brightness
-    @Environment(\.scenePhase) private var scenePhase
-    
+
+    // Generate the barcode image.
+    private var generatedBarcode: UIImage? {
+        BarcodeGenerator.shared.generateCodabarBarcode(from: gymBarcode)
+    }
+
+    var body: some View {
+        VStack(spacing: 16) {
+            // The barcode display with system styling
+            if let barcodeImage = generatedBarcode {
+                Image(uiImage: barcodeImage)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: .infinity, maxHeight: 150)
+                    .padding()
+                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+            } else {
+                Text("No barcode available")
+                    .foregroundColor(.secondary)
+                    .frame(maxWidth: .infinity, maxHeight: 150)
+                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+            }
+            
+            // Optional header text for context.
+            Text("Hokie Passport")
+                .font(.headline)
+                .foregroundColor(.primary)
+        }
+    }
+}
+
+/// The overlay view that presents the barcode display along with the custom "Close" image.
+struct BarcodeDisplayOverlayView: View {
+    @Binding var isPresented: Bool
+
     var body: some View {
         ZStack {
-            // Background Layers
-            BlurView(style: .systemMaterialDark)
-                .edgesIgnoringSafeArea(.all)
+            // Background covers the entire screen.
+            Color.clear
+                .ignoresSafeArea()
             
-            Color.black.opacity(0.7)
-                .edgesIgnoringSafeArea(.all)
-            
-            // Main Content
-            NavigationView {
-                VStack(spacing: 20) {
-                    // Barcode Display
-                    if !gymBarcode.isEmpty, let uiImage = barcodeGenerator.generateCodabarBarcode(from: gymBarcode) {
-                        ZStack {
-                            Color.white
-                                .frame(height: 170)
-                                .cornerRadius(10)
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .interpolation(.none)
-                                .scaledToFit()
-                                .frame(height: 150)
-                                .padding()
-                        }
-                        .padding(.horizontal, 16)
-                    } else {
-                        Text("No Hokie Passport Card Available.")
-                            .foregroundColor(.red)
-                            .padding()
-                    }
-                    
-                    Spacer()
-                }
-                .navigationTitle("Hokie Passport")
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {
-                            isPresented = false
-                        }) {
-                            Image(systemName: "xmark.circle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 25, height: 25)
-                                .foregroundColor(.white)
-                        }
-                        .accessibilityLabel("Close")
-                    }
-                }
-                .onAppear {
-                    // Save the original brightness
-                    originalBrightness = UIScreen.main.brightness
-                    // Set brightness to 100%
-                    UIScreen.main.brightness = 1.0
-                }
-                .onDisappear {
-                    // Restore the original brightness when the view disappears
-                    UIScreen.main.brightness = originalBrightness
-                }
-                .onChange(of: scenePhase) { oldPhase, newPhase in
-                    switch newPhase {
-                    case .active:
-                        UIScreen.main.brightness = 1.0
-                    case .inactive, .background:
-                        UIScreen.main.brightness = originalBrightness
-                        isPresented = false
-                    @unknown default:
-                        break
-                    }
-                }
+            VStack {
+                // Barcode display respecting safe areas
+                BarcodeDisplayView(isPresented: $isPresented)
+                    .padding(.horizontal)
+                Spacer()
+                // Close indicator with liquid glass styling
+                Image(systemName: "xmark")
+                    .font(.system(size: 25, weight: .medium))
+                    .foregroundColor(.primary)
+                    .padding(20)
+                    .background(.regularMaterial, in: Circle())
+                    .allowsHitTesting(false)
             }
+            .padding(.top)
+            .padding(.bottom)
+        }
+        .safeAreaInset(edge: .top) {
+            Color.clear.frame(height: 0)
+        }
+        .safeAreaInset(edge: .bottom) {
+            Color.clear.frame(height: 0)
+        }
+        // Ensure the entire area is tappable.
+        .contentShape(Rectangle())
+        // Tap anywhere dismisses the overlay.
+        .onTapGesture {
+            isPresented = false
+        }
+        .onAppear {
+            BrightnessManager.shared.activateBarcodeDisplay()
+        }
+        .onDisappear {
+            BrightnessManager.shared.deactivateBarcodeDisplay()
         }
     }
 }
