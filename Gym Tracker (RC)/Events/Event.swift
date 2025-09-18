@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Event: Identifiable {
+struct Event: Identifiable, Codable { // Added Codable conformance
     let id: UUID
     let title: String
     let description: String

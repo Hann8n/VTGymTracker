@@ -9,12 +9,27 @@
 import SwiftUI
 
 struct PrivacyPolicyView: View {
+    @Environment(\.dismiss) private var dismiss
     // The URL of your Privacy Policy
-    private let privacyPolicyURL = URL(string: "https://hannon.myportfolio.com/privacy")!
+    private let privacyPolicyURL = URL(string: "https://jackhannon.me/privacy")!
 
     var body: some View {
         WebView(url: privacyPolicyURL)
-            .navigationBarTitle("Privacy Policy", displayMode: .inline)
+            .navigationTitle("Privacy Policy")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "chevron.left")
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.regular)
+                    .tint(.customOrange)
+                }
+            }
+            .navigationBarBackButtonHidden(true)
             .edgesIgnoringSafeArea(.bottom) // Ensures the web view covers the entire screen
     }
 }

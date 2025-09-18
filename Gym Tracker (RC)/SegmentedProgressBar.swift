@@ -1,5 +1,4 @@
-//SegmentedProgressBar.swift
-//
+// SegmentedProgressBar.swift
 
 import SwiftUI
 
@@ -11,9 +10,14 @@ struct SegmentedProgressBar: View {
     private let segmentSpacing: CGFloat = 4  // Spacing between segments
     private let totalSegments: Int = 20      // Total number of segments
     private let minimumBrightness: CGFloat = 0.3  // Minimum brightness (30% opacity) for partially filled segments
-
+    
     // Track the previous occupancy value to detect if progress is increasing or decreasing
     @State private var previousOccupancyPercentage: CGFloat = 0.0
+    
+    // Computed property to determine if the gym is empty
+    private var isEmpty: Bool {
+        occupancyPercentage == 0.0
+    }
     
     var body: some View {
         GeometryReader { geo in
@@ -27,7 +31,7 @@ struct SegmentedProgressBar: View {
                 // Background segments (static, non-animated)
                 HStack(spacing: segmentSpacing) {
                     ForEach(0..<totalSegments, id: \.self) { index in
-                        RoundedRectangle(cornerRadius: height / 4)
+                        RoundedRectangle(cornerRadius: height / 3)
                             .fill(self.backgroundColor(for: index))
                             .frame(width: segmentWidth, height: height)
                     }
@@ -36,7 +40,7 @@ struct SegmentedProgressBar: View {
                 // Filled segments (animated, based on occupancyPercentage)
                 HStack(spacing: segmentSpacing) {
                     ForEach(0..<totalSegments, id: \.self) { index in
-                        RoundedRectangle(cornerRadius: height / 4)
+                        RoundedRectangle(cornerRadius: height / 3)
                             .fill(self.foregroundColor(for: index))
                             .frame(width: segmentWidth, height: height)
                             .opacity(self.opacityForSegment(index: index, totalSegments: totalSegments, occupancyPercentage: adjustedOccupancy))
@@ -74,25 +78,23 @@ struct SegmentedProgressBar: View {
         }
     }
     
-    // Determines the background color for a segment based on its index
+    // Determines the background color for a segment based on its index and empty state
     private func backgroundColor(for index: Int) -> Color {
-        if index < 10 { // Green for the first 10 segments (50%)
-            return Color.green.opacity(0.2)
-        } else if index < 15 { // Orange for the next 5 segments (25%)
-            return Color(red: 229/255, green: 117/255, blue: 31/255).opacity(0.2)
-        } else { // Maroon for the final 5 segments (25%)
-            return Color(red: 134/255, green: 31/255, blue: 65/255).opacity(0.2)
+        if isEmpty {
+            // Greyed-out background when empty
+            return Color.gray.opacity(0.2)
+        } else {
+            return Color.segmentColor(index: index, totalSegments: totalSegments).opacity(0.2)
         }
     }
     
-    // Determines the foreground (filled) color for a segment based on its index
+    // Determines the foreground (filled) color for a segment based on its index and empty state
     private func foregroundColor(for index: Int) -> Color {
-        if index < 10 { // Green for the first 10 segments (50%)
-            return Color.green
-        } else if index < 15 { // Orange for the next 5 segments (25%)
-            return Color(red: 229/255, green: 117/255, blue: 31/255)
-        } else { // Maroon for the final 5 segments (25%)
-            return Color(red: 134/255, green: 31/255, blue: 65/255)
+        if isEmpty {
+            // Greyed-out foreground when empty
+            return Color.gray
+        } else {
+            return Color.segmentColor(index: index, totalSegments: totalSegments)
         }
     }
     
@@ -114,5 +116,28 @@ struct SegmentedProgressBar: View {
             // Not filled segment
             return 0.0
         }
+    }
+}
+
+struct SegmentedProgressBar_Previews: PreviewProvider {
+    static var previews: some View {
+        VStack(spacing: 20) {
+            // Example with occupancyPercentage = 0 (Empty State)
+            SegmentedProgressBar(height: 20, occupancyPercentage: 0.0)
+                .frame(width: 300)
+                .previewDisplayName("Empty State")
+            
+            // Example with occupancyPercentage = 0.5 (50% Filled)
+            SegmentedProgressBar(height: 20, occupancyPercentage: 0.5)
+                .frame(width: 300)
+                .previewDisplayName("50% Filled")
+            
+            // Example with occupancyPercentage = 1.0 (Fully Filled)
+            SegmentedProgressBar(height: 20, occupancyPercentage: 1.0)
+                .frame(width: 300)
+                .previewDisplayName("Fully Filled")
+        }
+        .padding()
+        .previewLayout(.sizeThatFits)
     }
 }

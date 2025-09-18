@@ -1,47 +1,29 @@
 {
-  "fill" : {
-    "solid" : "display-p3:0.00000,0.00000,0.00000,1.00000"
-  },
+  "fill" : "automatic",
   "groups" : [
     {
       "layers" : [
         {
-          "blend-mode-specializations" : [
-            {
-              "appearance" : "tinted",
-              "value" : "normal"
-            }
-          ],
+          "blend-mode" : "normal",
           "fill-specializations" : [
             {
-              "appearance" : "tinted",
-              "value" : "none"
-            }
-          ],
-          "glass" : false,
-          "hidden" : false,
-          "image-name" : "segmented_progress_circle_greyscale.svg",
-          "name" : "segmented_progress_circle_greyscale",
-          "opacity-specializations" : [
+              "value" : {
+                "solid" : "extended-gray:0.00000,1.00000"
+              }
+            },
             {
-              "value" : 0
+              "appearance" : "dark",
+              "value" : {
+                "solid" : "extended-gray:1.00000,1.00000"
+              }
             },
             {
               "appearance" : "tinted",
-              "value" : 1
+              "value" : {
+                "solid" : "extended-gray:1.00000,1.00000"
+              }
             }
           ],
-          "position" : {
-            "scale" : 5,
-            "translation-in-points" : [
-              0,
-              0
-            ]
-          }
-        },
-        {
-          "blend-mode" : "normal",
-          "fill" : "none",
           "glass" : true,
           "hidden" : false,
           "image-name" : "Untitled-1-2.png",
@@ -55,17 +37,22 @@
           }
         },
         {
-          "fill" : "none",
-          "glass" : false,
-          "hidden" : false,
-          "image-name" : "segmented_progress_circle_thicker_full.svg",
-          "name" : "segmented_progress_circle_thicker_full",
-          "opacity-specializations" : [
+          "glass-specializations" : [
+            {
+              "value" : false
+            },
+            {
+              "appearance" : "dark",
+              "value" : false
+            },
             {
               "appearance" : "tinted",
-              "value" : 0
+              "value" : false
             }
           ],
+          "hidden" : false,
+          "image-name" : "segmented_progress_circle_thicker_full-2.svg",
+          "name" : "segmented_progress_circle_thicker_full-2",
           "position" : {
             "scale" : 5,
             "translation-in-points" : [

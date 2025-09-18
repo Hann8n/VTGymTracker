@@ -14,7 +14,7 @@ struct Gym_Tracker__RC_App: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(alertManager) // Inject AlertManager globally
+                .environmentObject(alertManager)
         }
     }
 }

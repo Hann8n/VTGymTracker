@@ -1,0 +1,1035 @@
+2025-09-13 17:13:51 +0000  Initial pipeline context: <IDEDistributionProcessingPipelineContext: 0xa84fe8c00; archive(resolved)="<IDEArchive: 0xa8103b950>", distributionTask(resolved)="2", distributionDestination(resolved)="1", distributionMethod(resolved)="<IDEDistributionMethodiOSAdHoc: 0xa6fa60ee0>", team(resolved)="<IDEProvisioningDisambiguatableBasicTeam: 0xa7878bec0; teamID='D8VXFBV8SJ', teamName='Jack Hannon', teamType='Individual', username='hannon@vt.edu', isFreeProvisioningTeam='0'>">
+	Chain (16, self inclusive):
+	<IDEDistributionProcessingPipelineContext: 0xa84fe8c00; archive = "<IDEArchive: 0xa8103b950>", distributionMethod="<IDEDistributionMethodiOSAdHoc: 0xa6fa60ee0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0xa7878bec0; teamID='D8VXFBV8SJ', teamName='Jack Hannon', teamType='Individual', username='hannon@vt.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionProcessingPipelineContext: 0xa84e33900; archive = "<IDEArchive: 0xa8103b950>", distributionMethod="<IDEDistributionMethodiOSAdHoc: 0xa6fa60ee0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0xa7878bec0; teamID='D8VXFBV8SJ', teamName='Jack Hannon', teamType='Individual', username='hannon@vt.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0xa85056800; archive = "<IDEArchive: 0xa8103b950>", distributionMethod="<IDEDistributionMethodiOSAdHoc: 0xa6fa60ee0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0xa7878bec0; teamID='D8VXFBV8SJ', teamName='Jack Hannon', teamType='Individual', username='hannon@vt.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0xa85056080; archive = "<IDEArchive: 0xa8103b950>", distributionMethod="<IDEDistributionMethodiOSAdHoc: 0xa6fa60ee0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0xa7878bec0; teamID='D8VXFBV8SJ', teamName='Jack Hannon', teamType='Individual', username='hannon@vt.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0xa85054a00; archive = "<IDEArchive: 0xa8103b950>", distributionMethod="<IDEDistributionMethodiOSAdHoc: 0xa6fa60ee0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0xa7878bec0; teamID='D8VXFBV8SJ', teamName='Jack Hannon', teamType='Individual', username='hannon@vt.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0xa85054780; archive = "<IDEArchive: 0xa8103b950>", distributionMethod="<IDEDistributionMethodiOSAdHoc: 0xa6fa60ee0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0xa7878bec0; teamID='D8VXFBV8SJ', teamName='Jack Hannon', teamType='Individual', username='hannon@vt.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0xa85054500; archive = "<IDEArchive: 0xa8103b950>", distributionMethod="<IDEDistributionMethodiOSAdHoc: 0xa6fa60ee0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0xa7878bec0; teamID='D8VXFBV8SJ', teamName='Jack Hannon', teamType='Individual', username='hannon@vt.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0xa85054280; archive = "<IDEArchive: 0xa8103b950>", distributionMethod="<IDEDistributionMethodiOSAdHoc: 0xa6fa60ee0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0xa7878bec0; teamID='D8VXFBV8SJ', teamName='Jack Hannon', teamType='Individual', username='hannon@vt.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0xa85054000; archive = "<IDEArchive: 0xa8103b950>", distributionMethod="<IDEDistributionMethodiOSAdHoc: 0xa6fa60ee0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0xa7878bec0; teamID='D8VXFBV8SJ', teamName='Jack Hannon', teamType='Individual', username='hannon@vt.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0xa85055400; archive = "<IDEArchive: 0xa8103b950>", distributionMethod="<IDEDistributionMethodiOSAdHoc: 0xa6fa60ee0>", team="(null)">
+	<IDEDistributionContext: 0xa85055180; archive = "<IDEArchive: 0xa8103b950>", distributionMethod="<IDEDistributionMethodiOSAdHoc: 0xa6fa60ee0>", team="(null)">
+	<IDEDistributionContext: 0xa85054f00; archive = "<IDEArchive: 0xa8103b950>", distributionMethod="<IDEDistributionMethodiOSAdHoc: 0xa6fa60ee0>", team="(null)">
+	<IDEDistributionContext: 0xa85055e00; archive = "<IDEArchive: 0xa8103b950>", distributionMethod="<IDEDistributionMethodiOSAdHoc: 0xa6fa60ee0>", team="(null)">
+	<IDEDistributionContext: 0xa85055680; archive = "<IDEArchive: 0xa8103b950>", distributionMethod="(null)", team="(null)">
+	<IDEDistributionContext: 0xa82551e00; archive = "<IDEArchive: 0xa8103b950>", distributionMethod="(null)", team="(null)">
+	<IDEDistributionContext: 0xa82551900; archive = "<IDEArchive: 0xa8103b950>", distributionMethod="(null)", team="(null)">
+</IDEDistributionProcessingPipelineContext: 0xa84fe8c00>
+2025-09-13 17:13:51 +0000  Processing step: IDEDistributionCreateDestRootStep
+2025-09-13 17:13:51 +0000  Processing step: IDEDistributionCopyItemStep
+2025-09-13 17:13:51 +0000  Running /usr/bin/ditto '-V' '/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app' '/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app'
+2025-09-13 17:13:51 +0000  >>> Copying /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app 
+2025-09-13 17:13:51 +0000  copying file ./_CodeSignature/CodeResources ... 
+2025-09-13 17:13:51 +0000  34589 bytes for ./_CodeSignature/CodeResources
+2025-09-13 17:13:51 +0000  copying file ./SplashScreen.storyboardc/EXPO-VIEWCONTROLLER-1-view-EXPO-ContainerView.nib ... 
+2025-09-13 17:13:51 +0000  2108 bytes for ./SplashScreen.storyboardc/EXPO-VIEWCONTROLLER-1-view-EXPO-ContainerView.nib
+2025-09-13 17:13:51 +0000  copying file ./SplashScreen.storyboardc/SplashScreenViewController.nib ... 
+2025-09-13 17:13:51 +0000  1004 bytes for ./SplashScreen.storyboardc/SplashScreenViewController.nib
+2025-09-13 17:13:51 +0000  copying file ./SplashScreen.storyboardc/Info.plist ... 
+2025-09-13 17:13:51 +0000  225 bytes for ./SplashScreen.storyboardc/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./ExpoSystemUI_privacy.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:51 +0000  607 bytes for ./ExpoSystemUI_privacy.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:51 +0000  copying file ./ExpoSystemUI_privacy.bundle/Info.plist ... 
+2025-09-13 17:13:51 +0000  787 bytes for ./ExpoSystemUI_privacy.bundle/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./AppIcon60x60@2x.png ... 
+2025-09-13 17:13:51 +0000  4285 bytes for ./AppIcon60x60@2x.png
+2025-09-13 17:13:51 +0000  copying file ./ExpoConstants_privacy.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:51 +0000  607 bytes for ./ExpoConstants_privacy.bundle/PrivacyInfo.xcprivacy
+copying file ./ExpoConstants_privacy.bundle/Info.plist ... 
+2025-09-13 17:13:51 +0000  790 bytes for ./ExpoConstants_privacy.bundle/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./React-cxxreact_privacy.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:51 +0000  552 bytes for ./React-cxxreact_privacy.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:51 +0000  copying file ./React-cxxreact_privacy.bundle/Info.plist ... 
+2025-09-13 17:13:51 +0000  792 bytes for ./React-cxxreact_privacy.bundle/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./Assets.car ... 
+2025-09-13 17:13:51 +0000  550671 bytes for ./Assets.car
+2025-09-13 17:13:51 +0000  copying file ./AppIcon76x76@2x~ipad.png ... 
+2025-09-13 17:13:51 +0000  5442 bytes for ./AppIcon76x76@2x~ipad.png
+2025-09-13 17:13:51 +0000  copying file ./main.jsbundle ... 
+2025-09-13 17:13:51 +0000  7114873 bytes for ./main.jsbundle
+2025-09-13 17:13:51 +0000  copying file ./EXConstants.bundle/app.config ... 
+2025-09-13 17:13:51 +0000  1854 bytes for ./EXConstants.bundle/app.config
+2025-09-13 17:13:51 +0000  copying file ./EXConstants.bundle/Info.plist ... 
+2025-09-13 17:13:51 +0000  768 bytes for ./EXConstants.bundle/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./ExpoTaskManager_privacy.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:51 +0000  607 bytes for ./ExpoTaskManager_privacy.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:51 +0000  copying file ./ExpoTaskManager_privacy.bundle/Info.plist ... 
+2025-09-13 17:13:51 +0000  794 bytes for ./ExpoTaskManager_privacy.bundle/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./ExpoDevice_privacy.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:51 +0000  609 bytes for ./ExpoDevice_privacy.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:51 +0000  copying file ./ExpoDevice_privacy.bundle/Info.plist ... 
+2025-09-13 17:13:51 +0000  783 bytes for ./ExpoDevice_privacy.bundle/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:51 +0000  1283 bytes for ./PrivacyInfo.xcprivacy
+2025-09-13 17:13:51 +0000  copying file ./ExpoMediaLibrary_privacy.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:51 +0000  608 bytes for ./ExpoMediaLibrary_privacy.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:51 +0000  copying file ./ExpoMediaLibrary_privacy.bundle/Info.plist ... 
+2025-09-13 17:13:51 +0000  796 bytes for ./ExpoMediaLibrary_privacy.bundle/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./RNSVGFilters.bundle/RNSVGArithmeticFilter.iphoneos.metallib ... 
+2025-09-13 17:13:51 +0000  3993 bytes for ./RNSVGFilters.bundle/RNSVGArithmeticFilter.iphoneos.metallib
+2025-09-13 17:13:51 +0000  copying file ./RNSVGFilters.bundle/RNSVGCompositeXor.iphoneos.metallib ... 
+2025-09-13 17:13:51 +0000  3509 bytes for ./RNSVGFilters.bundle/RNSVGCompositeXor.iphoneos.metallib
+2025-09-13 17:13:51 +0000  copying file ./RNSVGFilters.bundle/Info.plist ... 
+2025-09-13 17:13:51 +0000  771 bytes for ./RNSVGFilters.bundle/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./ExpoFileSystem_privacy.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:51 +0000  877 bytes for ./ExpoFileSystem_privacy.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:51 +0000  copying file ./ExpoFileSystem_privacy.bundle/Info.plist ... 
+2025-09-13 17:13:51 +0000  793 bytes for ./ExpoFileSystem_privacy.bundle/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./orbyt ... 
+2025-09-13 17:13:51 +0000  7920032 bytes for ./orbyt
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libswresample.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:51 +0000  2006 bytes for ./Frameworks/libswresample.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libswresample.framework/LICENSE ... 
+2025-09-13 17:13:51 +0000  7651 bytes for ./Frameworks/libswresample.framework/LICENSE
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libswresample.framework/libswresample ... 
+2025-09-13 17:13:51 +0000  138064 bytes for ./Frameworks/libswresample.framework/libswresample
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libswresample.framework/Info.plist ... 
+2025-09-13 17:13:51 +0000  933 bytes for ./Frameworks/libswresample.framework/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavfilter.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:51 +0000  2006 bytes for ./Frameworks/libavfilter.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavfilter.framework/libavfilter ... 
+2025-09-13 17:13:51 +0000  2448224 bytes for ./Frameworks/libavfilter.framework/libavfilter
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavfilter.framework/LICENSE ... 
+2025-09-13 17:13:51 +0000  7651 bytes for ./Frameworks/libavfilter.framework/LICENSE
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavfilter.framework/Info.plist ... 
+2025-09-13 17:13:51 +0000  925 bytes for ./Frameworks/libavfilter.framework/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavformat.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:51 +0000  2006 bytes for ./Frameworks/libavformat.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavformat.framework/LICENSE ... 
+2025-09-13 17:13:51 +0000  7651 bytes for ./Frameworks/libavformat.framework/LICENSE
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavformat.framework/libavformat ... 
+2025-09-13 17:13:51 +0000  1960800 bytes for ./Frameworks/libavformat.framework/libavformat
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavformat.framework/Info.plist ... 
+2025-09-13 17:13:51 +0000  927 bytes for ./Frameworks/libavformat.framework/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavutil.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:51 +0000  2006 bytes for ./Frameworks/libavutil.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavutil.framework/libavutil ... 
+2025-09-13 17:13:51 +0000  540800 bytes for ./Frameworks/libavutil.framework/libavutil
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavutil.framework/LICENSE ... 
+2025-09-13 17:13:51 +0000  7651 bytes for ./Frameworks/libavutil.framework/LICENSE
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavutil.framework/Info.plist ... 
+2025-09-13 17:13:51 +0000  921 bytes for ./Frameworks/libavutil.framework/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/React.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:51 +0000  1798 bytes for ./Frameworks/React.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/React.framework/React ... 
+2025-09-13 17:13:51 +0000  11302720 bytes for ./Frameworks/React.framework/React
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/React.framework/Info.plist ... 
+2025-09-13 17:13:51 +0000  749 bytes for ./Frameworks/React.framework/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libswscale.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:51 +0000  2006 bytes for ./Frameworks/libswscale.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libswscale.framework/LICENSE ... 
+2025-09-13 17:13:51 +0000  7651 bytes for ./Frameworks/libswscale.framework/LICENSE
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libswscale.framework/libswscale ... 
+2025-09-13 17:13:51 +0000  352960 bytes for ./Frameworks/libswscale.framework/libswscale
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libswscale.framework/Info.plist ... 
+2025-09-13 17:13:51 +0000  922 bytes for ./Frameworks/libswscale.framework/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavdevice.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:51 +0000  2006 bytes for ./Frameworks/libavdevice.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavdevice.framework/LICENSE ... 
+2025-09-13 17:13:51 +0000  7651 bytes for ./Frameworks/libavdevice.framework/LICENSE
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavdevice.framework/libavdevice ... 
+2025-09-13 17:13:51 +0000  114432 bytes for ./Frameworks/libavdevice.framework/libavdevice
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavdevice.framework/Info.plist ... 
+2025-09-13 17:13:51 +0000  927 bytes for ./Frameworks/libavdevice.framework/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/ReactNativeDependencies.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:51 +0000  3548 bytes for ./Frameworks/ReactNativeDependencies.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_folly.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:51 +0000  552 bytes for ./Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_folly.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_folly.bundle/Info.plist ... 
+2025-09-13 17:13:51 +0000  690 bytes for ./Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_folly.bundle/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies ... 
+2025-09-13 17:13:51 +0000  1279888 bytes for ./Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_glog.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:51 +0000  552 bytes for ./Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_glog.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_glog.bundle/Info.plist ... 
+2025-09-13 17:13:51 +0000  688 bytes for ./Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_glog.bundle/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_boost.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:51 +0000  776 bytes for ./Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_boost.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_boost.bundle/Info.plist ... 
+2025-09-13 17:13:51 +0000  690 bytes for ./Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_boost.bundle/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/ReactNativeDependencies.framework/Info.plist ... 
+2025-09-13 17:13:51 +0000  782 bytes for ./Frameworks/ReactNativeDependencies.framework/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavcodec.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:51 +0000  2006 bytes for ./Frameworks/libavcodec.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavcodec.framework/LICENSE ... 
+2025-09-13 17:13:51 +0000  7651 bytes for ./Frameworks/libavcodec.framework/LICENSE
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavcodec.framework/libavcodec ... 
+2025-09-13 17:13:51 +0000  7658048 bytes for ./Frameworks/libavcodec.framework/libavcodec
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/libavcodec.framework/Info.plist ... 
+924 bytes for ./Frameworks/libavcodec.framework/Info.plist
+copying file ./Frameworks/ffmpegkit.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:51 +0000  2428 bytes for ./Frameworks/ffmpegkit.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/ffmpegkit.framework/LICENSE ... 
+2025-09-13 17:13:51 +0000  7651 bytes for ./Frameworks/ffmpegkit.framework/LICENSE
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/ffmpegkit.framework/SOURCE ... 
+2025-09-13 17:13:51 +0000  700 bytes for ./Frameworks/ffmpegkit.framework/SOURCE
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/ffmpegkit.framework/ffmpegkit ... 
+2025-09-13 17:13:51 +0000  562288 bytes for ./Frameworks/ffmpegkit.framework/ffmpegkit
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/ffmpegkit.framework/strip-frameworks.sh ... 
+2025-09-13 17:13:51 +0000  2127 bytes for ./Frameworks/ffmpegkit.framework/strip-frameworks.sh
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/ffmpegkit.framework/Info.plist ... 
+2025-09-13 17:13:51 +0000  911 bytes for ./Frameworks/ffmpegkit.framework/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/hermes.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:51 +0000  1798 bytes for ./Frameworks/hermes.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/hermes.framework/hermes ... 
+2025-09-13 17:13:51 +0000  4728064 bytes for ./Frameworks/hermes.framework/hermes
+2025-09-13 17:13:51 +0000  copying file ./Frameworks/hermes.framework/Info.plist ... 
+859 bytes for ./Frameworks/hermes.framework/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./embedded.mobileprovision ... 
+2025-09-13 17:13:51 +0000  16995 bytes for ./embedded.mobileprovision
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/@react-navigation/elements/lib/module/assets/back-icon@3x.png ... 
+2025-09-13 17:13:51 +0000  761 bytes for ./assets/node_modules/@react-navigation/elements/lib/module/assets/back-icon@3x.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/@react-navigation/elements/lib/module/assets/back-icon@2x.png ... 
+2025-09-13 17:13:51 +0000  405 bytes for ./assets/node_modules/@react-navigation/elements/lib/module/assets/back-icon@2x.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/@react-navigation/elements/lib/module/assets/search-icon@2x.png ... 
+2025-09-13 17:13:51 +0000  589 bytes for ./assets/node_modules/@react-navigation/elements/lib/module/assets/search-icon@2x.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/@react-navigation/elements/lib/module/assets/clear-icon@3x.png ... 
+2025-09-13 17:13:51 +0000  502 bytes for ./assets/node_modules/@react-navigation/elements/lib/module/assets/clear-icon@3x.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/@react-navigation/elements/lib/module/assets/back-icon.png ... 
+2025-09-13 17:13:51 +0000  290 bytes for ./assets/node_modules/@react-navigation/elements/lib/module/assets/back-icon.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/@react-navigation/elements/lib/module/assets/clear-icon@2x.png ... 
+2025-09-13 17:13:51 +0000  334 bytes for ./assets/node_modules/@react-navigation/elements/lib/module/assets/clear-icon@2x.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/@react-navigation/elements/lib/module/assets/search-icon@3x.png ... 
+2025-09-13 17:13:51 +0000  839 bytes for ./assets/node_modules/@react-navigation/elements/lib/module/assets/search-icon@3x.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/@react-navigation/elements/lib/module/assets/close-icon.png ... 
+2025-09-13 17:13:51 +0000  141 bytes for ./assets/node_modules/@react-navigation/elements/lib/module/assets/close-icon.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/@react-navigation/elements/lib/module/assets/back-icon-mask.png ... 
+2025-09-13 17:13:51 +0000  653 bytes for ./assets/node_modules/@react-navigation/elements/lib/module/assets/back-icon-mask.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/@react-navigation/elements/lib/module/assets/close-icon@2x.png ... 
+2025-09-13 17:13:51 +0000  201 bytes for ./assets/node_modules/@react-navigation/elements/lib/module/assets/close-icon@2x.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/@react-navigation/elements/lib/module/assets/close-icon@3x.png ... 
+2025-09-13 17:13:51 +0000  266 bytes for ./assets/node_modules/@react-navigation/elements/lib/module/assets/close-icon@3x.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/@react-navigation/elements/lib/module/assets/clear-icon.png ... 
+2025-09-13 17:13:51 +0000  220 bytes for ./assets/node_modules/@react-navigation/elements/lib/module/assets/clear-icon.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/@react-navigation/elements/lib/module/assets/search-icon.png ... 
+2025-09-13 17:13:51 +0000  317 bytes for ./assets/node_modules/@react-navigation/elements/lib/module/assets/search-icon.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/expo-router/assets/pkg.png ... 
+2025-09-13 17:13:51 +0000  364 bytes for ./assets/node_modules/expo-router/assets/pkg.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/expo-router/assets/unmatched.png ... 
+2025-09-13 17:13:51 +0000  4752 bytes for ./assets/node_modules/expo-router/assets/unmatched.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/expo-router/assets/file.png ... 
+2025-09-13 17:13:51 +0000  138 bytes for ./assets/node_modules/expo-router/assets/file.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/expo-router/assets/forward.png ... 
+2025-09-13 17:13:51 +0000  188 bytes for ./assets/node_modules/expo-router/assets/forward.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/expo-router/assets/error.png ... 
+2025-09-13 17:13:51 +0000  469 bytes for ./assets/node_modules/expo-router/assets/error.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/expo-router/assets/sitemap.png ... 
+2025-09-13 17:13:51 +0000  465 bytes for ./assets/node_modules/expo-router/assets/sitemap.png
+2025-09-13 17:13:51 +0000  copying file ./assets/node_modules/expo-router/assets/arrow_down.png ... 
+2025-09-13 17:13:51 +0000  9456 bytes for ./assets/node_modules/expo-router/assets/arrow_down.png
+2025-09-13 17:13:51 +0000  copying file ./assets/src/assets/Default-avatar.png ... 
+2025-09-13 17:13:51 +0000  184595 bytes for ./assets/src/assets/Default-avatar.png
+2025-09-13 17:13:51 +0000  copying file ./assets/src/assets/UFO5504.gif ... 
+2025-09-13 17:13:51 +0000  7131 bytes for ./assets/src/assets/UFO5504.gif
+2025-09-13 17:13:51 +0000  copying file ./assets/src/assets/livinga18.gif ... 
+2025-09-13 17:13:51 +0000  6041 bytes for ./assets/src/assets/livinga18.gif
+2025-09-13 17:13:51 +0000  copying file ./assets/src/assets/logo.png ... 
+2025-09-13 17:13:51 +0000  327602 bytes for ./assets/src/assets/logo.png
+2025-09-13 17:13:51 +0000  copying file ./assets/src/assets/CaptureButton_Normal.png ... 
+5832 bytes for ./assets/src/assets/CaptureButton_Normal.png
+copying file ./assets/src/assets/ButtonCameraDelete_Normal.png ... 
+2488 bytes for ./assets/src/assets/ButtonCameraDelete_Normal.png
+copying file ./assets/src/assets/fonts/Firma-Bold.otf ... 
+2025-09-13 17:13:51 +0000  82308 bytes for ./assets/src/assets/fonts/Firma-Bold.otf
+2025-09-13 17:13:51 +0000  copying file ./assets/src/assets/fonts/Firma-BoldItalic.otf ... 
+2025-09-13 17:13:51 +0000  88612 bytes for ./assets/src/assets/fonts/Firma-BoldItalic.otf
+copying file ./assets/src/assets/fonts/Firma-SemiBold.otf ... 
+2025-09-13 17:13:51 +0000  82192 bytes for ./assets/src/assets/fonts/Firma-SemiBold.otf
+2025-09-13 17:13:51 +0000  copying file ./assets/src/assets/fonts/Firma-Regular.otf ... 
+2025-09-13 17:13:51 +0000  77660 bytes for ./assets/src/assets/fonts/Firma-Regular.otf
+copying file ./assets/src/assets/fonts/Firma-Black.otf ... 
+2025-09-13 17:13:51 +0000  82436 bytes for ./assets/src/assets/fonts/Firma-Black.otf
+2025-09-13 17:13:51 +0000  copying file ./assets/src/assets/fonts/Firma-Medium.otf ... 
+80256 bytes for ./assets/src/assets/fonts/Firma-Medium.otf
+copying file ./Info.plist ... 
+2025-09-13 17:13:51 +0000  2623 bytes for ./Info.plist
+copying file ./Expo.plist ... 
+132 bytes for ./Expo.plist
+copying file ./RNCAsyncStorage_resources.bundle/PrivacyInfo.xcprivacy ... 
+512 bytes for ./RNCAsyncStorage_resources.bundle/PrivacyInfo.xcprivacy
+copying file ./RNCAsyncStorage_resources.bundle/Info.plist ... 
+2025-09-13 17:13:51 +0000  797 bytes for ./RNCAsyncStorage_resources.bundle/Info.plist
+2025-09-13 17:13:51 +0000  copying file ./PkgInfo ... 
+2025-09-13 17:13:51 +0000  8 bytes for ./PkgInfo
+2025-09-13 17:13:51 +0000  copying file ./React-Core_privacy.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:51 +0000  768 bytes for ./React-Core_privacy.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:51 +0000  copying file ./React-Core_privacy.bundle/Info.plist ... 
+2025-09-13 17:13:51 +0000  784 bytes for ./React-Core_privacy.bundle/Info.plist
+2025-09-13 17:13:51 +0000  /usr/bin/ditto exited with 0
+2025-09-13 17:13:51 +0000  Processing step: IDEDistributionEmbedProfileStep
+2025-09-13 17:13:51 +0000  Skipping profile for item: <IDEDistributionItem: 0xa83d83a80; bundleID='react-native.React', path='<DVTFilePath:0xa79e5b420:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/React.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d80ae0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='react-native.React', executablePath='<DVTFilePath:0xa8375d6e0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/React.framework/React'>', hardenedRuntime='0'>'>
+2025-09-13 17:13:51 +0000  Skipping profile for item: <IDEDistributionItem: 0xa84e16ee0; bundleID='third-party.ReactNativeDependencies', path='<DVTFilePath:0xa5e0dd500:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ReactNativeDependencies.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d81980; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='third-party.ReactNativeDependencies', executablePath='<DVTFilePath:0xa81035dc0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies'>', hardenedRuntime='0'>'>
+2025-09-13 17:13:51 +0000  Skipping profile for item: <IDEDistributionItem: 0xa84e14660; bundleID='com.arthenica.ffmpegkit.FFmpegKit', path='<DVTFilePath:0xa82148a80:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ffmpegkit.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d80c00; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.FFmpegKit', executablePath='<DVTFilePath:0xa845baca0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ffmpegkit.framework/ffmpegkit'>', hardenedRuntime='0'>'>
+2025-09-13 17:13:51 +0000  Skipping profile for item: <IDEDistributionItem: 0xa83d80a80; bundleID='dev.hermesengine.iphoneos', path='<DVTFilePath:0xa825db020:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/hermes.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d82100; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='dev.hermesengine.iphoneos', executablePath='<DVTFilePath:0xa845bb1e0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/hermes.framework/hermes'>', hardenedRuntime='0'>'>
+2025-09-13 17:13:51 +0000  Skipping profile for item: <IDEDistributionItem: 0xa83d83120; bundleID='com.arthenica.ffmpegkit.Libavcodec', path='<DVTFilePath:0xa825db790:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavcodec.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa7a404de0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavcodec', executablePath='<DVTFilePath:0xa845bb600:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavcodec.framework/libavcodec'>', hardenedRuntime='0'>'>
+2025-09-13 17:13:51 +0000  Skipping profile for item: <IDEDistributionItem: 0xa83d830c0; bundleID='com.arthenica.ffmpegkit.Libavdevice', path='<DVTFilePath:0xa83956530:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavdevice.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d80fc0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavdevice', executablePath='<DVTFilePath:0xa845bba20:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavdevice.framework/libavdevice'>', hardenedRuntime='0'>'>
+2025-09-13 17:13:51 +0000  Skipping profile for item: <IDEDistributionItem: 0xa83d820a0; bundleID='com.arthenica.ffmpegkit.Libavfilter', path='<DVTFilePath:0xa81036760:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavfilter.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa7a404f60; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavfilter', executablePath='<DVTFilePath:0xa845bbe40:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavfilter.framework/libavfilter'>', hardenedRuntime='0'>'>
+2025-09-13 17:13:51 +0000  Skipping profile for item: <IDEDistributionItem: 0xa83d81fe0; bundleID='com.arthenica.ffmpegkit.Libavformat', path='<DVTFilePath:0xa81037a30:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavformat.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa84e175a0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavformat', executablePath='<DVTFilePath:0xa7fa0d8c0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavformat.framework/libavformat'>', hardenedRuntime='0'>'>
+2025-09-13 17:13:51 +0000  Skipping profile for item: <IDEDistributionItem: 0xa83d82700; bundleID='com.arthenica.ffmpegkit.Libavutil', path='<DVTFilePath:0xa81034230:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavutil.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d83660; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavutil', executablePath='<DVTFilePath:0xa7fa0f9c0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavutil.framework/libavutil'>', hardenedRuntime='0'>'>
+2025-09-13 17:13:51 +0000  Skipping profile for item: <IDEDistributionItem: 0xa83d828e0; bundleID='com.arthenica.ffmpegkit.Libswresample', path='<DVTFilePath:0xa81036300:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswresample.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d82be0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libswresample', executablePath='<DVTFilePath:0xa7fa0fde0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswresample.framework/libswresample'>', hardenedRuntime='0'>'>
+2025-09-13 17:13:51 +0000  Skipping profile for item: <IDEDistributionItem: 0xa83d82a60; bundleID='com.arthenica.ffmpegkit.Libswscale', path='<DVTFilePath:0xa81036450:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswscale.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d81440; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libswscale', executablePath='<DVTFilePath:0xa7f993ae0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswscale.framework/libswscale'>', hardenedRuntime='0'>'>
+2025-09-13 17:13:51 +0000  Processing step: IDEDistributionInfoPlistStep
+2025-09-13 17:13:51 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2025-09-13 17:13:51 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2025-09-13 17:13:51 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2025-09-13 17:13:51 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2025-09-13 17:13:51 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2025-09-13 17:13:51 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2025-09-13 17:13:51 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2025-09-13 17:13:51 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2025-09-13 17:13:51 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2025-09-13 17:13:51 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2025-09-13 17:13:51 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2025-09-13 17:13:51 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2025-09-13 17:13:51 +0000  Processing step: IDEDistributionAppThinningPlistStep
+2025-09-13 17:13:51 +0000  Skipping step: IDEDistributionAppThinningPlistStep because it said so
+2025-09-13 17:13:51 +0000  Processing step: IDEDistributionSymbolsStep
+2025-09-13 17:13:51 +0000  Skipping step: IDEDistributionSymbolsStep because it said so
+2025-09-13 17:13:51 +0000  Processing step: IDEDistributionAppThinningStep
+2025-09-13 17:13:51 +0000  Skipping step: IDEDistributionAppThinningStep because it said so
+2025-09-13 17:13:51 +0000  Processing step: IDEDistributionArchThinningStep
+2025-09-13 17:13:51 +0000  Item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/React.framework doesn't have the entitlement com.apple.developer.web-browser-engine.host enabled, returning ["arm64e"]
+2025-09-13 17:13:51 +0000  Archs to thin for item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/React.framework are ["arm64e"]
+2025-09-13 17:13:51 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/React.framework/React' '-verify_arch' 'arm64e'
+2025-09-13 17:13:51 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2025-09-13 17:13:51 +0000  Skipping architecture thinning for item "React" because arch "arm64e" wasn't found
+2025-09-13 17:13:51 +0000  Item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ReactNativeDependencies.framework doesn't have the entitlement com.apple.developer.web-browser-engine.host enabled, returning ["arm64e"]
+2025-09-13 17:13:51 +0000  Archs to thin for item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ReactNativeDependencies.framework are ["arm64e"]
+2025-09-13 17:13:51 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies' '-verify_arch' 'arm64e'
+2025-09-13 17:13:51 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2025-09-13 17:13:51 +0000  Skipping architecture thinning for item "ReactNativeDependencies" because arch "arm64e" wasn't found
+2025-09-13 17:13:51 +0000  Item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ffmpegkit.framework doesn't have the entitlement com.apple.developer.web-browser-engine.host enabled, returning ["arm64e"]
+2025-09-13 17:13:51 +0000  Archs to thin for item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ffmpegkit.framework are ["arm64e"]
+2025-09-13 17:13:51 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/ffmpegkit.framework/ffmpegkit' '-verify_arch' 'arm64e'
+2025-09-13 17:13:51 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2025-09-13 17:13:51 +0000  Skipping architecture thinning for item "ffmpegkit" because arch "arm64e" wasn't found
+2025-09-13 17:13:51 +0000  Item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/hermes.framework doesn't have the entitlement com.apple.developer.web-browser-engine.host enabled, returning ["arm64e"]
+2025-09-13 17:13:51 +0000  Archs to thin for item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/hermes.framework are ["arm64e"]
+2025-09-13 17:13:51 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/hermes.framework/hermes' '-verify_arch' 'arm64e'
+2025-09-13 17:13:51 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2025-09-13 17:13:51 +0000  Skipping architecture thinning for item "hermes" because arch "arm64e" wasn't found
+2025-09-13 17:13:51 +0000  Item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavcodec.framework doesn't have the entitlement com.apple.developer.web-browser-engine.host enabled, returning ["arm64e"]
+2025-09-13 17:13:51 +0000  Archs to thin for item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavcodec.framework are ["arm64e"]
+2025-09-13 17:13:51 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavcodec.framework/libavcodec' '-verify_arch' 'arm64e'
+2025-09-13 17:13:51 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2025-09-13 17:13:51 +0000  Skipping architecture thinning for item "libavcodec" because arch "arm64e" wasn't found
+2025-09-13 17:13:51 +0000  Item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavdevice.framework doesn't have the entitlement com.apple.developer.web-browser-engine.host enabled, returning ["arm64e"]
+2025-09-13 17:13:51 +0000  Archs to thin for item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavdevice.framework are ["arm64e"]
+2025-09-13 17:13:51 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavdevice.framework/libavdevice' '-verify_arch' 'arm64e'
+2025-09-13 17:13:51 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2025-09-13 17:13:51 +0000  Skipping architecture thinning for item "libavdevice" because arch "arm64e" wasn't found
+2025-09-13 17:13:51 +0000  Item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavfilter.framework doesn't have the entitlement com.apple.developer.web-browser-engine.host enabled, returning ["arm64e"]
+2025-09-13 17:13:51 +0000  Archs to thin for item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavfilter.framework are ["arm64e"]
+2025-09-13 17:13:51 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavfilter.framework/libavfilter' '-verify_arch' 'arm64e'
+2025-09-13 17:13:51 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2025-09-13 17:13:51 +0000  Skipping architecture thinning for item "libavfilter" because arch "arm64e" wasn't found
+2025-09-13 17:13:51 +0000  Item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavformat.framework doesn't have the entitlement com.apple.developer.web-browser-engine.host enabled, returning ["arm64e"]
+2025-09-13 17:13:51 +0000  Archs to thin for item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavformat.framework are ["arm64e"]
+2025-09-13 17:13:51 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavformat.framework/libavformat' '-verify_arch' 'arm64e'
+2025-09-13 17:13:51 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2025-09-13 17:13:51 +0000  Skipping architecture thinning for item "libavformat" because arch "arm64e" wasn't found
+2025-09-13 17:13:51 +0000  Item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavutil.framework doesn't have the entitlement com.apple.developer.web-browser-engine.host enabled, returning ["arm64e"]
+2025-09-13 17:13:51 +0000  Archs to thin for item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavutil.framework are ["arm64e"]
+2025-09-13 17:13:51 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavutil.framework/libavutil' '-verify_arch' 'arm64e'
+2025-09-13 17:13:51 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2025-09-13 17:13:51 +0000  Skipping architecture thinning for item "libavutil" because arch "arm64e" wasn't found
+2025-09-13 17:13:51 +0000  Item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswresample.framework doesn't have the entitlement com.apple.developer.web-browser-engine.host enabled, returning ["arm64e"]
+2025-09-13 17:13:51 +0000  Archs to thin for item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswresample.framework are ["arm64e"]
+2025-09-13 17:13:51 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libswresample.framework/libswresample' '-verify_arch' 'arm64e'
+2025-09-13 17:13:51 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2025-09-13 17:13:51 +0000  Skipping architecture thinning for item "libswresample" because arch "arm64e" wasn't found
+2025-09-13 17:13:51 +0000  Item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswscale.framework doesn't have the entitlement com.apple.developer.web-browser-engine.host enabled, returning ["arm64e"]
+2025-09-13 17:13:51 +0000  Archs to thin for item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswscale.framework are ["arm64e"]
+2025-09-13 17:13:51 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libswscale.framework/libswscale' '-verify_arch' 'arm64e'
+2025-09-13 17:13:51 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2025-09-13 17:13:51 +0000  Skipping architecture thinning for item "libswscale" because arch "arm64e" wasn't found
+2025-09-13 17:13:51 +0000  Item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app doesn't have the entitlement com.apple.developer.web-browser-engine.host enabled, returning ["arm64e"]
+2025-09-13 17:13:51 +0000  Archs to thin for item /Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app are ["arm64e"]
+2025-09-13 17:13:51 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/orbyt' '-verify_arch' 'arm64e'
+2025-09-13 17:13:51 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2025-09-13 17:13:51 +0000  Skipping architecture thinning for item "orbyt" because arch "arm64e" wasn't found
+2025-09-13 17:13:51 +0000  Processing step: IDEDistributionODRStep
+2025-09-13 17:13:51 +0000  Processing step: IDEDistributionStripXattrsStep
+2025-09-13 17:13:51 +0000  Skipping stripping extended attributes because the codesign step will strip them.
+2025-09-13 17:13:51 +0000  Skipping stripping extended attributes because the codesign step will strip them.
+2025-09-13 17:13:51 +0000  Skipping stripping extended attributes because the codesign step will strip them.
+2025-09-13 17:13:51 +0000  Skipping stripping extended attributes because the codesign step will strip them.
+2025-09-13 17:13:51 +0000  Skipping stripping extended attributes because the codesign step will strip them.
+2025-09-13 17:13:51 +0000  Skipping stripping extended attributes because the codesign step will strip them.
+2025-09-13 17:13:51 +0000  Skipping stripping extended attributes because the codesign step will strip them.
+2025-09-13 17:13:51 +0000  Skipping stripping extended attributes because the codesign step will strip them.
+2025-09-13 17:13:51 +0000  Skipping stripping extended attributes because the codesign step will strip them.
+2025-09-13 17:13:51 +0000  Skipping stripping extended attributes because the codesign step will strip them.
+2025-09-13 17:13:51 +0000  Skipping stripping extended attributes because the codesign step will strip them.
+2025-09-13 17:13:51 +0000  Skipping stripping extended attributes because the codesign step will strip them.
+2025-09-13 17:13:51 +0000  Processing step: IDEDistributionCodesignStep
+2025-09-13 17:13:51 +0000  Entitlements for <IDEDistributionItem: 0xa83d83a80; bundleID='react-native.React', path='<DVTFilePath:0xa79e5b420:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/React.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d80ae0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='react-native.React', executablePath='<DVTFilePath:0xa8375d6e0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/React.framework/React'>', hardenedRuntime='0'>'>: {
+}
+2025-09-13 17:13:51 +0000  Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2025-09-13 17:13:51 +0000  Entitlements for <IDEDistributionItem: 0xa83d83a80; bundleID='react-native.React', path='<DVTFilePath:0xa79e5b420:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/React.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d80ae0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='react-native.React', executablePath='<DVTFilePath:0xa8375d6e0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/React.framework/React'>', hardenedRuntime='0'>'> are: {
+}
+2025-09-13 17:13:51 +0000  Writing entitlements for <IDEDistributionItem: 0xa83d83a80; bundleID='react-native.React', path='<DVTFilePath:0xa79e5b420:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/React.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d80ae0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='react-native.React', executablePath='<DVTFilePath:0xa8375d6e0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/React.framework/React'>', hardenedRuntime='0'>'> to: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~qL0dKa
+2025-09-13 17:13:51 +0000  invoking codesign: <NSConcreteTask: 0xa570206e0; launchPath='/usr/bin/codesign', arguments='(
+    "-f",
+    "-s",
+    7E3DDC7DACBCD6142C64416A5A0B83B79F591BA4,
+    "--entitlements",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~qL0dKa",
+    "--preserve-metadata=identifier,flags,runtime",
+    "--generate-entitlement-der",
+    "--strip-disallowed-xattrs",
+    "-vvv",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/React.framework"
+)'>
+2025-09-13 17:13:52 +0000  codesign output: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/React.framework: replacing existing signature
+/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/React.framework: signed bundle with Mach-O thin (arm64) [react-native.React]
+2025-09-13 17:13:52 +0000  Entitlements for <IDEDistributionItem: 0xa84e16ee0; bundleID='third-party.ReactNativeDependencies', path='<DVTFilePath:0xa5e0dd500:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ReactNativeDependencies.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d81980; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='third-party.ReactNativeDependencies', executablePath='<DVTFilePath:0xa81035dc0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies'>', hardenedRuntime='0'>'>: {
+}
+2025-09-13 17:13:52 +0000  Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2025-09-13 17:13:52 +0000  Entitlements for <IDEDistributionItem: 0xa84e16ee0; bundleID='third-party.ReactNativeDependencies', path='<DVTFilePath:0xa5e0dd500:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ReactNativeDependencies.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d81980; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='third-party.ReactNativeDependencies', executablePath='<DVTFilePath:0xa81035dc0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies'>', hardenedRuntime='0'>'> are: {
+}
+2025-09-13 17:13:52 +0000  Writing entitlements for <IDEDistributionItem: 0xa84e16ee0; bundleID='third-party.ReactNativeDependencies', path='<DVTFilePath:0xa5e0dd500:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ReactNativeDependencies.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d81980; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='third-party.ReactNativeDependencies', executablePath='<DVTFilePath:0xa81035dc0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies'>', hardenedRuntime='0'>'> to: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~rATd92
+2025-09-13 17:13:52 +0000  invoking codesign: <NSConcreteTask: 0xa57020820; launchPath='/usr/bin/codesign', arguments='(
+    "-f",
+    "-s",
+    7E3DDC7DACBCD6142C64416A5A0B83B79F591BA4,
+    "--entitlements",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~rATd92",
+    "--preserve-metadata=identifier,flags,runtime",
+    "--generate-entitlement-der",
+    "--strip-disallowed-xattrs",
+    "-vvv",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework"
+)'>
+2025-09-13 17:13:52 +0000  codesign output: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework: replacing existing signature
+/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework: signed bundle with Mach-O thin (arm64) [third-party.ReactNativeDependencies]
+2025-09-13 17:13:52 +0000  Entitlements for <IDEDistributionItem: 0xa84e14660; bundleID='com.arthenica.ffmpegkit.FFmpegKit', path='<DVTFilePath:0xa82148a80:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ffmpegkit.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d80c00; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.FFmpegKit', executablePath='<DVTFilePath:0xa845baca0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ffmpegkit.framework/ffmpegkit'>', hardenedRuntime='0'>'>: {
+}
+2025-09-13 17:13:52 +0000  Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2025-09-13 17:13:52 +0000  Entitlements for <IDEDistributionItem: 0xa84e14660; bundleID='com.arthenica.ffmpegkit.FFmpegKit', path='<DVTFilePath:0xa82148a80:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ffmpegkit.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d80c00; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.FFmpegKit', executablePath='<DVTFilePath:0xa845baca0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ffmpegkit.framework/ffmpegkit'>', hardenedRuntime='0'>'> are: {
+}
+2025-09-13 17:13:52 +0000  Writing entitlements for <IDEDistributionItem: 0xa84e14660; bundleID='com.arthenica.ffmpegkit.FFmpegKit', path='<DVTFilePath:0xa82148a80:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ffmpegkit.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d80c00; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.FFmpegKit', executablePath='<DVTFilePath:0xa845baca0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/ffmpegkit.framework/ffmpegkit'>', hardenedRuntime='0'>'> to: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~KLaDQI
+2025-09-13 17:13:52 +0000  invoking codesign: <NSConcreteTask: 0xa57020820; launchPath='/usr/bin/codesign', arguments='(
+    "-f",
+    "-s",
+    7E3DDC7DACBCD6142C64416A5A0B83B79F591BA4,
+    "--entitlements",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~KLaDQI",
+    "--preserve-metadata=identifier,flags,runtime",
+    "--generate-entitlement-der",
+    "--strip-disallowed-xattrs",
+    "-vvv",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/ffmpegkit.framework"
+)'>
+2025-09-13 17:13:52 +0000  codesign output: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/ffmpegkit.framework: replacing existing signature
+/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/ffmpegkit.framework: signed bundle with Mach-O universal (arm64) [com.arthenica.ffmpegkit.FFmpegKit]
+2025-09-13 17:13:52 +0000  Entitlements for <IDEDistributionItem: 0xa83d80a80; bundleID='dev.hermesengine.iphoneos', path='<DVTFilePath:0xa825db020:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/hermes.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d82100; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='dev.hermesengine.iphoneos', executablePath='<DVTFilePath:0xa845bb1e0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/hermes.framework/hermes'>', hardenedRuntime='0'>'>: {
+}
+2025-09-13 17:13:52 +0000  Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2025-09-13 17:13:52 +0000  Entitlements for <IDEDistributionItem: 0xa83d80a80; bundleID='dev.hermesengine.iphoneos', path='<DVTFilePath:0xa825db020:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/hermes.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d82100; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='dev.hermesengine.iphoneos', executablePath='<DVTFilePath:0xa845bb1e0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/hermes.framework/hermes'>', hardenedRuntime='0'>'> are: {
+}
+2025-09-13 17:13:52 +0000  Writing entitlements for <IDEDistributionItem: 0xa83d80a80; bundleID='dev.hermesengine.iphoneos', path='<DVTFilePath:0xa825db020:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/hermes.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d82100; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='dev.hermesengine.iphoneos', executablePath='<DVTFilePath:0xa845bb1e0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/hermes.framework/hermes'>', hardenedRuntime='0'>'> to: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~qicqpI
+2025-09-13 17:13:52 +0000  invoking codesign: <NSConcreteTask: 0xa57020820; launchPath='/usr/bin/codesign', arguments='(
+    "-f",
+    "-s",
+    7E3DDC7DACBCD6142C64416A5A0B83B79F591BA4,
+    "--entitlements",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~qicqpI",
+    "--preserve-metadata=identifier,flags,runtime",
+    "--generate-entitlement-der",
+    "--strip-disallowed-xattrs",
+    "-vvv",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/hermes.framework"
+)'>
+2025-09-13 17:13:52 +0000  codesign output: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/hermes.framework: replacing existing signature
+/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/hermes.framework: signed bundle with Mach-O thin (arm64) [dev.hermesengine.iphoneos]
+2025-09-13 17:13:52 +0000  Entitlements for <IDEDistributionItem: 0xa83d83120; bundleID='com.arthenica.ffmpegkit.Libavcodec', path='<DVTFilePath:0xa825db790:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavcodec.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa7a404de0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavcodec', executablePath='<DVTFilePath:0xa845bb600:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavcodec.framework/libavcodec'>', hardenedRuntime='0'>'>: {
+}
+2025-09-13 17:13:52 +0000  Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2025-09-13 17:13:52 +0000  Entitlements for <IDEDistributionItem: 0xa83d83120; bundleID='com.arthenica.ffmpegkit.Libavcodec', path='<DVTFilePath:0xa825db790:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavcodec.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa7a404de0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavcodec', executablePath='<DVTFilePath:0xa845bb600:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavcodec.framework/libavcodec'>', hardenedRuntime='0'>'> are: {
+}
+2025-09-13 17:13:52 +0000  Writing entitlements for <IDEDistributionItem: 0xa83d83120; bundleID='com.arthenica.ffmpegkit.Libavcodec', path='<DVTFilePath:0xa825db790:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavcodec.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa7a404de0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavcodec', executablePath='<DVTFilePath:0xa845bb600:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavcodec.framework/libavcodec'>', hardenedRuntime='0'>'> to: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~JAFQE4
+2025-09-13 17:13:52 +0000  invoking codesign: <NSConcreteTask: 0xa5d6989b0; launchPath='/usr/bin/codesign', arguments='(
+    "-f",
+    "-s",
+    7E3DDC7DACBCD6142C64416A5A0B83B79F591BA4,
+    "--entitlements",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~JAFQE4",
+    "--preserve-metadata=identifier,flags,runtime",
+    "--generate-entitlement-der",
+    "--strip-disallowed-xattrs",
+    "-vvv",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavcodec.framework"
+)'>
+2025-09-13 17:13:52 +0000  codesign output: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavcodec.framework: replacing existing signature
+/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavcodec.framework: signed bundle with Mach-O universal (arm64) [com.arthenica.ffmpegkit.Libavcodec]
+2025-09-13 17:13:52 +0000  Entitlements for <IDEDistributionItem: 0xa83d830c0; bundleID='com.arthenica.ffmpegkit.Libavdevice', path='<DVTFilePath:0xa83956530:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavdevice.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d80fc0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavdevice', executablePath='<DVTFilePath:0xa845bba20:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavdevice.framework/libavdevice'>', hardenedRuntime='0'>'>: {
+}
+2025-09-13 17:13:52 +0000  Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2025-09-13 17:13:52 +0000  Entitlements for <IDEDistributionItem: 0xa83d830c0; bundleID='com.arthenica.ffmpegkit.Libavdevice', path='<DVTFilePath:0xa83956530:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavdevice.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d80fc0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavdevice', executablePath='<DVTFilePath:0xa845bba20:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavdevice.framework/libavdevice'>', hardenedRuntime='0'>'> are: {
+}
+2025-09-13 17:13:52 +0000  Writing entitlements for <IDEDistributionItem: 0xa83d830c0; bundleID='com.arthenica.ffmpegkit.Libavdevice', path='<DVTFilePath:0xa83956530:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavdevice.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d80fc0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavdevice', executablePath='<DVTFilePath:0xa845bba20:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavdevice.framework/libavdevice'>', hardenedRuntime='0'>'> to: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~anrNj6
+2025-09-13 17:13:52 +0000  invoking codesign: <NSConcreteTask: 0xa57020820; launchPath='/usr/bin/codesign', arguments='(
+    "-f",
+    "-s",
+    7E3DDC7DACBCD6142C64416A5A0B83B79F591BA4,
+    "--entitlements",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~anrNj6",
+    "--preserve-metadata=identifier,flags,runtime",
+    "--generate-entitlement-der",
+    "--strip-disallowed-xattrs",
+    "-vvv",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavdevice.framework"
+)'>
+2025-09-13 17:13:52 +0000  codesign output: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavdevice.framework: replacing existing signature
+/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavdevice.framework: signed bundle with Mach-O universal (arm64) [com.arthenica.ffmpegkit.Libavdevice]
+2025-09-13 17:13:52 +0000  Entitlements for <IDEDistributionItem: 0xa83d820a0; bundleID='com.arthenica.ffmpegkit.Libavfilter', path='<DVTFilePath:0xa81036760:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavfilter.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa7a404f60; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavfilter', executablePath='<DVTFilePath:0xa845bbe40:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavfilter.framework/libavfilter'>', hardenedRuntime='0'>'>: {
+}
+2025-09-13 17:13:52 +0000  Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2025-09-13 17:13:52 +0000  Entitlements for <IDEDistributionItem: 0xa83d820a0; bundleID='com.arthenica.ffmpegkit.Libavfilter', path='<DVTFilePath:0xa81036760:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavfilter.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa7a404f60; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavfilter', executablePath='<DVTFilePath:0xa845bbe40:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavfilter.framework/libavfilter'>', hardenedRuntime='0'>'> are: {
+}
+2025-09-13 17:13:52 +0000  Writing entitlements for <IDEDistributionItem: 0xa83d820a0; bundleID='com.arthenica.ffmpegkit.Libavfilter', path='<DVTFilePath:0xa81036760:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavfilter.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa7a404f60; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavfilter', executablePath='<DVTFilePath:0xa845bbe40:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavfilter.framework/libavfilter'>', hardenedRuntime='0'>'> to: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~ZaLtaB
+2025-09-13 17:13:52 +0000  invoking codesign: <NSConcreteTask: 0xa57020820; launchPath='/usr/bin/codesign', arguments='(
+    "-f",
+    "-s",
+    7E3DDC7DACBCD6142C64416A5A0B83B79F591BA4,
+    "--entitlements",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~ZaLtaB",
+    "--preserve-metadata=identifier,flags,runtime",
+    "--generate-entitlement-der",
+    "--strip-disallowed-xattrs",
+    "-vvv",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavfilter.framework"
+)'>
+2025-09-13 17:13:52 +0000  codesign output: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavfilter.framework: replacing existing signature
+/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavfilter.framework: signed bundle with Mach-O universal (arm64) [com.arthenica.ffmpegkit.Libavfilter]
+2025-09-13 17:13:52 +0000  Entitlements for <IDEDistributionItem: 0xa83d81fe0; bundleID='com.arthenica.ffmpegkit.Libavformat', path='<DVTFilePath:0xa81037a30:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavformat.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa84e175a0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavformat', executablePath='<DVTFilePath:0xa7fa0d8c0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavformat.framework/libavformat'>', hardenedRuntime='0'>'>: {
+}
+2025-09-13 17:13:52 +0000  Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2025-09-13 17:13:52 +0000  Entitlements for <IDEDistributionItem: 0xa83d81fe0; bundleID='com.arthenica.ffmpegkit.Libavformat', path='<DVTFilePath:0xa81037a30:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavformat.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa84e175a0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavformat', executablePath='<DVTFilePath:0xa7fa0d8c0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavformat.framework/libavformat'>', hardenedRuntime='0'>'> are: {
+}
+2025-09-13 17:13:52 +0000  Writing entitlements for <IDEDistributionItem: 0xa83d81fe0; bundleID='com.arthenica.ffmpegkit.Libavformat', path='<DVTFilePath:0xa81037a30:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavformat.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa84e175a0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavformat', executablePath='<DVTFilePath:0xa7fa0d8c0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavformat.framework/libavformat'>', hardenedRuntime='0'>'> to: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~U4yBgB
+2025-09-13 17:13:52 +0000  invoking codesign: <NSConcreteTask: 0xa5d6989b0; launchPath='/usr/bin/codesign', arguments='(
+    "-f",
+    "-s",
+    7E3DDC7DACBCD6142C64416A5A0B83B79F591BA4,
+    "--entitlements",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~U4yBgB",
+    "--preserve-metadata=identifier,flags,runtime",
+    "--generate-entitlement-der",
+    "--strip-disallowed-xattrs",
+    "-vvv",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavformat.framework"
+)'>
+2025-09-13 17:13:52 +0000  codesign output: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavformat.framework: replacing existing signature
+/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavformat.framework: signed bundle with Mach-O universal (arm64) [com.arthenica.ffmpegkit.Libavformat]
+2025-09-13 17:13:52 +0000  Entitlements for <IDEDistributionItem: 0xa83d82700; bundleID='com.arthenica.ffmpegkit.Libavutil', path='<DVTFilePath:0xa81034230:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavutil.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d83660; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavutil', executablePath='<DVTFilePath:0xa7fa0f9c0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavutil.framework/libavutil'>', hardenedRuntime='0'>'>: {
+}
+2025-09-13 17:13:52 +0000  Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2025-09-13 17:13:52 +0000  Entitlements for <IDEDistributionItem: 0xa83d82700; bundleID='com.arthenica.ffmpegkit.Libavutil', path='<DVTFilePath:0xa81034230:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavutil.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d83660; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavutil', executablePath='<DVTFilePath:0xa7fa0f9c0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavutil.framework/libavutil'>', hardenedRuntime='0'>'> are: {
+}
+2025-09-13 17:13:52 +0000  Writing entitlements for <IDEDistributionItem: 0xa83d82700; bundleID='com.arthenica.ffmpegkit.Libavutil', path='<DVTFilePath:0xa81034230:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavutil.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d83660; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libavutil', executablePath='<DVTFilePath:0xa7fa0f9c0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libavutil.framework/libavutil'>', hardenedRuntime='0'>'> to: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~63ArBE
+2025-09-13 17:13:52 +0000  invoking codesign: <NSConcreteTask: 0xa5d6989b0; launchPath='/usr/bin/codesign', arguments='(
+    "-f",
+    "-s",
+    7E3DDC7DACBCD6142C64416A5A0B83B79F591BA4,
+    "--entitlements",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~63ArBE",
+    "--preserve-metadata=identifier,flags,runtime",
+    "--generate-entitlement-der",
+    "--strip-disallowed-xattrs",
+    "-vvv",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavutil.framework"
+)'>
+2025-09-13 17:13:52 +0000  codesign output: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavutil.framework: replacing existing signature
+/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavutil.framework: signed bundle with Mach-O universal (arm64) [com.arthenica.ffmpegkit.Libavutil]
+2025-09-13 17:13:52 +0000  Entitlements for <IDEDistributionItem: 0xa83d828e0; bundleID='com.arthenica.ffmpegkit.Libswresample', path='<DVTFilePath:0xa81036300:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswresample.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d82be0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libswresample', executablePath='<DVTFilePath:0xa7fa0fde0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswresample.framework/libswresample'>', hardenedRuntime='0'>'>: {
+}
+2025-09-13 17:13:52 +0000  Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2025-09-13 17:13:52 +0000  Entitlements for <IDEDistributionItem: 0xa83d828e0; bundleID='com.arthenica.ffmpegkit.Libswresample', path='<DVTFilePath:0xa81036300:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswresample.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d82be0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libswresample', executablePath='<DVTFilePath:0xa7fa0fde0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswresample.framework/libswresample'>', hardenedRuntime='0'>'> are: {
+}
+2025-09-13 17:13:52 +0000  Writing entitlements for <IDEDistributionItem: 0xa83d828e0; bundleID='com.arthenica.ffmpegkit.Libswresample', path='<DVTFilePath:0xa81036300:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswresample.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d82be0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libswresample', executablePath='<DVTFilePath:0xa7fa0fde0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswresample.framework/libswresample'>', hardenedRuntime='0'>'> to: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~q7oe9S
+2025-09-13 17:13:52 +0000  invoking codesign: <NSConcreteTask: 0xa57020820; launchPath='/usr/bin/codesign', arguments='(
+    "-f",
+    "-s",
+    7E3DDC7DACBCD6142C64416A5A0B83B79F591BA4,
+    "--entitlements",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~q7oe9S",
+    "--preserve-metadata=identifier,flags,runtime",
+    "--generate-entitlement-der",
+    "--strip-disallowed-xattrs",
+    "-vvv",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libswresample.framework"
+)'>
+2025-09-13 17:13:53 +0000  codesign output: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libswresample.framework: replacing existing signature
+/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libswresample.framework: signed bundle with Mach-O universal (arm64) [com.arthenica.ffmpegkit.Libswresample]
+2025-09-13 17:13:53 +0000  Entitlements for <IDEDistributionItem: 0xa83d82a60; bundleID='com.arthenica.ffmpegkit.Libswscale', path='<DVTFilePath:0xa81036450:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswscale.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d81440; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libswscale', executablePath='<DVTFilePath:0xa7f993ae0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswscale.framework/libswscale'>', hardenedRuntime='0'>'>: {
+}
+2025-09-13 17:13:53 +0000  Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2025-09-13 17:13:53 +0000  Entitlements for <IDEDistributionItem: 0xa83d82a60; bundleID='com.arthenica.ffmpegkit.Libswscale', path='<DVTFilePath:0xa81036450:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswscale.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d81440; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libswscale', executablePath='<DVTFilePath:0xa7f993ae0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswscale.framework/libswscale'>', hardenedRuntime='0'>'> are: {
+}
+2025-09-13 17:13:53 +0000  Writing entitlements for <IDEDistributionItem: 0xa83d82a60; bundleID='com.arthenica.ffmpegkit.Libswscale', path='<DVTFilePath:0xa81036450:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswscale.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d81440; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='(null)', teamID='D8VXFBV8SJ', identifier='com.arthenica.ffmpegkit.Libswscale', executablePath='<DVTFilePath:0xa7f993ae0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/Frameworks/libswscale.framework/libswscale'>', hardenedRuntime='0'>'> to: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~3irSCR
+2025-09-13 17:13:53 +0000  invoking codesign: <NSConcreteTask: 0xa57020820; launchPath='/usr/bin/codesign', arguments='(
+    "-f",
+    "-s",
+    7E3DDC7DACBCD6142C64416A5A0B83B79F591BA4,
+    "--entitlements",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~3irSCR",
+    "--preserve-metadata=identifier,flags,runtime",
+    "--generate-entitlement-der",
+    "--strip-disallowed-xattrs",
+    "-vvv",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libswscale.framework"
+)'>
+2025-09-13 17:13:53 +0000  codesign output: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libswscale.framework: replacing existing signature
+/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libswscale.framework: signed bundle with Mach-O universal (arm64) [com.arthenica.ffmpegkit.Libswscale]
+2025-09-13 17:13:53 +0000  Entitlements for <IDEDistributionItem: 0xa83d81e00; bundleID='com.getorbyt.app', path='<DVTFilePath:0xa83d81bc0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d82a00; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd5440; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='{
+    "application-identifier" = "D8VXFBV8SJ.com.getorbyt.app";
+    "com.apple.developer.team-identifier" = D8VXFBV8SJ;
+    "get-task-allow" = 1;
+}', teamID='D8VXFBV8SJ', identifier='com.getorbyt.app', executablePath='<DVTFilePath:0xa83d81320:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/orbyt'>', hardenedRuntime='0'>'>: {
+    "application-identifier" = "D8VXFBV8SJ.com.getorbyt.app";
+    "com.apple.developer.team-identifier" = D8VXFBV8SJ;
+    "get-task-allow" = 0;
+}
+2025-09-13 17:13:53 +0000  Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2025-09-13 17:13:53 +0000  Entitlements for <IDEDistributionItem: 0xa83d81e00; bundleID='com.getorbyt.app', path='<DVTFilePath:0xa83d81bc0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d82a00; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='{
+    "application-identifier" = "D8VXFBV8SJ.com.getorbyt.app";
+    "com.apple.developer.team-identifier" = D8VXFBV8SJ;
+    "get-task-allow" = 1;
+}', teamID='D8VXFBV8SJ', identifier='com.getorbyt.app', executablePath='<DVTFilePath:0xa83d81320:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/orbyt'>', hardenedRuntime='0'>'> are: {
+    "application-identifier" = "D8VXFBV8SJ.com.getorbyt.app";
+    "com.apple.developer.team-identifier" = D8VXFBV8SJ;
+    "get-task-allow" = 0;
+}
+2025-09-13 17:13:53 +0000  Writing entitlements for <IDEDistributionItem: 0xa83d81e00; bundleID='com.getorbyt.app', path='<DVTFilePath:0xa83d81bc0:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa83d82a00; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0xa84dd67c0; name='Apple Development: Jack Hannon (WLA4UBZLVW)', hash='01EB7FE58B00B73FBC04D17B1AEB3834467B863A', serialNumber='5B7605A0A4C5E686A370D898AB42B3A0', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-07-08 15:48:35 +0000''>', entitlements='{
+    "application-identifier" = "D8VXFBV8SJ.com.getorbyt.app";
+    "com.apple.developer.team-identifier" = D8VXFBV8SJ;
+    "get-task-allow" = 1;
+}', teamID='D8VXFBV8SJ', identifier='com.getorbyt.app', executablePath='<DVTFilePath:0xa83d81320:'/Users/jack/Library/Developer/Xcode/Archives/2025-09-13/orbyt 9-13-25, 1.12 PM.xcarchive/Products/Applications/orbyt.app/orbyt'>', hardenedRuntime='0'>'> to: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~7jQHpw
+2025-09-13 17:13:53 +0000  invoking codesign: <NSConcreteTask: 0xa57020820; launchPath='/usr/bin/codesign', arguments='(
+    "-f",
+    "-s",
+    7E3DDC7DACBCD6142C64416A5A0B83B79F591BA4,
+    "--entitlements",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/entitlements~~~7jQHpw",
+    "--preserve-metadata=identifier,flags,runtime",
+    "--generate-entitlement-der",
+    "--strip-disallowed-xattrs",
+    "-vvv",
+    "/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app"
+)'>
+2025-09-13 17:13:53 +0000  codesign output: /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app: replacing existing signature
+/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app: signed app bundle with Mach-O thin (arm64) [com.getorbyt.app]
+2025-09-13 17:13:53 +0000  Processing step: IDEDistributionZipODRItemStep
+2025-09-13 17:13:53 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2025-09-13 17:13:53 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2025-09-13 17:13:53 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2025-09-13 17:13:53 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2025-09-13 17:13:53 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2025-09-13 17:13:53 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2025-09-13 17:13:53 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2025-09-13 17:13:53 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2025-09-13 17:13:53 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2025-09-13 17:13:53 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2025-09-13 17:13:53 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2025-09-13 17:13:53 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2025-09-13 17:13:53 +0000  Processing step: IDEDistributionCreateIPAStep
+2025-09-13 17:13:53 +0000  Running /usr/bin/ditto '-V' '-c' '-k' '--norsrc' '/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root' '/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Packages/orbyt.ipa'
+2025-09-13 17:13:53 +0000  >>> Copying /var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root 
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:53 +0000  34589 bytes for ./Payload/orbyt.app/_CodeSignature/CodeResources
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/SplashScreen.storyboardc/EXPO-VIEWCONTROLLER-1-view-EXPO-ContainerView.nib ... 
+2025-09-13 17:13:53 +0000  2108 bytes for ./Payload/orbyt.app/SplashScreen.storyboardc/EXPO-VIEWCONTROLLER-1-view-EXPO-ContainerView.nib
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/SplashScreen.storyboardc/SplashScreenViewController.nib ... 
+2025-09-13 17:13:53 +0000  1004 bytes for ./Payload/orbyt.app/SplashScreen.storyboardc/SplashScreenViewController.nib
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/SplashScreen.storyboardc/Info.plist ... 
+2025-09-13 17:13:53 +0000  225 bytes for ./Payload/orbyt.app/SplashScreen.storyboardc/Info.plist
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/ExpoSystemUI_privacy.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:53 +0000  607 bytes for ./Payload/orbyt.app/ExpoSystemUI_privacy.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/ExpoSystemUI_privacy.bundle/Info.plist ... 
+2025-09-13 17:13:53 +0000  787 bytes for ./Payload/orbyt.app/ExpoSystemUI_privacy.bundle/Info.plist
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/AppIcon60x60@2x.png ... 
+2025-09-13 17:13:53 +0000  4285 bytes for ./Payload/orbyt.app/AppIcon60x60@2x.png
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/ExpoConstants_privacy.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:53 +0000  607 bytes for ./Payload/orbyt.app/ExpoConstants_privacy.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/ExpoConstants_privacy.bundle/Info.plist ... 
+2025-09-13 17:13:53 +0000  790 bytes for ./Payload/orbyt.app/ExpoConstants_privacy.bundle/Info.plist
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/React-cxxreact_privacy.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:53 +0000  552 bytes for ./Payload/orbyt.app/React-cxxreact_privacy.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/React-cxxreact_privacy.bundle/Info.plist ... 
+2025-09-13 17:13:53 +0000  792 bytes for ./Payload/orbyt.app/React-cxxreact_privacy.bundle/Info.plist
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/Assets.car ... 
+2025-09-13 17:13:53 +0000  550671 bytes for ./Payload/orbyt.app/Assets.car
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/AppIcon76x76@2x~ipad.png ... 
+2025-09-13 17:13:53 +0000  5442 bytes for ./Payload/orbyt.app/AppIcon76x76@2x~ipad.png
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/main.jsbundle ... 
+2025-09-13 17:13:53 +0000  7114873 bytes for ./Payload/orbyt.app/main.jsbundle
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/EXConstants.bundle/app.config ... 
+2025-09-13 17:13:53 +0000  1854 bytes for ./Payload/orbyt.app/EXConstants.bundle/app.config
+copying file ./Payload/orbyt.app/EXConstants.bundle/Info.plist ... 
+2025-09-13 17:13:53 +0000  768 bytes for ./Payload/orbyt.app/EXConstants.bundle/Info.plist
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/ExpoTaskManager_privacy.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:53 +0000  607 bytes for ./Payload/orbyt.app/ExpoTaskManager_privacy.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/ExpoTaskManager_privacy.bundle/Info.plist ... 
+794 bytes for ./Payload/orbyt.app/ExpoTaskManager_privacy.bundle/Info.plist
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/ExpoDevice_privacy.bundle/PrivacyInfo.xcprivacy ... 
+609 bytes for ./Payload/orbyt.app/ExpoDevice_privacy.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/ExpoDevice_privacy.bundle/Info.plist ... 
+2025-09-13 17:13:53 +0000  783 bytes for ./Payload/orbyt.app/ExpoDevice_privacy.bundle/Info.plist
+copying file ./Payload/orbyt.app/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:53 +0000  1283 bytes for ./Payload/orbyt.app/PrivacyInfo.xcprivacy
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/ExpoMediaLibrary_privacy.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:53 +0000  608 bytes for ./Payload/orbyt.app/ExpoMediaLibrary_privacy.bundle/PrivacyInfo.xcprivacy
+copying file ./Payload/orbyt.app/ExpoMediaLibrary_privacy.bundle/Info.plist ... 
+2025-09-13 17:13:53 +0000  796 bytes for ./Payload/orbyt.app/ExpoMediaLibrary_privacy.bundle/Info.plist
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/RNSVGFilters.bundle/RNSVGArithmeticFilter.iphoneos.metallib ... 
+2025-09-13 17:13:53 +0000  3993 bytes for ./Payload/orbyt.app/RNSVGFilters.bundle/RNSVGArithmeticFilter.iphoneos.metallib
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/RNSVGFilters.bundle/RNSVGCompositeXor.iphoneos.metallib ... 
+2025-09-13 17:13:53 +0000  3509 bytes for ./Payload/orbyt.app/RNSVGFilters.bundle/RNSVGCompositeXor.iphoneos.metallib
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/RNSVGFilters.bundle/Info.plist ... 
+771 bytes for ./Payload/orbyt.app/RNSVGFilters.bundle/Info.plist
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/ExpoFileSystem_privacy.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:53 +0000  877 bytes for ./Payload/orbyt.app/ExpoFileSystem_privacy.bundle/PrivacyInfo.xcprivacy
+copying file ./Payload/orbyt.app/ExpoFileSystem_privacy.bundle/Info.plist ... 
+2025-09-13 17:13:53 +0000  793 bytes for ./Payload/orbyt.app/ExpoFileSystem_privacy.bundle/Info.plist
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/orbyt ... 
+2025-09-13 17:13:53 +0000  7920032 bytes for ./Payload/orbyt.app/orbyt
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/Frameworks/libswresample.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:53 +0000  2006 bytes for ./Payload/orbyt.app/Frameworks/libswresample.framework/_CodeSignature/CodeResources
+copying file ./Payload/orbyt.app/Frameworks/libswresample.framework/LICENSE ... 
+2025-09-13 17:13:53 +0000  7651 bytes for ./Payload/orbyt.app/Frameworks/libswresample.framework/LICENSE
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/Frameworks/libswresample.framework/libswresample ... 
+2025-09-13 17:13:53 +0000  138064 bytes for ./Payload/orbyt.app/Frameworks/libswresample.framework/libswresample
+copying file ./Payload/orbyt.app/Frameworks/libswresample.framework/Info.plist ... 
+2025-09-13 17:13:53 +0000  933 bytes for ./Payload/orbyt.app/Frameworks/libswresample.framework/Info.plist
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/Frameworks/libavfilter.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:53 +0000  2006 bytes for ./Payload/orbyt.app/Frameworks/libavfilter.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/Frameworks/libavfilter.framework/libavfilter ... 
+2025-09-13 17:13:53 +0000  2448224 bytes for ./Payload/orbyt.app/Frameworks/libavfilter.framework/libavfilter
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/Frameworks/libavfilter.framework/LICENSE ... 
+2025-09-13 17:13:53 +0000  7651 bytes for ./Payload/orbyt.app/Frameworks/libavfilter.framework/LICENSE
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/Frameworks/libavfilter.framework/Info.plist ... 
+2025-09-13 17:13:53 +0000  925 bytes for ./Payload/orbyt.app/Frameworks/libavfilter.framework/Info.plist
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/Frameworks/libavformat.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:53 +0000  2006 bytes for ./Payload/orbyt.app/Frameworks/libavformat.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/Frameworks/libavformat.framework/LICENSE ... 
+2025-09-13 17:13:53 +0000  7651 bytes for ./Payload/orbyt.app/Frameworks/libavformat.framework/LICENSE
+2025-09-13 17:13:53 +0000  copying file ./Payload/orbyt.app/Frameworks/libavformat.framework/libavformat ... 
+2025-09-13 17:13:54 +0000  1960800 bytes for ./Payload/orbyt.app/Frameworks/libavformat.framework/libavformat
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/libavformat.framework/Info.plist ... 
+927 bytes for ./Payload/orbyt.app/Frameworks/libavformat.framework/Info.plist
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/libavutil.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:54 +0000  2006 bytes for ./Payload/orbyt.app/Frameworks/libavutil.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/libavutil.framework/libavutil ... 
+2025-09-13 17:13:54 +0000  540800 bytes for ./Payload/orbyt.app/Frameworks/libavutil.framework/libavutil
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/libavutil.framework/LICENSE ... 
+2025-09-13 17:13:54 +0000  7651 bytes for ./Payload/orbyt.app/Frameworks/libavutil.framework/LICENSE
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/libavutil.framework/Info.plist ... 
+2025-09-13 17:13:54 +0000  921 bytes for ./Payload/orbyt.app/Frameworks/libavutil.framework/Info.plist
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/React.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:54 +0000  1798 bytes for ./Payload/orbyt.app/Frameworks/React.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/React.framework/React ... 
+2025-09-13 17:13:54 +0000  11302720 bytes for ./Payload/orbyt.app/Frameworks/React.framework/React
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/React.framework/Info.plist ... 
+749 bytes for ./Payload/orbyt.app/Frameworks/React.framework/Info.plist
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/libswscale.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:54 +0000  2006 bytes for ./Payload/orbyt.app/Frameworks/libswscale.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/libswscale.framework/LICENSE ... 
+2025-09-13 17:13:54 +0000  7651 bytes for ./Payload/orbyt.app/Frameworks/libswscale.framework/LICENSE
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/libswscale.framework/libswscale ... 
+2025-09-13 17:13:54 +0000  352960 bytes for ./Payload/orbyt.app/Frameworks/libswscale.framework/libswscale
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/libswscale.framework/Info.plist ... 
+922 bytes for ./Payload/orbyt.app/Frameworks/libswscale.framework/Info.plist
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/libavdevice.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:54 +0000  2006 bytes for ./Payload/orbyt.app/Frameworks/libavdevice.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/libavdevice.framework/LICENSE ... 
+2025-09-13 17:13:54 +0000  7651 bytes for ./Payload/orbyt.app/Frameworks/libavdevice.framework/LICENSE
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/libavdevice.framework/libavdevice ... 
+2025-09-13 17:13:54 +0000  114432 bytes for ./Payload/orbyt.app/Frameworks/libavdevice.framework/libavdevice
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/libavdevice.framework/Info.plist ... 
+2025-09-13 17:13:54 +0000  927 bytes for ./Payload/orbyt.app/Frameworks/libavdevice.framework/Info.plist
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:54 +0000  3548 bytes for ./Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_folly.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:54 +0000  552 bytes for ./Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_folly.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_folly.bundle/Info.plist ... 
+2025-09-13 17:13:54 +0000  690 bytes for ./Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_folly.bundle/Info.plist
+copying file ./Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies ... 
+2025-09-13 17:13:54 +0000  1279888 bytes for ./Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_glog.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:54 +0000  552 bytes for ./Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_glog.bundle/PrivacyInfo.xcprivacy
+copying file ./Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_glog.bundle/Info.plist ... 
+2025-09-13 17:13:54 +0000  688 bytes for ./Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_glog.bundle/Info.plist
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_boost.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:54 +0000  776 bytes for ./Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_boost.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_boost.bundle/Info.plist ... 
+2025-09-13 17:13:54 +0000  690 bytes for ./Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/ReactNativeDependencies_boost.bundle/Info.plist
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/Info.plist ... 
+2025-09-13 17:13:54 +0000  782 bytes for ./Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework/Info.plist
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/libavcodec.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:54 +0000  2006 bytes for ./Payload/orbyt.app/Frameworks/libavcodec.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/libavcodec.framework/LICENSE ... 
+2025-09-13 17:13:54 +0000  7651 bytes for ./Payload/orbyt.app/Frameworks/libavcodec.framework/LICENSE
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/libavcodec.framework/libavcodec ... 
+2025-09-13 17:13:54 +0000  7658048 bytes for ./Payload/orbyt.app/Frameworks/libavcodec.framework/libavcodec
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/libavcodec.framework/Info.plist ... 
+924 bytes for ./Payload/orbyt.app/Frameworks/libavcodec.framework/Info.plist
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/ffmpegkit.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:54 +0000  2428 bytes for ./Payload/orbyt.app/Frameworks/ffmpegkit.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/ffmpegkit.framework/LICENSE ... 
+2025-09-13 17:13:54 +0000  7651 bytes for ./Payload/orbyt.app/Frameworks/ffmpegkit.framework/LICENSE
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/ffmpegkit.framework/SOURCE ... 
+700 bytes for ./Payload/orbyt.app/Frameworks/ffmpegkit.framework/SOURCE
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/ffmpegkit.framework/ffmpegkit ... 
+2025-09-13 17:13:54 +0000  562288 bytes for ./Payload/orbyt.app/Frameworks/ffmpegkit.framework/ffmpegkit
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/ffmpegkit.framework/strip-frameworks.sh ... 
+2025-09-13 17:13:54 +0000  2127 bytes for ./Payload/orbyt.app/Frameworks/ffmpegkit.framework/strip-frameworks.sh
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/ffmpegkit.framework/Info.plist ... 
+2025-09-13 17:13:54 +0000  911 bytes for ./Payload/orbyt.app/Frameworks/ffmpegkit.framework/Info.plist
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/hermes.framework/_CodeSignature/CodeResources ... 
+2025-09-13 17:13:54 +0000  1798 bytes for ./Payload/orbyt.app/Frameworks/hermes.framework/_CodeSignature/CodeResources
+2025-09-13 17:13:54 +0000  copying file ./Payload/orbyt.app/Frameworks/hermes.framework/hermes ... 
+2025-09-13 17:13:55 +0000  4728064 bytes for ./Payload/orbyt.app/Frameworks/hermes.framework/hermes
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/Frameworks/hermes.framework/Info.plist ... 
+859 bytes for ./Payload/orbyt.app/Frameworks/hermes.framework/Info.plist
+copying file ./Payload/orbyt.app/embedded.mobileprovision ... 
+2025-09-13 17:13:55 +0000  21091 bytes for ./Payload/orbyt.app/embedded.mobileprovision
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/back-icon@3x.png ... 
+2025-09-13 17:13:55 +0000  761 bytes for ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/back-icon@3x.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/back-icon@2x.png ... 
+2025-09-13 17:13:55 +0000  405 bytes for ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/back-icon@2x.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/search-icon@2x.png ... 
+2025-09-13 17:13:55 +0000  589 bytes for ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/search-icon@2x.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/clear-icon@3x.png ... 
+2025-09-13 17:13:55 +0000  502 bytes for ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/clear-icon@3x.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/back-icon.png ... 
+2025-09-13 17:13:55 +0000  290 bytes for ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/back-icon.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/clear-icon@2x.png ... 
+2025-09-13 17:13:55 +0000  334 bytes for ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/clear-icon@2x.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/search-icon@3x.png ... 
+2025-09-13 17:13:55 +0000  839 bytes for ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/search-icon@3x.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/close-icon.png ... 
+2025-09-13 17:13:55 +0000  141 bytes for ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/close-icon.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/back-icon-mask.png ... 
+2025-09-13 17:13:55 +0000  653 bytes for ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/back-icon-mask.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/close-icon@2x.png ... 
+2025-09-13 17:13:55 +0000  201 bytes for ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/close-icon@2x.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/close-icon@3x.png ... 
+2025-09-13 17:13:55 +0000  266 bytes for ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/close-icon@3x.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/clear-icon.png ... 
+2025-09-13 17:13:55 +0000  220 bytes for ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/clear-icon.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/search-icon.png ... 
+2025-09-13 17:13:55 +0000  317 bytes for ./Payload/orbyt.app/assets/node_modules/@react-navigation/elements/lib/module/assets/search-icon.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/expo-router/assets/pkg.png ... 
+2025-09-13 17:13:55 +0000  364 bytes for ./Payload/orbyt.app/assets/node_modules/expo-router/assets/pkg.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/expo-router/assets/unmatched.png ... 
+2025-09-13 17:13:55 +0000  4752 bytes for ./Payload/orbyt.app/assets/node_modules/expo-router/assets/unmatched.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/expo-router/assets/file.png ... 
+2025-09-13 17:13:55 +0000  138 bytes for ./Payload/orbyt.app/assets/node_modules/expo-router/assets/file.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/expo-router/assets/forward.png ... 
+2025-09-13 17:13:55 +0000  188 bytes for ./Payload/orbyt.app/assets/node_modules/expo-router/assets/forward.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/expo-router/assets/error.png ... 
+2025-09-13 17:13:55 +0000  469 bytes for ./Payload/orbyt.app/assets/node_modules/expo-router/assets/error.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/expo-router/assets/sitemap.png ... 
+2025-09-13 17:13:55 +0000  465 bytes for ./Payload/orbyt.app/assets/node_modules/expo-router/assets/sitemap.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/node_modules/expo-router/assets/arrow_down.png ... 
+2025-09-13 17:13:55 +0000  9456 bytes for ./Payload/orbyt.app/assets/node_modules/expo-router/assets/arrow_down.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/src/assets/Default-avatar.png ... 
+2025-09-13 17:13:55 +0000  184595 bytes for ./Payload/orbyt.app/assets/src/assets/Default-avatar.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/src/assets/UFO5504.gif ... 
+2025-09-13 17:13:55 +0000  7131 bytes for ./Payload/orbyt.app/assets/src/assets/UFO5504.gif
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/src/assets/livinga18.gif ... 
+2025-09-13 17:13:55 +0000  6041 bytes for ./Payload/orbyt.app/assets/src/assets/livinga18.gif
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/src/assets/logo.png ... 
+2025-09-13 17:13:55 +0000  327602 bytes for ./Payload/orbyt.app/assets/src/assets/logo.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/src/assets/CaptureButton_Normal.png ... 
+2025-09-13 17:13:55 +0000  5832 bytes for ./Payload/orbyt.app/assets/src/assets/CaptureButton_Normal.png
+copying file ./Payload/orbyt.app/assets/src/assets/ButtonCameraDelete_Normal.png ... 
+2025-09-13 17:13:55 +0000  2488 bytes for ./Payload/orbyt.app/assets/src/assets/ButtonCameraDelete_Normal.png
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/src/assets/fonts/Firma-Bold.otf ... 
+2025-09-13 17:13:55 +0000  82308 bytes for ./Payload/orbyt.app/assets/src/assets/fonts/Firma-Bold.otf
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/src/assets/fonts/Firma-BoldItalic.otf ... 
+2025-09-13 17:13:55 +0000  88612 bytes for ./Payload/orbyt.app/assets/src/assets/fonts/Firma-BoldItalic.otf
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/src/assets/fonts/Firma-SemiBold.otf ... 
+2025-09-13 17:13:55 +0000  82192 bytes for ./Payload/orbyt.app/assets/src/assets/fonts/Firma-SemiBold.otf
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/src/assets/fonts/Firma-Regular.otf ... 
+2025-09-13 17:13:55 +0000  77660 bytes for ./Payload/orbyt.app/assets/src/assets/fonts/Firma-Regular.otf
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/src/assets/fonts/Firma-Black.otf ... 
+2025-09-13 17:13:55 +0000  82436 bytes for ./Payload/orbyt.app/assets/src/assets/fonts/Firma-Black.otf
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/assets/src/assets/fonts/Firma-Medium.otf ... 
+2025-09-13 17:13:55 +0000  80256 bytes for ./Payload/orbyt.app/assets/src/assets/fonts/Firma-Medium.otf
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/Info.plist ... 
+2025-09-13 17:13:55 +0000  2623 bytes for ./Payload/orbyt.app/Info.plist
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/Expo.plist ... 
+2025-09-13 17:13:55 +0000  132 bytes for ./Payload/orbyt.app/Expo.plist
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/RNCAsyncStorage_resources.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:55 +0000  512 bytes for ./Payload/orbyt.app/RNCAsyncStorage_resources.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/RNCAsyncStorage_resources.bundle/Info.plist ... 
+2025-09-13 17:13:55 +0000  797 bytes for ./Payload/orbyt.app/RNCAsyncStorage_resources.bundle/Info.plist
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/PkgInfo ... 
+2025-09-13 17:13:55 +0000  8 bytes for ./Payload/orbyt.app/PkgInfo
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/React-Core_privacy.bundle/PrivacyInfo.xcprivacy ... 
+2025-09-13 17:13:55 +0000  768 bytes for ./Payload/orbyt.app/React-Core_privacy.bundle/PrivacyInfo.xcprivacy
+2025-09-13 17:13:55 +0000  copying file ./Payload/orbyt.app/React-Core_privacy.bundle/Info.plist ... 
+2025-09-13 17:13:55 +0000  784 bytes for ./Payload/orbyt.app/React-Core_privacy.bundle/Info.plist
+2025-09-13 17:13:55 +0000  /usr/bin/ditto exited with 0
+2025-09-13 17:13:55 +0000  Processing step: IDEDistributionAppStoreInformationStep
+2025-09-13 17:13:55 +0000  Skipping step: IDEDistributionAppStoreInformationStep because it said so
+2025-09-13 17:13:55 +0000  Processing step: IDEDistributionGenerateProcessedDistributionItems
+2025-09-13 17:13:55 +0000  IDEDistributionItem init <DVTFilePath:0xa83fa67d0:'/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavutil.framework'>
+2025-09-13 17:13:55 +0000  IDEDistributionItem init <DVTFilePath:0xa83b40ee0:'/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libswscale.framework'>
+2025-09-13 17:13:55 +0000  IDEDistributionItem init <DVTFilePath:0xa770ca300:'/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/ffmpegkit.framework'>
+2025-09-13 17:13:55 +0000  IDEDistributionItem init <DVTFilePath:0xa770ca220:'/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavcodec.framework'>
+2025-09-13 17:13:55 +0000  IDEDistributionItem init <DVTFilePath:0xa83fa6760:'/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavfilter.framework'>
+2025-09-13 17:13:55 +0000  IDEDistributionItem init <DVTFilePath:0xa83b40d90:'/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libswresample.framework'>
+2025-09-13 17:13:55 +0000  IDEDistributionItem init <DVTFilePath:0xa5eabfb00:'/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/ReactNativeDependencies.framework'>
+2025-09-13 17:13:55 +0000  IDEDistributionItem init <DVTFilePath:0xa83f91ce0:'/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/hermes.framework'>
+2025-09-13 17:13:55 +0000  IDEDistributionItem init <DVTFilePath:0xa83fa7bf0:'/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavdevice.framework'>
+2025-09-13 17:13:55 +0000  IDEDistributionItem init <DVTFilePath:0xa83fa7cd0:'/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/libavformat.framework'>
+2025-09-13 17:13:55 +0000  IDEDistributionItem init <DVTFilePath:0xa83d81a40:'/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app/Frameworks/React.framework'>
+2025-09-13 17:13:55 +0000  IDEDistributionItem init <DVTFilePath:0xa83d824c0:'/var/folders/n6/wzlyq5jx3553076lwg6z9x200000gn/T/XcodeDistPipeline.~~~dV4ncl/Root/Payload/orbyt.app'>
+2025-09-13 17:13:55 +0000  Processing step: IDEDistributionCreateManifestStep

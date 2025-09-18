@@ -14,13 +14,27 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>GymTrackerComplicationsExtension.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>GymTrackerLockscreenWidgetExtension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
+		<key>GymTrackerWatch Watch App.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>isShown</key>
+			<true/>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>GymTrackerWidgetExtension.xcscheme_^#shared#^_</key>
 		<dict>
+			<key>isShown</key>
+			<true/>
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
@@ -33,6 +47,11 @@
 			<true/>
 		</dict>
 		<key>042D05842CB87D860081F486</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>04CD88542D4BC29F008C2EA4</key>
 		<dict>
 			<key>primary</key>
 			<true/>

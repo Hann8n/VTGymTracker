@@ -1,7 +1,8 @@
+//
 //  SettingsView.swift
 //  Gym Tracker
 //
-//  Created by Your Name on [Date].
+//  Created by Jack Hannon on February 8, 2025.
 //
 
 import SwiftUI
@@ -18,6 +19,7 @@ struct SettingsView: View {
     @AppStorage("faceIDEnabled") private var faceIDEnabled: Bool = false
 
     @State private var showBarcodeScanner: Bool = false
+    @State private var isIDInputOptionsPresented: Bool = false
 
     // Computed property to check if the device is an iPhone
     private var isPhone: Bool {
@@ -25,7 +27,7 @@ struct SettingsView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 AppearanceSection(appTheme: $appTheme)
                 
@@ -34,6 +36,7 @@ struct SettingsView: View {
                     HokiePassportSection(
                         gymBarcode: $gymBarcode,
                         showBarcodeScanner: $showBarcodeScanner,
+                        isIDInputOptionsPresented: $isIDInputOptionsPresented,
                         faceIDEnabled: $faceIDEnabled,
                         alertManager: alertManager
                     )
@@ -41,25 +44,36 @@ struct SettingsView: View {
                 
                 AboutSection()
             }
+            .formStyle(.grouped)
             .navigationTitle("Settings")
-            .navigationBarItems(trailing:
-                Button("Done") {
-                    presentationMode.wrappedValue.dismiss()
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.regular)
+                    .tint(.customOrange)
                 }
-                .foregroundColor(.customOrange)
-            )
+            }
             .alert(item: $alertManager.currentAlert) { alertType in
                 alertType.generateAlert(openSettings: {
                     UIApplication.shared.openSettings()
                 })
             }
             .sheet(isPresented: $showBarcodeScanner) {
-                BarcodeScannerView(
-                    isPresented: $showBarcodeScanner
-                )
-                .environmentObject(alertManager)
+                BarcodeScannerView(isPresented: $showBarcodeScanner)
+                    .environmentObject(alertManager)
+            }
+            .sheet(isPresented: $isIDInputOptionsPresented) {
+                IDInputOptionsView(isPresented: $isIDInputOptionsPresented)
+                    .environmentObject(alertManager)
             }
         }
+        // Minimal change: apply the chosen theme so the settings view updates immediately.
+        .preferredColorScheme(appTheme == "Light" ? .light : appTheme == "Dark" ? .dark : nil)
     }
 }
 
@@ -69,23 +83,22 @@ struct AppearanceSection: View {
     @Binding var appTheme: String
 
     var body: some View {
-        Section(header: Text("Appearance")) {
+        Section("Appearance") {
             Picker("Theme", selection: $appTheme) {
-                Text("Auto").tag("Auto")
-                Text("Light").tag("Light")
-                Text("Dark").tag("Dark")
+                Label("Auto", systemImage: "circle.lefthalf.filled").tag("Auto")
+                Label("Light", systemImage: "sun.max").tag("Light")
+                Label("Dark", systemImage: "moon").tag("Dark")
             }
-            .pickerStyle(MenuPickerStyle()) // Dropdown style picker
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .tint(Color.orange) // Custom orange for dropdown
+            .pickerStyle(.menu)
+            .tint(.customOrange)
         }
-        .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)) // Add some padding
     }
 }
 
 struct HokiePassportSection: View {
     @Binding var gymBarcode: String
     @Binding var showBarcodeScanner: Bool
+    @Binding var isIDInputOptionsPresented: Bool
     @Binding var faceIDEnabled: Bool
     var alertManager: AlertManager
 
@@ -94,106 +107,112 @@ struct HokiePassportSection: View {
     @State private var revealingBarcode: Bool = false
 
     var body: some View {
-        Section(header: Text("Hokie Passport")) {
-            HStack(spacing: 12) {
-                Image(systemName: "barcode.viewfinder")
-                    .foregroundColor(.customOrange)
-                    .font(.title3)
-
-                if gymBarcode.isEmpty {
-                    Button(action: {
-                        checkCameraAccess()
-                    }) {
+        Section("Hokie Passport") {
+            if gymBarcode.isEmpty {
+                Button {
+                    isIDInputOptionsPresented = true
+                } label: {
+                    HStack(spacing: 12) {
+                        Image(systemName: "plus.rectangle.fill")
+                            .foregroundColor(.customOrange)
                         Text("Add Hokie Passport")
                             .foregroundColor(.customOrange)
                     }
-                } else {
-                    if faceIDEnabled {
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .buttonStyle(.plain)
+            } else {
+                if faceIDEnabled {
+                    HStack(spacing: 12) {
+                        Image(systemName: "barcode.viewfinder")
+                            .foregroundColor(.customOrange)
+                        
                         if showRevealedBarcode {
+                            // Revealed state: display normal barcode text with copy options.
                             Text(gymBarcode)
                                 .font(.subheadline)
                                 .foregroundColor(.primary)
-                                .padding(.horizontal, 10)
-                                .padding(.vertical, 6)
-                                .background(Color.customOrange.opacity(0.1))
-                                .cornerRadius(16)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 8))
                                 .transition(.opacity)
                         } else {
-                            Text("••••••••••")
-                                .font(.subheadline)
+                            // Hidden state: display larger bullet dots.
+                            let hiddenText = String(repeating: "•", count: gymBarcode.count)
+                            Text(hiddenText)
+                                .font(.system(size: 18, weight: .medium))
                                 .foregroundColor(.secondary)
-                                .padding(.horizontal, 10)
-                                .padding(.vertical, 6)
-                                .background(Color.gray.opacity(0.2))
-                                .cornerRadius(16)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
                         }
-
+                        
                         Spacer()
-
-                        Button(action: {
-                            authenticateAndRevealBarcode()
-                        }) {
-                            Image(systemName: "lock")
-                                .font(.system(size: 16, weight: .medium))
-                                .foregroundColor(.customOrange)
+                        
+                        if showRevealedBarcode {
+                            Button {
+                                copyToClipboard()
+                            } label: {
+                                Image(systemName: showCopyConfirmation ? "checkmark" : "doc.on.doc")
+                            }
+                            .buttonStyle(.borderless)
+                            .controlSize(.regular)
+                            .tint(.customOrange)
+                            .disabled(gymBarcode.isEmpty)
+                        } else {
+                            Button {
+                                authenticateAndRevealBarcode()
+                            } label: {
+                                Image(systemName: "lock")
+                            }
+                            .buttonStyle(.borderless)
+                            .controlSize(.regular)
+                            .tint(.customOrange)
+                            .disabled(revealingBarcode)
                         }
-                        .padding(.trailing, 8)
-                        .disabled(revealingBarcode)
-                    } else {
+                    }
+                } else {
+                    HStack(spacing: 12) {
+                        Image(systemName: "barcode.viewfinder")
+                            .foregroundColor(.customOrange)
+                        
                         Text(gymBarcode)
                             .font(.subheadline)
                             .foregroundColor(.primary)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 6)
-                            .background(Color.customOrange.opacity(0.1))
-                            .cornerRadius(16)
-
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 8))
+                        
                         Spacer()
-
-                        Button(action: {
+                        
+                        Button {
                             copyToClipboard()
-                        }) {
+                        } label: {
                             Image(systemName: showCopyConfirmation ? "checkmark" : "doc.on.doc")
-                                .font(.system(size: 16, weight: .medium))
-                                .foregroundColor(.customOrange)
                         }
+                        .buttonStyle(.borderless)
+                        .controlSize(.regular)
+                        .tint(.customOrange)
                         .disabled(gymBarcode.isEmpty)
-                        .padding(.trailing, 8)
                     }
                 }
             }
-
-            Toggle(isOn: Binding(
-                get: { faceIDEnabled },
-                set: { newValue in
-                    handleFaceIDToggle(isOn: newValue)
-                }
-            )) {
-                Text("Require Face ID")
-            }
-
+            
             if !gymBarcode.isEmpty {
-                Button(action: {
+                Toggle("Require Face ID", isOn: Binding(
+                    get: { faceIDEnabled },
+                    set: { newValue in
+                        handleFaceIDToggle(isOn: newValue)
+                    }
+                ))
+                .tint(.customOrange)
+                
+                Button("Remove Card", role: .destructive) {
                     removeHokiePassport()
-                }) {
-                    Text("Remove Card")
-                        .foregroundColor(.white) // Consistent text color
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 40)
-                        .background(
-                            Color(UIColor { traitCollection in
-                                traitCollection.userInterfaceStyle == .light
-                                ? UIColor(red: 134 / 255, green: 31 / 255, blue: 65 / 255, alpha: 1.0) // Fill color for light mode
-                                : .clear // Transparent for dark mode
-                            })
-                        )
-                        .cornerRadius(8)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.customMaroon, lineWidth: 2)
-                        )
                 }
-                .padding(.vertical, 2)
+                .foregroundColor(.customMaroon)
+                .fontWeight(.medium)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 4)
             }
         }
         .animation(.default, value: showRevealedBarcode)
@@ -206,39 +225,20 @@ struct HokiePassportSection: View {
             showCopyConfirmation = false
         }
     }
-
+    
     private func removeHokiePassport() {
         gymBarcode = ""
         showRevealedBarcode = false
     }
 
-    private func checkCameraAccess() {
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
-        case .authorized:
-            showBarcodeScanner = true
-        case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video) { granted in
-                DispatchQueue.main.async {
-                    if granted {
-                        showBarcodeScanner = true
-                    } else {
-                        alertManager.showAlert(.cameraAccessDenied)
-                    }
-                }
-            }
-        case .denied, .restricted:
-            alertManager.showAlert(.cameraAccessDenied)
-        @unknown default:
-            alertManager.showAlert(.cameraAccessDenied)
-        }
-    }
+
 
     private func handleFaceIDToggle(isOn: Bool) {
         if isOn {
             authenticateFaceID(reason: "Authenticate to enable Face ID.") { success, error in
                 if success {
                     faceIDEnabled = true
-                    // Optionally, obscure the barcode if it's currently revealed
+                    // Optionally hide the barcode if it's currently revealed.
                     showRevealedBarcode = false
                 } else {
                     faceIDEnabled = false
@@ -271,7 +271,7 @@ struct HokiePassportSection: View {
                 withAnimation {
                     showRevealedBarcode = true
                 }
-                // Optionally, hide the barcode again after a delay
+                // Optionally hide the barcode again after a delay.
                 DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                     withAnimation {
                         showRevealedBarcode = false
@@ -313,49 +313,23 @@ struct HokiePassportSection: View {
 
 struct AboutSection: View {
     var body: some View {
-        Section(header: Text("About")) {
+        Section("About") {
             NavigationLink("App Information") {
                 AboutView()
             }
             NavigationLink("Privacy Policy") {
                 PrivacyPolicyView()
             }
+            // GitHub link with an external link icon on the opposite side
+            Link(destination: URL(string: "https://github.com/Hann8n/VTGymTracker")!) {
+                HStack {
+                    Text("View on GitHub")
+                    .foregroundColor(.primary)
+                    Spacer()
+                    Image(systemName: "arrow.up.right.square")
+                        .foregroundColor(.secondary)
+                }
+            }
         }
-    }
-}
-
-struct AboutView: View {
-    private var appVersion: String {
-        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
-           let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
-            return "Version \(version) (Build \(build))"
-        }
-        return "Version N/A"
-    }
-
-    var body: some View {
-        VStack(spacing: 16) {
-            Text("Gym Tracker")
-                .font(.title)
-                .fontWeight(.bold)
-
-            Text(appVersion)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-
-            Text("""
-                This app helps you track VT gym occupancy and events.
-                
-                Developed by Jack Hannon.
-                """)
-                .font(.body)
-                .multilineTextAlignment(.center)
-                .padding()
-
-            Spacer()
-        }
-        .padding()
-        .navigationTitle("App Information")
-        .tint(.customOrange) // Apply custom orange tint for the back button
     }
 }
