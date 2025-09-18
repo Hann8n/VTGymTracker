@@ -1,8 +1,8 @@
 //
 //  AppIntent.swift
-//  GymTrackerWidget
+//  GymTrackerComplications
 //
-//  Created by Jack on 10/10/24.
+//  Created by Jack on 1/31/25.
 //
 
 import WidgetKit

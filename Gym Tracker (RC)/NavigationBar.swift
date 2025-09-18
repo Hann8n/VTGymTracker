@@ -1,132 +1,177 @@
-//
-//  NavigationBar.swift
-//  Gym Tracker
-//
-//  Created by Jack on 1/13/25.
-//
-
 import SwiftUI
 import AVFoundation
+import LocalAuthentication
 
 struct BottomNavigationBar: View {
+    // Whether to present the scanner sheet (bound to ContentView)
     @Binding var isScannerPresented: Bool
-    @Binding var scannedBarcode: String
+    
+    // Optional: If you still use the About popup, keep it here
     @Binding var showAboutPopup: Bool
-    @Binding var showBarcodeAlert: Bool
-    @Binding var showCameraAccessDeniedAlert: Bool
-    @Environment(\.colorScheme) var colorScheme
 
+    // Environment & AppStorage
+    @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var alertManager: AlertManager
+    
+    @AppStorage("faceIDEnabled") private var faceIDEnabled: Bool = false
+    @AppStorage("gymBarcode") private var scannedBarcode: String = ""
+    
+    // Local state for showing the Barcode display sheet
+    @State private var isBarcodeDisplayPresented: Bool = false
+    
+    // Local state for showing the Settings sheet
+    @State private var showSettingsPopup: Bool = false
+    
+    // Computed property to check if the device is an iPhone
+    private var isPhone: Bool {
+        UIDevice.current.userInterfaceIdiom == .phone
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 // Background with blur effect
                 BlurView(style: .systemMaterial)
-                    .frame(width: geometry.size.width, height: 80) // Navigation bar height
+                    .frame(width: geometry.size.width, height: 80)
                     .edgesIgnoringSafeArea(.bottom)
                     .overlay(
-                        // Thin line at the top of the navigation bar
                         Rectangle()
                             .fill(colorScheme == .dark ? Color.white.opacity(0.2) : Color.black.opacity(0.1))
                             .frame(height: 1)
-                            .frame(maxHeight: .infinity, alignment: .top), // Align the line to the top
+                            .frame(maxHeight: .infinity, alignment: .top),
                         alignment: .top
                     )
-
+                
                 VStack {
                     HStack {
-                        // Left button: Barcode Scanner
-                        Button(action: {
-                            checkAndPresentScanner()
-                        }) {
-                            Image(systemName: scannedBarcode.isEmpty ? "person.crop.rectangle" : "person.crop.rectangle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 25, height: 25)
-                                .foregroundColor(.primary)
-                        }
-                        .accessibilityLabel(scannedBarcode.isEmpty ? "Add PID" : "Show PID")
-                        .sheet(isPresented: $isScannerPresented) {
-                            if scannedBarcode.isEmpty {
-                                BarcodeScannerView(
-                                    isPresented: $isScannerPresented,
-                                    scannedBarcode: $scannedBarcode,
-                                    showAlert: $showBarcodeAlert
-                                )
-                                .edgesIgnoringSafeArea(.all)
-                            } else {
-                                BarcodeDisplayView(
-                                    isPresented: $isScannerPresented,
-                                    scannedBarcode: $scannedBarcode
-                                )
+                        // Conditionally show the Hokie Passport Button only if it's an iPhone
+                        if isPhone {
+                            Button(action: {
+                                handlePassportButtonTapped()
+                            }) {
+                                Image(systemName: scannedBarcode.isEmpty ? "plus.rectangle" : "person.crop.rectangle")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 27, height: 27)
+                                    .foregroundColor(.primary)
                             }
+                            .accessibilityLabel(scannedBarcode.isEmpty ? "Add Hokie Passport" : "Show Hokie Passport")
                         }
-
+                        
                         Spacer()
-
-                        // Right button: About Info
+                        
+                        // Settings Button
                         Button(action: {
-                            showAboutPopup.toggle()
+                            showSettingsPopup.toggle()
                         }) {
-                            Image(systemName: "info.circle")
+                            Image(systemName: "gearshape.fill")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 25, height: 25)
                                 .foregroundColor(.primary)
                         }
-                        .alert(isPresented: $showAboutPopup) {
-                            Alert(
-                                title: Text("App Info"),
-                                message: Text("VT Gym Tracker is an open-source app by Jack Hannon. \n\nHours are sourced from the Virginia Tech Rec Sports website.\n\nOccupancy data is provided by Innosoft Canada. \n\nThis project is not associated with Virginia Tech."),
-                                primaryButton: .default(Text("GitHub")) {
-                                    if let url = URL(string: "https://github.com/Hann8n/VTGymTracker") {
-                                        UIApplication.shared.open(url)
-                                    }
-                                },
-                                secondaryButton: .cancel(Text("Close"))
-                            )
+                        .accessibilityLabel("Settings")
+                        .sheet(isPresented: $showSettingsPopup) {
+                            SettingsView()
+                                .environmentObject(alertManager)
                         }
                     }
                     .padding(.horizontal, 30)
-                    .padding(.top, 10) // Minimal padding to keep icons close to the top
-
-                    Spacer() // Push the icons to the top within the increased height
+                    .padding(.top, 10)
+                    
+                    Spacer()
                 }
             }
         }
-    }
-
-    // Function to check camera permissions and present the scanner
-    private func checkAndPresentScanner() {
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
-        case .authorized:
-            isScannerPresented.toggle()
-        case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video) { granted in
-                DispatchQueue.main.async {
-                    if granted {
-                        isScannerPresented.toggle()
-                    } else {
-                        showCameraAccessDeniedAlert = true
-                    }
-                }
-            }
-        case .denied, .restricted:
-            showCameraAccessDeniedAlert = true
-        @unknown default:
-            showCameraAccessDeniedAlert = true
+        // Present the scanner in one sheet
+        .sheet(isPresented: $isScannerPresented) {
+            BarcodeScannerView(isPresented: $isScannerPresented)
+                .environmentObject(alertManager)
+        }
+        // Present the display in a separate sheet
+        .sheet(isPresented: $isBarcodeDisplayPresented) {
+            BarcodeDisplayView(isPresented: $isBarcodeDisplayPresented)
         }
     }
 }
 
-// UIViewRepresentable for creating a blur effect
+// MARK: - Private Methods
+extension BottomNavigationBar {
+    /// Decides whether to display the existing barcode or open the scanner
+    private func handlePassportButtonTapped() {
+        if scannedBarcode.isEmpty {
+            // If there's no stored barcode, present the scanner (with camera check)
+            checkCameraAccess()
+        } else {
+            // If a barcode is already stored, authenticate (if needed) then display it
+            if faceIDEnabled {
+                authenticateUser { success in
+                    if success {
+                        isBarcodeDisplayPresented = true
+                    } else {
+                        alertManager.showAlert(.authenticationFailed)
+                    }
+                }
+            } else {
+                isBarcodeDisplayPresented = true
+            }
+        }
+    }
+    
+    /// Checks camera access before presenting the barcode scanner
+    private func checkCameraAccess() {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            // Already granted
+            isScannerPresented = true
+        case .notDetermined:
+            // Request access
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async {
+                    if granted {
+                        isScannerPresented = true
+                    } else {
+                        alertManager.showAlert(.cameraAccessDenied)
+                    }
+                }
+            }
+        case .denied, .restricted:
+            alertManager.showAlert(.cameraAccessDenied)
+        @unknown default:
+            alertManager.showAlert(.cameraAccessDenied)
+        }
+    }
+    
+    /// Prompts Face ID before displaying the stored barcode
+    private func authenticateUser(completion: @escaping (Bool) -> Void) {
+        let context = LAContext()
+        var error: NSError?
+
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let reason = "Authenticate to view your Hokie Passport."
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, _ in
+                DispatchQueue.main.async {
+                    completion(success)
+                }
+            }
+        } else {
+            // If Face ID is not available, automatically fail
+            completion(false)
+        }
+    }
+}
+
+// A UIViewRepresentable for UIKit's UIVisualEffectView
 struct BlurView: UIViewRepresentable {
-    var style: UIBlurEffect.Style
+    let style: UIBlurEffect.Style
 
     func makeUIView(context: Context) -> UIVisualEffectView {
-        return UIVisualEffectView(effect: UIBlurEffect(style: style))
+        let blurEffect = UIBlurEffect(style: style)
+        let visualEffectView = UIVisualEffectView(effect: blurEffect)
+        return visualEffectView
     }
 
     func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
-        uiView.effect = UIBlurEffect(style: style)
+        // Nothing to update since the blur style is static
     }
 }

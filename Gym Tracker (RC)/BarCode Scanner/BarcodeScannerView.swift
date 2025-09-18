@@ -1,23 +1,28 @@
+// BarcodeScannerView.swift
+// Gym Tracker
+//
+// Created by Jack on 1/18/25.
+//
+
 import SwiftUI
 import AVFoundation
 import Vision
 
 struct BarcodeScannerView: UIViewControllerRepresentable {
     @Binding var isPresented: Bool
-    @Binding var scannedBarcode: String
-    @Binding var showAlert: Bool
+    @AppStorage("gymBarcode") private var gymBarcode: String = ""
 
     class Coordinator: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         var parent: BarcodeScannerView
         var captureSession: AVCaptureSession?
         var previewLayer: AVCaptureVideoPreviewLayer?
         var isScanned = false
-        weak var scannerViewController: ScannerViewController? // Use a weak reference
+        weak var scannerViewController: ScannerViewController?
 
         // Vision request
         lazy var barcodeRequest: VNDetectBarcodesRequest = {
             let request = VNDetectBarcodesRequest(completionHandler: self.handleDetectedBarcodes)
-            request.symbologies = [.codabar] // Restrict to Codabar
+            request.symbologies = [.codabar]
             return request
         }()
 
@@ -109,7 +114,6 @@ struct BarcodeScannerView: UIViewControllerRepresentable {
                         var code = payload.uppercased()
                         let validStartStopChars: Set<Character> = ["A", "B", "C", "D"]
 
-                        // Ensure valid start and stop characters for Codabar
                         if code.first == nil || !validStartStopChars.contains(code.first!) {
                             code = "A" + code
                         }
@@ -117,15 +121,17 @@ struct BarcodeScannerView: UIViewControllerRepresentable {
                             code = code + "B"
                         }
 
-                        self.parent.scannedBarcode = code
-                        UserDefaults.standard.set(code, forKey: "gymBarcode")
-                        self.parent.showAlert = true
+                        self.parent.gymBarcode = code
                         self.parent.isPresented = false
-
-                        // Notify the ScannerViewController to update the border color
                         self.scannerViewController?.updateScannerFrame(isScanned: true)
 
+                        // Stop the capture session to freeze the video
                         self.stopSession()
+
+                        // Add a delay before dismissing to show the green frame
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                            // Additional UI updates can be handled here if needed
+                        }
                     }
                     break
                 }
@@ -140,12 +146,16 @@ struct BarcodeScannerView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> ScannerViewController {
         let scannerViewController = ScannerViewController()
         scannerViewController.coordinator = context.coordinator
-        context.coordinator.scannerViewController = scannerViewController // Assign reference
+        context.coordinator.scannerViewController = scannerViewController
         return scannerViewController
     }
 
     func updateUIViewController(_ uiViewController: ScannerViewController, context: Context) {
         // No update needed
+    }
+
+    func dismantleUIViewController(_ uiViewController: ScannerViewController, coordinator: Coordinator) {
+        coordinator.stopSession()
     }
 }
 
@@ -156,9 +166,8 @@ class ScannerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black // Ensure the background is not transparent
+        view.backgroundColor = .black
 
-        // Setup camera preview
         if let coordinator = coordinator, let captureSession = coordinator.captureSession {
             let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
             previewLayer.frame = view.layer.bounds
@@ -169,24 +178,27 @@ class ScannerViewController: UIViewController {
             setupScannerOverlay()
         }
 
-        setupFlashlightButton() // Add flashlight button
+        setupFlashlightButton()
+    }
+    
+    // Override viewWillDisappear to stop the capture session when the view is dismissed
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        coordinator?.stopSession()
     }
 
     private func setupScannerOverlay() {
-        // Overlay container
         let overlay = UIView(frame: view.bounds)
         overlay.backgroundColor = UIColor.clear
 
-        // Calculate scanner frame (15% larger than default)
         let baseWidth: CGFloat = 300
         let baseHeight: CGFloat = 200
         let frameWidth = baseWidth * 1.15
         let frameHeight = baseHeight * 1.15
         let frameX = view.bounds.midX - frameWidth / 2
-        let frameY = view.bounds.midY - frameHeight / 1 - 50 // Positioned higher
+        let frameY = view.bounds.midY - frameHeight / 1 - 50
         let scanRect = CGRect(x: frameX, y: frameY, width: frameWidth, height: frameHeight)
 
-        // Transparent mask
         let path = UIBezierPath(rect: overlay.bounds)
         let innerPath = UIBezierPath(roundedRect: scanRect, cornerRadius: 15)
         path.append(innerPath)
@@ -198,7 +210,6 @@ class ScannerViewController: UIViewController {
         fillLayer.fillColor = UIColor.black.withAlphaComponent(0.5).cgColor
         overlay.layer.addSublayer(fillLayer)
 
-        // Scanner border layer
         let borderLayer = CAShapeLayer()
         borderLayer.path = UIBezierPath(roundedRect: scanRect, cornerRadius: 15).cgPath
         borderLayer.strokeColor = UIColor.white.cgColor
@@ -207,7 +218,6 @@ class ScannerViewController: UIViewController {
         overlay.layer.addSublayer(borderLayer)
         scanBorderLayer = borderLayer
 
-        // Add title text below the scanner frame
         let titleLabel = UILabel()
         titleLabel.text = "Scan Hokie Passport"
         titleLabel.textColor = UIColor.white
@@ -216,7 +226,6 @@ class ScannerViewController: UIViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         overlay.addSubview(titleLabel)
 
-        // Add informational text below the title
         let infoLabel = UILabel()
         infoLabel.text = "All data is stored locally on this device."
         infoLabel.textColor = UIColor.white
@@ -226,14 +235,9 @@ class ScannerViewController: UIViewController {
         infoLabel.translatesAutoresizingMaskIntoConstraints = false
         overlay.addSubview(infoLabel)
 
-        // Constraints for the title label
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: overlay.topAnchor, constant: frameY + frameHeight + 10),
-            titleLabel.centerXAnchor.constraint(equalTo: overlay.centerXAnchor)
-        ])
-
-        // Constraints for the informational label
-        NSLayoutConstraint.activate([
+            titleLabel.centerXAnchor.constraint(equalTo: overlay.centerXAnchor),
             infoLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
             infoLabel.leadingAnchor.constraint(equalTo: overlay.leadingAnchor, constant: 20),
             infoLabel.trailingAnchor.constraint(equalTo: overlay.trailingAnchor, constant: -20)
@@ -245,26 +249,21 @@ class ScannerViewController: UIViewController {
     private func setupFlashlightButton() {
         flashlightButton = UIButton(type: .system)
 
-        // Set flashlight icon (use SF Symbols)
         let flashlightImage = UIImage(systemName: "flashlight.off.fill")
         flashlightButton.setImage(flashlightImage, for: .normal)
         flashlightButton.tintColor = .white
-
-        // Button styling
         flashlightButton.backgroundColor = UIColor.black.withAlphaComponent(0.7)
-        flashlightButton.layer.cornerRadius = 30 // Circle button
+        flashlightButton.layer.cornerRadius = 30
         flashlightButton.translatesAutoresizingMaskIntoConstraints = false
 
-        // Add toggle action
         flashlightButton.addTarget(self, action: #selector(toggleFlashlight), for: .touchUpInside)
 
         view.addSubview(flashlightButton)
 
-        // Constraints for positioning the button at the bottom
         NSLayoutConstraint.activate([
             flashlightButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             flashlightButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            flashlightButton.widthAnchor.constraint(equalToConstant: 60), // Circle size
+            flashlightButton.widthAnchor.constraint(equalToConstant: 60),
             flashlightButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
@@ -281,17 +280,16 @@ class ScannerViewController: UIViewController {
             device.torchMode = isFlashlightOn ? .off : .on
             device.unlockForConfiguration()
 
-            // Update button icon
             let iconName = isFlashlightOn ? "flashlight.off.fill" : "flashlight.on.fill"
-            let newIcon = UIImage(systemName: iconName)
-            flashlightButton.setImage(newIcon, for: .normal)
+            flashlightButton.setImage(UIImage(systemName: iconName), for: .normal)
         } catch {
             print("Failed to toggle flashlight: \(error)")
+            // Optionally, handle the error if needed
         }
     }
 
+    /// Updates the scanner frame color based on scanning status
     func updateScannerFrame(isScanned: Bool) {
-        // Change border color based on scanning status
         DispatchQueue.main.async {
             self.scanBorderLayer?.strokeColor = isScanned ? UIColor.green.cgColor : UIColor.white.cgColor
         }
