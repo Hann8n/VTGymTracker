@@ -5,32 +5,61 @@ import SwiftUI
 
 struct WatchFacilitiesView: View {
     @ObservedObject private var gymService = GymService.shared
+    @StateObject private var networkMonitor = NetworkMonitor()
+    
+    init() {
+        let networkMonitor = NetworkMonitor()
+        _networkMonitor = StateObject(wrappedValue: networkMonitor)
+    }
     
     var body: some View {
-        NavigationView {
-            List {
-                // SECTION: War Memorial Hall (listed first)
-                Section(header: Text("War Memorial Hall")) {
-                    WatchUnifiedCard(
-                        occupancy: gymService.warMemorialOccupancy ?? 0,
-                        maxCapacity: Constants.warMemorialMaxCapacity,
-                        facilityId: Constants.warMemorialFacilityId
-                    )
-                }
-                
-                // SECTION: McComas Hall
-                Section(header: Text("McComas Hall")) {
-                    WatchUnifiedCard(
-                        occupancy: gymService.mcComasOccupancy ?? 0,
-                        maxCapacity: Constants.mcComasMaxCapacity,
-                        facilityId: Constants.mcComasFacilityId
-                    )
-                }
-            }
-            .onAppear {
-                Task {
+        TabView {
+            // War Memorial Hall Card
+            WatchGymCardView(
+                title: "War Memorial Hall",
+                occupancy: gymService.warMemorialOccupancy ?? 0,
+                maxCapacity: Constants.warMemorialMaxCapacity,
+                facilityId: Constants.warMemorialFacilityId,
+                networkMonitor: networkMonitor,
+                color: .green
+            )
+            
+            // McComas Hall Card
+            WatchGymCardView(
+                title: "McComas Hall",
+                occupancy: gymService.mcComasOccupancy ?? 0,
+                maxCapacity: Constants.mcComasMaxCapacity,
+                facilityId: Constants.mcComasFacilityId,
+                networkMonitor: networkMonitor,
+                color: .blue
+            )
+            
+            // Bouldering Wall Card
+            WatchGymCardView(
+                title: "Bouldering Wall",
+                occupancy: gymService.boulderingWallOccupancy ?? 0,
+                maxCapacity: Constants.boulderingWallMaxCapacity,
+                facilityId: Constants.boulderingWallFacilityId,
+                networkMonitor: networkMonitor,
+                color: .orange
+            )
+        }
+        .tabViewStyle(.page(indexDisplayMode: .never))
+        .onAppear {
+            Task {
+                if networkMonitor.isConnected {
                     await gymService.fetchAllGymOccupancy()
                 }
+            }
+        }
+        .onReceive(Timer.publish(every: 30, on: .main, in: .common).autoconnect()) { _ in
+            if networkMonitor.isConnected {
+                Task { await gymService.fetchAllGymOccupancy() }
+            }
+        }
+        .onChange(of: networkMonitor.isConnected) { _, newValue in
+            if newValue {
+                Task { await gymService.fetchAllGymOccupancy() }
             }
         }
     }
