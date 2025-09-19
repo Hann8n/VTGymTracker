@@ -4,6 +4,7 @@ struct OccupancyCard: View {
     let occupancy: Int
     let remaining: Int
     let maxCapacity: Int
+    let segmentCount: Int
     @ObservedObject var networkMonitor: NetworkMonitor
 
     var percentageCapacity: CGFloat {
@@ -41,7 +42,8 @@ struct OccupancyCard: View {
             // Progress bar for occupancy
             SegmentedProgressBar(
                 height: 12,
-                occupancyPercentage: percentageCapacity
+                occupancyPercentage: percentageCapacity,
+                totalSegments: segmentCount
             )
             .padding(.top, 2)
         }

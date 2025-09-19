@@ -5,10 +5,10 @@ import SwiftUI
 struct SegmentedProgressBar: View {
     var height: CGFloat                  // Controls the height of the segments
     var occupancyPercentage: CGFloat     // A value between 0.0 and 1.0 representing the progress
+    var totalSegments: Int = 20          // Total number of segments (configurable)
     
     // Private properties
     private let segmentSpacing: CGFloat = 4  // Spacing between segments
-    private let totalSegments: Int = 20      // Total number of segments
     private let minimumBrightness: CGFloat = 0.3  // Minimum brightness (30% opacity) for partially filled segments
     
     // Track the previous occupancy value to detect if progress is increasing or decreasing
@@ -125,17 +125,22 @@ struct SegmentedProgressBar_Previews: PreviewProvider {
             // Example with occupancyPercentage = 0 (Empty State)
             SegmentedProgressBar(height: 20, occupancyPercentage: 0.0)
                 .frame(width: 300)
-                .previewDisplayName("Empty State")
+                .previewDisplayName("Empty State (20 segments)")
             
             // Example with occupancyPercentage = 0.5 (50% Filled)
             SegmentedProgressBar(height: 20, occupancyPercentage: 0.5)
                 .frame(width: 300)
-                .previewDisplayName("50% Filled")
+                .previewDisplayName("50% Filled (20 segments)")
             
             // Example with occupancyPercentage = 1.0 (Fully Filled)
             SegmentedProgressBar(height: 20, occupancyPercentage: 1.0)
                 .frame(width: 300)
-                .previewDisplayName("Fully Filled")
+                .previewDisplayName("Fully Filled (20 segments)")
+            
+            // Example with 8 segments for Bouldering Wall
+            SegmentedProgressBar(height: 20, occupancyPercentage: 0.5, totalSegments: 8)
+                .frame(width: 300)
+                .previewDisplayName("Bouldering Wall (8 segments, 50% filled)")
         }
         .padding()
         .previewLayout(.sizeThatFits)
