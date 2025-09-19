@@ -138,6 +138,7 @@ struct ContentView: View {
         List {
             warMemorialSection
             mcComasSection
+            boulderingWallSection
             eventsSection
         }
         .listStyle(.grouped)
@@ -150,6 +151,7 @@ struct ContentView: View {
                 occupancy: gymService.warMemorialOccupancy ?? 0,
                 remaining: Constants.warMemorialMaxCapacity - (gymService.warMemorialOccupancy ?? 0),
                 maxCapacity: Constants.warMemorialMaxCapacity,
+                segmentCount: 20,
                 networkMonitor: networkMonitor
             )
         }
@@ -161,6 +163,19 @@ struct ContentView: View {
                 occupancy: gymService.mcComasOccupancy ?? 0,
                 remaining: Constants.mcComasMaxCapacity - (gymService.mcComasOccupancy ?? 0),
                 maxCapacity: Constants.mcComasMaxCapacity,
+                segmentCount: 20,
+                networkMonitor: networkMonitor
+            )
+        }
+    }
+    
+    private var boulderingWallSection: some View {
+        Section("Bouldering Wall") {
+            OccupancyCard(
+                occupancy: gymService.boulderingWallOccupancy ?? 0,
+                remaining: Constants.boulderingWallMaxCapacity - (gymService.boulderingWallOccupancy ?? 0),
+                maxCapacity: Constants.boulderingWallMaxCapacity,
+                segmentCount: 8,
                 networkMonitor: networkMonitor
             )
         }
