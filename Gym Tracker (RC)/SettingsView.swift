@@ -145,8 +145,8 @@ struct CampusIDSection: View {
                         requireFaceID: faceIDEnabled
                     )
                 } label: {
-                    Label("Campus ID", systemImage: "barcode.viewfinder")
-                        .foregroundStyle(.customOrange)
+                    Label("ID Number", systemImage: "number")
+                        .foregroundStyle(.primary)
                 }
             }
             
@@ -156,6 +156,7 @@ struct CampusIDSection: View {
                     set: { newValue in handleFaceIDToggle(isOn: newValue) }
                 )) {
                     Label("Require Face ID", systemImage: "faceid")
+                        .foregroundStyle(.primary)
                 }
                 .tint(.customOrange)
 
