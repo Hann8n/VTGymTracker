@@ -7,17 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0408D22A2CA625C8000DE926 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 0408D2292CA625C8000DE926 /* SwiftSoup */; };
 		042D05882CB87D860081F486 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042D05872CB87D860081F486 /* WidgetKit.framework */; };
 		042D058A2CB87D860081F486 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042D05892CB87D860081F486 /* SwiftUI.framework */; };
 		042D059B2CB87D870081F486 /* GymTrackerWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 042D05852CB87D860081F486 /* GymTrackerWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		042D05A22CB880FF0081F486 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 042D05A12CB880FF0081F486 /* SwiftSoup */; };
 		0456A9BC2D3577BC0023446D /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 0456A9BB2D3577BC0023446D /* CodeScanner */; };
 		0456A9D22D35A6E30023446D /* CDCodabarView in Frameworks */ = {isa = PBXBuildFile; productRef = 0456A9D12D35A6E30023446D /* CDCodabarView */; };
 		049203C72D0CE45100BB1048 /* SyndiKit in Frameworks */ = {isa = PBXBuildFile; productRef = 049203C62D0CE45100BB1048 /* SyndiKit */; };
 		049203CA2D0CE6EF00BB1048 /* FeedKit in Frameworks */ = {isa = PBXBuildFile; productRef = 049203C92D0CE6EF00BB1048 /* FeedKit */; };
 		04CD88622D4BC2A1008C2EA4 /* GymTrackerWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 04CD88552D4BC29F008C2EA4 /* GymTrackerWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		04CD89002D4BFBC6008C2EA4 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 04CD88FF2D4BFBC6008C2EA4 /* SwiftSoup */; };
 		04F923D52E78D431000C1E0F /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = 04F923D42E78D431000C1E0F /* XMLCoder */; };
 /* End PBXBuildFile section */
 
@@ -95,7 +92,8 @@
 				Assets.xcassets,
 				CustomColors.swift,
 				Services/Constants.swift,
-				Services/GymService.swift,
+				Services/GymOccupancyFetcher.swift,
+				Services/OccupancyHTMLParser.swift,
 				Services/UnifiedGymTrackerProvider.swift,
 				Services/WarningManager.swift,
 			);
@@ -117,8 +115,10 @@
 				SegmentedProgressBar.swift,
 				Services/Constants.swift,
 				Services/GymFacility.swift,
+				Services/GymOccupancyFetcher.swift,
 				Services/GymService.swift,
 				Services/NetworkMonitor.swift,
+				Services/OccupancyHTMLParser.swift,
 				Services/UnifiedGymTrackerProvider.swift,
 				Services/WarningManager.swift,
 			);
@@ -162,7 +162,6 @@
 				049203CA2D0CE6EF00BB1048 /* FeedKit in Frameworks */,
 				049203C72D0CE45100BB1048 /* SyndiKit in Frameworks */,
 				0456A9D22D35A6E30023446D /* CDCodabarView in Frameworks */,
-				0408D22A2CA625C8000DE926 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,7 +171,6 @@
 			files = (
 				042D058A2CB87D860081F486 /* SwiftUI.framework in Frameworks */,
 				042D05882CB87D860081F486 /* WidgetKit.framework in Frameworks */,
-				042D05A22CB880FF0081F486 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,7 +178,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04CD89002D4BFBC6008C2EA4 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,7 +238,6 @@
 			);
 			name = "Gym Tracker (RC)";
 			packageProductDependencies = (
-				0408D2292CA625C8000DE926 /* SwiftSoup */,
 				049203C62D0CE45100BB1048 /* SyndiKit */,
 				049203C92D0CE6EF00BB1048 /* FeedKit */,
 				0456A9BB2D3577BC0023446D /* CodeScanner */,
@@ -269,7 +265,6 @@
 			);
 			name = GymTrackerWidgetExtension;
 			packageProductDependencies = (
-				042D05A12CB880FF0081F486 /* SwiftSoup */,
 			);
 			productName = GymTrackerWidgetExtension;
 			productReference = 042D05852CB87D860081F486 /* GymTrackerWidgetExtension.appex */;
@@ -293,7 +288,6 @@
 			);
 			name = "GymTrackerWatch Watch App";
 			packageProductDependencies = (
-				04CD88FF2D4BFBC6008C2EA4 /* SwiftSoup */,
 			);
 			productName = "GymTrackerWatch Watch App";
 			productReference = 04CD88552D4BC29F008C2EA4 /* GymTrackerWatch Watch App.app */;
@@ -330,7 +324,6 @@
 			mainGroup = 0408D20D2CA62567000DE926;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				0408D2282CA625C8000DE926 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				049203C52D0CE2D500BB1048 /* XCRemoteSwiftPackageReference "SyndiKit" */,
 				049203C82D0CE6EF00BB1048 /* XCRemoteSwiftPackageReference "FeedKit" */,
 				0456A9BA2D3577BC0023446D /* XCRemoteSwiftPackageReference "CodeScanner" */,
@@ -551,7 +544,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Gym Tracker";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
-				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera to scan and store Hokie PID's.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera to scan and store your campus ID.";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "This app requires access to Face ID to protect your hokie passport.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -569,7 +562,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "Hannon.Gym-Tracker--RC-";
 				PRODUCT_NAME = "Gym Tracker RC";
 				SDKROOT = auto;
@@ -602,7 +595,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Gym Tracker";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
-				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera to scan and store Hokie PID's.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera to scan and store your campus ID.";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "This app requires access to Face ID to protect your hokie passport.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -620,7 +613,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "Hannon.Gym-Tracker--RC-";
 				PRODUCT_NAME = "Gym Tracker RC";
 				SDKROOT = auto;
@@ -651,7 +644,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "Hannon.Gym-Tracker--RC-.GymTrackerWidget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -684,7 +677,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "Hannon.Gym-Tracker--RC-.GymTrackerWidget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -718,7 +711,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "Hannon.Gym-Tracker--RC-.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -748,7 +741,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "Hannon.Gym-Tracker--RC-.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -803,14 +796,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0408D2282CA625C8000DE926 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/scinfu/SwiftSoup";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.7.5;
-			};
-		};
 		0456A9BA2D3577BC0023446D /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/twostraws/CodeScanner";
@@ -854,16 +839,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0408D2292CA625C8000DE926 /* SwiftSoup */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0408D2282CA625C8000DE926 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
-			productName = SwiftSoup;
-		};
-		042D05A12CB880FF0081F486 /* SwiftSoup */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0408D2282CA625C8000DE926 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
-			productName = SwiftSoup;
-		};
 		0456A9BB2D3577BC0023446D /* CodeScanner */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0456A9BA2D3577BC0023446D /* XCRemoteSwiftPackageReference "CodeScanner" */;
@@ -883,11 +858,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 049203C82D0CE6EF00BB1048 /* XCRemoteSwiftPackageReference "FeedKit" */;
 			productName = FeedKit;
-		};
-		04CD88FF2D4BFBC6008C2EA4 /* SwiftSoup */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0408D2282CA625C8000DE926 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
-			productName = SwiftSoup;
 		};
 		04F923D42E78D431000C1E0F /* XMLCoder */ = {
 			isa = XCSwiftPackageProductDependency;

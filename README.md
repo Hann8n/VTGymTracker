@@ -88,7 +88,7 @@ GymTrackerComplications/ # Watch complications
 - **WidgetKit**: iOS widget system
 - **Vision**: Barcode detection
 - **LocalAuthentication**: Biometric authentication
-- **SwiftSoup**: HTML parsing for occupancy data
+- **Regex-based HTML parser**: GetFacilityData HTML is parsed for `data-occupancy` and `data-remaining` (no SwiftSoup)
 
 ### Contributing
 1. Fork the repository

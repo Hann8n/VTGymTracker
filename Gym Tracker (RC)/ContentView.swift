@@ -1,5 +1,4 @@
 import SwiftUI
-import WidgetKit
 import AVFoundation
 import LocalAuthentication
 import Combine
@@ -17,8 +16,8 @@ struct ContentView: View {
     @State private var isLoading: Bool = false
     @State private var isScannerPresented: Bool = false
     @State private var isBarcodeDisplayPresented: Bool = false
-    @State private var isIDInputOptionsPresented: Bool = false
-    let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
+    @State private var showManualInput: Bool = false
+    @State private var showAddIDChoice: Bool = false
     @State private var showAboutPopup: Bool = false
     @State private var showSettingsPopup: Bool = false
     
@@ -40,6 +39,7 @@ struct ContentView: View {
             NavigationStack {
                 mainListView
                     .onAppear {
+                        scheduleAppRefresh()
                         Task {
                             if networkMonitor.isConnected {
                                 await fetchGymOccupancyData()
@@ -51,19 +51,18 @@ struct ContentView: View {
                     BarcodeScannerView(isPresented: $isScannerPresented)
                         .environmentObject(alertManager)
                 }
-                .sheet(isPresented: $isIDInputOptionsPresented) {
-                    IDInputOptionsView(isPresented: $isIDInputOptionsPresented)
+                .sheet(isPresented: $showManualInput) {
+                    ManualIDInputView(isPresented: $showManualInput)
+                        .environmentObject(alertManager)
+                }
+                .sheet(isPresented: $showSettingsPopup) {
+                    SettingsView()
                         .environmentObject(alertManager)
                 }
                 .alert(item: $alertManager.currentAlert) { alertType in
                     alertType.generateAlert(openSettings: {
                         UIApplication.shared.openSettings()
                     })
-                }
-                .onReceive(timer) { _ in
-                    if networkMonitor.isConnected {
-                        Task { await fetchGymOccupancyData() }
-                    }
                 }
                 .onChange(of: networkMonitor.isConnected) { _, newValue in
                     if newValue {
@@ -83,48 +82,51 @@ struct ContentView: View {
                 }
                 .navigationTitle("VT Gym Tracker")
                 .toolbar {
-                    // Passport actions (leading side on iPhone)
                     if UIDevice.current.userInterfaceIdiom == .phone {
                         ToolbarItem(placement: .bottomBar) {
-                            Button(action: {
-                                handlePassportButtonTapped()
-                            }) {
+                            Button(action: handlePassportButtonTapped) {
                                 HStack(spacing: 6) {
                                     Image(systemName: scannedBarcode.isEmpty ? "plus.rectangle.fill" : "person.crop.rectangle")
-                                    Text(scannedBarcode.isEmpty ? "Add ID" : "Show ID")
+                                    Text(scannedBarcode.isEmpty ? "Add Campus ID" : "Show ID")
                                 }
                             }
                             .controlSize(.regular)
+                            .confirmationDialog("Add Campus ID", isPresented: $showAddIDChoice, titleVisibility: .visible) {
+                                Button("Scan Barcode") {
+                                    showAddIDChoice = false
+                                    isScannerPresented = true
+                                }
+                                Button("Enter ID Number") {
+                                    showAddIDChoice = false
+                                    showManualInput = true
+                                }
+                                Button("Cancel", role: .cancel) {
+                                    showAddIDChoice = false
+                                }
+                            } message: {
+                                Text("Scan barcode or enter your ID number.")
+                            }
                         }
                     }
-                    
-                    // Settings action (trailing side)
                     ToolbarItem(placement: .primaryAction) {
-                        Button(action: {
-                            showSettingsPopup.toggle()
-                        }) {
+                        Button(action: { showSettingsPopup.toggle() }) {
                             Image(systemName: "gearshape.fill")
                         }
                         .controlSize(.regular)
                         .accessibilityLabel("Settings")
-                        .sheet(isPresented: $showSettingsPopup) {
-                            SettingsView()
-                                .environmentObject(alertManager)
-                        }
                     }
                 }
             }
-            // Blur the entire NavigationView when the barcode overlay is active.
-            .blur(radius: isBarcodeDisplayPresented ? 35 : 0)
-            // Overlay a dark translucent color only if in dark mode.
-            .overlay {
-                if isBarcodeDisplayPresented && colorScheme == .dark {
-                    Color.black.opacity(0.6) // Adjust opacity as needed.
-                        .ignoresSafeArea()
+            // Dimming layer when barcode overlay is active (avoids .blur/.overlay on NavigationStack
+            // which can trigger "UIKitToolbar as subview of UIHostingController" hierarchy issues).
+            if isBarcodeDisplayPresented {
+                ZStack {
+                    Rectangle().fill(.regularMaterial).ignoresSafeArea()
+                    if colorScheme == .dark {
+                        Color.black.opacity(0.6).ignoresSafeArea()
+                    }
                 }
             }
-            
-            // Present the barcode overlay view.
             if isBarcodeDisplayPresented {
                 BarcodeDisplayOverlayView(isPresented: $isBarcodeDisplayPresented)
             }
@@ -198,19 +200,10 @@ struct ContentView: View {
                     .padding(.top, 5)
                 }
             } else if eventsViewModel.events.isEmpty {
-                VStack(spacing: 10) {
-                    Text("No upcoming events.")
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                    
-                    Button("Test Widget Refresh") {
-                        WidgetCenter.shared.reloadAllTimelines()
-                    }
-                    .buttonStyle(.bordered)
-                    .controlSize(.regular)
-                    .tint(.customOrange)
-                }
+                Text("Nothing scheduled right now")
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding()
             } else {
                 ForEach(eventsViewModel.events) { event in
                     EventCard(event: event)
@@ -244,8 +237,8 @@ struct ContentView: View {
     /// Decide whether to display the stored barcode (after authentication) or open the ID input options.
     private func handlePassportButtonTapped() {
         if scannedBarcode.isEmpty {
-            // No stored barcode; present the ID input options (scan or manual entry).
-            isIDInputOptionsPresented = true
+            // No stored barcode; show Scan vs Manual choice in a dialog.
+            showAddIDChoice = true
         } else {
             // Barcode exists; if Face ID is enabled, authenticate before displaying.
             if faceIDEnabled {
@@ -289,7 +282,7 @@ struct ContentView: View {
         let context = LAContext()
         var error: NSError?
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            let reason = "Authenticate to view your Hokie Passport."
+            let reason = "Authenticate to view your Campus ID."
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, _ in
                 DispatchQueue.main.async {
                     completion(success)

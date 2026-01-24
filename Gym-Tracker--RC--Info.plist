@@ -2,9 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIBackgroundModes</key>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
-		<string>fetch</string>
+		<string>com.gymtracker.apprefresh</string>
 	</array>
 </dict>
 </plist>

@@ -123,33 +123,6 @@ struct RectangularLockScreenWidgetView: View {
         return (Double(occupancy) / Double(maxCapacity)) * 100
     }
 }
-// MARK: - GymLockScreenWidgetEntryView
-struct GymLockScreenWidgetEntryView: View {
-    var entry: UnifiedGymTrackerProvider.Entry
-    @Environment(\.widgetFamily) var widgetFamily
-
-    var body: some View {
-        switch widgetFamily {
-        case .accessoryRectangular:
-            RectangularLockScreenWidgetView(entry: entry)
-        case .accessoryCircular:
-            McComasCircularWidgetView(entry: entry)
-        case .accessoryInline:
-            WarMemorialCircularWidgetView(entry: entry)
-        default:
-            Text("Gym Tracker")
-        }
-    }
-}
-
-// MARK: - GymLockScreenWidgetBundle
-struct GymLockScreenWidgetBundle: WidgetBundle {
-    var body: some Widget {
-        McComasCircularWidget()
-        WarMemorialCircularWidget()
-        GymTrackerRectangularWidget()
-    }
-}
 
 // MARK: - McComasCircularWidget
 struct McComasCircularWidget: Widget {

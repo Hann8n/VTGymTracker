@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>colors</key>
+	<array>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameAccentColor</string>
+			<key>relativePath</key>
+			<string>./AccentColor.colorset</string>
+			<key>swiftSymbol</key>
+			<string>accent</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameBorderColor</string>
+			<key>relativePath</key>
+			<string>./BorderColor.colorset</string>
+			<key>swiftSymbol</key>
+			<string>border</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameCardBackground</string>
+			<key>relativePath</key>
+			<string>./CardBackground.colorset</string>
+			<key>swiftSymbol</key>
+			<string>cardBackground</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameCustomGreen</string>
+			<key>relativePath</key>
+			<string>./CustomGreen.colorset</string>
+			<key>swiftSymbol</key>
+			<string>customGreen</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameCustomMaroon</string>
+			<key>relativePath</key>
+			<string>./CustomMaroon.colorset</string>
+			<key>swiftSymbol</key>
+			<string>customMaroon</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameCustomOrange</string>
+			<key>relativePath</key>
+			<string>./CustomOrange.colorset</string>
+			<key>swiftSymbol</key>
+			<string>customOrange</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameSecondaryBackground</string>
+			<key>relativePath</key>
+			<string>./SecondaryBackground.colorset</string>
+			<key>swiftSymbol</key>
+			<string>secondaryBackground</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/GymTrackerWidget/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameWidgetBorderColor</string>
+			<key>relativePath</key>
+			<string>./WidgetBorderColor.colorset</string>
+			<key>swiftSymbol</key>
+			<string>widgetBorder</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/GymTrackerWidget/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameWidgetCardBackground</string>
+			<key>relativePath</key>
+			<string>./WidgetCardBackground.colorset</string>
+			<key>swiftSymbol</key>
+			<string>widgetCardBackground</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/GymTrackerWidget/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameWidgetCustomGreen</string>
+			<key>relativePath</key>
+			<string>./WidgetCustomGreen.colorset</string>
+			<key>swiftSymbol</key>
+			<string>widgetCustomGreen</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/GymTrackerWidget/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameWidgetCustomMaroon</string>
+			<key>relativePath</key>
+			<string>./WidgetCustomMaroon.colorset</string>
+			<key>swiftSymbol</key>
+			<string>widgetCustomMaroon</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/GymTrackerWidget/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameWidgetCustomOrange</string>
+			<key>relativePath</key>
+			<string>./WidgetCustomOrange.colorset</string>
+			<key>swiftSymbol</key>
+			<string>widgetCustomOrange</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/GymTrackerWidget/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameWidgetSecondaryBackground</string>
+			<key>relativePath</key>
+			<string>./WidgetSecondaryBackground.colorset</string>
+			<key>swiftSymbol</key>
+			<string>widgetSecondaryBackground</string>
+		</dict>
+	</array>
+	<key>images</key>
+	<array>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameBlueskyLogo</string>
+			<key>relativePath</key>
+			<string>./Bluesky_Logo.imageset</string>
+			<key>swiftSymbol</key>
+			<string>blueskyLogo</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameClose</string>
+			<key>relativePath</key>
+			<string>./Close.imageset</string>
+			<key>swiftSymbol</key>
+			<string>close</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameGear</string>
+			<key>relativePath</key>
+			<string>./Gear.imageset</string>
+			<key>swiftSymbol</key>
+			<string>gear</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameGitHubLogo</string>
+			<key>relativePath</key>
+			<string>./GitHub_Logo.imageset</string>
+			<key>swiftSymbol</key>
+			<string>gitHubLogo</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameLinkedInLogo</string>
+			<key>relativePath</key>
+			<string>./LinkedIn_Logo.imageset</string>
+			<key>swiftSymbol</key>
+			<string>linkedInLogo</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameVTGymAppLogo</string>
+			<key>relativePath</key>
+			<string>./VTGymApp_Logo.imageset</string>
+			<key>swiftSymbol</key>
+			<string>vtGymAppLogo</string>
+		</dict>
+	</array>
+	<key>symbols</key>
+	<array/>
+</dict>
+</plist>
