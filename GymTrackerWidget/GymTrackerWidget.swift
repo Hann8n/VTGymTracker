@@ -1,8 +1,6 @@
 import WidgetKit
 import SwiftUI
 
-// Ensure UnifiedTimelineProvider.swift is part of the same target/module
-
 struct GymTrackerWidgetEntryView: View {
     var entry: UnifiedGymTrackerEntry
     @Environment(\.widgetFamily) var widgetFamily
@@ -97,7 +95,9 @@ struct SmallWidgetView: View {
                 widgetRenderingMode: widgetRenderingMode
             )
 
-            Divider()
+            Rectangle()
+                .fill(Color.primary.opacity(0.2))
+                .frame(height: 1)
 
             OccupancyRowView(
                 title: "McComas",
@@ -113,7 +113,9 @@ struct SmallWidgetView: View {
                 widgetRenderingMode: widgetRenderingMode
             )
 
-            Divider()
+            Rectangle()
+                .fill(Color.primary.opacity(0.2))
+                .frame(height: 1)
 
             OccupancyRowView(
                 title: "Bouldering Wall",
@@ -222,8 +224,8 @@ struct CircularProgressView: View {
     let widgetRenderingMode: WidgetRenderingMode
     let totalSegments: Int
     var segmentSpacing: Double = 2.0
-    let isEmpty: Bool // New parameter to indicate empty state
-    let showPercentageSymbol: Bool // New parameter to control "%" display
+    let isEmpty: Bool
+    let showPercentageSymbol: Bool
 
     private var segmentAngle: Double {
         (360.0 / Double(totalSegments)) - segmentSpacing
