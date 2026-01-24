@@ -79,13 +79,13 @@ struct SegmentedProgressBar: View {
     }
     
     // Determines the background color for a segment based on its index and empty state.
-    // Uses a soft tint of the occupancy colors (green/orange/maroon) so the track feels intentional, not flat grey.
+    // When empty (0 occupancy): neutral grey for disabled/no-color. Otherwise soft tint of occupancy colors.
     private func backgroundColor(for index: Int) -> Color {
         if isEmpty {
-            return Color("CustomGreen").opacity(0.22)
+            return Color.gray.opacity(0.20)
         } else {
             let fraction = CGFloat(index + 1) / CGFloat(totalSegments)
-            return occupancyColor(for: fraction).opacity(0.28)
+            return occupancyColor(for: fraction).opacity(0.20)
         }
     }
     
@@ -101,10 +101,10 @@ struct SegmentedProgressBar: View {
         }
     }
     
-    // Determines the foreground (filled) color for a segment based on its index and empty state
+    // Determines the foreground (filled) color for a segment based on its index and empty state.
+    // When empty (0 occupancy): disabled, no color (grey). Foreground opacity is 0 so this is for consistency.
     private func foregroundColor(for index: Int) -> Color {
         if isEmpty {
-            // Greyed-out foreground when empty
             return Color.gray
         } else {
             let fraction = CGFloat(index + 1) / CGFloat(totalSegments)

@@ -32,7 +32,7 @@ struct LockScreenSegmentedCircularView: View {
                         lineWidth: lineWidth
                     )
                     .stroke(lineWidth: lineWidth)
-                    .foregroundColor(isEmpty ? Color("WidgetCustomGreen").opacity(0.22) : segmentColor(index).opacity(0.28))
+                    .foregroundColor(isEmpty ? Color.gray.opacity(0.20) : segmentColor(index).opacity(0.20))
                 }
 
                 // Foreground segments (filled by percentage)
