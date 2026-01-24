@@ -10,12 +10,13 @@ enum GymOccupancyFetcher {
         return URLSession(configuration: c)
     }()
 
-    /// Widget: McComas + War Memorial only. Returns (occupancy, remaining) internally; Task 2 can expose for GymOccupancyData.
-    static func fetchForWidget() async -> (mcComas: Int?, warMemorial: Int?) {
+    /// Widget: McComas, War Memorial, and Bouldering Wall. Returns occupancy per facility.
+    static func fetchForWidget() async -> (mcComas: Int?, warMemorial: Int?, boulderingWall: Int?) {
         async let mc = fetchOne(facilityId: Constants.mcComasFacilityId)
         async let wm = fetchOne(facilityId: Constants.warMemorialFacilityId)
-        let (m, w) = await (mc, wm)
-        return (m?.occupancy, w?.occupancy)
+        async let bw = fetchOne(facilityId: Constants.boulderingWallFacilityId)
+        let (m, w, b) = await (mc, wm, bw)
+        return (m?.occupancy, w?.occupancy, b?.occupancy)
     }
 
     /// Main app: all three facilities. Returns (occupancy, remaining) per facility.

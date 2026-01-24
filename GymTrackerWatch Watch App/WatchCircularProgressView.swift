@@ -19,7 +19,7 @@ struct WatchCircularProgressView: View {
 
     var body: some View {
         ZStack {
-            // Background segments
+            // Background segments (tinted track: segment color 0.28, empty 0.22)
             ForEach(0..<totalSegments, id: \.self) { index in
                 WatchSegmentShape(
                     startAngle: segmentStartAngle(for: index),
@@ -27,7 +27,7 @@ struct WatchCircularProgressView: View {
                     lineWidth: lineWidth
                 )
                 .stroke(lineWidth: lineWidth)
-                .foregroundColor(isEmpty ? Color.gray.opacity(0.2) : segmentColor(index).opacity(0.2))
+                .foregroundColor(isEmpty ? Color("WatchCustomGreen").opacity(0.22) : segmentColor(index).opacity(0.28))
             }
             
             // Foreground segments

@@ -13,6 +13,7 @@ struct GymTrackerWidgetBundle: WidgetBundle {
         // Lock Screen Widgets
         McComasCircularWidget()        // Lock screen circular widget for McComas
         WarMemorialCircularWidget()    // Lock screen circular widget for War Memorial
+        BoulderingWallCircularWidget() // Lock screen circular widget for Bouldering Wall
         GymTrackerRectangularWidget()  // Lock screen rectangular widget for occupancy details
     }
 }

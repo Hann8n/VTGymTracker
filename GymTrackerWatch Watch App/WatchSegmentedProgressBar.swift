@@ -25,13 +25,16 @@ struct WatchSegmentedProgressBar: View {
         }
     }
     
-    // Determine the color for each segment based on occupancy
+    // Determine the color for each segment based on occupancy (tinted track: 0.28, empty 0.22)
     private func colorForSegment(index: Int) -> Color {
         let segmentThreshold = CGFloat(index + 1) / CGFloat(totalSegments)
+        let color = progressColor(for: segmentThreshold)
         if occupancyPercentage >= segmentThreshold {
-            return progressColor(for: segmentThreshold)
+            return color
         } else {
-            return Color.gray.opacity(0.3)
+            return occupancyPercentage == 0
+                ? Color("WatchCustomGreen").opacity(0.22)
+                : color.opacity(0.28)
         }
     }
     
