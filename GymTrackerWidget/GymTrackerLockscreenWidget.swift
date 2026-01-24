@@ -173,6 +173,7 @@ struct McComasCircularWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: UnifiedGymTrackerProvider()) { entry in
             McComasCircularWidgetView(entry: entry)
+                .containerBackground(for: .widget) { Color.clear }
         }
         .configurationDisplayName("McComas")
         .description("McComas gym occupancy")
@@ -187,6 +188,7 @@ struct WarMemorialCircularWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: UnifiedGymTrackerProvider()) { entry in
             WarMemorialCircularWidgetView(entry: entry)
+                .containerBackground(for: .widget) { Color.clear }
         }
         .configurationDisplayName("War Memorial")
         .description("War Memorial gym occupancy")
@@ -201,6 +203,7 @@ struct BoulderingWallCircularWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: UnifiedGymTrackerProvider()) { entry in
             BoulderingWallCircularWidgetView(entry: entry)
+                .containerBackground(for: .widget) { Color.clear }
         }
         .configurationDisplayName("Bouldering Wall")
         .description("Bouldering wall occupancy")
@@ -215,6 +218,7 @@ struct GymTrackerRectangularWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: UnifiedGymTrackerProvider()) { entry in
             RectangularLockScreenWidgetView(entry: entry)
+                .containerBackground(for: .widget) { Color.clear }
         }
         .configurationDisplayName("VT Gyms")
         .description("War Memorial, McComas, and Bouldering occupancy")
