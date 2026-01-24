@@ -86,7 +86,7 @@ struct ContentView: View {
                         ToolbarItem(placement: .bottomBar) {
                             Button(action: handlePassportButtonTapped) {
                                 HStack(spacing: 6) {
-                                    Image(systemName: scannedBarcode.isEmpty ? "plus.rectangle.fill" : "person.crop.rectangle")
+                                    Image(systemName: scannedBarcode.isEmpty ? "plus.circle.fill" : "barcode")
                                     Text(scannedBarcode.isEmpty ? "Add Campus ID" : "Show ID")
                                 }
                             }
