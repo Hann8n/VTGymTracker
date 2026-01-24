@@ -15,11 +15,11 @@ struct OccupancyCard: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 // Display current occupancy and max capacity
-                Text("\(occupancy)")
+                Text("\(occupancy.abbreviatedCount)")
                     .font(.subheadline)
                     .bold()
                 +
-                Text(" / \(maxCapacity)")
+                Text(" / \(maxCapacity.abbreviatedCount)")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                 

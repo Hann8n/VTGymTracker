@@ -9,165 +9,207 @@ struct GymTrackerWidgetEntryView: View {
     @Environment(\.widgetRenderingMode) var widgetRenderingMode
 
     var body: some View {
-        switch widgetFamily {
-        case .systemSmall:
-            SmallWidgetView(entry: entry, widgetRenderingMode: widgetRenderingMode)
-        case .systemMedium:
-            MediumWidgetView(entry: entry, widgetRenderingMode: widgetRenderingMode)
-        default:
-            EmptyView()
+        Group {
+            switch widgetFamily {
+            case .systemSmall:
+                SmallWidgetView(entry: entry, widgetRenderingMode: widgetRenderingMode)
+            case .systemMedium:
+                MediumWidgetView(entry: entry, widgetRenderingMode: widgetRenderingMode)
+            default:
+                EmptyView()
+            }
+        }
+        .containerBackground(for: .widget) {
+            Color(.systemBackground)
         }
     }
 }
 
-// MARK: - Small Widget
+// MARK: - Occupancy Row (app-consistent: circular segmented progress + n/max like OccupancyCard)
+struct OccupancyRowView: View {
+    let title: String
+    let occupancy: Int
+    let maxCapacity: Int
+    let totalSegments: Int
+    let circleSize: CGFloat
+    let lineWidth: CGFloat
+    let fontScale: CGFloat
+    let titleFont: CGFloat
+    let countFont: CGFloat
+    let showPercentageInCircle: Bool
+    let widgetRenderingMode: WidgetRenderingMode
+
+    private var percentage: Double {
+        guard maxCapacity > 0 else { return 0 }
+        return (Double(occupancy) / Double(maxCapacity)) * 100
+    }
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 10) {
+            CircularProgressView(
+                percentage: percentage,
+                size: circleSize,
+                lineWidth: lineWidth,
+                fontScale: fontScale,
+                widgetRenderingMode: widgetRenderingMode,
+                totalSegments: totalSegments,
+                isEmpty: occupancy == 0,
+                showPercentageSymbol: showPercentageInCircle
+            )
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.system(size: titleFont, weight: .semibold))
+                    .foregroundColor(.primary)
+                    .lineLimit(1)
+                // Same size for occupancy and max; keep occupancy primary, max secondary
+                (Text("\(occupancy.abbreviatedCount)")
+                    .font(.system(size: countFont))
+                    .foregroundColor(.primary)
+                    + Text(" / \(maxCapacity.abbreviatedCount)")
+                    .font(.system(size: countFont))
+                    .foregroundColor(.secondary))
+                    .lineLimit(1)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+}
+
+// MARK: - Small Widget (stacked rows, app-consistent; circular segmented progress)
 struct SmallWidgetView: View {
     let entry: UnifiedGymTrackerEntry
     let widgetRenderingMode: WidgetRenderingMode
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) { // Reduced spacing from 16 to 8
-            // War Memorial Section
-            HStack(spacing: 8) {
-                CircularProgressView(
-                    percentage: calculatePercentage(occupancy: entry.warMemorialOccupancy, maxCapacity: entry.maxWarMemorialCapacity),
-                    size: 40,
-                    lineWidth: 6,
-                    fontScale: 0.30,
-                    widgetRenderingMode: widgetRenderingMode,
-                    totalSegments: 10,
-                    isEmpty: entry.warMemorialOccupancy == 0,
-                    showPercentageSymbol: false // Disable "%"
-                )
-                VStack(alignment: .leading, spacing: 4) { // Reduced spacing from 4 to 2
-                    Text("War Memorial")
-                        .font(.system(size: 11, weight: .bold))
-                        .widgetAccentable()
-                        .lineLimit(1) // Ensure single line
-                    HStack(spacing: 0) {
-                        Text("\(entry.warMemorialOccupancy)")
-                            .font(.system(size: 13))
-                            .widgetAccentable()
-                            .layoutPriority(1) // Ensures this text gets priority
-                        Text(" / \(entry.maxWarMemorialCapacity)")
-                            .font(.system(size: 13))
-                            .foregroundColor(.secondary)
-                            .lineLimit(1) // Ensure single line
-                    }
-                }
-            }
+        VStack(alignment: .leading, spacing: 8) {
+            OccupancyRowView(
+                title: "War Memorial",
+                occupancy: entry.warMemorialOccupancy,
+                maxCapacity: entry.maxWarMemorialCapacity,
+                totalSegments: 20,
+                circleSize: 36,
+                lineWidth: 4,
+                fontScale: 0.32,
+                titleFont: 11,
+                countFont: 12,
+                showPercentageInCircle: false,
+                widgetRenderingMode: widgetRenderingMode
+            )
 
-            // Divider with default appearance
             Divider()
-                .padding(.vertical, 10) // Reduced vertical padding from 4 to 2
 
-            // McComas Section
-            HStack(spacing: 8) {
-                CircularProgressView(
-                    percentage: calculatePercentage(occupancy: entry.mcComasOccupancy, maxCapacity: entry.maxMcComasCapacity),
-                    size: 40,
-                    lineWidth: 6,
-                    fontScale: 0.30,
-                    widgetRenderingMode: widgetRenderingMode,
-                    totalSegments: 10,
-                    isEmpty: entry.mcComasOccupancy == 0,
-                    showPercentageSymbol: false // Disable "%"
-                )
-                VStack(alignment: .leading, spacing: 4) { // Reduced spacing from 4 to 2
-                    Text("McComas")
-                        .font(.system(size: 11, weight: .bold))
-                        .widgetAccentable()
-                        .lineLimit(1) // Ensure single line
-                    HStack(spacing: 0) {
-                        Text("\(entry.mcComasOccupancy)")
-                            .font(.system(size: 13))
-                            .widgetAccentable()
-                            .layoutPriority(1) // Ensures this text gets priority
-                        Text(" / \(entry.maxMcComasCapacity)")
-                            .font(.system(size: 13))
-                            .foregroundColor(.secondary)
-                            .lineLimit(1) // Ensure single line
-                    }
-                }
-            }
+            OccupancyRowView(
+                title: "McComas",
+                occupancy: entry.mcComasOccupancy,
+                maxCapacity: entry.maxMcComasCapacity,
+                totalSegments: 20,
+                circleSize: 36,
+                lineWidth: 4,
+                fontScale: 0.32,
+                titleFont: 11,
+                countFont: 12,
+                showPercentageInCircle: false,
+                widgetRenderingMode: widgetRenderingMode
+            )
+
+            Divider()
+
+            OccupancyRowView(
+                title: "Bouldering Wall",
+                occupancy: entry.boulderingWallOccupancy,
+                maxCapacity: entry.maxBoulderingWallCapacity,
+                totalSegments: 8,
+                circleSize: 36,
+                lineWidth: 4,
+                fontScale: 0.32,
+                titleFont: 11,
+                countFont: 12,
+                showPercentageInCircle: false,
+                widgetRenderingMode: widgetRenderingMode
+            )
         }
-        .padding(.horizontal, 0) // Removed horizontal padding
-        .padding(.vertical, 0)
-        .containerBackground(Color(.systemBackground), for: .widget)
-    }
-
-    private func calculatePercentage(occupancy: Int, maxCapacity: Int) -> Double {
-        guard maxCapacity > 0 else { return 0 }
-        return (Double(occupancy) / Double(maxCapacity)) * 100
+        .padding(12)
     }
 }
 
-// MARK: - Medium Widget
+// MARK: - Medium Widget Column (large circle on top, info beneath)
+private struct MediumWidgetColumnView: View {
+    let title: String
+    let occupancy: Int
+    let maxCapacity: Int
+    let totalSegments: Int
+    let widgetRenderingMode: WidgetRenderingMode
+
+    private var percentage: Double {
+        guard maxCapacity > 0 else { return 0 }
+        return (Double(occupancy) / Double(maxCapacity)) * 100
+    }
+
+    var body: some View {
+        VStack(spacing: 10) {
+            CircularProgressView(
+                percentage: percentage,
+                size: 76,
+                lineWidth: 8,
+                fontScale: 0.26,
+                widgetRenderingMode: widgetRenderingMode,
+                totalSegments: totalSegments,
+                isEmpty: occupancy == 0,
+                showPercentageSymbol: true
+            )
+            .padding(.bottom, 5)
+
+            VStack(spacing: 2) {
+                Text(title)
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(.primary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
+
+                (Text("\(occupancy.abbreviatedCount)")
+                    .font(.system(size: 13))
+                    .foregroundColor(.primary)
+                    + Text(" / \(maxCapacity.abbreviatedCount)")
+                    .font(.system(size: 13))
+                    .foregroundColor(.secondary))
+                    .lineLimit(1)
+            }
+        }
+        .frame(maxWidth: .infinity)
+    }
+}
+
+// MARK: - Medium Widget (3 columns: large circle on top, info beneath each)
 struct MediumWidgetView: View {
     let entry: UnifiedGymTrackerEntry
     let widgetRenderingMode: WidgetRenderingMode
 
     var body: some View {
-        HStack {
-            Spacer()
-            // War Memorial Section
-            VStack(spacing: 4) {
-                CircularProgressView(
-                    percentage: calculatePercentage(occupancy: entry.warMemorialOccupancy, maxCapacity: entry.maxWarMemorialCapacity),
-                    size: 70,
-                    lineWidth: 8,
-                    fontScale: 0.25,
-                    widgetRenderingMode: widgetRenderingMode,
-                    totalSegments: 20,
-                    isEmpty: entry.warMemorialOccupancy == 0,
-                    showPercentageSymbol: true
-                )
-                Text("War Memorial")
-                    .font(.system(size: 14, weight: .bold))
-                    .padding(.top, 8)
-                HStack(spacing: 0) {
-                    Text("\(entry.warMemorialOccupancy)")
-                        .font(.system(size: 14))
-                    Text(" / \(entry.maxWarMemorialCapacity)")
-                        .font(.system(size: 14))
-                        .foregroundColor(.secondary)
-                }
-            }
-            Spacer()
-            Divider().frame(height: 90).padding(.horizontal)
-            Spacer()
-            // McComas Section
-            VStack(spacing: 4) {
-                CircularProgressView(
-                    percentage: calculatePercentage(occupancy: entry.mcComasOccupancy, maxCapacity: entry.maxMcComasCapacity),
-                    size: 70,
-                    lineWidth: 8,
-                    fontScale: 0.25,
-                    widgetRenderingMode: widgetRenderingMode,
-                    totalSegments: 20,
-                    isEmpty: entry.mcComasOccupancy == 0,
-                    showPercentageSymbol: true
-                )
-                Text("McComas")
-                    .font(.system(size: 14, weight: .bold))
-                    .padding(.top, 8)
-                HStack(spacing: 0) {
-                    Text("\(entry.mcComasOccupancy)")
-                        .font(.system(size: 14))
-                    Text(" / \(entry.maxMcComasCapacity)")
-                        .font(.system(size: 14))
-                        .foregroundColor(.secondary)
-                }
-            }
-            Spacer()
+        HStack(alignment: .top, spacing: 8) {
+            MediumWidgetColumnView(
+                title: "War Memorial",
+                occupancy: entry.warMemorialOccupancy,
+                maxCapacity: entry.maxWarMemorialCapacity,
+                totalSegments: 20,
+                widgetRenderingMode: widgetRenderingMode
+            )
+            MediumWidgetColumnView(
+                title: "McComas",
+                occupancy: entry.mcComasOccupancy,
+                maxCapacity: entry.maxMcComasCapacity,
+                totalSegments: 20,
+                widgetRenderingMode: widgetRenderingMode
+            )
+            MediumWidgetColumnView(
+                title: "Bouldering Wall",
+                occupancy: entry.boulderingWallOccupancy,
+                maxCapacity: entry.maxBoulderingWallCapacity,
+                totalSegments: 8,
+                widgetRenderingMode: widgetRenderingMode
+            )
         }
-        .padding(.vertical, 12)
-        .containerBackground(Color(.systemBackground), for: .widget)
-    }
-
-    private func calculatePercentage(occupancy: Int, maxCapacity: Int) -> Double {
-        guard maxCapacity > 0 else { return 0 }
-        return (Double(occupancy) / Double(maxCapacity)) * 100
+        .padding(12)
     }
 }
 
@@ -189,7 +231,7 @@ struct CircularProgressView: View {
 
     var body: some View {
         ZStack {
-            // Background segments
+            // Background segments (tinted track: segment color 0.28, empty 0.22)
             ForEach(0..<totalSegments, id: \.self) { index in
                 SegmentShape(
                     startAngle: segmentStartAngle(for: index),
@@ -197,7 +239,7 @@ struct CircularProgressView: View {
                     lineWidth: lineWidth
                 )
                 .stroke(lineWidth: lineWidth)
-                .foregroundColor(isEmpty ? Color.gray.opacity(0.2) : segmentColor(index).opacity(0.2))
+                .foregroundColor(isEmpty ? Color("WidgetCustomGreen").opacity(0.22) : segmentColor(index).opacity(0.28))
             }
             
             // Foreground segments
@@ -274,6 +316,7 @@ struct GymTrackerWidget: Widget {
         .configurationDisplayName("Gym Tracker")
         .description("Displays live occupancy for campus gyms")
         .supportedFamilies([.systemSmall, .systemMedium])
+        .contentMarginsDisabled() // Avoid iOS 17+ system margins that can cause background/edge glitches on open/close
     }
 }
 
@@ -286,8 +329,10 @@ struct GymTrackerWidget_Previews: PreviewProvider {
                     date: Date(),
                     mcComasOccupancy: 450,
                     warMemorialOccupancy: 900,
+                    boulderingWallOccupancy: 5,
                     maxMcComasCapacity: Constants.mcComasMaxCapacity,
-                    maxWarMemorialCapacity: Constants.warMemorialMaxCapacity
+                    maxWarMemorialCapacity: Constants.warMemorialMaxCapacity,
+                    maxBoulderingWallCapacity: Constants.boulderingWallMaxCapacity
                 )
             )
             .previewContext(WidgetPreviewContext(family: .systemSmall))
@@ -297,8 +342,10 @@ struct GymTrackerWidget_Previews: PreviewProvider {
                     date: Date(),
                     mcComasOccupancy: 0, // Empty state
                     warMemorialOccupancy: 0, // Empty state
+                    boulderingWallOccupancy: 0, // Empty state
                     maxMcComasCapacity: Constants.mcComasMaxCapacity,
-                    maxWarMemorialCapacity: Constants.warMemorialMaxCapacity
+                    maxWarMemorialCapacity: Constants.warMemorialMaxCapacity,
+                    maxBoulderingWallCapacity: Constants.boulderingWallMaxCapacity
                 )
             )
             .previewContext(WidgetPreviewContext(family: .systemMedium))

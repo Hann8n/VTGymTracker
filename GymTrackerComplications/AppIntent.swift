@@ -22,7 +22,8 @@ struct GymSelectionIntent: WidgetConfigurationIntent {
 enum GymOption: String, AppEnum {
     case mcComas = "McComas Hall"
     case warMemorial = "War Memorial Hall"
-    
+    case boulderingWall = "Bouldering Wall"
+
     static var typeDisplayRepresentation: TypeDisplayRepresentation {
         "Gym Options"
     }
@@ -30,7 +31,8 @@ enum GymOption: String, AppEnum {
     static var caseDisplayRepresentations: [GymOption: DisplayRepresentation] {
         [
             .mcComas: "McComas Hall",
-            .warMemorial: "War Memorial Hall"
+            .warMemorial: "War Memorial Hall",
+            .boulderingWall: "Bouldering Wall"
         ]
     }
 }

@@ -1,130 +1,172 @@
-// GymLockScreenWidget.swift
+// GymTrackerLockscreenWidget.swift
+// Lock screen accessory widgets: circular (per gym) and rectangular (all three).
+// Circular uses the branded segmented progress ring.
 
 import WidgetKit
 import SwiftUI
 
-// MARK: - McComas Circular Widget View
+// MARK: - Lock Screen Segmented Circular (branded segment style, compact for accessory)
+struct LockScreenSegmentedCircularView: View {
+    let percentage: Double
+    let isEmpty: Bool
+    let totalSegments: Int
+    var label: String? = nil  // e.g. "WM", "MC", "BW" – shown below the number
+    var size: CGFloat = 50
+    var lineWidth: CGFloat = 6
+    var fontScale: CGFloat = 0.28
+    var segmentSpacing: Double = 1.5
+
+    private var segmentAngle: Double {
+        (360.0 / Double(totalSegments)) - segmentSpacing
+    }
+
+    var body: some View {
+        GeometryReader { geo in
+            let s = min(geo.size.width, geo.size.height)
+            ZStack {
+                // Background segments (tinted track: segment color 0.28, empty 0.22)
+                ForEach(0..<totalSegments, id: \.self) { index in
+                    SegmentShape(
+                        startAngle: segmentStartAngle(for: index),
+                        endAngle: segmentStartAngle(for: index) + segmentAngle,
+                        lineWidth: lineWidth
+                    )
+                    .stroke(lineWidth: lineWidth)
+                    .foregroundColor(isEmpty ? Color("WidgetCustomGreen").opacity(0.22) : segmentColor(index).opacity(0.28))
+                }
+
+                // Foreground segments (filled by percentage)
+                ForEach(0..<totalSegments, id: \.self) { index in
+                    SegmentShape(
+                        startAngle: segmentStartAngle(for: index),
+                        endAngle: segmentStartAngle(for: index) + segmentAngle,
+                        lineWidth: lineWidth
+                    )
+                    .stroke(lineWidth: lineWidth)
+                    .foregroundColor(isEmpty ? Color.gray : segmentColor(index))
+                    .opacity(opacityForSegment(index: index, adjustedPercentage: percentage / 100.0))
+                }
+
+                // Center: number and optional gym label
+                VStack(spacing: 1) {
+                    Group {
+                        if isEmpty {
+                            Text("—")
+                                .font(.system(size: s * fontScale, weight: .bold))
+                                .foregroundColor(.secondary)
+                        } else {
+                            (Text("\(Int(percentage))")
+                                .font(.system(size: s * fontScale, weight: .bold))
+                                .foregroundColor(.primary)
+                                + Text("%")
+                                .font(.system(size: s * fontScale * 0.6, weight: .bold))
+                                .foregroundColor(.primary))
+                        }
+                    }
+                    .minimumScaleFactor(0.6)
+                    .lineLimit(1)
+                    if let label {
+                        Text(label)
+                            .font(.system(size: 8, weight: .semibold))
+                            .foregroundColor(.secondary)
+                            .lineLimit(1)
+                    }
+                }
+            }
+            .frame(width: s, height: s)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private func segmentStartAngle(for index: Int) -> Double {
+        (Double(index) * (segmentAngle + segmentSpacing)) - 90
+    }
+
+    private func segmentColor(_ index: Int) -> Color {
+        index < totalSegments / 2 ? Color("WidgetCustomGreen") :
+        index < (totalSegments * 3) / 4 ? Color("WidgetCustomOrange") : Color("WidgetCustomMaroon")
+    }
+
+    private func opacityForSegment(index: Int, adjustedPercentage: Double) -> Double {
+        let segmentProgress = Double(index) / Double(totalSegments)
+        let nextSegmentProgress = Double(index + 1) / Double(totalSegments)
+        if adjustedPercentage >= nextSegmentProgress { return 1.0 }
+        if adjustedPercentage > segmentProgress {
+            return max((adjustedPercentage - segmentProgress) / (nextSegmentProgress - segmentProgress), 0.3)
+        }
+        return 0.0
+    }
+}
+
+// MARK: - Circular Widget Views (one per gym)
 struct McComasCircularWidgetView: View {
     let entry: UnifiedGymTrackerEntry
 
     var body: some View {
-        let percentage = (Double(entry.mcComasOccupancy) / Double(entry.maxMcComasCapacity)) * 100.0
-
-        CompactCircularProgressViewLSW(
-            percentage: percentage,
-            size: 55,
-            lineWidth: 6,
-            fontScale: 0.25,
-            totalSegments: 12,
-            showPercentageText: true
-        )
-        .containerBackground(.background, for: .widget)
-        .tint(Color.blue)
+        let pct = entry.maxMcComasCapacity > 0
+            ? (Double(entry.mcComasOccupancy) / Double(entry.maxMcComasCapacity)) * 100
+            : 0
+        LockScreenSegmentedCircularView(percentage: pct, isEmpty: entry.mcComasOccupancy == 0, totalSegments: 12, label: "MC")
     }
 }
 
-// MARK: - War Memorial Circular Widget View
 struct WarMemorialCircularWidgetView: View {
     let entry: UnifiedGymTrackerEntry
 
     var body: some View {
-        let percentage = (Double(entry.warMemorialOccupancy) / Double(entry.maxWarMemorialCapacity)) * 100.0
-
-        CompactCircularProgressViewLSW(
-            percentage: percentage,
-            size: 55,
-            lineWidth: 6,
-            fontScale: 0.25,
-            totalSegments: 12,
-            showPercentageText: true
-        )
-        .containerBackground(.background, for: .widget)
-        .tint(Color.green)
+        let pct = entry.maxWarMemorialCapacity > 0
+            ? (Double(entry.warMemorialOccupancy) / Double(entry.maxWarMemorialCapacity)) * 100
+            : 0
+        LockScreenSegmentedCircularView(percentage: pct, isEmpty: entry.warMemorialOccupancy == 0, totalSegments: 12, label: "WM")
     }
 }
 
-// MARK: - Rectangular LockScreen Widget View
+struct BoulderingWallCircularWidgetView: View {
+    let entry: UnifiedGymTrackerEntry
+
+    var body: some View {
+        let pct = entry.maxBoulderingWallCapacity > 0
+            ? (Double(entry.boulderingWallOccupancy) / Double(entry.maxBoulderingWallCapacity)) * 100
+            : 0
+        LockScreenSegmentedCircularView(percentage: pct, isEmpty: entry.boulderingWallOccupancy == 0, totalSegments: 8, label: "BW")
+    }
+}
+
+// MARK: - Rectangular Lock Screen Widget (all three gyms)
 struct RectangularLockScreenWidgetView: View {
     let entry: UnifiedGymTrackerEntry
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) { // Increased spacing for better readability
-            // War Memorial Section (Moved to the top)
-            HStack(alignment: .center, spacing: 8) { // Added spacing between progress and text
-                // Circular Progress Bar moved to the left
-                CompactCircularProgressViewLSW(
-                    percentage: calculatePercentage(occupancy: entry.warMemorialOccupancy, maxCapacity: entry.maxWarMemorialCapacity),
-                    size: 25, // Increased size
-                    lineWidth: 4, // Increased line width
-                    fontScale: 0.35, // Adjusted font scale
-                    totalSegments: 6,
-                    showPercentageText: true, // Enable percentage inside circle
-                    showPercentageSymbol: false // Disable the % symbol
-                )
-                
-                // Gym Texts
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("War Memorial")
-                        .font(.caption)
-                        .lineLimit(1)
-                    HStack(spacing: 0) {
-                        Text("\(entry.warMemorialOccupancy)")
-                            .font(.caption2)
-                            .bold()
-                            .lineLimit(1)
-                        Text(" / \(entry.maxWarMemorialCapacity)")
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
-                            .lineLimit(1)
-                    }
-                }
-            }
-
-            // McComas Section (Moved below War Memorial)
-            HStack(alignment: .center, spacing: 8) { // Added spacing between progress and text
-                // Circular Progress Bar moved to the left
-                CompactCircularProgressViewLSW(
-                    percentage: calculatePercentage(occupancy: entry.mcComasOccupancy, maxCapacity: entry.maxMcComasCapacity),
-                    size: 25, // Increased size
-                    lineWidth: 4, // Increased line width
-                    fontScale: 0.35, // Adjusted font scale
-                    totalSegments: 6,
-                    showPercentageText: true, // Enable percentage inside circle
-                    showPercentageSymbol: false // Disable the % symbol
-                )
-                
-                // Gym Texts
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("McComas")
-                        .font(.caption)
-                        .lineLimit(1)
-                    HStack(spacing: 0) {
-                        Text("\(entry.mcComasOccupancy)")
-                            .font(.caption2)
-                            .bold()
-                            .lineLimit(1)
-                        Text(" / \(entry.maxMcComasCapacity)")
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
-                            .lineLimit(1)
-                    }
-                }
-            }
+        VStack(alignment: .leading, spacing: 5) {
+            row(label: "War Memorial", occupancy: entry.warMemorialOccupancy, max: entry.maxWarMemorialCapacity)
+            row(label: "McComas", occupancy: entry.mcComasOccupancy, max: entry.maxMcComasCapacity)
+            row(label: "Bouldering Wall", occupancy: entry.boulderingWallOccupancy, max: entry.maxBoulderingWallCapacity)
         }
-        .frame(maxWidth: .infinity, alignment: .leading) // Align VStack to the leading edge
-        .padding(.vertical, 4) // Adjusted vertical padding for better spacing
-        .padding(.leading, 2) // Increased leading padding for left alignment
-        .padding(.trailing, 4) // Reduced trailing padding
-        .containerBackground(.background, for: .widget)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, 4)
+        .padding(.vertical, 6)
     }
 
-    private func calculatePercentage(occupancy: Int, maxCapacity: Int) -> Double {
-        guard maxCapacity > 0 else { return 0 }
-        return (Double(occupancy) / Double(maxCapacity)) * 100
+    private func row(label: String, occupancy: Int, max: Int) -> some View {
+        HStack(alignment: .center, spacing: 6) {
+            Text(label)
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundColor(.primary)
+                .lineLimit(1)
+            Spacer(minLength: 2)
+            (Text("\(occupancy.abbreviatedCount)")
+                .font(.system(size: 11, weight: .medium))
+                .foregroundColor(.primary)
+                + Text("/\(max.abbreviatedCount)")
+                .font(.system(size: 11, weight: .medium))
+                .foregroundColor(.secondary))
+                .lineLimit(1)
+        }
     }
 }
 
-// MARK: - McComasCircularWidget
+// MARK: - Widgets
+
 struct McComasCircularWidget: Widget {
     let kind: String = "McComasCircularWidget"
 
@@ -132,13 +174,13 @@ struct McComasCircularWidget: Widget {
         StaticConfiguration(kind: kind, provider: UnifiedGymTrackerProvider()) { entry in
             McComasCircularWidgetView(entry: entry)
         }
-        .configurationDisplayName("McComas Gym")
-        .description("Shows occupancy for McComas Gym.")
+        .configurationDisplayName("McComas")
+        .description("McComas gym occupancy")
         .supportedFamilies([.accessoryCircular])
+        .contentMarginsDisabled()
     }
 }
 
-// MARK: - WarMemorialCircularWidget
 struct WarMemorialCircularWidget: Widget {
     let kind: String = "WarMemorialCircularWidget"
 
@@ -146,13 +188,27 @@ struct WarMemorialCircularWidget: Widget {
         StaticConfiguration(kind: kind, provider: UnifiedGymTrackerProvider()) { entry in
             WarMemorialCircularWidgetView(entry: entry)
         }
-        .configurationDisplayName("War Memorial Gym")
-        .description("Shows occupancy for War Memorial Gym.")
+        .configurationDisplayName("War Memorial")
+        .description("War Memorial gym occupancy")
         .supportedFamilies([.accessoryCircular])
+        .contentMarginsDisabled()
     }
 }
 
-// MARK: - GymTrackerRectangularWidget
+struct BoulderingWallCircularWidget: Widget {
+    let kind: String = "BoulderingWallCircularWidget"
+
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: UnifiedGymTrackerProvider()) { entry in
+            BoulderingWallCircularWidgetView(entry: entry)
+        }
+        .configurationDisplayName("Bouldering Wall")
+        .description("Bouldering wall occupancy")
+        .supportedFamilies([.accessoryCircular])
+        .contentMarginsDisabled()
+    }
+}
+
 struct GymTrackerRectangularWidget: Widget {
     let kind: String = "GymTrackerRectangularWidget"
 
@@ -160,117 +216,9 @@ struct GymTrackerRectangularWidget: Widget {
         StaticConfiguration(kind: kind, provider: UnifiedGymTrackerProvider()) { entry in
             RectangularLockScreenWidgetView(entry: entry)
         }
-        .configurationDisplayName("Gym Tracker")
-        .description("Shows gym occupancy for McComas and War Memorial.")
+        .configurationDisplayName("VT Gyms")
+        .description("War Memorial, McComas, and Bouldering occupancy")
         .supportedFamilies([.accessoryRectangular])
-    }
-}
-// MARK: - CompactCircularProgressViewLSW (with customizable line thickness and optional inner text)
-struct CompactCircularProgressViewLSW: View {
-    let percentage: Double
-    let size: CGFloat
-    let lineWidth: CGFloat
-    let fontScale: CGFloat
-    let totalSegments: Int
-    var showPercentageText: Bool   // Existing parameter to control text display
-    var showPercentageSymbol: Bool = true // New parameter to control % symbol display
-    var segmentSpacing: Double = 2.0
-    let minimumBrightness: Double = 0.3
-
-    private var segmentAngle: Double {
-        (360.0 / Double(totalSegments)) - segmentSpacing
-    }
-
-    var body: some View {
-        ZStack {
-            // Background segments (lighter, for unfilled segments)
-            ForEach(0..<totalSegments, id: \.self) { index in
-                let startAngle = segmentStartAngle(for: index)
-                let endAngle = startAngle + segmentAngle
-
-                CircularSegmentShape(
-                    startAngle: startAngle,
-                    endAngle: endAngle,
-                    lineWidth: lineWidth
-                )
-                .stroke(lineWidth: lineWidth)
-                .foregroundColor(self.segmentColor(for: index).opacity(0.2))
-                .frame(width: size, height: size)
-            }
-
-            // Foreground segments (filled based on progress)
-            ForEach(0..<totalSegments, id: \.self) { index in
-                let startAngle = segmentStartAngle(for: index)
-                let endAngle = startAngle + segmentAngle
-
-                CircularSegmentShape(
-                    startAngle: startAngle,
-                    endAngle: endAngle,
-                    lineWidth: lineWidth
-                )
-                .stroke(lineWidth: lineWidth)
-                .foregroundColor(self.segmentColor(for: index))
-                .opacity(self.opacityForSegment(index: index, adjustedPercentage: percentage / 100.0))
-                .frame(width: size, height: size)
-            }
-
-            // Center text (optional)
-            if showPercentageText {
-                Text(showPercentageSymbol ? String(format: "%.0f%%", percentage) : String(format: "%.0f", percentage))
-                    .font(.system(size: size * fontScale, weight: .bold))
-                    .foregroundColor(.primary)
-            }
-        }
-    }
-
-    private func segmentStartAngle(for index: Int) -> Double {
-        (Double(index) * (segmentAngle + segmentSpacing)) - 90
-    }
-
-    private func segmentColor(for index: Int) -> Color {
-        if index < totalSegments / 2 {
-            return Color.green
-        } else if index < (totalSegments * 3) / 4 {
-            return Color.orange
-        } else {
-            return Color.red
-        }
-    }
-
-    private func opacityForSegment(index: Int, adjustedPercentage: Double) -> Double {
-        let segmentProgress = Double(index) / Double(totalSegments)
-        let nextSegmentProgress = Double(index + 1) / Double(totalSegments)
-
-        if adjustedPercentage >= nextSegmentProgress {
-            return 1.0
-        } else if adjustedPercentage > segmentProgress {
-            let segmentFraction = (adjustedPercentage - segmentProgress) / (nextSegmentProgress - segmentProgress)
-            return max(segmentFraction, minimumBrightness)
-        } else {
-            return 0.0
-        }
-    }
-}
-
-// Shape for the circular segments
-struct CircularSegmentShape: Shape {
-    let startAngle: Double
-    let endAngle: Double
-    let lineWidth: CGFloat
-
-    func path(in rect: CGRect) -> Path {
-        let radius = min(rect.width, rect.height) / 2 - (lineWidth / 2)
-        let center = CGPoint(x: rect.midX, y: rect.midY)
-
-        var path = Path()
-        path.addArc(
-            center: center,
-            radius: radius,
-            startAngle: Angle(degrees: startAngle),
-            endAngle: Angle(degrees: endAngle),
-            clockwise: false
-        )
-
-        return path
+        .contentMarginsDisabled()
     }
 }

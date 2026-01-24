@@ -39,7 +39,7 @@ struct WatchGymCardView: View {
             // Occupancy numbers
             VStack(spacing: 4) {
                 if networkMonitor.isConnected {
-                    Text("\(occupancy) / \(maxCapacity)")
+                    Text("\(occupancy.abbreviatedCount) / \(maxCapacity.abbreviatedCount)")
                         .font(.caption)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)

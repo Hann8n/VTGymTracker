@@ -3,6 +3,15 @@
 
 import Foundation
 
+extension Int {
+    /// e.g. 234 → "234", 1200 → "1.2k", 12345 → "12.3k"
+    var abbreviatedCount: String {
+        if self < 1000 { return "\(self)" }
+        if self < 1_000_000 { return String(format: "%.1fk", Double(self) / 1000) }
+        return String(format: "%.1fM", Double(self) / 1_000_000)
+    }
+}
+
 struct Constants {
     // Facility IDs
     static let mcComasFacilityId = "da73849e-434d-415f-975a-4f9e799b9c39"
