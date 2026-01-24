@@ -56,7 +56,7 @@ struct AboutView: View {
                 
                 // Social Links Row with Bluesky, LinkedIn, GitHub, etc.
                 HStack(spacing: 40) {
-                    Link(destination: URL(string: "https://bsky.app/profile/jackhannon.me")!) {
+                    Link(destination: URL(string: "https://bsky.app/profile/did:plc:tjio2pnbsuc6ps77kocywwmc")!) {
                         Image("Bluesky_Logo")
                             .renderingMode(.template)
                             .resizable()
