@@ -11,7 +11,7 @@ import SwiftUI
 struct PrivacyPolicyView: View {
     @Environment(\.dismiss) private var dismiss
     // The URL of your Privacy Policy
-    private let privacyPolicyURL = URL(string: "https://hann8n.github.io/VTGymTracker/privacy-policy.html")!
+    private let privacyPolicyURL = URL(string: "https://hann8n.github.io/VTGymTracker/docs/privacy-policy.html")!
 
     var body: some View {
         WebView(url: privacyPolicyURL)
