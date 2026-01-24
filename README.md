@@ -77,7 +77,7 @@ The app’s Privacy Policy is served from this repo via GitHub Pages. To turn it
 3. **Branch**: `main` (or `master`), **Folder**: `/docs`
 4. Save
 
-The policy will be at **https://hann8n.github.io/VTGymTracker/privacy-policy.html**. The in-app Settings → Privacy Policy link loads this URL in a WebView.
+The policy will be at **https://hann8n.github.io/VTGymTracker/docs/privacy-policy.html**. The in-app Settings → Privacy Policy link loads this URL in a WebView.
 
 ### Project Structure
 ```
