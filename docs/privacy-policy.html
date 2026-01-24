@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy | Jack Hannon</title>
+  <script>
+    if (localStorage.getItem('theme') === 'dark' || 
+        (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark-theme');
+    }
+  </script>
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --link-color: #444444;
+      --link-hover-color: #222222;
+      --vt-maroon: #861F41;
+      --vt-burntOrange: #E5751F;
+    }
+    .dark-theme {
+      --bg-color: #1a1a1a;
+      --text-color: #e0e0e0;
+      --link-color: #bbbbbb;
+      --link-hover-color: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not(.light-theme):not(.dark-theme) {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --link-color: #bbbbbb;
+        --link-hover-color: #ffffff;
+      }
+    }
+    @media (prefers-color-scheme: light) {
+      :root:not(.light-theme):not(.dark-theme) {
+        --bg-color: #ffffff;
+        --text-color: #333333;
+        --link-color: #444444;
+        --link-hover-color: #222222;
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .container { max-width: 800px; margin: 0 auto; padding: 1rem; }
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0,0,0,0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+    .privacy-policy {
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.7;
+      padding: 2rem 1rem;
+      letter-spacing: 0.01em;
+    }
+    .privacy-policy h1 {
+      font-size: clamp(2rem, 5vw, 2.5rem);
+      margin: 0 0 1.5rem 0;
+      color: var(--text-color);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .privacy-policy h2 {
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
+      margin: 2rem 0 1rem 0;
+      color: var(--text-color);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .privacy-policy p {
+      margin-bottom: 1.2rem;
+      color: var(--text-color);
+      font-size: clamp(1rem, 2.5vw, 1.1rem);
+    }
+    .privacy-policy a {
+      color: var(--vt-maroon);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .privacy-policy a:hover { color: var(--vt-burntOrange); }
+    .app-icon-container {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 1rem;
+      padding: 0.5rem 0;
+    }
+    .app-icon-container a { display: inline-block; text-decoration: none; border-radius: inherit; }
+    .app-icon {
+      width: clamp(100px, 8vw, 140px);
+      height: clamp(100px, 8vw, 140px);
+      border-radius: clamp(20px, 2vw, 28px);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+    .app-icon:hover {
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+    }
+    .app-icon:focus {
+      outline: 3px solid var(--vt-maroon);
+      outline-offset: 4px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .app-icon { transition: none; }
+      .app-icon:hover { transform: none; }
+    }
+    @media (max-width: 480px) {
+      .app-icon { width: clamp(70px, 12vw, 90px); height: clamp(70px, 12vw, 90px); border-radius: clamp(16px, 3vw, 20px); }
+      .app-icon-container { margin-bottom: 0.75rem; padding: 0.25rem 0; }
+      .privacy-policy h1 { font-size: clamp(1.6em, 5vw, 2em); margin: 0 0 0.8rem 0; }
+      .privacy-policy h2 { font-size: clamp(1.3em, 4vw, 1.6em); margin: 1.2rem 0 0.6rem 0; }
+      .privacy-policy p { font-size: clamp(0.9em, 3.5vw, 1em); margin-bottom: 1rem; line-height: 1.6; }
+      .privacy-policy { padding: 1rem; margin: 0.5rem; }
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      padding: 1rem 0;
+    }
+    .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--text-color);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      min-width: 44px;
+      min-height: 44px;
+    }
+    .social-icons a:hover,
+    .social-icons a:focus {
+      background: transparent;
+      color: var(--link-hover-color);
+      transform: translateY(-2px);
+    }
+    .social-icons .linkedin-icon,
+    .social-icons .github-icon,
+    .social-icons .bluesky-icon {
+      width: 1.4rem;
+      height: 1.4rem;
+      fill: currentColor;
+    }
+    @media (max-width: 650px) {
+      .social-icons { margin: 1.5rem 0; padding: 0.5rem 0; gap: 1rem; }
+      .social-icons a { width: 3.5rem; height: 3.5rem; min-width: 48px; min-height: 48px; }
+      .social-icons .linkedin-icon,
+      .social-icons .github-icon,
+      .social-icons .bluesky-icon { width: 1.6rem; height: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container" id="main-content">
+    <div id="a11y-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+    
+    <section class="privacy-policy">
+      <div class="app-icon-container">
+        <a href="https://apps.apple.com/us/app/vt-gym-tracker/id6736409867?itscg=30200&itsct=apps_box_link&mttnsubad=6736409867" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           aria-label="Download VT Gym Tracker on the App Store">
+          <img src="images/VT-Gym-Tracker-ios-Icon.png" 
+               alt="VT Gym Tracker App Icon" 
+               class="app-icon" 
+               width="140" 
+               height="140"
+               loading="eager"
+               decoding="async" />
+        </a>
+      </div>
+      <h1>Privacy Policy</h1>
+      <p><strong>Last Updated:</strong> January 11, 2025</p>
+
+      <p>Jack Hannon [I, Me, My] built Gym Tracker (the "App") as a free, non-commercial application. The App and any additional services provided now or in the future are provided "as is." This Privacy Policy outlines how I handle your information when you use my mobile application, Gym Tracker. By accessing or using the App, you agree to these privacy terms.</p>
+
+      <h2>Information Collected</h2>
+      <p>Gym Tracker does not collect, store, or transmit any personal or non-personal information from its users. Any data saved in the app is stored locally on the device.</p>
+
+      <h2>Third-Party Services</h2>
+      <p>The App connects to the Virginia Tech Recreational Sports website ("VT Rec Sports"). VT Rec Sports and their partners may collect personal information as outlined in their Privacy Policy. I encourage you to review their policy to understand how your information is handled when you interact with VT Rec Sports through the App.</p>
+
+      <h2>Links to Third-Party Websites</h2>
+      <p>The App may contain links to third-party websites or services that I don't operate. Once you leave the App, I have no control over these external sites and cannot be responsible for their privacy practices. Please review the privacy policies of any third-party sites you visit.</p>
+
+      <h2>Changes to This Privacy Policy</h2>
+      <p>I may update this Privacy Policy periodically. Any changes will be posted on this page with an updated "Last Updated" date.</p>
+
+      <h2>Contact</h2>
+      <p>If you have any questions or suggestions about this Privacy Policy, please contact me at <a href="mailto:hannon@vt.edu">hannon@vt.edu</a></p>
+    </section>
+  </main>
+  
+  <div class="social-icons">
+    <a href="https://www.linkedin.com/in/jackphannon/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="linkedin-icon">
+        <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/>
+      </svg>
+    </a>
+    <a href="https://github.com/Hann8n" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="github-icon">
+        <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3 .3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5 .3-6.2 2.3zm44.2-1.7c-2.9 .7-4.9 2.6-4.6 4.9 .3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3 .7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3 .3 2.9 2.3 3.9 1.6 1 3.6 .7 4.3-.7 .7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3 .7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3 .7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>
+      </svg>
+    </a>
+    <a href="https://bsky.app/profile/did:plc:tjio2pnbsuc6ps77kocywwmc" target="_blank" rel="noopener noreferrer" aria-label="Bluesky Profile">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="bluesky-icon">
+        <path d="M111.8 62.2C170.2 105.9 233 194.7 256 242.4c23-47.6 85.8-136.4 144.2-180.2c42.1-31.6 110.3-56 110.3 21.8c0 15.5-8.9 130.5-14.1 149.2C478.2 298 412 314.6 353.1 304.5c102.9 17.5 129.1 75.5 72.5 133.5c-107.4 110.2-154.3-27.6-166.3-62.9l0 0c-1.7-4.9-2.6-7.8-3.3-7.8s-1.6 3-3.3 7.8l0 0c-12 35.3-59 173.1-166.3 62.9c-56.5-58-30.4-116 72.5-133.5C100 314.6 33.8 298 15.7 233.1C10.4 214.4 1.5 99.4 1.5 83.9c0-77.8 68.2-53.4 110.3-21.8z"/>
+      </svg>
+    </a>
+  </div>
+</body>
+</html>

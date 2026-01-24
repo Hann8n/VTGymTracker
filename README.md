@@ -68,6 +68,17 @@ A comprehensive iOS app for Virginia Tech students to track gym occupancy and ma
 
 4. Build and run on your device or simulator
 
+### Privacy Policy (GitHub Pages)
+
+The app’s Privacy Policy is served from this repo via GitHub Pages. To turn it on:
+
+1. In the [VTGymTracker](https://github.com/Hann8n/VTGymTracker) repo: **Settings** → **Pages**
+2. **Source**: Deploy from a branch
+3. **Branch**: `main` (or `master`), **Folder**: `/docs`
+4. Save
+
+The policy will be at **https://hann8n.github.io/VTGymTracker/privacy-policy.html**. The in-app Settings → Privacy Policy link loads this URL in a WebView.
+
 ### Project Structure
 ```
 Gym Tracker (RC)/
@@ -77,6 +88,7 @@ Gym Tracker (RC)/
 ├── Assets.xcassets/   # App icons and images
 └── ContentView.swift  # Main app interface
 
+docs/                  # GitHub Pages: privacy-policy.html and images
 GymTrackerWidget/      # iOS Widget extension
 GymTrackerWatch/       # Apple Watch app
 GymTrackerComplications/ # Watch complications
