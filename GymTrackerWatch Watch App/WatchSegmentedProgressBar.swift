@@ -33,8 +33,8 @@ struct WatchSegmentedProgressBar: View {
             return color
         } else {
             return occupancyPercentage == 0
-                ? Color("WatchCustomGreen").opacity(0.22)
-                : color.opacity(0.28)
+                ? Color.gray.opacity(0.20)
+                : color.opacity(0.20)
         }
     }
     
