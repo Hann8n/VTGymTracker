@@ -7,7 +7,6 @@
 
 import Foundation
 import Combine
-import SwiftSoup
 import WidgetKit
 
 #if canImport(UIKit)
@@ -43,24 +42,11 @@ class GymService: ObservableObject {
     @Published var customWarMemorialOccupancy: Int? = 1025
     @Published var customBoulderingWallOccupancy: Int? = 6
     
-    private let facilityDataAPIURL = URL(string: "https://connect.recsports.vt.edu/FacilityOccupancy/GetFacilityData")!
-    private let occupancyDisplayType = "00000000-0000-0000-0000-000000004490"
     private var cancellables = Set<AnyCancellable>()
-    
-    private let urlSession: URLSession = {
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 30
-        configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
-        return URLSession(configuration: configuration)
-    }()
     
     // 30-second refresh while app is in foreground
     private var activeAppCancellable: AnyCancellable?
     private let activeAppInterval: TimeInterval = 30
-    
-    // For widget refresh, just run on a 15-min cycle
-    // and/or let the system re-request from the widget extension
-    private let appGroupID = "group.VTGymApp.D8VXFBV8SJ"
     
     private init() {
         setupAppLifecycleNotifications()
@@ -105,26 +91,15 @@ class GymService: ObservableObject {
     
     // MARK: - Main Fetch
     
-    // New efficient method using the API endpoint
     func fetchAllGymOccupancy() async {
-        // Fetch each facility individually using the API endpoint
-        let warMemorialFacilityId = Constants.warMemorialFacilityId
-        let mcComasFacilityId = Constants.mcComasFacilityId
-        let boulderingWallFacilityId = Constants.boulderingWallFacilityId
-        
-        async let warMemorialData = fetchFacilityOccupancy(facilityId: warMemorialFacilityId)
-        async let mcComasData = fetchFacilityOccupancy(facilityId: mcComasFacilityId)
-        async let boulderingWallData = fetchFacilityOccupancy(facilityId: boulderingWallFacilityId)
-        
-        let (warMemorial, mcComas, boulderingWall) = await (warMemorialData, mcComasData, boulderingWallData)
-        
-        // Update online status based on whether any requests succeeded
-        isOnline = warMemorial != nil || mcComas != nil || boulderingWall != nil
-        
-        // Store and notify with the fetched data
-        storeAndNotify(mcComasData: mcComas, warMemorialData: warMemorial, boulderingWallData: boulderingWall)
-        
-        // If no data was fetched successfully, schedule a retry
+        let (mc, wm, bw) = await GymOccupancyFetcher.fetchAll()
+        let mcData = mc.map { GymOccupancyData(occupancy: $0.occupancy, remaining: $0.remaining) }
+        let wmData = wm.map { GymOccupancyData(occupancy: $0.occupancy, remaining: $0.remaining) }
+        let bwData = bw.map { GymOccupancyData(occupancy: $0.occupancy, remaining: $0.remaining) }
+
+        isOnline = mc != nil || wm != nil || bw != nil
+        storeAndNotify(mcComasData: mcData, warMemorialData: wmData, boulderingWallData: bwData)
+
         if !isOnline {
             print("No occupancy data fetched successfully, scheduling retry...")
             DispatchQueue.main.asyncAfter(deadline: .now() + 60) { [weak self] in
@@ -134,60 +109,7 @@ class GymService: ObservableObject {
             }
         }
     }
-    
-    // New method to fetch individual facility data using the API
-    private func fetchFacilityOccupancy(facilityId: String) async -> GymOccupancyData? {
-        do {
-            var request = URLRequest(url: facilityDataAPIURL)
-            request.httpMethod = "POST"
-            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            request.httpBody = "facilityId=\(facilityId)&occupancyDisplayType=\(occupancyDisplayType)".data(using: .utf8)
-            
-            let (data, response) = try await urlSession.data(for: request)
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                throw GymServiceError.invalidResponse
-            }
-            
-            guard let htmlString = String(data: data, encoding: .utf8) else {
-                throw GymServiceError.dataConversionError
-            }
-            
-            // Parse the HTML fragment response
-            return parseHTMLForOccupancy(htmlString, facilityId: facilityId)
-            
-        } catch {
-            print("Error fetching facility \(facilityId): \(error.localizedDescription)")
-            return nil
-        }
-    }
-    
-    private func parseHTMLForOccupancy(_ html: String, facilityId: String) -> GymOccupancyData? {
-        do {
-            let document = try SwiftSoup.parse(html)
-            
-            // API responses return HTML fragments with canvas elements
-            guard let canvas = try document.select("canvas.occupancy-chart").first() else {
-                throw GymServiceError.htmlParsingError
-            }
-            
-            let occupancyStr = try canvas.attr("data-occupancy")
-            let remainingStr = try canvas.attr("data-remaining")
-            
-            guard let occupancy = Int(occupancyStr),
-                  let remaining = Int(remainingStr)
-            else {
-                throw GymServiceError.dataConversionError
-            }
-            
-            return GymOccupancyData(occupancy: occupancy, remaining: remaining)
-        } catch {
-            print("Error parsing HTML for facility \(facilityId): \(error)")
-            return nil
-        }
-    }
-    
+
     // MARK: - Store & Notify in one place
     
     private func storeAndNotify(mcComasData: GymOccupancyData?, warMemorialData: GymOccupancyData?, boulderingWallData: GymOccupancyData?) {
@@ -198,45 +120,30 @@ class GymService: ObservableObject {
         self.boulderingWallOccupancy = useCustomOccupancy ? customBoulderingWallOccupancy : boulderingWallData?.occupancy
         
         // 2. Store the latest data in App Group (for widget)
-        guard let sharedDefaults = UserDefaults(suiteName: appGroupID) else {
+        guard let sharedDefaults = UserDefaults(suiteName: Constants.appGroupID) else {
             print("Could not access shared defaults.")
             return
         }
         
         // McComas
         let mcOccupancyToStore = useCustomOccupancy ? customMcComasOccupancy : mcComasData?.occupancy
-        let mcRemainingToStore = mcComasData?.remaining
         if let mc = mcOccupancyToStore {
             sharedDefaults.set(mc, forKey: "mcComasOccupancy")
         }
-        if let mcRem = mcRemainingToStore {
-            sharedDefaults.set(mcRem, forKey: "mcComasRemaining")
-        }
-        
+
         // War
         let warOccupancyToStore = useCustomOccupancy ? customWarMemorialOccupancy : warMemorialData?.occupancy
-        let warRemainingToStore = warMemorialData?.remaining
         if let wm = warOccupancyToStore {
             sharedDefaults.set(wm, forKey: "warMemorialOccupancy")
         }
-        if let wmRem = warRemainingToStore {
-            sharedDefaults.set(wmRem, forKey: "warMemorialRemaining")
-        }
-        
+
         // Bouldering Wall
         let boulderingWallOccupancyToStore = useCustomOccupancy ? customBoulderingWallOccupancy : boulderingWallData?.occupancy
-        let boulderingWallRemainingToStore = boulderingWallData?.remaining
         if let bw = boulderingWallOccupancyToStore {
             sharedDefaults.set(bw, forKey: "boulderingWallOccupancy")
         }
-        if let bwRem = boulderingWallRemainingToStore {
-            sharedDefaults.set(bwRem, forKey: "boulderingWallRemaining")
-        }
-        
-        // 3. Optionally store a timestamp
-        sharedDefaults.set(Date(), forKey: "lastFetchDate")
-        
-        // 4. Tell WidgetKit to reload
+
+        // Tell WidgetKit to reload
         WidgetCenter.shared.reloadAllTimelines()
         
         print("New data stored and WidgetKit notified.")

@@ -1,0 +1,9 @@
+Target dependency graph (4 targets)
+Target 'GymTrackerWidgetExtension' in project 'Gym Tracker'
+➜ Explicit dependency on target 'SwiftSoup' in project 'SwiftSoup'
+Target 'SwiftSoup' in project 'SwiftSoup'
+➜ Explicit dependency on target 'SwiftSoup' in project 'SwiftSoup'
+➜ Explicit dependency on target 'SwiftSoup_SwiftSoup' in project 'SwiftSoup'
+Target 'SwiftSoup' in project 'SwiftSoup'
+➜ Explicit dependency on target 'SwiftSoup_SwiftSoup' in project 'SwiftSoup'
+Target 'SwiftSoup_SwiftSoup' in project 'SwiftSoup' (no dependencies)

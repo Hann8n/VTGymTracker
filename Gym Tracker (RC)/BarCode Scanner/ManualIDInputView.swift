@@ -13,89 +13,76 @@ struct ManualIDInputView: View {
     
     @State private var idNumber: String = ""
     @State private var isLoading: Bool = false
+    @FocusState private var isIDFieldFocused: Bool
+
+    private var isSaveDisabled: Bool {
+        idNumber.filter(\.isNumber).count != 9 || isLoading
+    }
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 24) {
-                // Header section
-                VStack(spacing: 8) {
-                    Image(systemName: "person.crop.rectangle")
-                        .font(.system(size: 48))
-                        .foregroundColor(.customOrange)
-                    
-                    Text("Enter ID Number")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                    
-                    Text("Enter your student ID number manually")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                }
-                .padding(.top, 20)
-                
-                // Input section
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Student ID Number")
-                        .font(.headline)
-                        .foregroundColor(.primary)
-                    
-                    TextField("Enter your ID number", text: $idNumber)
-                        .textFieldStyle(.roundedBorder)
-                        .keyboardType(.numberPad)
-                        .font(.system(.body, design: .monospaced))
-                        .autocorrectionDisabled()
-                        .textInputAutocapitalization(.never)
-                }
-                .padding(.horizontal)
-                
-                // Info section
-                VStack(spacing: 12) {
-                    Label("All data is stored locally on this device", systemImage: "lock.shield")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    
-                    Label("Your ID will be formatted as a barcode", systemImage: "barcode")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-                
-                Spacer()
-                
-                // Action buttons
-                VStack(spacing: 12) {
-                    Button(action: saveID) {
-                        HStack {
-                            if isLoading {
-                                ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                    .scaleEffect(0.8)
-                            } else {
-                                Text("Save ID")
-                                    .fontWeight(.semibold)
+            Form {
+                Section {
+                    CampusIDFieldView(text: $idNumber, onTap: { isIDFieldFocused = true })
+                        .onChange(of: idNumber) { _, newValue in
+                            let digits = newValue.filter(\.isNumber)
+                            if digits.count > 9 || newValue != digits {
+                                idNumber = String(digits.prefix(9))
                             }
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(idNumber.isEmpty ? Color.gray.opacity(0.3) : Color.customOrange)
-                        .foregroundColor(idNumber.isEmpty ? .secondary : .white)
-                        .cornerRadius(12)
+                        .overlay(
+                            TextField("", text: $idNumber)
+                                .keyboardType(.numberPad)
+                                .focused($isIDFieldFocused)
+                                .opacity(0)
+                                .allowsHitTesting(false)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        )
+                } header: {
+                    Text("Campus ID")
+                } footer: {
+                    VStack(alignment: .center, spacing: 8) {
+                        Label("All data is stored locally on this device", systemImage: "lock.shield")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        Label("Your ID will be formatted as a barcode", systemImage: "barcode")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
                     }
-                    .disabled(idNumber.isEmpty || isLoading)
-                    
-                    Button("Cancel") {
-                        isPresented = false
-                    }
-                    .foregroundColor(.customOrange)
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 12)
                 }
-                .padding(.horizontal)
-                .padding(.bottom)
             }
-            .navigationTitle("Manual Entry")
+            .formStyle(.grouped)
+            .safeAreaInset(edge: .bottom) {
+                Button(action: saveID) {
+                    HStack {
+                        if isLoading {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                .scaleEffect(0.9)
+                        } else {
+                            Text("Save ID")
+                                .fontWeight(.semibold)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.customOrange)
+                .controlSize(.regular)
+                .disabled(isSaveDisabled)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(Color(.systemGroupedBackground))
+            }
+            .onAppear { isIDFieldFocused = true }
+            .navigationTitle("Enter ID Number")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         isPresented = false
                     } label: {
@@ -110,57 +97,23 @@ struct ManualIDInputView: View {
     }
     
     private func saveID() {
-        // Validate the input
-        let trimmedID = idNumber.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        guard !trimmedID.isEmpty else {
-            alertManager.showAlert(.custom(
-                title: "Invalid Input",
-                message: "Please enter a valid ID number.",
-                primaryButton: .default(Text("OK")),
-                secondaryButton: nil
-            ))
-            return
-        }
-        
-        // Basic validation - check if it's numeric and reasonable length
-        guard trimmedID.allSatisfy({ $0.isNumber }) else {
-            alertManager.showAlert(.custom(
-                title: "Invalid Format",
-                message: "ID number should only contain numbers.",
-                primaryButton: .default(Text("OK")),
-                secondaryButton: nil
-            ))
-            return
-        }
-        
-        guard trimmedID.count >= 4 && trimmedID.count <= 12 else {
+        let digits = idNumber.filter(\.isNumber)
+
+        guard digits.count == 9 else {
             alertManager.showAlert(.custom(
                 title: "Invalid Length",
-                message: "ID number should be between 4 and 12 digits.",
+                message: "Campus ID is 9 digits (XXXX-XXXXX).",
                 primaryButton: .default(Text("OK")),
                 secondaryButton: nil
             ))
             return
         }
-        
+
         isLoading = true
-        
-        // Format the ID as a Codabar barcode (same format as scanner)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            let formattedBarcode = "A\(trimmedID)B"
-            gymBarcode = formattedBarcode
-            isLoading = false
-            isPresented = false
-            
-            // Show success alert
-            alertManager.showAlert(.custom(
-                title: "ID Saved",
-                message: "Your student ID has been saved successfully.",
-                primaryButton: .default(Text("OK")),
-                secondaryButton: nil
-            ))
-        }
+        let formattedBarcode = "A\(digits)B"
+        gymBarcode = formattedBarcode
+        isLoading = false
+        isPresented = false
     }
 }
 

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import BackgroundTasks
 
 @main
 struct Gym_Tracker__RC_App: App {
@@ -16,5 +17,17 @@ struct Gym_Tracker__RC_App: App {
             ContentView()
                 .environmentObject(alertManager)
         }
+        .backgroundTask(.appRefresh("com.gymtracker.apprefresh")) { await runBackgroundRefresh() }
     }
+}
+
+private func runBackgroundRefresh() async {
+    await GymService.shared.fetchAllGymOccupancy()
+    scheduleAppRefresh()
+}
+
+func scheduleAppRefresh() {
+    let req = BGAppRefreshTaskRequest(identifier: "com.gymtracker.apprefresh")
+    req.earliestBeginDate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())
+    try? BGTaskScheduler.shared.submit(req)
 }

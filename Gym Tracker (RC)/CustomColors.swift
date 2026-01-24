@@ -19,11 +19,11 @@ extension Color {
     static func occupancyColor(for percentage: CGFloat) -> Color {
         switch percentage {
         case 0..<0.5:
-            return .customGreen
+            return Color("CustomGreen")
         case 0.5..<0.75:
-            return .customOrange
+            return Color("CustomOrange")
         default:
-            return .customMaroon
+            return Color("CustomMaroon")
         }
     }
     

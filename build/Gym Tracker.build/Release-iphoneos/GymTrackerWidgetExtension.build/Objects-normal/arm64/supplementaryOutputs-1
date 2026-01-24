@@ -1,0 +1,12 @@
+{
+  "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/Services/Constants.swift" : {
+    "abi-baseline-json" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidgetExtension.abi.json",
+    "const-values" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidgetExtension-primary.swiftconstvalues",
+    "dependencies" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidgetExtension-primary.d",
+    "diagnostics" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidgetExtension-primary.dia",
+    "objc-header" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidgetExtension-Swift.h",
+    "swiftdoc" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidgetExtension.swiftdoc",
+    "swiftmodule" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidgetExtension.swiftmodule",
+    "swiftsourceinfo" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidgetExtension.swiftsourceinfo"
+  }
+}

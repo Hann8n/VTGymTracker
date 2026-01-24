@@ -1,6 +1,8 @@
 //Constants.swift
 //Shared File (Targets Gym Tracker RC and Gym Tracker Widget)
 
+import Foundation
+
 struct Constants {
     // Facility IDs
     static let mcComasFacilityId = "da73849e-434d-415f-975a-4f9e799b9c39"
@@ -11,4 +13,11 @@ struct Constants {
     static let mcComasMaxCapacity = 600
     static let warMemorialMaxCapacity = 1200
     static let boulderingWallMaxCapacity = 8
+
+    // VT Facility Occupancy API
+    static let facilityDataAPIURL = URL(string: "https://connect.recsports.vt.edu/FacilityOccupancy/GetFacilityData")!
+    static let occupancyDisplayType = "00000000-0000-0000-0000-000000004490"
+
+    // App Group (main app, widget, Watch)
+    static let appGroupID = "group.VTGymApp.D8VXFBV8SJ"
 }

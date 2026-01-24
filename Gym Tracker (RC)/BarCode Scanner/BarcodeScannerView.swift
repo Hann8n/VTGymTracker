@@ -178,6 +178,7 @@ class ScannerViewController: UIViewController {
             setupScannerOverlay()
         }
 
+        setupGrabHandle()
         setupFlashlightButton()
     }
     
@@ -219,31 +220,67 @@ class ScannerViewController: UIViewController {
         scanBorderLayer = borderLayer
 
         let titleLabel = UILabel()
-        titleLabel.text = "Scan Hokie Passport"
+        titleLabel.text = "Scan Campus ID"
         titleLabel.textColor = UIColor.white
         titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         titleLabel.textAlignment = .center
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         overlay.addSubview(titleLabel)
 
-        let infoLabel = UILabel()
-        infoLabel.text = "All data is stored locally on this device."
-        infoLabel.textColor = UIColor.white
-        infoLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        infoLabel.textAlignment = .center
-        infoLabel.numberOfLines = 0
-        infoLabel.translatesAutoresizingMaskIntoConstraints = false
-        overlay.addSubview(infoLabel)
+        let lockRow = makePrivacyRow(icon: "lock.shield", text: "All data is stored locally on this device")
+        let privacyStack = UIStackView(arrangedSubviews: [lockRow])
+        privacyStack.axis = .vertical
+        privacyStack.spacing = 8
+        privacyStack.alignment = .center
+        privacyStack.translatesAutoresizingMaskIntoConstraints = false
+        overlay.addSubview(privacyStack)
 
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: overlay.topAnchor, constant: frameY + frameHeight + 10),
+            titleLabel.bottomAnchor.constraint(equalTo: overlay.topAnchor, constant: frameY - 10),
             titleLabel.centerXAnchor.constraint(equalTo: overlay.centerXAnchor),
-            infoLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
-            infoLabel.leadingAnchor.constraint(equalTo: overlay.leadingAnchor, constant: 20),
-            infoLabel.trailingAnchor.constraint(equalTo: overlay.trailingAnchor, constant: -20)
+            privacyStack.topAnchor.constraint(equalTo: overlay.topAnchor, constant: frameY + frameHeight + 10),
+            privacyStack.centerXAnchor.constraint(equalTo: overlay.centerXAnchor),
+            privacyStack.leadingAnchor.constraint(greaterThanOrEqualTo: overlay.leadingAnchor, constant: 20),
+            privacyStack.trailingAnchor.constraint(lessThanOrEqualTo: overlay.trailingAnchor, constant: -20)
         ])
 
         view.addSubview(overlay)
+    }
+
+    private func makePrivacyRow(icon: String, text: String) -> UIStackView {
+        let config = UIImage.SymbolConfiguration(pointSize: 12, weight: .medium)
+        let imageView = UIImageView(image: UIImage(systemName: icon, withConfiguration: config))
+        imageView.tintColor = UIColor.white.withAlphaComponent(0.8)
+        imageView.contentMode = .scaleAspectFit
+
+        let label = UILabel()
+        label.text = text
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        label.textColor = UIColor.white.withAlphaComponent(0.8)
+        label.numberOfLines = 0
+
+        let row = UIStackView(arrangedSubviews: [imageView, label])
+        row.axis = .horizontal
+        row.spacing = 6
+        row.alignment = .center
+        return row
+    }
+
+    private func setupGrabHandle() {
+        let handle = UIView()
+        handle.backgroundColor = UIColor.white.withAlphaComponent(0.4)
+        handle.layer.cornerRadius = 2.5
+        handle.translatesAutoresizingMaskIntoConstraints = false
+        handle.isUserInteractionEnabled = false
+
+        view.addSubview(handle)
+
+        NSLayoutConstraint.activate([
+            handle.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            handle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            handle.widthAnchor.constraint(equalToConstant: 36),
+            handle.heightAnchor.constraint(equalToConstant: 5)
+        ])
     }
 
     private func setupFlashlightButton() {

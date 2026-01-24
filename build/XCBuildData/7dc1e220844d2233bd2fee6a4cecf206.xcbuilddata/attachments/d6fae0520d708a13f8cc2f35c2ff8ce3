@@ -1,0 +1,56 @@
+{
+  "" : {
+    "const-values" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidgetExtension-primary.swiftconstvalues",
+    "dependencies" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidgetExtension-primary.d",
+    "diagnostics" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidgetExtension-primary.dia",
+    "emit-module-dependencies" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidgetExtension-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidgetExtension-primary-emit-module.dia",
+    "pch" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidgetExtension-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidgetExtension-primary.swiftdeps"
+  },
+  "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/CustomColors.swift" : {
+    "index-unit-output-path" : "/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/CustomColors.o",
+    "llvm-bc" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/CustomColors.bc",
+    "object" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/CustomColors.o"
+  },
+  "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/Services/Constants.swift" : {
+    "index-unit-output-path" : "/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/Constants.o",
+    "llvm-bc" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/Constants.bc",
+    "object" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/Constants.o"
+  },
+  "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/Services/GymOccupancyFetcher.swift" : {
+    "index-unit-output-path" : "/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymOccupancyFetcher.o",
+    "llvm-bc" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymOccupancyFetcher.bc",
+    "object" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymOccupancyFetcher.o"
+  },
+  "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/Services/UnifiedGymTrackerProvider.swift" : {
+    "index-unit-output-path" : "/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/UnifiedGymTrackerProvider.o",
+    "llvm-bc" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/UnifiedGymTrackerProvider.bc",
+    "object" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/UnifiedGymTrackerProvider.o"
+  },
+  "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/Gym Tracker (RC)/Services/WarningManager.swift" : {
+    "index-unit-output-path" : "/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/WarningManager.o",
+    "llvm-bc" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/WarningManager.bc",
+    "object" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/WarningManager.o"
+  },
+  "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/GymTrackerWidget/GymTrackerLockscreenWidget.swift" : {
+    "index-unit-output-path" : "/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerLockscreenWidget.o",
+    "llvm-bc" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerLockscreenWidget.bc",
+    "object" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerLockscreenWidget.o"
+  },
+  "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/GymTrackerWidget/GymTrackerWidget.swift" : {
+    "index-unit-output-path" : "/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidget.o",
+    "llvm-bc" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidget.bc",
+    "object" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidget.o"
+  },
+  "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/GymTrackerWidget/GymTrackerWidgetBundle.swift" : {
+    "index-unit-output-path" : "/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidgetBundle.o",
+    "llvm-bc" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidgetBundle.bc",
+    "object" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GymTrackerWidgetBundle.o"
+  },
+  "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "index-unit-output-path" : "/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/jack/VT Gym Tracker Xcode/Gym Tracker (RC)/build/Gym Tracker.build/Release-iphoneos/GymTrackerWidgetExtension.build/Objects-normal/arm64/GeneratedAssetSymbols.o"
+  }
+}

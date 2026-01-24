@@ -84,7 +84,21 @@ struct SegmentedProgressBar: View {
             // Greyed-out background when empty
             return Color.gray.opacity(0.2)
         } else {
-            return Color.segmentColor(index: index, totalSegments: totalSegments).opacity(0.2)
+            let fraction = CGFloat(index + 1) / CGFloat(totalSegments)
+            let color = occupancyColor(for: fraction)
+            return color.opacity(0.2)
+        }
+    }
+    
+    // Helper method to determine occupancy color
+    private func occupancyColor(for percentage: CGFloat) -> Color {
+        switch percentage {
+        case 0..<0.5:
+            return Color("CustomGreen")
+        case 0.5..<0.75:
+            return Color("CustomOrange")
+        default:
+            return Color("CustomMaroon")
         }
     }
     
@@ -94,7 +108,8 @@ struct SegmentedProgressBar: View {
             // Greyed-out foreground when empty
             return Color.gray
         } else {
-            return Color.segmentColor(index: index, totalSegments: totalSegments)
+            let fraction = CGFloat(index + 1) / CGFloat(totalSegments)
+            return occupancyColor(for: fraction)
         }
     }
     

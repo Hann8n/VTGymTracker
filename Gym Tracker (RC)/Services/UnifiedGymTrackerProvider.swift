@@ -26,13 +26,30 @@ struct UnifiedGymTrackerProvider: TimelineProvider {
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<UnifiedGymTrackerEntry>) -> Void) {
-        let entry = createEntry()
-        let timeline = createTimeline(from: entry)
-        completion(timeline)
+        Task {
+            let (mc, wm) = await GymOccupancyFetcher.fetchForWidget()
+            let shared = UserDefaults(suiteName: Constants.appGroupID)
+            let mcFinal = mc ?? shared?.integer(forKey: "mcComasOccupancy") ?? 0
+            let wmFinal = wm ?? shared?.integer(forKey: "warMemorialOccupancy") ?? 0
+
+            if mc != nil { shared?.set(mc!, forKey: "mcComasOccupancy") }
+            if wm != nil { shared?.set(wm!, forKey: "warMemorialOccupancy") }
+            if mc != nil || wm != nil { shared?.set(Date(), forKey: "lastFetchDate") }
+
+            let entry = UnifiedGymTrackerEntry(
+                date: Date(),
+                mcComasOccupancy: mcFinal,
+                warMemorialOccupancy: wmFinal,
+                maxMcComasCapacity: Constants.mcComasMaxCapacity,
+                maxWarMemorialCapacity: Constants.warMemorialMaxCapacity
+            )
+            let next = Calendar.current.date(byAdding: .minute, value: 15, to: Date()) ?? Date().addingTimeInterval(15 * 60)
+            completion(Timeline(entries: [entry], policy: .after(next)))
+        }
     }
-    
+
     private func createEntry() -> UnifiedGymTrackerEntry {
-        let sharedDefaults = UserDefaults(suiteName: "group.VTGymApp.D8VXFBV8SJ")
+        let sharedDefaults = UserDefaults(suiteName: Constants.appGroupID)
         let mcOccupancy = sharedDefaults?.integer(forKey: "mcComasOccupancy") ?? 0
         let wmOccupancy = sharedDefaults?.integer(forKey: "warMemorialOccupancy") ?? 0
         
@@ -43,28 +60,5 @@ struct UnifiedGymTrackerProvider: TimelineProvider {
             maxMcComasCapacity: Constants.mcComasMaxCapacity,
             maxWarMemorialCapacity: Constants.warMemorialMaxCapacity
         )
-    }
-    
-    private func createTimeline(from entry: UnifiedGymTrackerEntry) -> Timeline<UnifiedGymTrackerEntry> {
-        let currentDate = Date()
-        let calendar = Calendar.current
-        
-        var entries = [entry]
-        
-        for i in 1...12 {
-            if let futureDate = calendar.date(byAdding: .minute, value: i * 30, to: currentDate) {
-                let futureEntry = UnifiedGymTrackerEntry(
-                    date: futureDate,
-                    mcComasOccupancy: entry.mcComasOccupancy,
-                    warMemorialOccupancy: entry.warMemorialOccupancy,
-                    maxMcComasCapacity: entry.maxMcComasCapacity,
-                    maxWarMemorialCapacity: entry.maxWarMemorialCapacity
-                )
-                entries.append(futureEntry)
-            }
-        }
-        
-        let nextUpdate = calendar.date(byAdding: .minute, value: 30, to: currentDate) ?? currentDate.addingTimeInterval(30 * 60)
-        return Timeline(entries: entries, policy: .after(nextUpdate))
     }
 }

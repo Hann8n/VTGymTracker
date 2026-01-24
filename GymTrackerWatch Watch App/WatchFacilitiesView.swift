@@ -52,11 +52,6 @@ struct WatchFacilitiesView: View {
                 }
             }
         }
-        .onReceive(Timer.publish(every: 30, on: .main, in: .common).autoconnect()) { _ in
-            if networkMonitor.isConnected {
-                Task { await gymService.fetchAllGymOccupancy() }
-            }
-        }
         .onChange(of: networkMonitor.isConnected) { _, newValue in
             if newValue {
                 Task { await gymService.fetchAllGymOccupancy() }

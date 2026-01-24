@@ -1,0 +1,306 @@
+{
+  "" : {
+    "const-values" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/SwiftSoup-primary.swiftconstvalues",
+    "dependencies" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/SwiftSoup-primary.d",
+    "diagnostics" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/SwiftSoup-primary.dia",
+    "emit-module-dependencies" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/SwiftSoup-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/SwiftSoup-primary-emit-module.dia",
+    "pch" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/SwiftSoup-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/SwiftSoup-primary.swiftdeps"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/ArrayExt.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/ArrayExt.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/ArrayExt.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/ArrayExt.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Attribute.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Attribute.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Attribute.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Attribute.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Attributes.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Attributes.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Attributes.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Attributes.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/BinarySearch.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/BinarySearch.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/BinarySearch.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/BinarySearch.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/BooleanAttribute.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/BooleanAttribute.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/BooleanAttribute.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/BooleanAttribute.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/CharacterExt.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/CharacterExt.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/CharacterExt.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/CharacterExt.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/CharacterReader.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/CharacterReader.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/CharacterReader.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/CharacterReader.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Cleaner.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Cleaner.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Cleaner.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Cleaner.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Collector.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Collector.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Collector.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Collector.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/CombiningEvaluator.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/CombiningEvaluator.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/CombiningEvaluator.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/CombiningEvaluator.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Comment.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Comment.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Comment.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Comment.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Connection.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Connection.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Connection.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Connection.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/CssSelector.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/CssSelector.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/CssSelector.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/CssSelector.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/DataNode.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/DataNode.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/DataNode.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/DataNode.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/DataUtil.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/DataUtil.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/DataUtil.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/DataUtil.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Document.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Document.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Document.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Document.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/DocumentType.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/DocumentType.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/DocumentType.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/DocumentType.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Element.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Element.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Element.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Element.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Elements.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Elements.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Elements.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Elements.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Entities.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Entities.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Entities.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Entities.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Evaluator.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Evaluator.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Evaluator.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Evaluator.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Exception.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Exception.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Exception.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Exception.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/FormElement.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/FormElement.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/FormElement.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/FormElement.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/HtmlTreeBuilder.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/HtmlTreeBuilder.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/HtmlTreeBuilder.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/HtmlTreeBuilder.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/HtmlTreeBuilderState.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/HtmlTreeBuilderState.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/HtmlTreeBuilderState.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/HtmlTreeBuilderState.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/HttpStatusException.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/HttpStatusException.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/HttpStatusException.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/HttpStatusException.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Mutex.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Mutex.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Mutex.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Mutex.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Node.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Node.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Node.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Node.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/NodeTraversor.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/NodeTraversor.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/NodeTraversor.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/NodeTraversor.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/NodeVisitor.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/NodeVisitor.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/NodeVisitor.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/NodeVisitor.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/OrderedSet.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/OrderedSet.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/OrderedSet.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/OrderedSet.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/ParseError.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/ParseError.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/ParseError.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/ParseError.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/ParseErrorList.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/ParseErrorList.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/ParseErrorList.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/ParseErrorList.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/ParseSettings.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/ParseSettings.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/ParseSettings.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/ParseSettings.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Parser.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Parser.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Parser.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Parser.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Pattern.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Pattern.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Pattern.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Pattern.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/QueryParser.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/QueryParser.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/QueryParser.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/QueryParser.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/SerializationException.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/SerializationException.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/SerializationException.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/SerializationException.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/SimpleDictionary.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/SimpleDictionary.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/SimpleDictionary.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/SimpleDictionary.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/StreamReader.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/StreamReader.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/StreamReader.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/StreamReader.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/String.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/String.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/String.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/String.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/StringBuilder.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/StringBuilder.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/StringBuilder.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/StringBuilder.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/StringUtil.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/StringUtil.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/StringUtil.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/StringUtil.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/StructuralEvaluator.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/StructuralEvaluator.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/StructuralEvaluator.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/StructuralEvaluator.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/SwiftSoup.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/SwiftSoup.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/SwiftSoup.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/SwiftSoup.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Tag.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Tag.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Tag.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Tag.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/TextNode.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/TextNode.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/TextNode.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/TextNode.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Token.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Token.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Token.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Token.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/TokenQueue.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/TokenQueue.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/TokenQueue.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/TokenQueue.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Tokeniser.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Tokeniser.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Tokeniser.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Tokeniser.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/TokeniserState.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/TokeniserState.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/TokeniserState.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/TokeniserState.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/TreeBuilder.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/TreeBuilder.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/TreeBuilder.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/TreeBuilder.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/UnfairLock.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/UnfairLock.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/UnfairLock.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/UnfairLock.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/UnicodeScalar.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/UnicodeScalar.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/UnicodeScalar.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/UnicodeScalar.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Validate.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Validate.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Validate.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Validate.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/Whitelist.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Whitelist.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Whitelist.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/Whitelist.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/XmlDeclaration.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/XmlDeclaration.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/XmlDeclaration.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/XmlDeclaration.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/Sources/XmlTreeBuilder.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/XmlTreeBuilder.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/XmlTreeBuilder.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/XmlTreeBuilder.o"
+  },
+  "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/DerivedSources/resource_bundle_accessor.swift" : {
+    "index-unit-output-path" : "/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/resource_bundle_accessor.o",
+    "llvm-bc" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/resource_bundle_accessor.bc",
+    "object" : "/Users/jack/Library/Developer/Xcode/DerivedData/Gym_Tracker-fboydtopsezhepgfatrezsbdbewf/SourcePackages/checkouts/SwiftSoup/build/SwiftSoup.build/Release-iphoneos/SwiftSoup.build/Objects-normal/arm64/resource_bundle_accessor.o"
+  }
+}

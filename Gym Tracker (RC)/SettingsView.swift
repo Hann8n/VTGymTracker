@@ -19,7 +19,7 @@ struct SettingsView: View {
     @AppStorage("faceIDEnabled") private var faceIDEnabled: Bool = false
 
     @State private var showBarcodeScanner: Bool = false
-    @State private var isIDInputOptionsPresented: Bool = false
+    @State private var showManualInput: Bool = false
 
     // Computed property to check if the device is an iPhone
     private var isPhone: Bool {
@@ -31,12 +31,12 @@ struct SettingsView: View {
             Form {
                 AppearanceSection(appTheme: $appTheme)
                 
-                // Conditionally include HokiePassportSection only if on iPhone
+                // Conditionally include CampusIDSection only if on iPhone
                 if isPhone {
-                    HokiePassportSection(
+                    CampusIDSection(
                         gymBarcode: $gymBarcode,
                         showBarcodeScanner: $showBarcodeScanner,
-                        isIDInputOptionsPresented: $isIDInputOptionsPresented,
+                        showManualInput: $showManualInput,
                         faceIDEnabled: $faceIDEnabled,
                         alertManager: alertManager
                     )
@@ -67,8 +67,8 @@ struct SettingsView: View {
                 BarcodeScannerView(isPresented: $showBarcodeScanner)
                     .environmentObject(alertManager)
             }
-            .sheet(isPresented: $isIDInputOptionsPresented) {
-                IDInputOptionsView(isPresented: $isIDInputOptionsPresented)
+            .sheet(isPresented: $showManualInput) {
+                ManualIDInputView(isPresented: $showManualInput)
                     .environmentObject(alertManager)
             }
         }
@@ -95,10 +95,10 @@ struct AppearanceSection: View {
     }
 }
 
-struct HokiePassportSection: View {
+struct CampusIDSection: View {
     @Binding var gymBarcode: String
     @Binding var showBarcodeScanner: Bool
-    @Binding var isIDInputOptionsPresented: Bool
+    @Binding var showManualInput: Bool
     @Binding var faceIDEnabled: Bool
     var alertManager: AlertManager
 
@@ -107,18 +107,34 @@ struct HokiePassportSection: View {
     @State private var revealingBarcode: Bool = false
 
     var body: some View {
-        Section("Hokie Passport") {
+        Section("Campus ID") {
             if gymBarcode.isEmpty {
                 Button {
-                    isIDInputOptionsPresented = true
+                    showBarcodeScanner = true
                 } label: {
                     HStack(spacing: 12) {
-                        Image(systemName: "plus.rectangle.fill")
+                        Image(systemName: "barcode.viewfinder")
                             .foregroundColor(.customOrange)
-                        Text("Add Hokie Passport")
+                            .frame(width: 24, height: 24, alignment: .center)
+                        Text("Scan Barcode")
                             .foregroundColor(.customOrange)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                Button {
+                    showManualInput = true
+                } label: {
+                    HStack(spacing: 12) {
+                        Image(systemName: "keyboard")
+                            .foregroundColor(.customOrange)
+                            .frame(width: 24, height: 24, alignment: .center)
+                        Text("Enter ID Number")
+                            .foregroundColor(.customOrange)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
             } else {
@@ -206,8 +222,8 @@ struct HokiePassportSection: View {
                 ))
                 .tint(.customOrange)
                 
-                Button("Remove Card", role: .destructive) {
-                    removeHokiePassport()
+                Button("Remove", role: .destructive) {
+                    removeCampusID()
                 }
                 .foregroundColor(.customMaroon)
                 .fontWeight(.medium)
@@ -226,7 +242,7 @@ struct HokiePassportSection: View {
         }
     }
     
-    private func removeHokiePassport() {
+    private func removeCampusID() {
         gymBarcode = ""
         showRevealedBarcode = false
     }
@@ -265,7 +281,7 @@ struct HokiePassportSection: View {
     private func authenticateAndRevealBarcode() {
         guard !revealingBarcode else { return }
         revealingBarcode = true
-        authenticateFaceID(reason: "Authenticate to view your Hokie Passport.") { success, error in
+        authenticateFaceID(reason: "Authenticate to view your Campus ID.") { success, error in
             revealingBarcode = false
             if success {
                 withAnimation {

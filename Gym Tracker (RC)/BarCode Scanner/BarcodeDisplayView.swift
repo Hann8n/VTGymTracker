@@ -31,7 +31,7 @@ struct BarcodeDisplayView: View {
             }
             
             // Optional header text for context.
-            Text("Hokie Passport")
+            Text("Campus ID")
                 .font(.headline)
                 .foregroundColor(.primary)
         }
