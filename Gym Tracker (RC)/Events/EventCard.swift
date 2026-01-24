@@ -35,7 +35,6 @@ struct EventCard: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.vertical, 12)
         }
         .buttonStyle(.plain)
     }

@@ -47,7 +47,6 @@ struct OccupancyCard: View {
             )
             .padding(.top, 2)
         }
-        .padding(.vertical, 8)
         .grayscale(networkMonitor.isConnected ? 0 : 1) // Grey out when offline
         .opacity(networkMonitor.isConnected ? 1 : 0.5) // Dim view when offline
         .allowsHitTesting(networkMonitor.isConnected) // Disable interactions when offline
