@@ -37,7 +37,7 @@ struct AboutView: View {
                     .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 5) // Floating effect
                     .padding(.top, 16)
                 
-                Text("VT Gym Tracker")
+                Text("Gym Tracker")
                     .font(.title)
                     .fontWeight(.bold)
                 

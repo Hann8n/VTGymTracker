@@ -80,7 +80,7 @@ struct ContentView: View {
                         print("ContentView: Unknown scene phase \(newPhase).")
                     }
                 }
-                .navigationTitle("VT Gym Tracker")
+                .navigationTitle("Gym Tracker")
                 .toolbar {
                     if UIDevice.current.userInterfaceIdiom == .phone {
                         ToolbarItem(placement: .bottomBar) {
@@ -156,6 +156,7 @@ struct ContentView: View {
                 segmentCount: 20,
                 networkMonitor: networkMonitor
             )
+            .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
         }
     }
     
@@ -168,6 +169,7 @@ struct ContentView: View {
                 segmentCount: 20,
                 networkMonitor: networkMonitor
             )
+            .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
         }
     }
     
@@ -180,6 +182,7 @@ struct ContentView: View {
                 segmentCount: 8,
                 networkMonitor: networkMonitor
             )
+            .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
         }
     }
     
@@ -190,7 +193,6 @@ struct ContentView: View {
                     Text(errorMessage)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
-                        .padding()
                     
                     Button("Retry") {
                         eventsViewModel.fetchEvents()
@@ -199,14 +201,16 @@ struct ContentView: View {
                     .controlSize(.regular)
                     .padding(.top, 5)
                 }
+                .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
             } else if eventsViewModel.events.isEmpty {
                 Text("Nothing scheduled right now")
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
-                    .padding()
+                    .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
             } else {
                 ForEach(eventsViewModel.events) { event in
                     EventCard(event: event)
+                        .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                 }
             }
         } header: {
