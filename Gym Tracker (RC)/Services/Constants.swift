@@ -29,4 +29,38 @@ struct Constants {
 
     // App Group (main app, widget, Watch)
     static let appGroupID = "group.VTGymApp.D8VXFBV8SJ"
+    
+    // MARK: - Date Formatters (cached to avoid expensive recreation)
+    static let shortDateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "M/d"
+        return f
+    }()
+    
+    static let eventDateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.amSymbol = " AM"
+        f.pmSymbol = " PM"
+        return f
+    }()
+    
+    static func formattedDateTwoWeeksAhead() -> String {
+        let twoWeeksAhead = Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
+        return shortDateFormatter.string(from: twoWeeksAhead)
+    }
+    
+    static func formattedEventStartDate(_ date: Date) -> String {
+        let calendar = Calendar.current
+        let now = Date()
+        if calendar.isDateInToday(date) {
+            eventDateFormatter.dateFormat = "'Today at' h:mma"
+        } else if calendar.isDateInTomorrow(date) {
+            eventDateFormatter.dateFormat = "'Tomorrow at' h:mma"
+        } else if calendar.isDate(date, equalTo: now, toGranularity: .weekOfYear) {
+            eventDateFormatter.dateFormat = "EEEE 'at' h:mma"
+        } else {
+            eventDateFormatter.dateFormat = "EEEE, MMMM d 'at' h:mma"
+        }
+        return eventDateFormatter.string(from: date)
+    }
 }

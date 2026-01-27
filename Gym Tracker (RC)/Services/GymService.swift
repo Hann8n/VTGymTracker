@@ -35,6 +35,26 @@ class GymService: ObservableObject {
     @Published var boulderingWallOccupancy: Int? = nil
     @Published var isOnline: Bool = true
     
+    // MARK: - Computed Properties for Remaining Capacity
+    
+    /// Returns remaining capacity for McComas Hall
+    var mcComasRemaining: Int {
+        guard let occupancy = mcComasOccupancy else { return Constants.mcComasMaxCapacity }
+        return max(0, Constants.mcComasMaxCapacity - occupancy)
+    }
+    
+    /// Returns remaining capacity for War Memorial Hall
+    var warMemorialRemaining: Int {
+        guard let occupancy = warMemorialOccupancy else { return Constants.warMemorialMaxCapacity }
+        return max(0, Constants.warMemorialMaxCapacity - occupancy)
+    }
+    
+    /// Returns remaining capacity for Bouldering Wall
+    var boulderingWallRemaining: Int {
+        guard let occupancy = boulderingWallOccupancy else { return Constants.boulderingWallMaxCapacity }
+        return max(0, Constants.boulderingWallMaxCapacity - occupancy)
+    }
+    
     // Testing/debugging override: allows manual values instead of real API data
     @Published var useCustomOccupancy: Bool = false
     @Published var customMcComasOccupancy: Int? = 275

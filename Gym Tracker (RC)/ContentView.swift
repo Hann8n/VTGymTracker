@@ -1,6 +1,5 @@
 import SwiftUI
 import AVFoundation
-import LocalAuthentication
 import Combine
 
 struct ContentView: View {
@@ -116,14 +115,6 @@ struct ContentView: View {
                 }
             }
             if isBarcodeDisplayPresented {
-                ZStack {
-                    Rectangle().fill(.regularMaterial).ignoresSafeArea()
-                    if colorScheme == .dark {
-                        Color.black.opacity(0.6).ignoresSafeArea()
-                    }
-                }
-            }
-            if isBarcodeDisplayPresented {
                 BarcodeDisplayOverlayView(isPresented: $isBarcodeDisplayPresented)
             }
         }
@@ -146,7 +137,7 @@ struct ContentView: View {
         Section("War Memorial Hall") {
             OccupancyCard(
                 occupancy: gymService.warMemorialOccupancy ?? 0,
-                remaining: Constants.warMemorialMaxCapacity - (gymService.warMemorialOccupancy ?? 0),
+                remaining: gymService.warMemorialRemaining,
                 maxCapacity: Constants.warMemorialMaxCapacity,
                 segmentCount: 20,
                 networkMonitor: networkMonitor
@@ -159,7 +150,7 @@ struct ContentView: View {
         Section("McComas Hall") {
             OccupancyCard(
                 occupancy: gymService.mcComasOccupancy ?? 0,
-                remaining: Constants.mcComasMaxCapacity - (gymService.mcComasOccupancy ?? 0),
+                remaining: gymService.mcComasRemaining,
                 maxCapacity: Constants.mcComasMaxCapacity,
                 segmentCount: 20,
                 networkMonitor: networkMonitor
@@ -172,7 +163,7 @@ struct ContentView: View {
         Section("Bouldering Wall") {
             OccupancyCard(
                 occupancy: gymService.boulderingWallOccupancy ?? 0,
-                remaining: Constants.boulderingWallMaxCapacity - (gymService.boulderingWallOccupancy ?? 0),
+                remaining: gymService.boulderingWallRemaining,
                 maxCapacity: Constants.boulderingWallMaxCapacity,
                 segmentCount: 8,
                 networkMonitor: networkMonitor
@@ -212,7 +203,7 @@ struct ContentView: View {
             HStack {
                 Text("Upcoming Events")
                 Spacer()
-                Text("Today - \(formattedDateTwoWeeksAhead())")
+                Text("Today - \(Constants.formattedDateTwoWeeksAhead())")
                     .fontWeight(.regular)
                     .foregroundColor(.secondary)
             }
@@ -220,13 +211,6 @@ struct ContentView: View {
     }
     
     // MARK: - Helper Methods
-    
-    private func formattedDateTwoWeeksAhead() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "M/d"
-        let twoWeeksAhead = Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
-        return formatter.string(from: twoWeeksAhead)
-    }
     
     private func fetchGymOccupancyData() async {
         await gymService.fetchAllGymOccupancy()
@@ -240,12 +224,12 @@ struct ContentView: View {
         } else {
             // Face ID is optional; user preference determines if authentication is required
             if faceIDEnabled {
-                authenticateUser { success in
+                Task {
+                    let success = await AuthenticationService.shared.authenticate(reason: "Authenticate to view your Campus ID.")
                     if success {
                         isBarcodeDisplayPresented = true
-                    } else {
-                        alertManager.showAlert(.authenticationFailed)
                     }
+                    // Silently fail if authentication is cancelled or fails
                 }
             } else {
                 isBarcodeDisplayPresented = true
@@ -275,20 +259,6 @@ struct ContentView: View {
         }
     }
     
-    private func authenticateUser(completion: @escaping (Bool) -> Void) {
-        let context = LAContext()
-        var error: NSError?
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            let reason = "Authenticate to view your Campus ID."
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, _ in
-                DispatchQueue.main.async {
-                    completion(success)
-                }
-            }
-        } else {
-            completion(false)
-        }
-    }
 }
 
 struct ContentView_Previews: PreviewProvider {

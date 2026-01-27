@@ -20,7 +20,7 @@ struct EventCard: View {
                     Image(systemName: "calendar")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
-                    Text(formattedStartDate(event.startDate))
+                    Text(Constants.formattedEventStartDate(event.startDate))
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
@@ -37,24 +37,5 @@ struct EventCard: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .buttonStyle(.plain)
-    }
-
-    private func formattedStartDate(_ date: Date) -> String {
-        let calendar = Calendar.current
-        let formatter = DateFormatter()
-        formatter.amSymbol = " AM" // Changed to lowercase
-        formatter.pmSymbol = " PM" // Changed to lowercase
-        let now = Date()
-        
-        if calendar.isDateInToday(date) {
-            formatter.dateFormat = "'Today at' h:mma"
-        } else if calendar.isDateInTomorrow(date) {
-            formatter.dateFormat = "'Tomorrow at' h:mma"
-        } else if calendar.isDate(date, equalTo: now, toGranularity: .weekOfYear) {
-            formatter.dateFormat = "EEEE 'at' h:mma"
-        } else {
-            formatter.dateFormat = "EEEE, MMMM d 'at' h:mma"
-        }
-        return formatter.string(from: date)
     }
 }
