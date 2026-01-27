@@ -1,115 +1,191 @@
 # VT Gym Tracker
 
-A comprehensive iOS app for Virginia Tech students to track gym occupancy and manage their Hokie Passport. The app provides real-time occupancy data for both War Memorial Hall and McComas Hall gyms, along with upcoming events and a digital Hokie Passport feature.
+iOS app for tracking Virginia Tech gym occupancy and displaying campus events. Supports iOS, watchOS, and WidgetKit extensions.
 
-## Features
+## Architecture
 
-### 🏋️ Real-Time Gym Occupancy
-- **Live occupancy tracking** for War Memorial Hall and McComas Hall
-- **Automatic data refresh** every 30 seconds when the app is active
-- **Visual progress indicators** with color-coded occupancy levels:
-  - Green: Low occupancy (0-50%)
-  - Orange: Medium occupancy (50-75%)
-  - Maroon: High occupancy (75-100%)
+### Core Services
 
-### 📱 Multi-Platform Support
-- **iOS App**
-- **iOS Widgets**: Home screen and lock screen widgets showing gym occupancy
-- **Apple Watch App**: Quick gym status check on your wrist
-- **Watch Complications**: Gym occupancy data directly on your watch face
+**GymService** (`GymService.swift`)
+- Singleton `@MainActor` class managing gym occupancy state
+- Publishes `@Published` properties: `mcComasOccupancy`, `warMemorialOccupancy`, `boulderingWallOccupancy`
+- Automatic refresh: 30-second interval when app is active (via `UIApplication.didBecomeActiveNotification`)
+- Retry logic: 60-second delay if all fetches fail
+- Uses `GymOccupancyFetcher` for data fetching
 
-### 🎫 Digital Hokie Passport
-- **Barcode scanning** using device camera with Vision framework
-- **Manual ID entry** as an alternative to scanning
-- **Face ID/Touch ID protection** for secure access to stored passport
-- **Local storage** - all data stays on your device
-- **Copy to clipboard** functionality for easy sharing
+**GymOccupancyFetcher** (`GymOccupancyFetcher.swift`)
+- Static enum performing HTTP requests
+- Concurrent fetching: `async let` for parallel facility requests
+- POST request to `https://connect.recsports.vt.edu/FacilityOccupancy/GetFacilityData`
+- Request body: `facilityId={uuid}&occupancyDisplayType={uuid}` (URL-encoded)
+- Response: HTML containing `data-occupancy` and `data-remaining` attributes
+- Parsing: Delegates to `OccupancyHTMLParser` for regex extraction
 
-### 📅 Events Integration
-- **Upcoming events** from Virginia Tech Rec Sports RSS feed
-- **Event details** including location, time, and hosting organization
+**OccupancyHTMLParser** (`OccupancyHTMLParser.swift`)
+- Regex-based HTML parsing (no external dependencies)
+- Pattern: `data-occupancy="([0-9]+)"` and `data-remaining="([0-9]+)"`
+- Extracts occupancy and remaining capacity integers from HTML response
 
-### 🎨 Customization
-- **Theme options**: Auto, Light, or Dark mode
+**EventsViewModel** (`EventsViewModel.swift`)
+- Fetches RSS feed from `https://gobblerconnect.vt.edu/organization/www_recsports_vt_edu/events.rss`
+- XML parsing via `XMLParser` delegate pattern (`RSSParser` class)
+- Caching: JSON file in app caches directory (`cachedEvents.json`)
+- Filters: Only caches events where `endDate > Date()`
+- Network monitoring: Observes `NetworkMonitor.isConnected` via Combine
 
-## Technical Architecture
+### Data Flow
 
-### Core Components
-- **GymService**: Singleton service managing gym occupancy data fetching and caching
-- **EventsViewModel**: Handles RSS feed parsing and event caching
-- **NetworkMonitor**: Monitors connectivity status across the app
+**Gym Occupancy:**
+1. `ContentView.onAppear` → `fetchGymOccupancyData()`
+2. `GymService.fetchAllGymOccupancy()` → `GymOccupancyFetcher.fetchAll()`
+3. Concurrent POST requests for three facilities (McComas, War Memorial, Bouldering Wall)
+4. HTML response parsed via regex for `data-occupancy`/`data-remaining`
+5. Results stored in `GymService` `@Published` properties
+6. UI updates via SwiftUI `@ObservedObject` binding
 
-### Data Sources
-- **Gym Occupancy**: Virginia Tech Rec Sports facility occupancy API
-- **Events**: RSS feed from GobblerConnect
-- **Local Storage**: UserDefaults and App Groups for data persistence
+**Events:**
+1. `ContentView.onAppear` → `eventsViewModel.fetchEvents()`
+2. RSS feed fetched via `URLSession.dataTask`
+3. XML parsed via `RSSParser` (NSXMLParser delegate)
+4. Events filtered by `endDate > Date()`
+5. Cached to JSON file, loaded on init if available
+
+**Widgets:**
+1. `UnifiedGymTrackerProvider.getTimeline()` called by WidgetKit
+2. `GymOccupancyFetcher.fetchForWidget()` fetches occupancy (no remaining capacity)
+3. Results stored in App Group UserDefaults (`group.VTGymApp.D8VXFBV8SJ`)
+4. Fallback to cached values if fetch fails
+5. Timeline policy: `.after(15 minutes)`
+
+### Facility IDs & Capacities
+
+```swift
+mcComasFacilityId: "da73849e-434d-415f-975a-4f9e799b9c39"
+warMemorialFacilityId: "55069633-b56e-43b7-a68a-64d79364988d"
+boulderingWallFacilityId: "da838218-ae53-4c6f-b744-2213299033fc"
+
+mcComasMaxCapacity: 600
+warMemorialMaxCapacity: 1200
+boulderingWallMaxCapacity: 8
+```
+
+### Barcode System
+
+**Storage:**
+- `@AppStorage("gymBarcode")` stores Codabar string (e.g., "A12345B")
+- Optional `@AppStorage("faceIDEnabled")` for biometric protection
+
+**Scanning:**
+- `BarcodeScannerView` uses `CodeScannerView` (third-party library)
+- Scans Codabar format (`codeTypes: [.codabar]`)
+- Validation: Ensures start/end characters are A/B/C/D
+- Auto-prefix/suffix if missing: defaults to "A" prefix, "B" suffix
+
+**Generation:**
+- `BarcodeGenerator` uses `CDCodabarView` (third-party library)
+- Generates `UIImage` from Codabar string
+- Displayed in `BarcodeDisplayOverlayView` with brightness boost via `BrightnessManager`
+
+**Authentication:**
+- `LocalAuthentication` framework for Face ID/Touch ID
+- `LAContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics)`
+- Triggered before displaying stored barcode if `faceIDEnabled == true`
+
+### App Group & Shared Storage
+
+- App Group ID: `group.VTGymApp.D8VXFBV8SJ`
+- Shared UserDefaults keys:
+  - `mcComasOccupancy` (Int)
+  - `warMemorialOccupancy` (Int)
+  - `boulderingWallOccupancy` (Int)
+  - `lastFetchDate` (Date)
+- Used by: Main app, Widget extension, Watch app
+
+### UI Components
+
+**ContentView:**
+- `NavigationStack` with grouped `List`
+- Sections: War Memorial, McComas, Bouldering Wall, Events
+- `OccupancyCard` displays occupancy with segmented progress bar
+- Color thresholds: Green (0-50%), Orange (50-75%), Maroon (75-100%)
+
+**OccupancyCard:**
+- Segmented progress visualization
+- Displays occupancy count and remaining capacity
+- Network status indicator
+
+**EventCard:**
+- Displays event title, location, time, hosting organization
+- Date range: Today through 14 days ahead
 
 ### Widget System
-- **UnifiedGymTrackerProvider**: Shared timeline provider for all widgets
-- **App Group**: `group.VTGymApp.D8VXFBV8SJ` for data sharing between app and widgets
-- **Automatic refresh**: Widgets update roughly every 15 minutes (depending on usage) or when app data changes
 
-## Installation
+**UnifiedGymTrackerProvider:**
+- Single timeline provider for all widget sizes
+- `getTimeline()` fetches occupancy data
+- Stores in App Group UserDefaults
+- Timeline refresh: 15-minute intervals
+- Widget types: Home screen widgets, Lock screen widgets
 
-### Requirements
-- iOS 17.0+ / watchOS 10.0+
+### Watch App
+
+- `WatchFacilitiesView` displays gym occupancy
+- `WatchGymCardView` shows individual facility status
+- `WatchSegmentedProgressBar` visual indicator
+- Shares data via App Group UserDefaults
+
+### Dependencies
+
+- **CodeScanner**: Barcode scanning (`CodeScannerView`)
+- **CDCodabarView**: Codabar barcode generation
+- **SwiftUI**: UI framework
+- **Combine**: Reactive data flow
+- **WidgetKit**: Widget system
+- **LocalAuthentication**: Biometric authentication
+- **AVFoundation**: Camera access for barcode scanning
+
+### Build Requirements
+
+- iOS 17.0+
+- watchOS 10.0+
 - Xcode 16.0+
 - Swift 5.9+
 
-### Building from Source
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Hann8n/VTGymTracker.git
-   ```
-
-2. Open `Gym Tracker.xcodeproj` in Xcode
-
-3. Select your development team in project settings
-
-4. Build and run on your device or simulator
-
-### Privacy Policy (GitHub Pages)
-
-The app’s Privacy Policy is served from this repo via GitHub Pages. To turn it on:
-
-1. In the [VTGymTracker](https://github.com/Hann8n/VTGymTracker) repo: **Settings** → **Pages**
-2. **Source**: Deploy from a branch
-3. **Branch**: `main` (or `master`), **Folder**: `/docs`
-4. Save
-
-The policy will be at **https://hann8n.github.io/VTGymTracker/docs/privacy-policy.html**. The in-app Settings → Privacy Policy link loads this URL in a WebView.
-
 ### Project Structure
+
 ```
 Gym Tracker (RC)/
-├── Services/           # Core business logic
-├── Events/            # Event management
-├── BarCode Scanner/   # Passport scanning functionality
-├── Assets.xcassets/   # App icons and images
-└── ContentView.swift  # Main app interface
+├── Services/
+│   ├── GymService.swift              # Main occupancy service
+│   ├── GymOccupancyFetcher.swift     # HTTP fetching
+│   ├── OccupancyHTMLParser.swift     # Regex HTML parsing
+│   ├── Constants.swift                # Facility IDs, capacities, URLs
+│   └── UnifiedGymTrackerProvider.swift # Widget timeline provider
+├── Events/
+│   ├── EventsViewModel.swift         # RSS fetching & caching
+│   └── Event.swift                    # Event model
+├── BarCode Scanner/
+│   ├── BarcodeScannerView.swift      # Camera scanning UI
+│   ├── BarcodeGenerator.swift        # Codabar image generation
+│   ├── BarcodeDisplayView.swift      # Display overlay
+│   ├── ManualIDInputView.swift       # Manual entry UI
+│   └── BrightnessManager.swift       # Screen brightness control
+├── ContentView.swift                 # Main app view
+└── OccupancyCard.swift               # Occupancy display component
 
-docs/                  # GitHub Pages: privacy-policy.html and images
-GymTrackerWidget/      # iOS Widget extension
-GymTrackerWatch/       # Apple Watch app
-GymTrackerComplications/ # Watch complications
+GymTrackerWidget/                      # Widget extension
+GymTrackerWatch Watch App/             # Watch app
+GymTrackerComplications/               # Watch complications
 ```
- 
-### Key Technologies
-- **SwiftUI**: Modern declarative UI framework
-- **Combine**: Reactive programming for data flow
-- **WidgetKit**: iOS widget system
-- **Vision**: Barcode detection
-- **LocalAuthentication**: Biometric authentication
-- **Regex-based HTML parser**: GetFacilityData HTML is parsed for `data-occupancy` and `data-remaining` (no SwiftSoup)
 
-### Contributing
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+### Privacy Policy
 
-## License
+Hosted via GitHub Pages at `/docs/privacy-policy.html`. Configure in repo Settings → Pages: deploy from `main` branch, `/docs` folder.
 
-MIT
+### License
+
+This project is licensed under the **MIT License**. See the `LICENSE` file for full text.
+
+---
 
 *Virginia Tech is not associated with this project*
