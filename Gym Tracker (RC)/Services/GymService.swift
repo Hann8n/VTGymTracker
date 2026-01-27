@@ -30,13 +30,12 @@ struct GymOccupancyData {
 class GymService: ObservableObject {
     static let shared = GymService()
     
-    // Published properties for in-app display (if you need them)
     @Published var mcComasOccupancy: Int? = nil
     @Published var warMemorialOccupancy: Int? = nil
     @Published var boulderingWallOccupancy: Int? = nil
     @Published var isOnline: Bool = true
     
-    // **Custom Occupancy Properties**
+    // Testing/debugging override: allows manual values instead of real API data
     @Published var useCustomOccupancy: Bool = false
     @Published var customMcComasOccupancy: Int? = 275
     @Published var customWarMemorialOccupancy: Int? = 1025
@@ -44,8 +43,8 @@ class GymService: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     
-    // 30-second refresh while app is in foreground
     private var activeAppCancellable: AnyCancellable?
+    // 30-second interval balances data freshness with battery and network usage
     private let activeAppInterval: TimeInterval = 30
     
     private init() {
@@ -97,11 +96,13 @@ class GymService: ObservableObject {
         let wmData = wm.map { GymOccupancyData(occupancy: $0.occupancy, remaining: $0.remaining) }
         let bwData = bw.map { GymOccupancyData(occupancy: $0.occupancy, remaining: $0.remaining) }
 
+        // If any facility succeeds, API is reachable; only mark offline if all fail
         isOnline = mc != nil || wm != nil || bw != nil
         storeAndNotify(mcComasData: mcData, warMemorialData: wmData, boulderingWallData: bwData)
 
         if !isOnline {
             print("No occupancy data fetched successfully, scheduling retry...")
+            // Retry after 60 seconds to handle transient network failures without immediate retry loop
             DispatchQueue.main.asyncAfter(deadline: .now() + 60) { [weak self] in
                 Task {
                     await self?.fetchAllGymOccupancy()
@@ -110,43 +111,36 @@ class GymService: ObservableObject {
         }
     }
 
-    // MARK: - Store & Notify in one place
+    // MARK: - Store & Notify
     
     private func storeAndNotify(mcComasData: GymOccupancyData?, warMemorialData: GymOccupancyData?, boulderingWallData: GymOccupancyData?) {
-        
-        // 1. Update your in-app Published vars (if needed)
         self.mcComasOccupancy = useCustomOccupancy ? customMcComasOccupancy : mcComasData?.occupancy
         self.warMemorialOccupancy = useCustomOccupancy ? customWarMemorialOccupancy : warMemorialData?.occupancy
         self.boulderingWallOccupancy = useCustomOccupancy ? customBoulderingWallOccupancy : boulderingWallData?.occupancy
         
-        // 2. Store the latest data in App Group (for widget)
+        // App Group UserDefaults allows widgets and watch app to access latest occupancy data
         guard let sharedDefaults = UserDefaults(suiteName: Constants.appGroupID) else {
             print("Could not access shared defaults.")
             return
         }
         
-        // McComas
         let mcOccupancyToStore = useCustomOccupancy ? customMcComasOccupancy : mcComasData?.occupancy
         if let mc = mcOccupancyToStore {
             sharedDefaults.set(mc, forKey: "mcComasOccupancy")
         }
 
-        // War
         let warOccupancyToStore = useCustomOccupancy ? customWarMemorialOccupancy : warMemorialData?.occupancy
         if let wm = warOccupancyToStore {
             sharedDefaults.set(wm, forKey: "warMemorialOccupancy")
         }
 
-        // Bouldering Wall
         let boulderingWallOccupancyToStore = useCustomOccupancy ? customBoulderingWallOccupancy : boulderingWallData?.occupancy
         if let bw = boulderingWallOccupancyToStore {
             sharedDefaults.set(bw, forKey: "boulderingWallOccupancy")
         }
 
-        // Tell WidgetKit to reload
+        // Notify widgets immediately when new data arrives
         WidgetCenter.shared.reloadAllTimelines()
-        
-        print("New data stored and WidgetKit notified.")
     }
     
     // MARK: - Custom Occupancy Methods

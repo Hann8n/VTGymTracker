@@ -35,7 +35,6 @@ struct ContentView: View {
     // MARK: - Body
     var body: some View {
         ZStack {
-            // Use NavigationStack for Liquid Glass compatibility
             NavigationStack {
                 mainListView
                     .onAppear {
@@ -72,12 +71,11 @@ struct ContentView: View {
                 .onChange(of: scenePhase) { _, newPhase in
                     switch newPhase {
                     case .inactive, .background:
-                        // Dismiss the barcode overlay when leaving the active state.
                         isBarcodeDisplayPresented = false
                     case .active:
-                        print("ContentView: Scene phase changed to active.")
+                        break
                     @unknown default:
-                        print("ContentView: Unknown scene phase \(newPhase).")
+                        break
                     }
                 }
                 .navigationTitle("Gym Tracker")
@@ -117,8 +115,6 @@ struct ContentView: View {
                     }
                 }
             }
-            // Dimming layer when barcode overlay is active (avoids .blur/.overlay on NavigationStack
-            // which can trigger "UIKitToolbar as subview of UIHostingController" hierarchy issues).
             if isBarcodeDisplayPresented {
                 ZStack {
                     Rectangle().fill(.regularMaterial).ignoresSafeArea()
@@ -131,7 +127,6 @@ struct ContentView: View {
                 BarcodeDisplayOverlayView(isPresented: $isBarcodeDisplayPresented)
             }
         }
-        // Minimal change: apply the user's theme choice.
         .preferredColorScheme(appTheme == "Light" ? .light : appTheme == "Dark" ? .dark : nil)
     }
     
@@ -238,13 +233,12 @@ struct ContentView: View {
     }
     
     // MARK: - Toolbar Button Methods
-    /// Decide whether to display the stored barcode (after authentication) or open the ID input options.
+    
     private func handlePassportButtonTapped() {
         if scannedBarcode.isEmpty {
-            // No stored barcode; show Scan vs Manual choice in a dialog.
             showAddIDChoice = true
         } else {
-            // Barcode exists; if Face ID is enabled, authenticate before displaying.
+            // Face ID is optional; user preference determines if authentication is required
             if faceIDEnabled {
                 authenticateUser { success in
                     if success {
@@ -259,7 +253,7 @@ struct ContentView: View {
         }
     }
     
-    /// Check camera access before presenting the scanner.
+    // Camera access is required for barcode scanning; must request permission if not granted
     private func checkCameraAccess() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
@@ -281,7 +275,6 @@ struct ContentView: View {
         }
     }
     
-    /// Prompt Face ID authentication before displaying the stored barcode.
     private func authenticateUser(completion: @escaping (Bool) -> Void) {
         let context = LAContext()
         var error: NSError?

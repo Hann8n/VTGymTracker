@@ -1,11 +1,12 @@
 // HokiePassportFieldView.swift
 // Gym Tracker
 //
-// OTP-style input for Campus ID: 9 digits in individual boxes with a dash (XXXX-XXXXX).
+// Created by Jack on 1/18/25.
+//
 
 import SwiftUI
 
-// MARK: - Digit Slot (on card, no box background)
+// MARK: - Digit Slot
 
 private struct DigitSlotView: View {
     let digit: String
@@ -39,7 +40,6 @@ struct CampusIDFieldView: View {
         return String(digits[index])
     }
 
-    /// Index of the “next” box (where the cursor effectively is)
     private var activeIndex: Int {
         min(digits.count, 8)
     }

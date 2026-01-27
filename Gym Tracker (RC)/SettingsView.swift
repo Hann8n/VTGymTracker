@@ -21,7 +21,6 @@ struct SettingsView: View {
     @State private var showBarcodeScanner: Bool = false
     @State private var showManualInput: Bool = false
 
-    // Computed property to check if the device is an iPhone
     private var isPhone: Bool {
         UIDevice.current.userInterfaceIdiom == .phone
     }
@@ -31,7 +30,6 @@ struct SettingsView: View {
             Form {
                 AppearanceSection(appTheme: $appTheme)
                 
-                // Conditionally include CampusIDSection only if on iPhone
                 if isPhone {
                     CampusIDSection(
                         gymBarcode: $gymBarcode,
