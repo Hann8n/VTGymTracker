@@ -225,6 +225,7 @@ struct CampusIDSection: View {
     }
 
     private func copyToClipboard() {
+        // UIPasteboard access is safe here - called from UI actions which run on main thread
         let digits = gymBarcode.filter { $0.isNumber }
         UIPasteboard.general.string = String(digits.prefix(9))
         showCopyConfirmation = true
@@ -245,11 +246,11 @@ struct CampusIDSection: View {
         if faceIDEnabled {
             guard !isAuthenticatingForRemove else { return }
             isAuthenticatingForRemove = true
-            authenticateFaceID(reason: "Authenticate to remove your Campus ID.") { success, error in
+            AuthenticationService.shared.authenticate(reason: "Authenticate to remove your Campus ID.") { success, error in
                 isAuthenticatingForRemove = false
                 if success {
                     removeCampusID()
-                } else if let error = error, isFaceIDUnavailable(error: error) {
+                } else if let error = error, AuthenticationService.shared.isBiometricsUnavailable(error: error) {
                     alertManager.showAlert(.faceIDSettings)
                 }
             }
@@ -260,23 +261,23 @@ struct CampusIDSection: View {
 
     private func handleFaceIDToggle(isOn: Bool) {
         if isOn {
-            authenticateFaceID(reason: "Authenticate to enable Face ID.") { success, error in
+            AuthenticationService.shared.authenticate(reason: "Authenticate to enable Face ID.") { success, error in
                 if success {
                     faceIDEnabled = true
                 } else {
                     faceIDEnabled = false
-                    if let error = error, isFaceIDUnavailable(error: error) {
+                    if let error = error, AuthenticationService.shared.isBiometricsUnavailable(error: error) {
                         alertManager.showAlert(.faceIDSettings)
                     }
                 }
             }
         } else {
-            authenticateFaceID(reason: "Authenticate to disable Face ID.") { success, error in
+            AuthenticationService.shared.authenticate(reason: "Authenticate to disable Face ID.") { success, error in
                 if success {
                     faceIDEnabled = false
                 } else {
                     faceIDEnabled = true
-                    if let error = error, isFaceIDUnavailable(error: error) {
+                    if let error = error, AuthenticationService.shared.isBiometricsUnavailable(error: error) {
                         alertManager.showAlert(.faceIDSettings)
                     }
                 }
@@ -287,39 +288,14 @@ struct CampusIDSection: View {
     private func authenticateAndCopy() {
         guard !isAuthenticatingForCopy else { return }
         isAuthenticatingForCopy = true
-        authenticateFaceID(reason: "Authenticate to copy your Campus ID.") { success, error in
+        AuthenticationService.shared.authenticate(reason: "Authenticate to copy your Campus ID.") { success, error in
             isAuthenticatingForCopy = false
             if success {
                 copyToClipboard()
-            } else if let error = error, isFaceIDUnavailable(error: error) {
+            } else if let error = error, AuthenticationService.shared.isBiometricsUnavailable(error: error) {
                 alertManager.showAlert(.faceIDSettings)
             }
         }
-    }
-
-    private func authenticateFaceID(reason: String, completion: @escaping (Bool, Error?) -> Void) {
-        let context = LAContext()
-        var error: NSError?
-
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, evaluateError in
-                DispatchQueue.main.async {
-                    completion(success, evaluateError)
-                }
-            }
-        } else {
-            DispatchQueue.main.async {
-                completion(false, error)
-            }
-        }
-    }
-
-    private func isFaceIDUnavailable(error: Error) -> Bool {
-        let nsError = error as NSError
-        return nsError.domain == LAErrorDomain &&
-            (nsError.code == LAError.biometryNotAvailable.rawValue ||
-             nsError.code == LAError.biometryLockout.rawValue ||
-             nsError.code == LAError.biometryNotEnrolled.rawValue)
     }
 }
 

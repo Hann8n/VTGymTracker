@@ -1,6 +1,9 @@
 import UIKit
 import CDCodabarView
 
+/// Thread-safe barcode generator that must be called on the main thread
+/// Uses UIKit graphics APIs (UIGraphicsBeginImageContextWithOptions, etc.) which require main thread access
+@MainActor
 struct BarcodeGenerator {
     static let shared = BarcodeGenerator()
     

@@ -1,5 +1,8 @@
 import UIKit
 
+/// Thread-safe brightness manager that must be called on the main thread
+/// UIScreen.main.brightness must be accessed on the main thread
+@MainActor
 final class BrightnessManager {
     static let shared = BrightnessManager()
     
@@ -31,7 +34,10 @@ final class BrightnessManager {
     }
     
     @objc private func appWillResignActive() {
-        restoreBrightness()
+        // NotificationCenter callbacks may come from any thread, ensure main thread access
+        Task { @MainActor in
+            restoreBrightness()
+        }
     }
     
     private func restoreBrightness() {
