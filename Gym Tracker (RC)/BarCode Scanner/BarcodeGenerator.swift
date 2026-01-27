@@ -2,12 +2,8 @@ import UIKit
 import CDCodabarView
 
 struct BarcodeGenerator {
-    // Shared instance for convenient access.
     static let shared = BarcodeGenerator()
     
-    /// Generates a Codabar barcode image from the provided input.
-    /// - Parameter input: The Codabar string (e.g., "A12345B").
-    /// - Returns: A UIImage of the generated barcode, or nil if generation fails.
     func generateCodabarBarcode(from input: String) -> UIImage? {
         let barcodeWidth: CGFloat = 300
         let barcodeHeight: CGFloat = 100

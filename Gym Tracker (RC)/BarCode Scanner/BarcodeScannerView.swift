@@ -8,7 +8,6 @@ import SwiftUI
 import CodeScanner
 import AVFoundation
 
-/// Points from the safe area bottom to the flashlight button. Tune for comfort on any device.
 private let flashlightBottomPadding: CGFloat = 32
 
 struct BarcodeScannerView: View {
@@ -30,10 +29,10 @@ struct BarcodeScannerView: View {
                 )
                 .ignoresSafeArea(.all)
 
-                // Custom overlay: darkened area with scan "card" hole, privacy
                 GeometryReader { geo in
                     let (scanRect, w, h) = scanFrame(in: geo.size)
                     ZStack {
+                        // Even-odd fill creates visual "hole" in overlay for scan area
                         ScanOverlayShape(holeRect: scanRect)
                             .fill(.black.opacity(0.5), style: FillStyle(eoFill: true))
                             .allowsHitTesting(false)
@@ -95,6 +94,7 @@ struct BarcodeScannerView: View {
         switch result {
         case .success(let scan):
             var code = scan.string.uppercased()
+            // Codabar format requires A/B/C/D start/stop characters; ensure they exist
             let valid: Set<Character> = ["A", "B", "C", "D"]
             if code.first == nil || !valid.contains(code.first!) { code = "A" + code }
             if code.last == nil || !valid.contains(code.last!) { code = code + "B" }
@@ -106,7 +106,6 @@ struct BarcodeScannerView: View {
     }
 }
 
-// Darkened overlay with a clear "card" hole for the scan area (even-odd fill).
 private struct ScanOverlayShape: Shape {
     var holeRect: CGRect
 

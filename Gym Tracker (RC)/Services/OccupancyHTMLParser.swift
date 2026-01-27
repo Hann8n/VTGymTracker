@@ -1,7 +1,6 @@
 import Foundation
 
-/// Extracts data-occupancy and data-remaining from GetFacilityData HTML.
-/// Replaces SwiftSoup; no external dependency.
+// Extracts occupancy data from HTML response; API returns HTML with data-occupancy attributes, not JSON
 enum OccupancyHTMLParser {
 
     static func parse(_ html: String) -> (occupancy: Int, remaining: Int)? {
@@ -11,6 +10,7 @@ enum OccupancyHTMLParser {
         return (o, r)
     }
 
+    // Regex parsing avoids external HTML parser dependency; simple attribute extraction is sufficient
     private static func extractInt(_ html: String, attribute: String) -> Int? {
         let pattern = attribute + "=\"([0-9]+)\""
         guard let regex = try? NSRegularExpression(pattern: pattern) else { return nil }

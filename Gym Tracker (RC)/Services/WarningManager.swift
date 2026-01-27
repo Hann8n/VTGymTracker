@@ -16,14 +16,12 @@ class WarningManager: ObservableObject {
     private func checkForWarnings(mcComas: Int?, warMemorial: Int?) {
         guard let mcComas = mcComas, let warMemorial = warMemorial else { return }
 
-        // Trigger warning if occupancy hasn't changed
         if mcComas == lastMcComasOccupancy, warMemorial == lastWarMemorialOccupancy {
             showOccupancyWarning = true
         } else {
             showOccupancyWarning = false
         }
 
-        // Update last known values
         lastMcComasOccupancy = mcComas
         lastWarMemorialOccupancy = warMemorial
     }
