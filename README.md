@@ -180,7 +180,7 @@ GymTrackerComplications/               # Watch complications
 
 ### Privacy Policy
 
-Hosted via GitHub Pages at `/docs/privacy-policy.html`. Configure in repo Settings → Pages: deploy from `main` branch, `/docs` folder.
+Hosted via GitHub Pages at `/docs/privacy-policy.html`.
 
 ### License
 
