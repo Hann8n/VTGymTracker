@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Privacy Policy | Jack Hannon</title>
+  <title>Privacy Policy - Gym Tracker</title>
+  <link rel="icon" type="image/x-icon" href="favicons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
   <script>
     if (localStorage.getItem('theme') === 'dark' || 
         (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -17,6 +21,7 @@
       --link-color: #444444;
       --link-hover-color: #222222;
       --vt-maroon: #861F41;
+      --vt-maroon-light: #c95a7a;
       --vt-burntOrange: #E5751F;
     }
     .dark-theme {
@@ -90,7 +95,7 @@
       font-size: clamp(1rem, 2.5vw, 1.1rem);
     }
     .privacy-policy a {
-      color: var(--vt-maroon);
+      color: var(--vt-maroon-light);
       text-decoration: none;
       transition: color 0.2s ease;
     }
@@ -101,27 +106,13 @@
       margin-bottom: 1rem;
       padding: 0.5rem 0;
     }
-    .app-icon-container a { display: inline-block; text-decoration: none; border-radius: inherit; }
     .app-icon {
       width: clamp(100px, 8vw, 140px);
       height: clamp(100px, 8vw, 140px);
       border-radius: clamp(20px, 2vw, 28px);
       box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       object-fit: cover;
       border: 2px solid rgba(255, 255, 255, 0.1);
-    }
-    .app-icon:hover {
-      transform: scale(1.08) translateY(-2px);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
-    }
-    .app-icon:focus {
-      outline: 3px solid var(--vt-maroon);
-      outline-offset: 4px;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .app-icon { transition: none; }
-      .app-icon:hover { transform: none; }
     }
     @media (max-width: 480px) {
       .app-icon { width: clamp(70px, 12vw, 90px); height: clamp(70px, 12vw, 90px); border-radius: clamp(16px, 3vw, 20px); }
@@ -161,7 +152,8 @@
     }
     .social-icons .linkedin-icon,
     .social-icons .github-icon,
-    .social-icons .bluesky-icon {
+    .social-icons .bluesky-icon,
+    .social-icons .website-icon {
       width: 1.4rem;
       height: 1.4rem;
       fill: currentColor;
@@ -171,7 +163,8 @@
       .social-icons a { width: 3.5rem; height: 3.5rem; min-width: 48px; min-height: 48px; }
       .social-icons .linkedin-icon,
       .social-icons .github-icon,
-      .social-icons .bluesky-icon { width: 1.6rem; height: 1.6rem; }
+      .social-icons .bluesky-icon,
+      .social-icons .website-icon { width: 1.6rem; height: 1.6rem; }
     }
   </style>
 </head>
@@ -181,18 +174,13 @@
     
     <section class="privacy-policy">
       <div class="app-icon-container">
-        <a href="https://apps.apple.com/us/app/vt-gym-tracker/id6736409867?itscg=30200&itsct=apps_box_link&mttnsubad=6736409867" 
-           target="_blank" 
-           rel="noopener noreferrer" 
-           aria-label="Download VT Gym Tracker on the App Store">
-          <img src="images/VT-Gym-Tracker-ios-Icon.png" 
-               alt="VT Gym Tracker App Icon" 
-               class="app-icon" 
-               width="140" 
-               height="140"
-               loading="eager"
-               decoding="async" />
-        </a>
+        <img src="images/VT-Gym-Tracker-ios-Icon.png" 
+             alt="Gym Tracker App Icon" 
+             class="app-icon" 
+             width="140" 
+             height="140"
+             loading="eager"
+             decoding="async" />
       </div>
       <h1>Privacy Policy</h1>
       <p><strong>Last Updated:</strong> January 11, 2025</p>
@@ -212,11 +200,16 @@
       <p>I may update this Privacy Policy periodically. Any changes will be posted on this page with an updated "Last Updated" date.</p>
 
       <h2>Contact</h2>
-      <p>If you have any questions or suggestions about this Privacy Policy, please contact me at <a href="mailto:hannon@vt.edu">hannon@vt.edu</a></p>
+      <p>If you have any questions or suggestions about this Privacy Policy, please contact me at <a href="mailto:gymtracker@jackhannon.net">gymtracker@jackhannon.net</a></p>
     </section>
   </main>
   
   <div class="social-icons">
+    <a href="https://jackhannon.net" target="_blank" rel="noopener noreferrer" aria-label="Personal Website">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="website-icon">
+        <path fill="currentColor" d="M16.5 24c0 1.9.085 3.742.243 5.5h14.514c.158-1.758.243-3.6.243-5.5s-.085-3.742-.244-5.5H16.745c-.16 1.758-.245 3.6-.245 5.5m-2.767-5.5A64 64 0 0 0 13.5 24c0 1.886.08 3.727.232 5.5H2.177C1.735 27.74 1.5 25.897 1.5 24s.235-3.74.677-5.5zm3.366-3H30.9c-.444-3.027-1.116-5.726-1.949-7.943c-.779-2.073-1.669-3.648-2.58-4.676C25.458 1.849 24.652 1.5 24 1.5s-1.458.35-2.372 1.38c-.911 1.03-1.801 2.604-2.58 4.677c-.833 2.217-1.505 4.916-1.95 7.943m17.169 3c.153 1.773.233 3.614.233 5.5s-.08 3.727-.232 5.5h11.555c.442-1.76.677-3.603.677-5.5s-.235-3.74-.677-5.5zm10.573-3H33.931c-.47-3.388-1.214-6.45-2.171-8.998c-.611-1.626-1.323-3.082-2.134-4.293c6.92 1.782 12.55 6.773 15.212 13.291m-30.77 0H3.161C5.822 8.982 11.453 3.991 18.373 2.21c-.81 1.21-1.523 2.666-2.134 4.292c-.957 2.548-1.7 5.61-2.17 8.998m-.003 17H3.161c2.66 6.515 8.286 11.504 15.2 13.288c-.81-1.21-1.52-2.666-2.13-4.29c-.955-2.55-1.697-5.61-2.165-8.998m14.894 7.944c.83-2.217 1.5-4.916 1.944-7.944H17.096c.443 3.028 1.113 5.727 1.944 7.944c.778 2.073 1.667 3.647 2.58 4.675c.912 1.03 1.72 1.381 2.38 1.381s1.468-.351 2.38-1.381c.913-1.028 1.802-2.602 2.58-4.675m2.809 1.053c.955-2.548 1.697-5.61 2.165-8.997h10.905c-2.66 6.515-8.286 11.504-15.2 13.288c.81-1.21 1.52-2.666 2.13-4.29"/>
+      </svg>
+    </a>
     <a href="https://www.linkedin.com/in/jackphannon/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="linkedin-icon">
         <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/>
