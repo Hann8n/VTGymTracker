@@ -1,4 +1,4 @@
-# <img src="assets/VT_Gym_Tracker_Logo.png" alt="Gym Tracker" width="48" height="48" style="vertical-align: middle; margin-right: 12px;" /> Gym Tracker
+# Gym Tracker
 
 iOS app for tracking Virginia Tech gym occupancy and displaying campus events. Supports iOS, watchOS, and WidgetKit extensions.
 
@@ -190,7 +190,7 @@ GymTrackerComplications/               # Watch complications
 
 ### License
 
-This project is licensed under the **MIT License**. See the `LICENSE` file for full text.
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for full text.
 
 [Privacy Policy](https://hann8n.github.io/VTGymTracker/docs/privacy-policy.html)
 
