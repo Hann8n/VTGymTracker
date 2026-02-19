@@ -196,7 +196,7 @@ GymTrackerComplications/               # Watch complications
 
 This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for full text.
 
-[Privacy Policy](https://hann8n.github.io/VTGymTracker/docs/privacy-policy.html)
+[Privacy Policy](https://gymtracker.jackhannon.net/docs/privacy-policy.html)
 
 ---
 
