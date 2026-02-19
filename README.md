@@ -12,6 +12,10 @@ iOS app for tracking Virginia Tech gym occupancy and displaying campus events. S
   </a>
 </p>
 
+<p align="center">
+  <a href="https://github.com/Hann8n/VTGymTracker">GitHub</a> · <a href="https://tangled.org/jack.orbyt.video/VTGymTracker">Tangled</a>
+</p>
+
 ## Architecture
 
 ### Core Services
