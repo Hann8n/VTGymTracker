@@ -3,4 +3,98 @@
 
 @import "{{ site.theme }}";
 
-/* Custom overrides - VT colors, etc. */
+/* VT brand color overrides and dark mode support */
+:root {
+  --vt-maroon: #861F41;
+  --vt-maroon-light: #c95a7a;
+  --vt-burntOrange: #E5751F;
+  --page-bg: #ffffff;
+  --page-text: #333333;
+  --header-bg: #861F41;
+  --header-text: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page-bg: #1a1a1a;
+    --page-text: #e0e0e0;
+    --header-bg: #1a1a1a;
+    --header-text: #e0e0e0;
+  }
+}
+
+html.dark-theme {
+  --page-bg: #1a1a1a !important;
+  --page-text: #e0e0e0 !important;
+  --header-bg: #1a1a1a !important;
+  --header-text: #e0e0e0 !important;
+}
+
+html.dark-theme .page-header {
+  background-image: none !important;
+}
+
+.page-header {
+  background-color: var(--header-bg) !important;
+  background-image: linear-gradient(120deg, var(--header-bg), var(--header-bg)) !important;
+  color: var(--header-text) !important;
+}
+
+.page-header a {
+  color: var(--header-text) !important;
+  opacity: 0.9;
+}
+
+.page-header a:hover {
+  opacity: 1;
+}
+
+.main-content {
+  color: var(--page-text) !important;
+}
+
+.main-content h1,
+.main-content h2,
+.main-content h3,
+.main-content h4,
+.main-content h5,
+.main-content h6 {
+  color: var(--page-text) !important;
+}
+
+.main-content a {
+  color: var(--vt-maroon-light) !important;
+}
+
+.main-content a:hover {
+  color: var(--vt-burntOrange) !important;
+}
+
+body {
+  background-color: var(--page-bg) !important;
+  color: var(--page-text) !important;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+}
+
+.btn {
+  background-color: var(--vt-maroon) !important;
+  border-color: var(--vt-maroon) !important;
+  color: #fff !important;
+}
+
+.btn:hover {
+  background-color: var(--vt-burntOrange) !important;
+  border-color: var(--vt-burntOrange) !important;
+}
+
+/* Code block styling when dark mode is active */
+html.dark-theme .main-content code,
+html.dark-theme .main-content pre {
+  background-color: #2d2d2d !important;
+  color: #e0e0e0 !important;
+  border-color: #444 !important;
+}
+
+html.dark-theme .main-content pre > code {
+  background: transparent !important;
+}
