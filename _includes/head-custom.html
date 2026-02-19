@@ -2,3 +2,9 @@
 <link rel="icon" type="image/png" sizes="32x32" href="{{ site.baseurl }}/docs/favicons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="{{ site.baseurl }}/docs/favicons/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="{{ site.baseurl }}/docs/favicons/apple-touch-icon.png">
+<script>
+  if (localStorage.getItem('theme') === 'dark' || 
+      (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark-theme');
+  }
+</script>
