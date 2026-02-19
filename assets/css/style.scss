@@ -42,7 +42,11 @@ html.dark-theme {
   color: var(--page-text) !important;
 }
 
-.main-content h1,
+.main-content h1 {
+  color: var(--page-text) !important;
+  font-weight: bold !important;
+}
+
 .main-content h2,
 .main-content h3,
 .main-content h4,
