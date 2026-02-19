@@ -10,7 +10,7 @@
   --vt-burntOrange: #E5751F;
   --page-bg: #ffffff;
   --page-text: #333333;
-  --header-bg: #861F41;
+  --header-bg: #000000;
   --header-text: #ffffff;
 }
 
@@ -18,7 +18,7 @@
   :root {
     --page-bg: #1a1a1a;
     --page-text: #e0e0e0;
-    --header-bg: #1a1a1a;
+    --header-bg: #000000;
     --header-text: #e0e0e0;
   }
 }
@@ -26,7 +26,7 @@
 html.dark-theme {
   --page-bg: #1a1a1a !important;
   --page-text: #e0e0e0 !important;
-  --header-bg: #1a1a1a !important;
+  --header-bg: #000000 !important;
   --header-text: #e0e0e0 !important;
 }
 
@@ -47,6 +47,18 @@ html.dark-theme .page-header {
 
 .page-header a:hover {
   opacity: 1;
+}
+
+.page-header .btn {
+  background-color: transparent !important;
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+}
+
+.page-header .btn:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  border-color: #ffffff !important;
+  color: #ffffff !important;
 }
 
 .main-content {
@@ -89,12 +101,41 @@ body {
 
 /* Code block styling when dark mode is active */
 html.dark-theme .main-content code,
-html.dark-theme .main-content pre {
+html.dark-theme .main-content pre,
+html.dark-theme .main-content .highlight,
+html.dark-theme .main-content .highlight pre {
   background-color: #2d2d2d !important;
   color: #e0e0e0 !important;
   border-color: #444 !important;
+  border-radius: 0 !important;
+}
+
+html.dark-theme .main-content pre,
+html.dark-theme .main-content .highlight pre {
+  overflow: hidden;
 }
 
 html.dark-theme .main-content pre > code {
   background: transparent !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .main-content code,
+  .main-content pre,
+  .main-content .highlight,
+  .main-content .highlight pre {
+    background-color: #2d2d2d !important;
+    color: #e0e0e0 !important;
+    border-color: #444 !important;
+    border-radius: 0 !important;
+  }
+
+  .main-content pre,
+  .main-content .highlight pre {
+    overflow: hidden;
+  }
+
+  .main-content pre > code {
+    background: transparent !important;
+  }
 }
