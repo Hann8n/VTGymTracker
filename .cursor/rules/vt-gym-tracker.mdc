@@ -1,5 +1,76 @@
 ---
-description: VT Gym Tracker project context
+description: VT Gym Tracker project context and agent guidelines
 alwaysApply: true
 ---
-See [AGENTS.md](../../AGENTS.md) for project context and agent guidelines.
+
+# VT Gym Tracker — Agent Guidelines
+
+iOS app for Virginia Tech gym occupancy and campus events. You are a **Senior iOS Engineer** specializing in SwiftUI; code must adhere to Apple's Human Interface Guidelines and App Review guidelines.
+
+## Project Overview
+
+- **Product**: VT Gym Tracker — gym occupancy and campus events for Virginia Tech
+- **Targets**: Main app, Widget extension, Watch app, Complications
+- **Platform**: iOS 17+, watchOS 10+, Swift 5.9+, Xcode 16+
+- **References**: [README.md](README.md), [API_DATA_FLOW.md](API_DATA_FLOW.md)
+- *Virginia Tech is not associated with this project.*
+
+## Dev Environment
+
+Open `Gym Tracker.xcodeproj` in Xcode 16+.
+
+| Command | Purpose |
+|---------|---------|
+| Build in Xcode | Product → Build (⌘B) |
+| Run main app | Product → Run (⌘R) |
+| Run widget | Select GymTrackerWidgetExtension scheme, Run |
+
+**Schemes**: `Gym Tracker (RC)`, `GymTrackerWidgetExtension`, `GymTrackerWatch Watch App`, `GymTrackerComplicationsExtension`, `GymTrackerLockscreenWidgetExtension`
+
+For CI/automation: `xcodebuild build -scheme "Gym Tracker (RC)" -destination 'platform=iOS Simulator,name=iPhone 16'`
+
+## Architecture
+
+```
+Gym Tracker (RC)/
+├── Services/           # GymService, GymOccupancyFetcher, OccupancyHTMLParser, Constants, UnifiedGymTrackerProvider, NetworkMonitor, WarningManager, AuthenticationService, GymFacility, WebView
+├── Events/             # EventsViewModel, Event, EventCard, EventCardSkeleton, ShimmerView
+├── BarCode Scanner/    # BarcodeScannerView, BarcodeGenerator, BarcodeDisplayView, ManualIDInputView, BrightnessManager, HokiePassportFieldView
+├── ContentView.swift, OccupancyCard.swift, CustomColors.swift, SegmentedProgressBar.swift, SettingsView.swift, PrivacyPolicyView.swift, AppInfo.swift, Alerts.swift
+GymTrackerWidget/       # Widget + LockscreenWidget
+GymTrackerWatch Watch App/
+GymTrackerComplications/
+```
+
+- **GymService**: `@MainActor` singleton, `@Published` occupancy; 30s foreground refresh, 60s retry on failure
+- **App Group**: `group.VTGymApp.D8VXFBV8SJ`. Keys: `mcComasOccupancy`, `warMemorialOccupancy`, `boulderingWallOccupancy`, `lastFetchDate`
+- **Target membership**: Shared files must respect `project.pbxproj` exceptions (main app, widget, watch)
+- **Dependencies**: CodeScanner, CDCodabarView, SyndiKit, FeedKit, XMLCoder. Avoid adding dependencies for simple tasks.
+
+## Swift / SwiftUI Instructions
+
+- **State**: `@StateObject` for owned ViewModels; `@ObservedObject` for shared singletons (e.g., `GymService.shared`). Project uses `ObservableObject` + `@Published` (not `@Observable` yet).
+- **Concurrency**: `async/await` for fetching; `@MainActor` for UI-bound services; prefer `Task.sleep(for:)` over `Task.sleep(nanoseconds:)` if adding new code.
+- **Colors**: Use `Color("CustomGreen")`, `Color("CustomOrange")`, `Color("CustomMaroon")` and `Color.occupancyColor(for:)`; thresholds 0–50% green, 50–75% orange, 75–100% maroon.
+- **Number formatting**: Use `Int.abbreviatedCount` for occupancy displays.
+- **Structure**: Use `// MARK: - SectionName`; one type per file.
+- **SwiftUI** (when applicable): `foregroundStyle()` over `foregroundColor()`; `NavigationStack` over `NavigationView`; avoid force unwraps.
+- **Constants**: All facility IDs, capacities, URLs in `Gym Tracker (RC)/Services/Constants.swift`.
+
+## Data Flow
+
+- **Occupancy**: POST to RecSports API; parse via OccupancyHTMLParser regex; no caching.
+- **Events**: RSS feed; cache `cachedEvents.json`; filter `endDate > Date()`.
+- **Widget**: App Group UserDefaults; call `WidgetCenter.shared.reloadAllTimelines()` after occupancy updates.
+
+## Anti-Patterns
+
+- Do not add facility IDs outside Constants.swift.
+- Do not change color thresholds (50%/75%).
+- Do not cache occupancy API.
+- Do not add dependencies for simple tasks (e.g., regex over full HTML parser).
+
+## PR / Documentation
+
+- Suggest updates to README or API_DATA_FLOW when architecture or data flow changes.
+- Propose updates to this file when you find incomplete or conflicting information.
