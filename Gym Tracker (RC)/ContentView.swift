@@ -6,6 +6,7 @@ struct ContentView: View {
     // MARK: - State Objects and Dependencies
     @StateObject private var networkMonitor: NetworkMonitor
     @StateObject private var eventsViewModel: EventsViewModel
+    @StateObject private var adViewModel = AdViewModel()
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var alertManager: AlertManager
@@ -23,6 +24,10 @@ struct ContentView: View {
     @AppStorage("appTheme") private var appTheme: String = "Auto"
     @AppStorage("faceIDEnabled") private var faceIDEnabled: Bool = false
     @AppStorage("gymBarcode") private var scannedBarcode: String = ""
+    @AppStorage("sponsoredAdsEnabled") private var sponsoredAdsEnabled: Bool = true
+    #if DEBUG
+    @AppStorage("adPreviewTier") private var adPreviewTier: String = "gist"
+    #endif
     
     // MARK: - Initializer
     init() {
@@ -43,6 +48,13 @@ struct ContentView: View {
                                 await fetchGymOccupancyData()
                             }
                             eventsViewModel.fetchEvents()
+                            if sponsoredAdsEnabled {
+                                #if DEBUG
+                                await adViewModel.loadAd(previewTier: adPreviewTier)
+                                #else
+                                await adViewModel.loadAd(previewTier: nil)
+                                #endif
+                            }
                         }
                     }
                 .sheet(isPresented: $isScannerPresented) {
@@ -64,15 +76,39 @@ struct ContentView: View {
                 }
                 .onChange(of: networkMonitor.isConnected) { _, newValue in
                     if newValue {
-                        Task { await fetchGymOccupancyData() }
+                        Task {
+                            await fetchGymOccupancyData()
+                            if sponsoredAdsEnabled {
+                                #if DEBUG
+                                await adViewModel.loadAd(previewTier: adPreviewTier)
+                                #else
+                                await adViewModel.loadAd(previewTier: nil)
+                                #endif
+                            }
+                        }
                     }
                 }
+                #if DEBUG
+                .onChange(of: adPreviewTier) { _, _ in
+                    if sponsoredAdsEnabled {
+                        Task { await adViewModel.loadAd(previewTier: adPreviewTier) }
+                    }
+                }
+                #endif
                 .onChange(of: scenePhase) { _, newPhase in
                     switch newPhase {
                     case .inactive, .background:
                         isBarcodeDisplayPresented = false
                     case .active:
-                        break
+                        if sponsoredAdsEnabled {
+                            Task {
+                                #if DEBUG
+                                await adViewModel.loadAd(previewTier: adPreviewTier)
+                                #else
+                                await adViewModel.loadAd(previewTier: nil)
+                                #endif
+                            }
+                        }
                     @unknown default:
                         break
                     }
@@ -127,6 +163,7 @@ struct ContentView: View {
             warMemorialSection
             mcComasSection
             boulderingWallSection
+            sponsoredSection
             eventsSection
         }
         .listStyle(.grouped)
@@ -206,6 +243,22 @@ struct ContentView: View {
                 Text("Today - \(Constants.formattedDateTwoWeeksAhead())")
                     .fontWeight(.regular)
                     .foregroundColor(.secondary)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var sponsoredSection: some View {
+        if let ad = adViewModel.currentAd, sponsoredAdsEnabled {
+            Section("Sponsored") {
+                AdView(
+                    ad: ad,
+                    onImpression: { adViewModel.trackImpressionIfNeeded(for: ad) },
+                    onTap: { adViewModel.trackTap(for: ad) }
+                )
+                .listRowInsets(ad.usesImageLayout
+                    ? EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+                    : EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
             }
         }
     }

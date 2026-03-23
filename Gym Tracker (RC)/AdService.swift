@@ -1,0 +1,82 @@
+//
+//  AdService.swift
+//  Gym Tracker
+//
+//  Created by Jack Hannon on 3/22/26.
+//
+
+import Foundation
+
+struct AdService {
+    // Cache is written on successful fetch but not read. We intentionally avoid showing
+    // stale ads when the remote fetch fails (404 or network error). Reserved for future
+    // offline fallback or "show last known ad while loading" if desired.
+    private static let adCacheKey = "cached_ad_config_v4"
+    private static let adCacheSavedAtKey = "cached_ad_config_saved_at_v4"
+
+    private let session: URLSession
+    private let userDefaults: UserDefaults
+
+    init(session: URLSession = AdService.makeSession(), userDefaults: UserDefaults = .standard) {
+        self.session = session
+        self.userDefaults = userDefaults
+    }
+
+    func fetchActiveAd() async -> AdConfig? {
+        guard let remoteAd = await fetchRemoteAd() else {
+            return nil
+        }
+        cacheAd(remoteAd)
+        return remoteAd.isCurrentlyActive ? remoteAd : nil
+    }
+
+    func lastCacheDate() -> Date? {
+        userDefaults.object(forKey: Self.adCacheSavedAtKey) as? Date
+    }
+
+    private func fetchRemoteAd() async -> AdConfig? {
+        guard let requestURL = URL(string: Constants.adConfigURLString) else {
+            return nil
+        }
+
+        do {
+            let (data, response) = try await session.data(from: requestURL)
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                return nil
+            }
+
+            let decoder = JSONDecoder()
+            return try decoder.decode(AdConfig.self, from: data)
+        } catch {
+            return nil
+        }
+    }
+
+    /// Returns the last successfully fetched ad from UserDefaults. Currently unused —
+    /// see cache keys above. Call this if adding offline fallback.
+    private func cachedAd() -> AdConfig? {
+        guard let cachedData = userDefaults.data(forKey: Self.adCacheKey) else {
+            return nil
+        }
+
+        return try? JSONDecoder().decode(AdConfig.self, from: cachedData)
+    }
+
+    private func cacheAd(_ ad: AdConfig) {
+        guard let encoded = try? JSONEncoder().encode(ad) else {
+            return
+        }
+
+        userDefaults.set(encoded, forKey: Self.adCacheKey)
+        userDefaults.set(Date(), forKey: Self.adCacheSavedAtKey)
+    }
+
+    private static func makeSession() -> URLSession {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
+        configuration.timeoutIntervalForRequest = Constants.adFetchTimeoutSeconds
+        configuration.timeoutIntervalForResource = Constants.adFetchTimeoutSeconds
+        return URLSession(configuration: configuration)
+    }
+}

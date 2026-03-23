@@ -27,6 +27,15 @@ struct Constants {
     static let facilityDataAPIURL = URL(string: "https://connect.recsports.vt.edu/FacilityOccupancy/GetFacilityData")!
     static let occupancyDisplayType = "00000000-0000-0000-0000-000000004490"
 
+    // Sponsored Ads
+    static let adPlacementHomeFeed = "home_feed"
+    static let adConfigURLString = "https://gymtracker.jackhannon.net/api/ads"
+    static let adFetchTimeoutSeconds: TimeInterval = 4
+
+    // PostHog
+    static let postHogAPIKey = "phc_FsAuyQsYKoDU4KX0CblAreJ7i8OfzS4TQfEUsf95cLU"
+    static let postHogHost = "https://us.i.posthog.com"
+
     // App Group (main app, widget, Watch)
     static let appGroupID = "group.VTGymApp.D8VXFBV8SJ"
     

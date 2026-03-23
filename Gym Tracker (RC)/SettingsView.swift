@@ -17,6 +17,10 @@ struct SettingsView: View {
     @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = true
     @AppStorage("gymBarcode") private var gymBarcode: String = ""
     @AppStorage("faceIDEnabled") private var faceIDEnabled: Bool = false
+    @AppStorage("sponsoredAdsEnabled") private var sponsoredAdsEnabled: Bool = true
+    #if DEBUG
+    @AppStorage("adPreviewTier") private var adPreviewTier: String = "gist"
+    #endif
 
     @State private var showBarcodeScanner: Bool = false
     @State private var showManualInput: Bool = false
@@ -39,7 +43,14 @@ struct SettingsView: View {
                         alertManager: alertManager
                     )
                 }
-                
+
+                #if DEBUG
+                SponsoredContentSection(
+                    sponsoredAdsEnabled: $sponsoredAdsEnabled,
+                    adPreviewTier: $adPreviewTier
+                )
+                #endif
+
                 AboutSection()
             }
             .formStyle(.grouped)
@@ -295,6 +306,28 @@ struct CampusIDSection: View {
             } else if let error = error, AuthenticationService.shared.isBiometricsUnavailable(error: error) {
                 alertManager.showAlert(.faceIDSettings)
             }
+        }
+    }
+}
+
+struct SponsoredContentSection: View {
+    @Binding var sponsoredAdsEnabled: Bool
+    @Binding var adPreviewTier: String
+
+    var body: some View {
+        Section("Sponsored Content") {
+            Toggle("Show Sponsored Offers", isOn: $sponsoredAdsEnabled)
+                .tint(.customOrange)
+
+            Picker("Ad style preview", selection: $adPreviewTier) {
+                Text("Live (Gist)").tag("gist")
+                Text("Text").tag("text")
+                Text("Banner").tag("banner")
+                Text("Feature").tag("feature")
+            }
+            .pickerStyle(.menu)
+            .tint(.customOrange)
+            .accessibilityHint("Override for development to test different ad layouts")
         }
     }
 }
