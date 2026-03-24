@@ -27,7 +27,7 @@ struct ContentView: View {
     @AppStorage("gymBarcode") private var scannedBarcode: String = ""
     @AppStorage("sponsoredAdsEnabled") private var sponsoredAdsEnabled: Bool = true
     #if DEBUG
-    @AppStorage("adPreviewTier") private var adPreviewTier: String = "gist"
+    @AppStorage("adPreviewTier") private var adPreviewTier: String = "production"
     #endif
     
     // MARK: - Initializer
@@ -43,6 +43,11 @@ struct ContentView: View {
             NavigationStack {
                 mainListView
                     .onAppear {
+                        #if DEBUG
+                        if adPreviewTier == "gist" {
+                            adPreviewTier = "production"
+                        }
+                        #endif
                         scheduleAppRefresh()
                         Task {
                             if networkMonitor.isConnected {
@@ -162,21 +167,39 @@ struct ContentView: View {
     // MARK: - Main List & Sections
     private var mainListView: some View {
         AthleticDashboardContainer {
-            Text("Gym Tracker")
-                .font(.system(size: 36, weight: .bold, design: .default))
-                .fontWidth(.condensed)
-                .tracking(-0.5)
-                .foregroundStyle(.primary)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 16)
-                .padding(.bottom, 8)
-                .accessibilityAddTraits(.isHeader)
-            warMemorialSection
-            mcComasSection
-            boulderingWallSection
-            sponsoredSection
-            eventsSection
+            VStack(alignment: .leading, spacing: 0) {
+                Text("Gym Tracker")
+                    .font(.system(size: 36, weight: .bold, design: .default))
+                    .fontWidth(.condensed)
+                    .tracking(-0.5)
+                    .foregroundStyle(.primary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 8)
+                    .accessibilityAddTraits(.isHeader)
+                    .id("dashboard-title")
+                warMemorialSection
+                    .id("dashboard-war-memorial")
+                mcComasSection
+                    .id("dashboard-mccomas")
+                boulderingWallSection
+                    .id("dashboard-bouldering")
+                VStack(alignment: .leading, spacing: 0) {
+                    sponsoredSection
+                    eventsSection
+                        .id("dashboard-events")
+                }
+                .animation(motionPolicy.sponsorSectionLayoutAnimation, value: sponsoredSectionLayoutToken)
+            }
         }
+    }
+
+    /// Drives smooth reflow of sections below the fold when the sponsor block mounts/unmounts or toggles.
+    private var sponsoredSectionLayoutToken: String {
+        if sponsoredAdsEnabled, let ad = adViewModel.loadedAd {
+            return "on-\(ad.config.id)"
+        }
+        return "off"
     }
 
     private var motionPolicy: MotionPolicy {
@@ -229,30 +252,36 @@ struct ContentView: View {
 
     private var eventsSection: some View {
         AthleticEventsBlock(eventsViewModel: eventsViewModel, networkMonitor: networkMonitor, motionPolicy: motionPolicy)
-            .animation(motionPolicy.entryAnimation, value: eventsViewModel.events.count)
             .athleticStaggeredAppear(index: 4, motionPolicy: motionPolicy)
     }
 
-    @ViewBuilder
     private var sponsoredSection: some View {
-        if let ad = adViewModel.currentAd, sponsoredAdsEnabled {
-            VStack(alignment: .leading, spacing: 0) {
+        Group {
+            if let loadedAd = adViewModel.loadedAd, sponsoredAdsEnabled {
                 VStack(alignment: .leading, spacing: 0) {
-                    AthleticSectionHeader(title: "Sponsored")
-                        .padding(.horizontal, 16)
-                        .padding(.bottom, 6)
+                    VStack(alignment: .leading, spacing: 0) {
+                        AthleticSectionHeader(
+                            title: loadedAd.config.sponsor,
+                            subtitle: "Sponsored",
+                            leadingLogo: loadedAd.logoImage
+                        )
+                            .padding(.horizontal, 16)
+                            .padding(.bottom, 6)
 
-                    AdView(
-                        ad: ad,
-                        networkMonitor: networkMonitor,
-                        onImpression: { adViewModel.trackImpressionIfNeeded(for: ad) },
-                        onTap: { adViewModel.trackTap(for: ad) }
-                    )
+                        AdView(
+                            ad: loadedAd.config,
+                            heroImage: loadedAd.heroImage,
+                            networkMonitor: networkMonitor,
+                            onImpression: { adViewModel.trackImpressionIfNeeded(for: loadedAd.config) },
+                            onTap: { adViewModel.trackTap(for: loadedAd.config) }
+                        )
+                    }
+                    .padding(.top, AthleticDashboardLayout.cardVerticalPadding)
                 }
-                .padding(.vertical, 18)
+                .id("dashboard-sponsored")
+                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                .transition(motionPolicy.transition)
             }
-            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-            .athleticStaggeredAppear(index: 3, motionPolicy: motionPolicy)
         }
     }
     

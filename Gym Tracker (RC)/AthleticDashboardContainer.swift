@@ -12,6 +12,7 @@ struct AthleticDashboardContainer<Content: View>: View {
             .padding(.top, 4)
             .padding(.bottom, 28)
         }
+        .scrollIndicators(.hidden)
         .background(AthleticFieldBoardBackground())
     }
 }

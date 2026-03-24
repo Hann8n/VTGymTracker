@@ -11,19 +11,19 @@ struct AthleticStaggeredAppear: ViewModifier {
     func body(content: Content) -> some View {
         content
             .opacity(motionPolicy.reduceMotion || revealed ? 1 : 0)
-            .offset(y: motionPolicy.reduceMotion || revealed ? 0 : 14)
-            .scaleEffect(motionPolicy.reduceMotion || revealed ? 1 : 0.98)
             .onAppear {
                 if motionPolicy.reduceMotion {
                     revealed = true
                     return
                 }
-                let delayMs = min(index, 12) * 55
+                // Sibling inserts (e.g. sponsor) can re-trigger onAppear; don’t restagger — keeps layout + opacity in sync with the dashboard animation.
+                guard !revealed else { return }
+                let delayMs = min(index, 4) * 22
                 Task { @MainActor in
                     if delayMs > 0 {
                         try? await Task.sleep(for: .milliseconds(delayMs))
                     }
-                    withAnimation(motionPolicy.entryAnimation) {
+                    withAnimation(motionPolicy.staggeredSectionRevealAnimation) {
                         revealed = true
                     }
                 }

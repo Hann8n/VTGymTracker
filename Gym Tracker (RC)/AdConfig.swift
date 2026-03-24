@@ -81,6 +81,11 @@ struct AdConfig: Codable, Equatable {
         try container.encode(tier, forKey: .tier)
     }
 
+    /// Mock ads from `devConfig(tier:)` use `dev_*` ids; they must not persist when switching to a live API fetch.
+    var isDevelopmentPreview: Bool {
+        id.hasPrefix("dev_")
+    }
+
     var isCurrentlyActive: Bool {
         let now = Date()
         guard active

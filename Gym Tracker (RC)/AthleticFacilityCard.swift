@@ -56,6 +56,7 @@ struct AthleticFacilityCard: View {
                     .foregroundStyle(.secondary)
             }
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+            .animation(motionPolicy.updateAnimation, value: occupancy)
 
             SegmentedProgressBar(
                 height: 6,
@@ -63,12 +64,13 @@ struct AthleticFacilityCard: View {
                 totalSegments: min(segmentCount, 14)
             )
             .padding(.top, 4)
+            .animation(motionPolicy.updateAnimation, value: occupancy)
         }
         .padding(.horizontal, AthleticDashboardLayout.horizontalGutter)
-        .padding(.vertical, AthleticDashboardLayout.cardVerticalPadding)
+        .padding(.top, AthleticDashboardLayout.horizontalGutter)
+        .padding(.bottom, AthleticDashboardLayout.cardVerticalPadding)
         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
         .athleticFrostedCardChrome(networkMonitor: networkMonitor)
-        .animation(motionPolicy.updateAnimation, value: occupancy)
     }
 }
 

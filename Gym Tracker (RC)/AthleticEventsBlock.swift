@@ -12,7 +12,6 @@ struct AthleticEventsBlock: View {
                 subtitle: "Today - \(Constants.formattedDateTwoWeeksAhead())"
             )
             .padding(.horizontal, AthleticDashboardLayout.horizontalGutter)
-            .padding(.top, 6)
 
             Group {
                 if let errorMessage = eventsViewModel.errorMessage {
@@ -24,7 +23,9 @@ struct AthleticEventsBlock: View {
                 }
             }
             .transition(motionPolicy.transition)
+            .animation(motionPolicy.entryAnimation, value: eventsViewModel.events.count)
         }
+        .padding(.top, AthleticDashboardLayout.sectionSpacingBeforeHeader)
     }
 
     private var eventsList: some View {

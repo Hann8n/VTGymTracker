@@ -8,9 +8,18 @@
 import Foundation
 
 struct AdService {
-    // Cache is written on successful fetch but not read. We intentionally avoid showing
-    // stale ads when the remote fetch fails (404 or network error). Reserved for future
-    // offline fallback or "show last known ad while loading" if desired.
+
+    /// Distinguishes “couldn’t reach the server” from “server says there is no active ad”.
+    enum ActiveAdOutcome: Equatable {
+        /// Network error, non-2xx, or decode failure — safe to keep showing a previously loaded ad.
+        case unavailable
+        /// Fetch succeeded but the payload is not currently active.
+        case inactive
+        case active(AdConfig)
+    }
+    // Cache is written on successful fetch; callers may keep the last preloaded UI when
+    // a refresh returns `.unavailable` (network / decode failure) so resume-after-freeze
+    // does not flash an empty sponsor row.
     private static let adCacheKey = "cached_ad_config_v4"
     private static let adCacheSavedAtKey = "cached_ad_config_saved_at_v4"
 
@@ -22,12 +31,21 @@ struct AdService {
         self.userDefaults = userDefaults
     }
 
-    func fetchActiveAd() async -> AdConfig? {
+    func fetchActiveAdOutcome() async -> ActiveAdOutcome {
         guard let remoteAd = await fetchRemoteAd() else {
-            return nil
+            return .unavailable
         }
         cacheAd(remoteAd)
-        return remoteAd.isCurrentlyActive ? remoteAd : nil
+        return remoteAd.isCurrentlyActive ? .active(remoteAd) : .inactive
+    }
+
+    func fetchActiveAd() async -> AdConfig? {
+        switch await fetchActiveAdOutcome() {
+        case .active(let ad):
+            return ad
+        case .unavailable, .inactive:
+            return nil
+        }
     }
 
     func lastCacheDate() -> Date? {

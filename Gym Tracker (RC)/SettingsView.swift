@@ -19,7 +19,7 @@ struct SettingsView: View {
     @AppStorage("faceIDEnabled") private var faceIDEnabled: Bool = false
     @AppStorage("sponsoredAdsEnabled") private var sponsoredAdsEnabled: Bool = true
     #if DEBUG
-    @AppStorage("adPreviewTier") private var adPreviewTier: String = "gist"
+    @AppStorage("adPreviewTier") private var adPreviewTier: String = "production"
     #endif
 
     @State private var showBarcodeScanner: Bool = false
@@ -320,7 +320,7 @@ struct SponsoredContentSection: View {
                 .tint(.customOrange)
 
             Picker("Ad style preview", selection: $adPreviewTier) {
-                Text("Live (Gist)").tag("gist")
+                Text("LIVE").tag("production")
                 Text("Text").tag("text")
                 Text("Banner").tag("banner")
                 Text("Feature").tag("feature")
@@ -328,6 +328,11 @@ struct SponsoredContentSection: View {
             .pickerStyle(.menu)
             .tint(.customOrange)
             .accessibilityHint("Override for development to test different ad layouts")
+            .onAppear {
+                if adPreviewTier == "gist" {
+                    adPreviewTier = "production"
+                }
+            }
         }
     }
 }

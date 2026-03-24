@@ -7,6 +7,8 @@ enum AthleticDashboardLayout {
     static let horizontalGutter: CGFloat = 16
     /// Vertical padding for a standard dashboard card block.
     static let cardVerticalPadding: CGFloat = 18
+    /// Space before a section header that follows another dashboard block (gym cards, sponsor, etc.).
+    static let sectionSpacingBeforeHeader: CGFloat = 24
     /// Opacity when offline, paired with grayscale in `athleticFrostedCardChrome`.
     static let offlineOpacity: Double = 0.55
 }

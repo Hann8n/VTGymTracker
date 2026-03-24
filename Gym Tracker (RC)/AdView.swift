@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct AdView: View {
     let ad: AdConfig
+    let heroImage: UIImage?
     @ObservedObject var networkMonitor: NetworkMonitor
     let onImpression: () -> Void
     let onTap: () -> Void
@@ -32,8 +34,8 @@ struct AdView: View {
 
     var body: some View {
         Group {
-            if ad.usesImageLayout {
-                imageTierView
+            if ad.usesImageLayout, let hero = heroImage {
+                imageTierView(hero: hero)
             } else {
                 textTierView
             }
@@ -47,7 +49,7 @@ struct AdView: View {
 
     private var textTierView: some View {
         VStack(alignment: .leading, spacing: 12) {
-            copyContentWithLogo
+            copyContent
 
             ctaButton
         }
@@ -58,14 +60,19 @@ struct AdView: View {
 
     // MARK: - Banner / Feature tier (image on top, copy below)
 
-    private var imageTierView: some View {
+    private func imageTierView(hero: UIImage) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            adImage(height: imageHeight)
+            Image(uiImage: hero)
+                .resizable()
+                .scaledToFill()
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .frame(height: imageHeight)
+                .clipped()
 
             AthleticFullBleedDivider()
 
             VStack(alignment: .leading, spacing: 12) {
-                copyContentWithLogo
+                copyContent
 
                 ctaButton
             }
@@ -79,17 +86,14 @@ struct AdView: View {
 
     // MARK: - Shared components
 
-    private var copyContentWithLogo: some View {
+    private var copyContent: some View {
         VStack(alignment: .leading, spacing: 0) {
-            sponsorLine
-
             Text(ad.headline)
                 .font(.title3.weight(.bold))
                 .fontWidth(.condensed)
                 .foregroundStyle(.primary)
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
-                .padding(.top, 8)
 
             if let subline = ad.subline, !subline.isEmpty {
                 Text(subline)
@@ -101,65 +105,6 @@ struct AdView: View {
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-    }
-
-    private var sponsorLine: some View {
-        HStack(alignment: .center, spacing: 10) {
-            if let logoURL = ad.logoURL {
-                logoImage(url: logoURL, size: 32)
-            }
-            Text(ad.sponsor.uppercased())
-                .font(.subheadline.weight(.semibold))
-                .fontWidth(.condensed)
-                .tracking(0.65)
-                .foregroundStyle(.secondary)
-                .lineLimit(2)
-                .multilineTextAlignment(.leading)
-                .fixedSize(horizontal: false, vertical: true)
-        }
-        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-    }
-
-    @ViewBuilder
-    private func logoImage(url: URL, size: CGFloat = 44) -> some View {
-        AsyncImage(url: url) { phase in
-            switch phase {
-            case .success(let image):
-                image
-                    .resizable()
-                    .scaledToFit()
-            case .failure, .empty:
-                Color(.tertiarySystemFill)
-            @unknown default:
-                Color(.tertiarySystemFill)
-            }
-        }
-        .frame(width: size, height: size)
-        .clipShape(RoundedRectangle(cornerRadius: 2, style: .continuous))
-    }
-
-    @ViewBuilder
-    private func adImage(height: CGFloat) -> some View {
-        AsyncImage(url: ad.imageURL) { phase in
-            switch phase {
-            case .success(let image):
-                image
-                    .resizable()
-                    .scaledToFill()
-                    .frame(minWidth: 0, maxWidth: .infinity)
-                    .frame(height: height)
-                    .clipped()
-            case .failure, .empty:
-                Color(.tertiarySystemFill)
-                    .frame(minWidth: 0, maxWidth: .infinity)
-                    .frame(height: height)
-            @unknown default:
-                Color(.tertiarySystemFill)
-                    .frame(minWidth: 0, maxWidth: .infinity)
-                    .frame(height: height)
-            }
-        }
-        .frame(minWidth: 0, maxWidth: .infinity)
     }
 
     private var ctaButton: some View {
