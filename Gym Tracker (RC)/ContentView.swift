@@ -9,6 +9,7 @@ struct ContentView: View {
     @StateObject private var adViewModel = AdViewModel()
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @EnvironmentObject var alertManager: AlertManager
     @ObservedObject private var gymService = GymService.shared
 
@@ -113,7 +114,8 @@ struct ContentView: View {
                         break
                     }
                 }
-                .navigationTitle("Gym Tracker")
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationTitle("")
                 .toolbar {
                     if UIDevice.current.userInterfaceIdiom == .phone {
                         ToolbarItem(placement: .bottomBar) {
@@ -159,107 +161,98 @@ struct ContentView: View {
     
     // MARK: - Main List & Sections
     private var mainListView: some View {
-        List {
+        AthleticDashboardContainer {
+            Text("Gym Tracker")
+                .font(.system(size: 36, weight: .bold, design: .default))
+                .fontWidth(.condensed)
+                .tracking(-0.5)
+                .foregroundStyle(.primary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 16)
+                .padding(.bottom, 8)
+                .accessibilityAddTraits(.isHeader)
             warMemorialSection
             mcComasSection
             boulderingWallSection
             sponsoredSection
             eventsSection
         }
-        .listStyle(.grouped)
-        .scrollContentBackground(.hidden)
     }
-    
+
+    private var motionPolicy: MotionPolicy {
+        MotionPolicy(reduceMotion: reduceMotion)
+    }
+
     private var warMemorialSection: some View {
-        Section("War Memorial Hall") {
-            OccupancyCard(
+        VStack(alignment: .leading, spacing: 0) {
+            AthleticFacilityCard(
+                facilityTitle: "War Memorial Hall",
                 occupancy: gymService.warMemorialOccupancy ?? 0,
-                remaining: gymService.warMemorialRemaining,
                 maxCapacity: Constants.warMemorialMaxCapacity,
                 segmentCount: 20,
-                networkMonitor: networkMonitor
+                networkMonitor: networkMonitor,
+                motionPolicy: motionPolicy
             )
-            .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+            AthleticFullBleedDivider()
         }
+        .athleticStaggeredAppear(index: 0, motionPolicy: motionPolicy)
     }
-    
+
     private var mcComasSection: some View {
-        Section("McComas Hall") {
-            OccupancyCard(
+        VStack(alignment: .leading, spacing: 0) {
+            AthleticFacilityCard(
+                facilityTitle: "McComas Hall",
                 occupancy: gymService.mcComasOccupancy ?? 0,
-                remaining: gymService.mcComasRemaining,
                 maxCapacity: Constants.mcComasMaxCapacity,
                 segmentCount: 20,
-                networkMonitor: networkMonitor
+                networkMonitor: networkMonitor,
+                motionPolicy: motionPolicy
             )
-            .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+            AthleticFullBleedDivider()
         }
+        .athleticStaggeredAppear(index: 1, motionPolicy: motionPolicy)
     }
-    
+
     private var boulderingWallSection: some View {
-        Section("Bouldering Wall") {
-            OccupancyCard(
+        VStack(alignment: .leading, spacing: 0) {
+            AthleticFacilityCard(
+                facilityTitle: "Bouldering Wall",
                 occupancy: gymService.boulderingWallOccupancy ?? 0,
-                remaining: gymService.boulderingWallRemaining,
                 maxCapacity: Constants.boulderingWallMaxCapacity,
                 segmentCount: 8,
-                networkMonitor: networkMonitor
+                networkMonitor: networkMonitor,
+                motionPolicy: motionPolicy
             )
-            .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
         }
+        .athleticStaggeredAppear(index: 2, motionPolicy: motionPolicy)
     }
-    
+
     private var eventsSection: some View {
-        Section {
-            if let errorMessage = eventsViewModel.errorMessage {
-                VStack {
-                    Text(errorMessage)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                    
-                    Button("Retry") {
-                        eventsViewModel.fetchEvents()
-                    }
-                    .buttonStyle(.bordered)
-                    .controlSize(.regular)
-                    .padding(.top, 5)
-                }
-                .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
-            } else if eventsViewModel.events.isEmpty {
-                Text("Nothing scheduled right now")
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-                    .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
-            } else {
-                ForEach(eventsViewModel.events) { event in
-                    EventCard(event: event)
-                        .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
-                }
-            }
-        } header: {
-            HStack {
-                Text("Upcoming Events")
-                Spacer()
-                Text("Today - \(Constants.formattedDateTwoWeeksAhead())")
-                    .fontWeight(.regular)
-                    .foregroundColor(.secondary)
-            }
-        }
+        AthleticEventsBlock(eventsViewModel: eventsViewModel, networkMonitor: networkMonitor, motionPolicy: motionPolicy)
+            .animation(motionPolicy.entryAnimation, value: eventsViewModel.events.count)
+            .athleticStaggeredAppear(index: 4, motionPolicy: motionPolicy)
     }
 
     @ViewBuilder
     private var sponsoredSection: some View {
         if let ad = adViewModel.currentAd, sponsoredAdsEnabled {
-            Section("Sponsored") {
-                AdView(
-                    ad: ad,
-                    onImpression: { adViewModel.trackImpressionIfNeeded(for: ad) },
-                    onTap: { adViewModel.trackTap(for: ad) }
-                )
-                .listRowInsets(ad.usesImageLayout
-                    ? EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-                    : EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+            VStack(alignment: .leading, spacing: 0) {
+                VStack(alignment: .leading, spacing: 0) {
+                    AthleticSectionHeader(title: "Sponsored")
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 6)
+
+                    AdView(
+                        ad: ad,
+                        networkMonitor: networkMonitor,
+                        onImpression: { adViewModel.trackImpressionIfNeeded(for: ad) },
+                        onTap: { adViewModel.trackTap(for: ad) }
+                    )
+                }
+                .padding(.vertical, 18)
             }
+            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+            .athleticStaggeredAppear(index: 3, motionPolicy: motionPolicy)
         }
     }
     

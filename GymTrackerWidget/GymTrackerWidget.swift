@@ -23,7 +23,7 @@ struct GymTrackerWidgetEntryView: View {
     }
 }
 
-// MARK: - Occupancy Row (app-consistent: circular segmented progress + n/max like OccupancyCard)
+// MARK: - Occupancy Row (widget layout; main app uses `AthleticFacilityCard` + `SegmentedProgressBar`)
 struct OccupancyRowView: View {
     let title: String
     let occupancy: Int

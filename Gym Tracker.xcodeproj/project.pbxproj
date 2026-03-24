@@ -112,7 +112,6 @@
 			membershipExceptions = (
 				Assets.xcassets,
 				CustomColors.swift,
-				OccupancyCard.swift,
 				SegmentedProgressBar.swift,
 				Services/Constants.swift,
 				Services/GymFacility.swift,

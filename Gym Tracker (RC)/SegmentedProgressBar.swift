@@ -31,7 +31,7 @@ struct SegmentedProgressBar: View {
                 // Background segments (static, non-animated)
                 HStack(spacing: segmentSpacing) {
                     ForEach(0..<totalSegments, id: \.self) { index in
-                        RoundedRectangle(cornerRadius: height / 3)
+                        Rectangle()
                             .fill(self.backgroundColor(for: index))
                             .frame(width: segmentWidth, height: height)
                     }
@@ -40,7 +40,7 @@ struct SegmentedProgressBar: View {
                 // Filled segments (animated, based on occupancyPercentage)
                 HStack(spacing: segmentSpacing) {
                     ForEach(0..<totalSegments, id: \.self) { index in
-                        RoundedRectangle(cornerRadius: height / 3)
+                        Rectangle()
                             .fill(self.foregroundColor(for: index))
                             .frame(width: segmentWidth, height: height)
                             .opacity(self.opacityForSegment(index: index, totalSegments: totalSegments, occupancyPercentage: adjustedOccupancy))
