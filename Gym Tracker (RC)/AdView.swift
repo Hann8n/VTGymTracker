@@ -41,7 +41,7 @@ struct AdView: View {
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-        .athleticFrostedCardChrome(networkMonitor: networkMonitor)
+        .dashboardCardChrome(networkMonitor: networkMonitor)
         .onAppear(perform: onImpression)
     }
 
@@ -53,8 +53,8 @@ struct AdView: View {
 
             ctaButton
         }
-        .padding(.horizontal, AthleticDashboardLayout.horizontalGutter)
-        .padding(.vertical, AthleticDashboardLayout.cardVerticalPadding)
+        .padding(.horizontal, DashboardLayout.horizontalGutter)
+        .padding(.vertical, DashboardLayout.cardVerticalPadding)
         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
     }
 
@@ -69,16 +69,16 @@ struct AdView: View {
                 .frame(height: imageHeight)
                 .clipped()
 
-            AthleticFullBleedDivider()
+            FullBleedDivider()
 
             VStack(alignment: .leading, spacing: 12) {
                 copyContent
 
                 ctaButton
             }
-            .padding(.horizontal, AthleticDashboardLayout.horizontalGutter)
+            .padding(.horizontal, DashboardLayout.horizontalGutter)
             .padding(.top, 12)
-            .padding(.bottom, AthleticDashboardLayout.cardVerticalPadding)
+            .padding(.bottom, DashboardLayout.cardVerticalPadding)
         }
         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
         .clipped()

@@ -23,7 +23,7 @@ struct GymTrackerWidgetEntryView: View {
     }
 }
 
-// MARK: - Occupancy Row (widget layout; main app uses `AthleticFacilityCard` + `SegmentedProgressBar`)
+// MARK: - Occupancy Row (widget layout; main app uses `FacilityOccupancyCard` + `SegmentedProgressBar`)
 struct OccupancyRowView: View {
     let title: String
     let occupancy: Int

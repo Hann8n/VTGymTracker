@@ -118,9 +118,9 @@ boulderingWallMaxCapacity: 8
 ### UI Components
 
 **ContentView:**
-- `NavigationStack` with an athletic dashboard (`AthleticDashboardContainer`, field-board background, frosted cards)
+- `NavigationStack` with the dashboard scroll container (`DashboardScrollContainer`, field-board background, frosted cards)
 - Sections: War Memorial, McComas, Bouldering Wall, optional sponsored ad, events
-- `AthleticFacilityCard` displays each facility with `SegmentedProgressBar`
+- `FacilityOccupancyCard` displays each facility with `SegmentedProgressBar`
 - Color thresholds: Green (0-50%), Orange (50-75%), Maroon (75-100%)
 
 **Athletic UI:** See [ATHLETIC_STYLE.md](ATHLETIC_STYLE.md) for layout tokens, motion, and component map.
@@ -182,7 +182,7 @@ Gym Tracker (RC)/
 │   ├── ManualIDInputView.swift       # Manual entry UI
 │   └── BrightnessManager.swift       # Screen brightness control
 ├── ContentView.swift                 # Main app view
-├── Athletic*.swift, MotionPolicy.swift  # Dashboard visual system (see ATHLETIC_STYLE.md)
+├── Dashboard*.swift, MotionPolicy.swift  # Dashboard visual system (see ATHLETIC_STYLE.md)
 └── SegmentedProgressBar.swift        # Occupancy bar (main app + shared targets)
 
 GymTrackerWidget/                      # Widget extension

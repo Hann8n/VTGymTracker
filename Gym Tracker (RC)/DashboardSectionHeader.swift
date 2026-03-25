@@ -1,7 +1,7 @@
 import SwiftUI
 import UIKit
 
-struct AthleticSectionHeader: View {
+struct DashboardSectionHeader: View {
     let title: String
     var subtitle: String? = nil
     var leadingLogo: UIImage? = nil

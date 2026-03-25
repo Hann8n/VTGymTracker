@@ -166,7 +166,7 @@ struct ContentView: View {
     
     // MARK: - Main List & Sections
     private var mainListView: some View {
-        AthleticDashboardContainer {
+        DashboardScrollContainer {
             VStack(alignment: .leading, spacing: 0) {
                 Text("Gym Tracker")
                     .font(.system(size: 36, weight: .bold, design: .default))
@@ -208,7 +208,7 @@ struct ContentView: View {
 
     private var warMemorialSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            AthleticFacilityCard(
+            FacilityOccupancyCard(
                 facilityTitle: "War Memorial Hall",
                 occupancy: gymService.warMemorialOccupancy ?? 0,
                 maxCapacity: Constants.warMemorialMaxCapacity,
@@ -216,14 +216,14 @@ struct ContentView: View {
                 networkMonitor: networkMonitor,
                 motionPolicy: motionPolicy
             )
-            AthleticFullBleedDivider()
+            FullBleedDivider()
         }
-        .athleticStaggeredAppear(index: 0, motionPolicy: motionPolicy)
+        .staggeredAppear(index: 0, motionPolicy: motionPolicy)
     }
 
     private var mcComasSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            AthleticFacilityCard(
+            FacilityOccupancyCard(
                 facilityTitle: "McComas Hall",
                 occupancy: gymService.mcComasOccupancy ?? 0,
                 maxCapacity: Constants.mcComasMaxCapacity,
@@ -231,14 +231,14 @@ struct ContentView: View {
                 networkMonitor: networkMonitor,
                 motionPolicy: motionPolicy
             )
-            AthleticFullBleedDivider()
+            FullBleedDivider()
         }
-        .athleticStaggeredAppear(index: 1, motionPolicy: motionPolicy)
+        .staggeredAppear(index: 1, motionPolicy: motionPolicy)
     }
 
     private var boulderingWallSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            AthleticFacilityCard(
+            FacilityOccupancyCard(
                 facilityTitle: "Bouldering Wall",
                 occupancy: gymService.boulderingWallOccupancy ?? 0,
                 maxCapacity: Constants.boulderingWallMaxCapacity,
@@ -247,12 +247,12 @@ struct ContentView: View {
                 motionPolicy: motionPolicy
             )
         }
-        .athleticStaggeredAppear(index: 2, motionPolicy: motionPolicy)
+        .staggeredAppear(index: 2, motionPolicy: motionPolicy)
     }
 
     private var eventsSection: some View {
-        AthleticEventsBlock(eventsViewModel: eventsViewModel, networkMonitor: networkMonitor, motionPolicy: motionPolicy)
-            .athleticStaggeredAppear(index: 4, motionPolicy: motionPolicy)
+        EventsSectionBlock(eventsViewModel: eventsViewModel, networkMonitor: networkMonitor, motionPolicy: motionPolicy)
+            .staggeredAppear(index: 4, motionPolicy: motionPolicy)
     }
 
     private var sponsoredSection: some View {
@@ -260,7 +260,7 @@ struct ContentView: View {
             if let loadedAd = adViewModel.loadedAd, sponsoredAdsEnabled {
                 VStack(alignment: .leading, spacing: 0) {
                     VStack(alignment: .leading, spacing: 0) {
-                        AthleticSectionHeader(
+                        DashboardSectionHeader(
                             title: loadedAd.config.sponsor,
                             subtitle: "Sponsored",
                             leadingLogo: loadedAd.logoImage
@@ -276,7 +276,7 @@ struct ContentView: View {
                             onTap: { adViewModel.trackTap(for: loadedAd.config) }
                         )
                     }
-                    .padding(.top, AthleticDashboardLayout.cardVerticalPadding)
+                    .padding(.top, DashboardLayout.cardVerticalPadding)
                 }
                 .id("dashboard-sponsored")
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct AthleticFacilityCard: View {
+struct FacilityOccupancyCard: View {
     let facilityTitle: String
     let occupancy: Int
     let maxCapacity: Int
@@ -65,11 +65,11 @@ struct AthleticFacilityCard: View {
             .padding(.top, 4)
             .animation(motionPolicy.updateAnimation, value: occupancy)
         }
-        .padding(.horizontal, AthleticDashboardLayout.horizontalGutter)
-        .padding(.top, AthleticDashboardLayout.horizontalGutter)
-        .padding(.bottom, AthleticDashboardLayout.cardVerticalPadding)
+        .padding(.horizontal, DashboardLayout.horizontalGutter)
+        .padding(.top, DashboardLayout.horizontalGutter)
+        .padding(.bottom, DashboardLayout.cardVerticalPadding)
         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-        .athleticFrostedCardChrome(networkMonitor: networkMonitor)
+        .dashboardCardChrome(networkMonitor: networkMonitor)
     }
 }
 

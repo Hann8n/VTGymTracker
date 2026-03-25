@@ -3,7 +3,7 @@ import SwiftUI
 // MARK: - Neutral frosted card surface
 
 /// Blur + subtle monochrome wash (not brand color) for depth without competing with content or field art.
-struct AthleticCardMaterialBackground: View {
+struct CardMaterialBackground: View {
     @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {

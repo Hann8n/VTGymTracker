@@ -2,7 +2,7 @@ import SwiftUI
 
 // MARK: - Staggered section reveal (respects Reduce Motion)
 
-struct AthleticStaggeredAppear: ViewModifier {
+struct StaggeredAppear: ViewModifier {
     let index: Int
     let motionPolicy: MotionPolicy
 
@@ -32,7 +32,7 @@ struct AthleticStaggeredAppear: ViewModifier {
 }
 
 extension View {
-    func athleticStaggeredAppear(index: Int, motionPolicy: MotionPolicy) -> some View {
-        modifier(AthleticStaggeredAppear(index: index, motionPolicy: motionPolicy))
+    func staggeredAppear(index: Int, motionPolicy: MotionPolicy) -> some View {
+        modifier(StaggeredAppear(index: index, motionPolicy: motionPolicy))
     }
 }

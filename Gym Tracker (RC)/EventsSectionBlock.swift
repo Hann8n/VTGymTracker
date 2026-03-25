@@ -1,17 +1,17 @@
 import SwiftUI
 
-struct AthleticEventsBlock: View {
+struct EventsSectionBlock: View {
     @ObservedObject var eventsViewModel: EventsViewModel
     @ObservedObject var networkMonitor: NetworkMonitor
     let motionPolicy: MotionPolicy
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            AthleticSectionHeader(
+            DashboardSectionHeader(
                 title: "Upcoming Events",
                 subtitle: "Today - \(Constants.formattedDateTwoWeeksAhead())"
             )
-            .padding(.horizontal, AthleticDashboardLayout.horizontalGutter)
+            .padding(.horizontal, DashboardLayout.horizontalGutter)
 
             Group {
                 if let errorMessage = eventsViewModel.errorMessage {
@@ -25,7 +25,7 @@ struct AthleticEventsBlock: View {
             .transition(motionPolicy.transition)
             .animation(motionPolicy.entryAnimation, value: eventsViewModel.events.count)
         }
-        .padding(.top, AthleticDashboardLayout.sectionSpacingBeforeHeader)
+        .padding(.top, DashboardLayout.sectionSpacingBeforeHeader)
     }
 
     private var eventsList: some View {
@@ -33,16 +33,16 @@ struct AthleticEventsBlock: View {
             ForEach(Array(eventsViewModel.events.enumerated()), id: \.element.id) { index, event in
                 EventCard(event: event)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, AthleticDashboardLayout.horizontalGutter)
-                    .padding(.vertical, AthleticDashboardLayout.cardVerticalPadding)
+                    .padding(.horizontal, DashboardLayout.horizontalGutter)
+                    .padding(.vertical, DashboardLayout.cardVerticalPadding)
 
                 if index < eventsViewModel.events.count - 1 {
-                    AthleticFullBleedDivider()
+                    FullBleedDivider()
                 }
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-        .athleticFrostedCardChrome(networkMonitor: networkMonitor)
+        .dashboardCardChrome(networkMonitor: networkMonitor)
     }
 
     private var emptyState: some View {
@@ -51,10 +51,10 @@ struct AthleticEventsBlock: View {
             .fontWidth(.condensed)
             .foregroundStyle(.secondary)
             .frame(maxWidth: .infinity, alignment: .center)
-            .padding(.horizontal, AthleticDashboardLayout.horizontalGutter)
-            .padding(.vertical, AthleticDashboardLayout.cardVerticalPadding)
+            .padding(.horizontal, DashboardLayout.horizontalGutter)
+            .padding(.vertical, DashboardLayout.cardVerticalPadding)
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-            .athleticFrostedCardChrome(networkMonitor: networkMonitor)
+            .dashboardCardChrome(networkMonitor: networkMonitor)
     }
 
     private func errorState(errorMessage: String) -> some View {
@@ -71,8 +71,8 @@ struct AthleticEventsBlock: View {
             .buttonStyle(.borderedProminent)
         }
         .frame(maxWidth: .infinity, alignment: .center)
-        .padding(.horizontal, AthleticDashboardLayout.horizontalGutter)
-        .padding(.vertical, AthleticDashboardLayout.cardVerticalPadding)
-        .athleticFrostedCardChrome(networkMonitor: networkMonitor)
+        .padding(.horizontal, DashboardLayout.horizontalGutter)
+        .padding(.vertical, DashboardLayout.cardVerticalPadding)
+        .dashboardCardChrome(networkMonitor: networkMonitor)
     }
 }

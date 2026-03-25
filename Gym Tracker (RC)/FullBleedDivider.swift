@@ -1,7 +1,7 @@
 import SwiftUI
 import UIKit
 
-struct AthleticFullBleedDivider: View {
+struct FullBleedDivider: View {
     var body: some View {
         Rectangle()
             .fill(Color(uiColor: UIColor.separator))

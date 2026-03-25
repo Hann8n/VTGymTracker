@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct AthleticDashboardContainer<Content: View>: View {
+struct DashboardScrollContainer<Content: View>: View {
     @ViewBuilder let content: Content
 
     var body: some View {
