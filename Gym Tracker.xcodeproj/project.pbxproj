@@ -77,7 +77,7 @@
 		042D05872CB87D860081F486 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		042D05892CB87D860081F486 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		04CD88552D4BC29F008C2EA4 /* GymTrackerWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GymTrackerWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0A1B2C3D2E9A111100000004 /* PostHog.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PostHog.xcconfig; sourceTree = "<group>"; };
+		0A1B2C3D2E9A111100000004 /* PostHog.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Gym Tracker (RC)/Config/PostHog.xcconfig"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
