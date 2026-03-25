@@ -18,6 +18,7 @@ final class AnalyticsService {
 
     func configureIfNeeded() {
         guard !isConfigured else { return }
+        guard !Constants.postHogAPIKey.isEmpty, !Constants.postHogHost.isEmpty else { return }
 
         let config = PostHogConfig(apiKey: Constants.postHogAPIKey, host: Constants.postHogHost)
         PostHogSDK.shared.setup(config)

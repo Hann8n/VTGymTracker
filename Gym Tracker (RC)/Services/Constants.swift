@@ -33,8 +33,12 @@ struct Constants {
     static let adFetchTimeoutSeconds: TimeInterval = 4
 
     // PostHog
-    static let postHogAPIKey = "phc_FsAuyQsYKoDU4KX0CblAreJ7i8OfzS4TQfEUsf95cLU"
-    static let postHogHost = "https://us.i.posthog.com"
+    static var postHogAPIKey: String {
+        Bundle.main.object(forInfoDictionaryKey: "POSTHOG_API_KEY") as? String ?? ""
+    }
+    static var postHogHost: String {
+        Bundle.main.object(forInfoDictionaryKey: "POSTHOG_HOST") as? String ?? ""
+    }
 
     // App Group (main app, widget, Watch)
     static let appGroupID = "group.VTGymApp.D8VXFBV8SJ"
