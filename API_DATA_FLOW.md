@@ -214,21 +214,9 @@ After parsing:
 - Widget extensions
 - Watch app
 
-## Testing/Debugging Override
+## Testing/Debugging (mock occupancy)
 
-The app supports custom occupancy values for testing:
-
-```swift
-@Published var useCustomOccupancy: Bool = false
-@Published var customMcComasOccupancy: Int? = 275
-@Published var customWarMemorialOccupancy: Int? = 1025
-@Published var customBoulderingWallOccupancy: Int? = 6
-```
-
-When enabled, these values override API data. Useful for:
-- Testing UI without network
-- Debugging display logic
-- Demonstrating app functionality
+In **DEBUG** builds, `Constants.forceMockOccupancy` is `true`. `GymOccupancyFetcher.fetchAll()` and `fetchForWidget()` then return fixed counts (`mockMcComasOccupancy`, `mockWarMemorialOccupancy`, `mockBoulderingWallOccupancy`) instead of calling the API, so the main app, widgets, and shared App Group stay aligned. Release builds always use live fetches.
 
 ## Complete Flow Diagram
 

@@ -23,8 +23,14 @@ enum OccupancyMath {
         fraction(occupancy: occupancy, maxCapacity: maxCapacity) * 100
     }
 
+    /// Integer percent for display (truncates toward zero). Do not use `String(format: "%.0f", …)` — that rounds.
     static func wholePercent(occupancy: Int, maxCapacity: Int) -> Int {
         Int(percent(occupancy: occupancy, maxCapacity: maxCapacity))
+    }
+
+    /// Truncates a precomputed percent (0…100) for labels; matches `wholePercent(occupancy:maxCapacity:)`.
+    static func wholePercent(fromPercent percent: Double) -> Int {
+        Int(percent)
     }
 }
 
@@ -44,6 +50,16 @@ struct Constants {
     static let mcComasMaxCapacity = 600
     static let warMemorialMaxCapacity = 1200
     static let boulderingWallMaxCapacity = 8
+
+    #if DEBUG
+    // Shared mock occupancy for app + widgets during simulator/testing screenshots
+    static let forceMockOccupancy = true
+    #else
+    static let forceMockOccupancy = false
+    #endif
+    static let mockMcComasOccupancy = 230
+    static let mockWarMemorialOccupancy = 700
+    static let mockBoulderingWallOccupancy = 4
 
     // VT Facility Occupancy API
     static let facilityDataAPIURL = URL(string: "https://connect.recsports.vt.edu/FacilityOccupancy/GetFacilityData")!

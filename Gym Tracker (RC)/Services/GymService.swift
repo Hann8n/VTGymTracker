@@ -55,12 +55,6 @@ class GymService: ObservableObject {
         return max(0, Constants.boulderingWallMaxCapacity - occupancy)
     }
     
-    // Testing/debugging override: allows manual values instead of real API data
-    @Published var useCustomOccupancy: Bool = false
-    @Published var customMcComasOccupancy: Int? = 275
-    @Published var customWarMemorialOccupancy: Int? = 1025
-    @Published var customBoulderingWallOccupancy: Int? = 6
-    
     private var cancellables = Set<AnyCancellable>()
     
     private var activeAppCancellable: AnyCancellable?
@@ -134,9 +128,9 @@ class GymService: ObservableObject {
     // MARK: - Store & Notify
     
     private func storeAndNotify(mcComasData: GymOccupancyData?, warMemorialData: GymOccupancyData?, boulderingWallData: GymOccupancyData?) {
-        self.mcComasOccupancy = useCustomOccupancy ? customMcComasOccupancy : mcComasData?.occupancy
-        self.warMemorialOccupancy = useCustomOccupancy ? customWarMemorialOccupancy : warMemorialData?.occupancy
-        self.boulderingWallOccupancy = useCustomOccupancy ? customBoulderingWallOccupancy : boulderingWallData?.occupancy
+        self.mcComasOccupancy = mcComasData?.occupancy
+        self.warMemorialOccupancy = warMemorialData?.occupancy
+        self.boulderingWallOccupancy = boulderingWallData?.occupancy
         
         // App Group UserDefaults allows widgets and watch app to access latest occupancy data
         guard let sharedDefaults = UserDefaults(suiteName: Constants.appGroupID) else {
@@ -144,39 +138,20 @@ class GymService: ObservableObject {
             return
         }
         
-        let mcOccupancyToStore = useCustomOccupancy ? customMcComasOccupancy : mcComasData?.occupancy
-        if let mc = mcOccupancyToStore {
+        if let mc = mcComasData?.occupancy {
             sharedDefaults.set(mc, forKey: "mcComasOccupancy")
         }
 
-        let warOccupancyToStore = useCustomOccupancy ? customWarMemorialOccupancy : warMemorialData?.occupancy
-        if let wm = warOccupancyToStore {
+        if let wm = warMemorialData?.occupancy {
             sharedDefaults.set(wm, forKey: "warMemorialOccupancy")
         }
 
-        let boulderingWallOccupancyToStore = useCustomOccupancy ? customBoulderingWallOccupancy : boulderingWallData?.occupancy
-        if let bw = boulderingWallOccupancyToStore {
+        if let bw = boulderingWallData?.occupancy {
             sharedDefaults.set(bw, forKey: "boulderingWallOccupancy")
         }
 
         // Notify widgets immediately when new data arrives
         WidgetCenter.shared.reloadAllTimelines()
-    }
-    
-    // MARK: - Custom Occupancy Methods
-    
-    func setCustomOccupancies(mcComas: Int?, warMemorial: Int?, boulderingWall: Int?) {
-        customMcComasOccupancy = mcComas
-        customWarMemorialOccupancy = warMemorial
-        customBoulderingWallOccupancy = boulderingWall
-        useCustomOccupancy = true
-    }
-    
-    func clearCustomOccupancies() {
-        customMcComasOccupancy = nil
-        customWarMemorialOccupancy = nil
-        customBoulderingWallOccupancy = nil
-        useCustomOccupancy = false
     }
     
     deinit {

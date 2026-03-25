@@ -12,6 +12,14 @@ enum GymOccupancyFetcher {
 
     // Widgets only need occupancy count, not remaining capacity, to save space
     static func fetchForWidget() async -> (mcComas: Int?, warMemorial: Int?, boulderingWall: Int?) {
+        if Constants.forceMockOccupancy {
+            return (
+                Constants.mockMcComasOccupancy,
+                Constants.mockWarMemorialOccupancy,
+                Constants.mockBoulderingWallOccupancy
+            )
+        }
+
         // Fetch all facilities concurrently for performance
         async let mc = fetchOne(facilityId: Constants.mcComasFacilityId)
         async let wm = fetchOne(facilityId: Constants.warMemorialFacilityId)
@@ -26,6 +34,23 @@ enum GymOccupancyFetcher {
         warMemorial: (occupancy: Int, remaining: Int)?,
         bouldering: (occupancy: Int, remaining: Int)?
     ) {
+        if Constants.forceMockOccupancy {
+            return (
+                mcComas: (
+                    occupancy: Constants.mockMcComasOccupancy,
+                    remaining: max(0, Constants.mcComasMaxCapacity - Constants.mockMcComasOccupancy)
+                ),
+                warMemorial: (
+                    occupancy: Constants.mockWarMemorialOccupancy,
+                    remaining: max(0, Constants.warMemorialMaxCapacity - Constants.mockWarMemorialOccupancy)
+                ),
+                bouldering: (
+                    occupancy: Constants.mockBoulderingWallOccupancy,
+                    remaining: max(0, Constants.boulderingWallMaxCapacity - Constants.mockBoulderingWallOccupancy)
+                )
+            )
+        }
+
         // Fetch all facilities concurrently for performance
         async let mc = fetchOne(facilityId: Constants.mcComasFacilityId)
         async let wm = fetchOne(facilityId: Constants.warMemorialFacilityId)

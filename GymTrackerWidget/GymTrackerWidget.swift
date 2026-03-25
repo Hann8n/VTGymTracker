@@ -255,7 +255,7 @@ struct CircularProgressView: View {
             }
 
             // Percentage Text
-            Text(String(format: "%.0f%@", percentage, showPercentageSymbol ? "%" : ""))
+            Text("\(OccupancyMath.wholePercent(fromPercent: percentage))\(showPercentageSymbol ? "%" : "")")
                 .font(.system(size: size * fontScale, weight: .bold))
                 .foregroundColor(widgetRenderingMode == .accented ? (isEmpty ? Color.gray : .accentColor) : (isEmpty ? Color.gray : .primary))
         }
