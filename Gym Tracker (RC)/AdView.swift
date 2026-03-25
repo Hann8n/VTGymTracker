@@ -109,7 +109,7 @@ struct AdView: View {
 
     private var ctaButton: some View {
         let maroon = Color("CustomMaroon")
-        let fillOpacity = colorScheme == .dark ? 0.18 : 0.072
+        let fillOpacity = 0.15
 
         return Button(action: openAd) {
             HStack(spacing: 0) {
