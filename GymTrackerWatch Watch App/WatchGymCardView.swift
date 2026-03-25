@@ -9,8 +9,7 @@ struct WatchGymCardView: View {
     let color: Color
     
     private var occupancyPercentage: Double {
-        guard maxCapacity > 0 else { return 0 }
-        return (Double(occupancy) / Double(maxCapacity)) * 100.0
+        OccupancyMath.percent(occupancy: occupancy, maxCapacity: maxCapacity)
     }
     
     var body: some View {

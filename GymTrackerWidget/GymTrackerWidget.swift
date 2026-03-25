@@ -38,8 +38,7 @@ struct OccupancyRowView: View {
     let widgetRenderingMode: WidgetRenderingMode
 
     private var percentage: Double {
-        guard maxCapacity > 0 else { return 0 }
-        return (Double(occupancy) / Double(maxCapacity)) * 100
+        OccupancyMath.percent(occupancy: occupancy, maxCapacity: maxCapacity)
     }
 
     var body: some View {
@@ -144,8 +143,7 @@ private struct MediumWidgetColumnView: View {
     let widgetRenderingMode: WidgetRenderingMode
 
     private var percentage: Double {
-        guard maxCapacity > 0 else { return 0 }
-        return (Double(occupancy) / Double(maxCapacity)) * 100
+        OccupancyMath.percent(occupancy: occupancy, maxCapacity: maxCapacity)
     }
 
     var body: some View {

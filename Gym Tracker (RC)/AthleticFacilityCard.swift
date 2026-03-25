@@ -9,8 +9,7 @@ struct AthleticFacilityCard: View {
     let motionPolicy: MotionPolicy
 
     private var occupancyRatio: CGFloat {
-        guard maxCapacity > 0 else { return 0 }
-        return CGFloat(occupancy) / CGFloat(maxCapacity)
+        CGFloat(OccupancyMath.fraction(occupancy: occupancy, maxCapacity: maxCapacity))
     }
 
     var body: some View {
@@ -49,7 +48,7 @@ struct AthleticFacilityCard: View {
 
                 Spacer(minLength: 8)
 
-                Text("\(Int(occupancyRatio * 100))%")
+                Text("\(OccupancyMath.wholePercent(occupancy: occupancy, maxCapacity: maxCapacity))%")
                     .font(.subheadline.weight(.semibold))
                     .fontWidth(.condensed)
                     .monospacedDigit()

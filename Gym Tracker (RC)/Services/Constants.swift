@@ -12,6 +12,28 @@ extension Int {
     }
 }
 
+enum OccupancyMath {
+    static func fraction(occupancy: Int, maxCapacity: Int) -> Double {
+        guard maxCapacity > 0 else { return 0 }
+        let raw = Double(occupancy) / Double(maxCapacity)
+        return raw.clamped(to: 0...1)
+    }
+
+    static func percent(occupancy: Int, maxCapacity: Int) -> Double {
+        fraction(occupancy: occupancy, maxCapacity: maxCapacity) * 100
+    }
+
+    static func wholePercent(occupancy: Int, maxCapacity: Int) -> Int {
+        Int(percent(occupancy: occupancy, maxCapacity: maxCapacity))
+    }
+}
+
+private extension Double {
+    func clamped(to range: ClosedRange<Double>) -> Double {
+        min(max(self, range.lowerBound), range.upperBound)
+    }
+}
+
 struct Constants {
     // Facility IDs
     static let mcComasFacilityId = "da73849e-434d-415f-975a-4f9e799b9c39"

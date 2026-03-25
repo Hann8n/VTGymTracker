@@ -74,12 +74,12 @@ struct GymComplicationView: View {
     
     /// Calculate occupancy percentage.
     private var occupancyPercentage: CGFloat {
-        maxCapacity > 0 ? CGFloat(occupancy) / CGFloat(maxCapacity) : 0
+        CGFloat(OccupancyMath.fraction(occupancy: occupancy, maxCapacity: maxCapacity))
     }
     
     /// Formats the occupancy percentage as a percentage string.
     private var occupancyPercentText: String {
-        "\(Int(occupancyPercentage * 100))%"
+        "\(OccupancyMath.wholePercent(occupancy: occupancy, maxCapacity: maxCapacity))%"
     }
     
     var body: some View {

@@ -103,9 +103,7 @@ struct McComasCircularWidgetView: View {
     let entry: UnifiedGymTrackerEntry
 
     var body: some View {
-        let pct = entry.maxMcComasCapacity > 0
-            ? (Double(entry.mcComasOccupancy) / Double(entry.maxMcComasCapacity)) * 100
-            : 0
+        let pct = OccupancyMath.percent(occupancy: entry.mcComasOccupancy, maxCapacity: entry.maxMcComasCapacity)
         LockScreenSegmentedCircularView(percentage: pct, isEmpty: entry.mcComasOccupancy == 0, totalSegments: 12, label: "MC")
     }
 }
@@ -114,9 +112,7 @@ struct WarMemorialCircularWidgetView: View {
     let entry: UnifiedGymTrackerEntry
 
     var body: some View {
-        let pct = entry.maxWarMemorialCapacity > 0
-            ? (Double(entry.warMemorialOccupancy) / Double(entry.maxWarMemorialCapacity)) * 100
-            : 0
+        let pct = OccupancyMath.percent(occupancy: entry.warMemorialOccupancy, maxCapacity: entry.maxWarMemorialCapacity)
         LockScreenSegmentedCircularView(percentage: pct, isEmpty: entry.warMemorialOccupancy == 0, totalSegments: 12, label: "WM")
     }
 }
@@ -125,9 +121,7 @@ struct BoulderingWallCircularWidgetView: View {
     let entry: UnifiedGymTrackerEntry
 
     var body: some View {
-        let pct = entry.maxBoulderingWallCapacity > 0
-            ? (Double(entry.boulderingWallOccupancy) / Double(entry.maxBoulderingWallCapacity)) * 100
-            : 0
+        let pct = OccupancyMath.percent(occupancy: entry.boulderingWallOccupancy, maxCapacity: entry.maxBoulderingWallCapacity)
         LockScreenSegmentedCircularView(percentage: pct, isEmpty: entry.boulderingWallOccupancy == 0, totalSegments: 8, label: "BW")
     }
 }
