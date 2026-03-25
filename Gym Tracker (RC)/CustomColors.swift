@@ -1,4 +1,3 @@
-//
 //  CustomColors.swift
 //  Gym Tracker
 //

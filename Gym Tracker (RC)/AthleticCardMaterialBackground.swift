@@ -9,8 +9,7 @@ struct AthleticCardMaterialBackground: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .fill(.thinMaterial)
-                .opacity(colorScheme == .dark ? 0.72 : 0.78)
+                .fill(.ultraThinMaterial)
 
             // Near black-and-white diagonal: soft highlight → clear → soft shadow.
             LinearGradient(
@@ -23,7 +22,6 @@ struct AthleticCardMaterialBackground: View {
                 endPoint: .bottomTrailing
             )
             .blendMode(.softLight)
-            .opacity(0.7)
         }
     }
 }

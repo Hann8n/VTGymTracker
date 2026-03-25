@@ -2,60 +2,106 @@ import SwiftUI
 
 // MARK: - Field board atmosphere (VT-tinted depth + subtle grain)
 
+/// Dark-mode field board backdrop. Use plain `systemBackground` in light mode from the parent (see `AthleticDashboardContainer`).
 struct AthleticFieldBoardBackground: View {
-    @Environment(\.colorScheme) private var colorScheme
+    /// VT atmosphere is drawn only in this top fraction of the screen and soft-fades out.
+    private var topAtmosphereHeightFraction: CGFloat { 0.38 }
+
+    private var maroonWashOpacity: Double { 0.13 }
+    private var orangeWashOpacity: Double { 0.11 }
+    private var orangeGlowOpacity: Double { 0.12 }
 
     var body: some View {
         ZStack {
-            Color(.systemBackground)
+            ZStack {
+                Color(.systemBackground)
+                Color("CustomMaroon").opacity(0.06)
+            }
 
-            // Diagonal energy wash (muted maroon / orange)
-            LinearGradient(
-                stops: [
-                    .init(color: Color("CustomMaroon").opacity(colorScheme == .dark ? 0.09 : 0.045), location: 0),
-                    .init(color: Color.clear, location: 0.45),
-                    .init(color: Color("CustomOrange").opacity(colorScheme == .dark ? 0.1 : 0.05), location: 1)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
+            GeometryReader { geo in
+                let bandHeight = geo.size.height * topAtmosphereHeightFraction
+                ZStack(alignment: .top) {
+                    ZStack {
+                        // Stadium edge — soft maroon along the top (scoreboard / end-zone cue)
+                        LinearGradient(
+                            stops: [
+                                .init(color: Color("CustomMaroon").opacity(maroonWashOpacity * 1.15), location: 0),
+                                .init(color: Color.clear, location: 0.22)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
 
-            // Soft maroon glow — lower leading
-            RadialGradient(
-                colors: [
-                    Color("CustomMaroon").opacity(colorScheme == .dark ? 0.14 : 0.065),
-                    Color.clear
-                ],
-                center: UnitPoint(x: 0.12, y: 0.88),
-                startRadius: 40,
-                endRadius: 420
-            )
+                        // Top-only maroon wash (no side bias)
+                        LinearGradient(
+                            stops: [
+                                .init(color: Color("CustomMaroon").opacity(maroonWashOpacity), location: 0),
+                                .init(color: Color.clear, location: 0.52)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
 
-            // Soft orange glow — upper trailing
-            RadialGradient(
-                colors: [
-                    Color("CustomOrange").opacity(colorScheme == .dark ? 0.14 : 0.07),
-                    Color.clear
-                ],
-                center: UnitPoint(x: 0.92, y: 0.08),
-                startRadius: 20,
-                endRadius: 340
-            )
+                        // Warm atmospheric orange wash, centered near the top.
+                        LinearGradient(
+                            stops: [
+                                .init(color: Color("CustomOrange").opacity(orangeWashOpacity), location: 0.04),
+                                .init(color: Color.clear, location: 0.62)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
 
-            // Lift from flat base
-            LinearGradient(
-                colors: [
-                    Color(.systemBackground).opacity(colorScheme == .dark ? 0.55 : 0.35),
-                    Color(.secondarySystemBackground).opacity(colorScheme == .dark ? 0.25 : 0.2)
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .blendMode(.softLight)
+                        // Soft top-center orange bloom for extra atmosphere without side bias.
+                        RadialGradient(
+                            colors: [
+                                Color("CustomOrange").opacity(orangeGlowOpacity),
+                                Color.clear
+                            ],
+                            center: UnitPoint(x: 0.5, y: 0.04),
+                            startRadius: 12,
+                            endRadius: 260
+                        )
 
-            AthleticFilmGrainOverlay()
-                .blendMode(colorScheme == .dark ? .overlay : .multiply)
-                .opacity(colorScheme == .dark ? 0.35 : 0.22)
+                        // Faint “turf” hint — CustomGreen only in background, very low opacity
+                        LinearGradient(
+                            stops: [
+                                .init(color: Color.clear, location: 0.55),
+                                .init(color: Color("CustomGreen").opacity(0.05), location: 1)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+
+                        // Lift from flat base
+                        LinearGradient(
+                            colors: [
+                                Color(.systemBackground).opacity(0.55),
+                                Color(.secondarySystemBackground).opacity(0.25)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                        .blendMode(.softLight)
+                    }
+                    .frame(width: geo.size.width, height: bandHeight)
+                    .mask(
+                        LinearGradient(
+                            stops: [
+                                .init(color: .white, location: 0),
+                                .init(color: .white, location: 0.58),
+                                .init(color: .clear, location: 1)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+
+                    AthleticFilmGrainOverlay()
+                        .blendMode(.overlay)
+                        .opacity(0.35)
+                }
+            }
         }
         .ignoresSafeArea()
     }

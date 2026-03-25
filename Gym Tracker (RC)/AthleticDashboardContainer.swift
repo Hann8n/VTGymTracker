@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct AthleticDashboardContainer<Content: View>: View {
+    @Environment(\.colorScheme) private var colorScheme
     @ViewBuilder let content: Content
 
     var body: some View {
@@ -13,6 +14,13 @@ struct AthleticDashboardContainer<Content: View>: View {
             .padding(.bottom, 28)
         }
         .scrollIndicators(.hidden)
-        .background(AthleticFieldBoardBackground())
+        .background {
+            if colorScheme == .dark {
+                AthleticFieldBoardBackground()
+            } else {
+                Color(.systemBackground)
+                    .ignoresSafeArea()
+            }
+        }
     }
 }
