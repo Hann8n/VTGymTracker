@@ -77,7 +77,7 @@
 		042D05872CB87D860081F486 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		042D05892CB87D860081F486 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		04CD88552D4BC29F008C2EA4 /* GymTrackerWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GymTrackerWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0A1B2C3D2E9A111100000004 /* PostHog.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Gym Tracker (RC)/Config/PostHog.xcconfig"; sourceTree = SOURCE_ROOT; };
+		0A1B2C3D2E9A111100000004 /* Gym Tracker (RC)/Config/PostHog.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Gym Tracker (RC)/Config/PostHog.xcconfig"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -108,6 +108,13 @@
 			);
 			target = 0408D2152CA62567000DE926 /* Gym Tracker (RC) */;
 		};
+		04822A8F2F7390880096E158 /* Exceptions for "Gym Tracker (RC)" folder in "Gym Tracker (RC)" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Config/PostHog.xcconfig,
+			);
+			target = 0408D2152CA62567000DE926 /* Gym Tracker (RC) */;
+		};
 		04CD886C2D4BC486008C2EA4 /* Exceptions for "Gym Tracker (RC)" folder in "GymTrackerWatch Watch App" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -131,11 +138,12 @@
 		0408D2182CA62567000DE926 /* Gym Tracker (RC) */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				04822A8F2F7390880096E158 /* Exceptions for "Gym Tracker (RC)" folder in "Gym Tracker (RC)" target */,
 				046A50442CBDD7F9006A9F4A /* Exceptions for "Gym Tracker (RC)" folder in "GymTrackerWidgetExtension" target */,
 				04CD886C2D4BC486008C2EA4 /* Exceptions for "Gym Tracker (RC)" folder in "GymTrackerWatch Watch App" target */,
 			);
 			explicitFileTypes = {
-				"Config/PostHog.xcconfig" = text.xcconfig;
+				Config/PostHog.xcconfig = text.xcconfig;
 			};
 			path = "Gym Tracker (RC)";
 			sourceTree = "<group>";
@@ -197,6 +205,7 @@
 				04CD88562D4BC29F008C2EA4 /* GymTrackerWatch Watch App */,
 				042D05862CB87D860081F486 /* Frameworks */,
 				0408D2172CA62567000DE926 /* Products */,
+				048229F82F738FA40096E158 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -217,6 +226,14 @@
 				042D05892CB87D860081F486 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		048229F82F738FA40096E158 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				0A1B2C3D2E9A111100000004 /* Gym Tracker (RC)/Config/PostHog.xcconfig */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -307,7 +324,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 2630;
 				TargetAttributes = {
 					0408D2152CA62567000DE926 = {
 						CreatedOnToolsVersion = 16.0;
@@ -533,7 +550,7 @@
 		};
 		0408D2262CA62568000DE926 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0A1B2C3D2E9A111100000004 /* PostHog.xcconfig */;
+			baseConfigurationReference = 0A1B2C3D2E9A111100000004 /* Gym Tracker (RC)/Config/PostHog.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -587,7 +604,7 @@
 		};
 		0408D2272CA62568000DE926 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0A1B2C3D2E9A111100000004 /* PostHog.xcconfig */;
+			baseConfigurationReference = 0A1B2C3D2E9A111100000004 /* Gym Tracker (RC)/Config/PostHog.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
