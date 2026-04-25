@@ -28,7 +28,7 @@ For CI/automation: `xcodebuild build -scheme "Gym Tracker (RC)" -destination 'pl
 
 ```
 Gym Tracker (RC)/
-├── Services/           # GymService, GymOccupancyFetcher, OccupancyHTMLParser, Constants, UnifiedGymTrackerProvider, NetworkMonitor, WarningManager, AuthenticationService, GymFacility, WebView, AnalyticsService
+├── Services/           # GymService, GymOccupancyFetcher, OccupancyHTMLParser, Constants, UnifiedGymTrackerProvider, NetworkMonitor, WarningManager, AuthenticationService, GymFacility, WebView
 ├── Ads/                # AdConfig, AdService, AdViewModel, AdView
 ├── Events/             # EventsViewModel, Event, EventCard, EventCardSkeleton, ShimmerView, EventsSectionBlock
 ├── Components/         # CardMaterialBackground, FullBleedDivider, StaggeredAppear

@@ -62,17 +62,16 @@ final class AdViewModel: ObservableObject {
     }
 
     func trackImpressionIfNeeded(for ad: AdConfig) {
-        let impressionKey = "\(ad.id)|\(AnalyticsService.shared.sessionID)|\(ad.placement)"
+        let impressionKey = "\(ad.id)|\(ad.placement)"
         guard !impressionTracker.contains(impressionKey) else {
             return
         }
 
         impressionTracker.insert(impressionKey)
-        AnalyticsService.shared.trackAdImpression(ad: ad)
     }
 
     func trackTap(for ad: AdConfig) {
-        AnalyticsService.shared.trackAdTap(ad: ad)
+        // Ad tap analytics disabled.
     }
 
     private func preload(ad: AdConfig) async -> LoadedAd {

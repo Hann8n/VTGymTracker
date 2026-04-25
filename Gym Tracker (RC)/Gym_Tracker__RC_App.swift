@@ -12,9 +12,7 @@ import BackgroundTasks
 struct Gym_Tracker__RC_App: App {
     @StateObject private var alertManager = AlertManager()
 
-    init() {
-        AnalyticsService.shared.configureIfNeeded()
-    }
+    init() {}
 
     var body: some Scene {
         WindowGroup {
