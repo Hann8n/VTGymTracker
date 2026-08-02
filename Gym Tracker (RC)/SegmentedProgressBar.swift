@@ -21,8 +21,9 @@ struct SegmentedProgressBar: View {
     
     var body: some View {
         GeometryReader { geo in
-            // Calculate the width of each segment based on the total available width and spacing
-            let segmentWidth = (geo.size.width - (CGFloat(totalSegments - 1) * segmentSpacing)) / CGFloat(totalSegments)
+            let safeSegmentCount = max(totalSegments, 1)
+            let availableWidth = max(geo.size.width - (CGFloat(safeSegmentCount - 1) * segmentSpacing), 0)
+            let segmentWidth = availableWidth / CGFloat(safeSegmentCount)
             
             // Ensure the occupancy percentage stays between 0 and 1
             let adjustedOccupancy = min(max(occupancyPercentage, 0), 1)
@@ -30,7 +31,7 @@ struct SegmentedProgressBar: View {
             ZStack(alignment: .leading) {
                 // Background segments (static, non-animated)
                 HStack(spacing: segmentSpacing) {
-                    ForEach(0..<totalSegments, id: \.self) { index in
+                    ForEach(0..<safeSegmentCount, id: \.self) { index in
                         Rectangle()
                             .fill(self.backgroundColor(for: index))
                             .frame(width: segmentWidth, height: height)
@@ -39,11 +40,11 @@ struct SegmentedProgressBar: View {
                 
                 // Filled segments (animated, based on occupancyPercentage)
                 HStack(spacing: segmentSpacing) {
-                    ForEach(0..<totalSegments, id: \.self) { index in
+                    ForEach(0..<safeSegmentCount, id: \.self) { index in
                         Rectangle()
                             .fill(self.foregroundColor(for: index))
                             .frame(width: segmentWidth, height: height)
-                            .opacity(self.opacityForSegment(index: index, totalSegments: totalSegments, occupancyPercentage: adjustedOccupancy))
+                            .opacity(self.opacityForSegment(index: index, totalSegments: safeSegmentCount, occupancyPercentage: adjustedOccupancy))
                             .animation(self.segmentAnimation(index: index), value: adjustedOccupancy)
                     }
                 }

@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import PostHog
 
 // MARK: - NetworkError
 
@@ -40,8 +41,6 @@ class EventsViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private var networkMonitor: NetworkMonitor
     
-    private let rssURL = URL(string: "https://gobblerconnect.vt.edu/organization/www_recsports_vt_edu/events.rss")!
-    
     // Cache directory allows system to clear temporary data when storage is low
     private var cacheFileURL: URL {
         let fm = FileManager.default
@@ -71,7 +70,15 @@ class EventsViewModel: ObservableObject {
             .sink { [weak self] isConnected in
                 guard let self = self else { return }
                 if !isConnected {
-                    self.errorMessage = NetworkError.noInternet.errorDescription
+                    if self.events.isEmpty {
+                        let cachedEvents = self.loadCache()
+                        if cachedEvents.isEmpty {
+                            self.errorMessage = NetworkError.noInternet.errorDescription
+                        } else {
+                            self.events = cachedEvents
+                            self.errorMessage = nil
+                        }
+                    }
                 } else {
                     // Refetch on reconnect to ensure data freshness after network outage
                     if self.errorMessage == NetworkError.noInternet.errorDescription {
@@ -88,7 +95,13 @@ class EventsViewModel: ObservableObject {
     func fetchEvents() {
         guard networkMonitor.isConnected else {
             DispatchQueue.main.async {
-                self.errorMessage = NetworkError.noInternet.errorDescription
+                let cachedEvents = self.loadCache()
+                if cachedEvents.isEmpty {
+                    self.errorMessage = NetworkError.noInternet.errorDescription
+                } else {
+                    self.events = cachedEvents
+                    self.errorMessage = nil
+                }
             }
             return
         }
@@ -98,26 +111,46 @@ class EventsViewModel: ObservableObject {
             self.errorMessage = nil
         }
         
-        let task = URLSession.shared.dataTask(with: self.rssURL) { [weak self] data, response, error in
+        let task = URLSession.shared.dataTask(with: Constants.recreationalSportsEventsURL) { [weak self] data, response, error in
             DispatchQueue.main.async {
-                self?.isLoading = false
+                guard let self = self else { return }
+                self.isLoading = false
                 
                 if let error = error {
-                    self?.errorMessage = NetworkError.fetchFailed(description: error.localizedDescription).errorDescription
+                    self.useCachedEventsOrShowError(NetworkError.fetchFailed(description: error.localizedDescription))
+                    PostHogSDK.shared.capture("events_fetch_failed", properties: [
+                        "reason": "network_error",
+                        "error": error.localizedDescription,
+                    ])
                     return
                 }
-                
+
+                if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
+                    self.useCachedEventsOrShowError(NetworkError.fetchFailed(description: "HTTP \(httpResponse.statusCode)"))
+                    PostHogSDK.shared.capture("events_fetch_failed", properties: [
+                        "reason": "bad_status",
+                        "status_code": httpResponse.statusCode,
+                    ])
+                    return
+                }
+
                 guard let data = data else {
-                    self?.errorMessage = NetworkError.noData.errorDescription
+                    self.useCachedEventsOrShowError(NetworkError.noData)
+                    PostHogSDK.shared.capture("events_fetch_failed", properties: ["reason": "no_data"])
                     return
                 }
-                
-                let parser = RSSParser()
-                if let parsedEvents = parser.parse(data: data) {
-                    self?.events = parsedEvents
-                    self?.saveCache(with: parsedEvents)
-                } else {
-                    self?.errorMessage = NetworkError.parseFailed.errorDescription
+
+                do {
+                    let parsedEvents = try CampusGroupsEventsParser().parse(data: data)
+                    self.events = parsedEvents
+                    self.errorMessage = nil
+                    self.saveCache(with: parsedEvents)
+                } catch {
+                    self.useCachedEventsOrShowError(NetworkError.parseFailed)
+                    PostHogSDK.shared.capture("events_fetch_failed", properties: [
+                        "reason": "parse_failed",
+                        "error": error.localizedDescription,
+                    ])
                 }
             }
         }
@@ -138,6 +171,8 @@ class EventsViewModel: ObservableObject {
     }
     
     private func loadCache() -> [Event] {
+        guard FileManager.default.fileExists(atPath: cacheFileURL.path) else { return [] }
+
         do {
             let data = try Data(contentsOf: cacheFileURL)
             let events = try JSONDecoder().decode([Event].self, from: data)
@@ -148,104 +183,183 @@ class EventsViewModel: ObservableObject {
             return []
         }
     }
+
+    private func useCachedEventsOrShowError(_ error: NetworkError) {
+        let cachedEvents = loadCache()
+        if cachedEvents.isEmpty {
+            errorMessage = error.errorDescription
+        } else {
+            events = cachedEvents
+            errorMessage = nil
+        }
+    }
 }
 
-// MARK: - RSSParser
+// MARK: - CampusGroupsEventsParser
 
-class RSSParser: NSObject, XMLParserDelegate {
-    private var events: [Event] = []
-    private var currentElement = ""
-    private var currentTitle = ""
-    private var currentDescription = ""
-    private var currentLink = ""
-    private var currentPubDate = ""
-    private var currentStartDate = ""
-    private var currentEndDate = ""
-    private var currentLocation = ""
-    private var currentHostingBody = ""
-    
-    // RSS feed uses RFC 822 date format with timezone (e.g., "Tue, 14 Jan 2025 22:15:11 GMT")
+private struct CampusGroupsEventItem: Decodable {
+    private let valuesByField: [String: String]
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CampusGroupsCodingKey.self)
+        let fields = try container.decode(String.self, forKey: CampusGroupsCodingKey(stringValue: "fields")!)
+            .split(separator: ",")
+            .map(String.init)
+            .filter { !$0.isEmpty }
+
+        let keyedValues = container.allKeys.reduce(into: [Int: String]()) { values, key in
+            guard key.stringValue.hasPrefix("p"),
+                  let index = Int(key.stringValue.dropFirst()),
+                  let value = try? container.decodeIfPresent(String.self, forKey: key)
+            else { return }
+            values[index] = value
+        }
+
+        valuesByField = fields.enumerated().reduce(into: [String: String]()) { values, field in
+            values[field.element] = keyedValues[field.offset]
+        }
+    }
+
+    func value(for field: String) -> String? {
+        valuesByField[field]
+    }
+}
+
+private struct CampusGroupsCodingKey: CodingKey {
+    let stringValue: String
+    let intValue: Int? = nil
+
+    init?(stringValue: String) {
+        self.stringValue = stringValue
+    }
+
+    init?(intValue: Int) {
+        return nil
+    }
+}
+
+private struct CampusGroupsEventsParser {
+    private let baseURL = URL(string: "https://virginiatech.campusgroups.com")!
+
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "E, d MMM yyyy HH:mm:ss Z"
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(identifier: "America/New_York")
+        formatter.dateFormat = "E, MMM d, yyyy h:mm a"
         return formatter
     }()
-    
-    func parse(data: Data) -> [Event]? {
-        let parser = XMLParser(data: data)
-        parser.delegate = self
-        return parser.parse() ? events : nil
-    }
-    
-    // MARK: - XMLParserDelegate Methods
-    
-    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?,
-                qualifiedName qName: String?, attributes attributeDict: [String: String] = [:]) {
-        currentElement = elementName
-        // Each RSS item represents a separate event; reset properties for new event
-        if elementName == "item" {
-            currentTitle = ""
-            currentDescription = ""
-            currentLink = ""
-            currentPubDate = ""
-            currentStartDate = ""
-            currentEndDate = ""
-            currentLocation = ""
-            currentHostingBody = ""
-        }
-    }
-    
-    func parser(_ parser: XMLParser, foundCharacters string: String) {
-        let trimmed = string.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return }
-        
-        switch currentElement {
-        case "title":
-            currentTitle += trimmed
-        case "description":
-            currentDescription += trimmed
-        case "link":
-            currentLink += trimmed
-        case "pubDate":
-            currentPubDate += trimmed
-        case "start":
-            currentStartDate += trimmed
-        case "end":
-            currentEndDate += trimmed
-        case "location":
-            currentLocation += trimmed
-        case "host":
-            // RSS feed may contain multiple host elements per event; concatenate them
-            if currentHostingBody.isEmpty {
-                currentHostingBody = trimmed
-            } else {
-                currentHostingBody += ", \(trimmed)"
-            }
-        default:
-            break
-        }
-    }
-    
-    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        if elementName == "item" {
-            guard
-                let linkURL = URL(string: currentLink),
-                let pubDate = dateFormatter.date(from: currentPubDate),
-                let startDate = dateFormatter.date(from: currentStartDate),
-                let endDate = dateFormatter.date(from: currentEndDate)
-            else { return }
-            
-            let event = Event(
-                title: currentTitle,
-                description: currentDescription,
-                link: linkURL,
-                pubDate: pubDate,
-                endDate: endDate,
-                hostingBody: currentHostingBody,
-                startDate: startDate,
-                location: currentLocation
+
+    func parse(data: Data) throws -> [Event] {
+        let items = try JSONDecoder().decode([CampusGroupsEventItem].self, from: data)
+        let now = Date()
+
+        return items.compactMap { item in
+            guard item.value(for: "displayType") == "event" else { return nil }
+            guard let title = item.value(for: "eventName")?.decodedCampusGroupsText, !title.isEmpty else { return nil }
+            guard let dateHTML = item.value(for: "eventDates"), let dates = parseDates(from: dateHTML) else { return nil }
+            guard dates.endDate > now else { return nil }
+
+            let location = item.value(for: "eventLocation")?.decodedCampusGroupsText.nilIfEmpty ?? ""
+            let hostingBody = item.value(for: "clubName")?.decodedCampusGroupsText.nilIfEmpty ?? "Recreational Sports"
+            let link = item.value(for: "eventUrl").flatMap { URL(string: $0, relativeTo: baseURL) }?.absoluteURL ?? baseURL
+            let imageURL = item.value(for: "eventPicture").flatMap { URL(string: $0, relativeTo: baseURL) }?.absoluteURL
+            let priceText = item.value(for: "eventPriceRange")?.decodedCampusGroupsText.nilIfEmpty ?? ""
+            let actionText = item.value(for: "eventButtonLabel")?.decodedCampusGroupsText.nilIfEmpty ?? "View"
+            let attendeeCount = item.value(for: "eventAttendees").flatMap(Int.init)
+
+            return Event(
+                title: title,
+                description: "",
+                link: link,
+                pubDate: now,
+                endDate: dates.endDate,
+                hostingBody: hostingBody,
+                startDate: dates.startDate,
+                location: location,
+                imageURL: imageURL,
+                priceText: priceText,
+                actionText: actionText,
+                attendeeCount: attendeeCount
             )
-            events.append(event)
         }
+    }
+
+    private func parseDates(from html: String) -> (startDate: Date, endDate: Date)? {
+        let parts = html.paragraphContents
+        guard parts.count >= 2 else { return nil }
+
+        let dateText = parts[0].decodedCampusGroupsText
+        let timeRange = parts[1].decodedCampusGroupsText
+        let times = timeRange.components(separatedBy: "–").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+        guard let rawStartTime = times.first, !rawStartTime.isEmpty else { return nil }
+
+        let startMeridiem = rawStartTime.meridiemSuffix
+        var rawEndTime = times.dropFirst().first ?? rawStartTime
+        if rawEndTime.meridiemSuffix == nil, let startMeridiem {
+            rawEndTime += " \(startMeridiem)"
+        }
+
+        let startTime = rawStartTime.normalizedClockTime
+        let endTime = rawEndTime.normalizedClockTime
+        guard let startDate = dateFormatter.date(from: "\(dateText) \(startTime)") else { return nil }
+        guard var endDate = dateFormatter.date(from: "\(dateText) \(endTime)") else { return nil }
+
+        if endDate < startDate, let nextDay = Calendar.current.date(byAdding: .day, value: 1, to: endDate) {
+            endDate = nextDay
+        }
+
+        return (startDate, endDate)
+    }
+}
+
+// MARK: - CampusGroups String Helpers
+
+private extension String {
+    var decodedCampusGroupsText: String {
+        replacingOccurrences(of: "&ndash;", with: "–")
+            .replacingOccurrences(of: "&mdash;", with: "—")
+            .replacingOccurrences(of: "&amp;", with: "&")
+            .replacingOccurrences(of: "&quot;", with: "\"")
+            .replacingOccurrences(of: "&#39;", with: "'")
+            .replacingOccurrences(of: "&nbsp;", with: " ")
+            .strippingHTMLTags
+            .replacingOccurrences(of: "  ", with: " ")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    var paragraphContents: [String] {
+        do {
+            let regex = try NSRegularExpression(pattern: "<p[^>]*>(.*?)</p>", options: [.caseInsensitive, .dotMatchesLineSeparators])
+            let range = NSRange(startIndex..<endIndex, in: self)
+            return regex.matches(in: self, range: range).compactMap { match in
+                guard let contentRange = Range(match.range(at: 1), in: self) else { return nil }
+                return String(self[contentRange])
+            }
+        } catch {
+            return []
+        }
+    }
+
+    var strippingHTMLTags: String {
+        replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression)
+    }
+
+    var meridiemSuffix: String? {
+        let uppercasedText = uppercased()
+        if uppercasedText.hasSuffix("AM") { return "AM" }
+        if uppercasedText.hasSuffix("PM") { return "PM" }
+        return nil
+    }
+
+    var normalizedClockTime: String {
+        replacingOccurrences(
+            of: "^(\\d{1,2})\\s+(AM|PM)$",
+            with: "$1:00 $2",
+            options: [.regularExpression, .caseInsensitive]
+        )
+    }
+
+    var nilIfEmpty: String? {
+        isEmpty ? nil : self
     }
 }

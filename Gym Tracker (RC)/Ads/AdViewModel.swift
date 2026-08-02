@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import PostHog
 
 @MainActor
 final class AdViewModel: ObservableObject {
@@ -68,10 +69,22 @@ final class AdViewModel: ObservableObject {
         }
 
         impressionTracker.insert(impressionKey)
+        PostHogSDK.shared.capture("ad_impression", properties: [
+            "ad_id": ad.id,
+            "sponsor": ad.sponsor,
+            "placement": ad.placement,
+            "tier": ad.tier,
+        ])
     }
 
     func trackTap(for ad: AdConfig) {
-        // Ad tap analytics disabled.
+        PostHogSDK.shared.capture("ad_tapped", properties: [
+            "ad_id": ad.id,
+            "sponsor": ad.sponsor,
+            "placement": ad.placement,
+            "tier": ad.tier,
+            "destination": ad.destinationHost,
+        ])
     }
 
     private func preload(ad: AdConfig) async -> LoadedAd {

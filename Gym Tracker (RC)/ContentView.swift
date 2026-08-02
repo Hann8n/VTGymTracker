@@ -1,6 +1,7 @@
 import SwiftUI
 import AVFoundation
 import Combine
+import PostHog
 
 struct ContentView: View {
     // MARK: - State Objects and Dependencies
@@ -149,7 +150,10 @@ struct ContentView: View {
                         }
                     }
                     ToolbarItem(placement: .primaryAction) {
-                        Button(action: { showSettingsPopup.toggle() }) {
+                        Button(action: {
+                            showSettingsPopup.toggle()
+                            PostHogSDK.shared.capture("settings_opened")
+                        }) {
                             Image(systemName: "gearshape.fill")
                         }
                         .controlSize(.regular)

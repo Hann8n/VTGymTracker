@@ -7,6 +7,7 @@
 import SwiftUI
 import CodeScanner
 import AVFoundation
+import PostHog
 
 private let flashlightBottomPadding: CGFloat = 32
 
@@ -99,6 +100,9 @@ struct BarcodeScannerView: View {
             if code.first == nil || !valid.contains(code.first!) { code = "A" + code }
             if code.last == nil || !valid.contains(code.last!) { code = code + "B" }
             gymBarcode = code
+            PostHogSDK.shared.capture("campus_id_scanned", properties: [
+                "method": "barcode_scanner",
+            ])
             isPresented = false
         case .failure:
             break

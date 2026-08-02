@@ -65,6 +65,9 @@ struct Constants {
     static let facilityDataAPIURL = URL(string: "https://connect.recsports.vt.edu/FacilityOccupancy/GetFacilityData")!
     static let occupancyDisplayType = "00000000-0000-0000-0000-000000004490"
 
+    // Recreational Sports Events
+    static let recreationalSportsEventsURL = URL(string: "https://virginiatech.campusgroups.com/mobile_ws/v17/mobile_events_list?range=0&limit=40&filter2=35589&filter4_contains=OR&filter4_notcontains=OR&order=&search_word=")!
+
     // Sponsored Ads
     static let adPlacementHomeFeed = "home_feed"
     static let adConfigURLString = "https://gymtracker.jackhannon.net/api/ads"
@@ -74,23 +77,12 @@ struct Constants {
     static let appGroupID = "group.VTGymApp.D8VXFBV8SJ"
     
     // MARK: - Date Formatters (cached to avoid expensive recreation)
-    static let shortDateFormatter: DateFormatter = {
-        let f = DateFormatter()
-        f.dateFormat = "M/d"
-        return f
-    }()
-    
     static let eventDateFormatter: DateFormatter = {
         let f = DateFormatter()
         f.amSymbol = " AM"
         f.pmSymbol = " PM"
         return f
     }()
-    
-    static func formattedDateTwoWeeksAhead() -> String {
-        let twoWeeksAhead = Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
-        return shortDateFormatter.string(from: twoWeeksAhead)
-    }
     
     static func formattedEventStartDate(_ date: Date) -> String {
         let calendar = Calendar.current

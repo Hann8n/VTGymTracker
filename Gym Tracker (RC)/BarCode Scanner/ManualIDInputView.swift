@@ -5,6 +5,7 @@
 //
 
 import SwiftUI
+import PostHog
 
 struct ManualIDInputView: View {
     @Binding var isPresented: Bool
@@ -112,6 +113,9 @@ struct ManualIDInputView: View {
         isLoading = true
         let formattedBarcode = "A\(digits)B"
         gymBarcode = formattedBarcode
+        PostHogSDK.shared.capture("campus_id_entered_manually", properties: [
+            "method": "manual_input",
+        ])
         isLoading = false
         isPresented = false
     }

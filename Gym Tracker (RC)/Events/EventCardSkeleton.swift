@@ -8,29 +8,42 @@
 import SwiftUI
 
 struct EventCardSkeleton: View {
+    private let thumbnailSize: CGFloat = 70
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            // Title Placeholder
+        HStack(alignment: .center, spacing: 12) {
             ShimmerView()
-                .frame(height: 20)
-                .cornerRadius(4)
-                .padding(.trailing, 200) // Adjust as needed
+                .frame(width: thumbnailSize, height: thumbnailSize)
+                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
 
-            // Date Placeholder
-            ShimmerView()
-                .frame(height: 16)
-                .cornerRadius(4)
-                .padding(.trailing, 150) // Adjust as needed
+            VStack(alignment: .leading, spacing: 8) {
+                ShimmerView()
+                    .frame(width: 128, height: 16)
+                    .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
 
-            // Location Placeholder
+                ShimmerView()
+                    .frame(maxWidth: .infinity, minHeight: 22, maxHeight: 22)
+                    .containerRelativeFrame(.horizontal) { length, _ in
+                        length * 0.78
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+
+                ShimmerView()
+                    .frame(maxWidth: .infinity, minHeight: 22, maxHeight: 22)
+                    .containerRelativeFrame(.horizontal) { length, _ in
+                        length * 0.52
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+
             ShimmerView()
-                .frame(height: 16)
-                .cornerRadius(4)
-                .padding(.trailing, 180) // Adjust as needed
+                .frame(width: 36, height: 36)
+                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                .frame(width: 44, height: 44)
         }
+        .frame(minHeight: thumbnailSize, alignment: .center)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.vertical, 8)
-        .padding(.leading, 30)
     }
 }
 

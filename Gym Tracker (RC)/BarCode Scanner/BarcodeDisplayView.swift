@@ -1,4 +1,5 @@
 import SwiftUI
+import PostHog
 
 struct BarcodeDisplayView: View {
     @AppStorage("gymBarcode") private var gymBarcode = ""
@@ -27,6 +28,7 @@ struct BarcodeDisplayView: View {
         .onAppear {
             // Generate barcode when view appears
             cachedBarcodeImage = BarcodeGenerator.shared.generateCodabarBarcode(from: gymBarcode)
+            PostHogSDK.shared.capture("campus_id_displayed")
         }
         .onChange(of: gymBarcode) { _, newValue in
             // Regenerate barcode only when the barcode string changes
