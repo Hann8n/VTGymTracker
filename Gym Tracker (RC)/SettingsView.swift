@@ -63,9 +63,7 @@ struct SettingsView: View {
                     } label: {
                         Image(systemName: "xmark")
                     }
-                    .buttonStyle(.borderedProminent)
-                    .controlSize(.regular)
-                    .tint(.customOrange)
+                    .accessibilityLabel("Close")
                 }
             }
             .alert(item: $alertManager.currentAlert) { alertType in

@@ -4,11 +4,11 @@ struct EventCard: View {
     let event: Event
 
     @Environment(\.openURL) private var openURL
-    @State private var isAddingToCalendar = false
-    @State private var calendarStatus: CalendarEventStatus = .notAdded
-    @State private var calendarAlert: CalendarAlert?
 
-    private let thumbnailSize: CGFloat = 64
+    /// Width of the leading time column — shared with `EventCardSkeleton` and
+    /// `EventsSectionBlock`'s row divider inset so the whole list stays aligned.
+    static let leadingColumnWidth: CGFloat = 50
+    static let leadingColumnSpacing: CGFloat = 14
 
     private var attendeeText: String? {
         guard let attendeeCount = event.attendeeCount, attendeeCount > 0 else { return nil }
@@ -20,55 +20,35 @@ struct EventCard: View {
         return priceText.localizedCaseInsensitiveCompare("free") == .orderedSame ? "Free" : priceText
     }
 
-    private var metadataDetails: [String] {
+    private var summaryText: String {
         [priceText, attendeeText]
             .compactMap { $0 }
-    }
-
-    private var summaryText: String {
-        metadataDetails.joined(separator: " · ")
+            .joined(separator: " · ")
     }
 
     var body: some View {
-        HStack(alignment: .center, spacing: 12) {
-            eventDetailsButton
-
-            calendarButton
-                .frame(width: 44, height: 44)
-        }
-        .frame(minHeight: thumbnailSize, alignment: .center)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .task(id: event.id) {
-            calendarStatus = await EventCalendarWriter.shared.status(for: event)
-        }
-        .alert(item: $calendarAlert) { alert in
-            Alert(
-                title: Text(alert.title),
-                message: Text(alert.message),
-                dismissButton: .default(Text("OK"))
-            )
-        }
-    }
-
-    private var eventDetailsButton: some View {
         Button {
             openURL(event.link)
         } label: {
-            HStack(alignment: .center, spacing: 12) {
-                eventImage
+            HStack(alignment: .center, spacing: Self.leadingColumnSpacing) {
+                timeColumn
 
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: 3) {
                     Text(event.title)
-                        .font(.headline.weight(.semibold))
+                        .font(.body.weight(.semibold))
+                        .fontWidth(.condensed)
                         .foregroundStyle(.primary)
                         .multilineTextAlignment(.leading)
                         .lineLimit(2)
                         .fixedSize(horizontal: false, vertical: true)
 
-                    metadataRow(
-                        time: Self.timeFormatter.string(from: event.startDate),
-                        details: metadataDetails
-                    )
+                    if !summaryText.isEmpty {
+                        Text(summaryText)
+                            .font(.footnote.weight(.medium))
+                            .fontWidth(.condensed)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                    }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -80,124 +60,26 @@ struct EventCard: View {
         .accessibilityHint("Opens event details")
     }
 
-    private func metadataRow(time: String, details: [String]) -> some View {
-        HStack(alignment: .firstTextBaseline, spacing: 7) {
-            Text(time)
-                .font(.subheadline.weight(.bold))
-                .foregroundStyle(Color("CustomOrange"))
+    /// Big condensed digit + small uppercase unit — the same "hero number" recipe
+    /// `FacilityOccupancyCard` uses for occupancy counts, applied to event start time.
+    private var timeColumn: some View {
+        VStack(spacing: 0) {
+            Text(Self.hourMinuteFormatter.string(from: event.startDate))
+                .font(.system(size: 20, weight: .black, design: .default))
+                .fontWidth(.condensed)
+                .monospacedDigit()
+                .foregroundStyle(Color.customOrange)
                 .lineLimit(1)
+                .minimumScaleFactor(0.8)
 
-            ForEach(Array(details.enumerated()), id: \.offset) { index, detail in
-                if index > 0 {
-                    Text("·")
-                        .font(.footnote.weight(.semibold))
-                        .foregroundStyle(.tertiary)
-                }
-
-                Text(detail)
-                    .font(.footnote.weight(.medium))
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-            }
-        }
-    }
-
-    private var eventImage: some View {
-        Group {
-            if let imageURL = event.imageURL {
-                AsyncImage(url: imageURL) { phase in
-                    switch phase {
-                    case .empty:
-                        imagePlaceholder
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .scaledToFill()
-                    case .failure:
-                        imagePlaceholder
-                    @unknown default:
-                        imagePlaceholder
-                    }
-                }
-            } else {
-                imagePlaceholder
-            }
-        }
-        .frame(width: thumbnailSize, height: thumbnailSize)
-        .clipped()
-        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-        .accessibilityHidden(true)
-    }
-
-    private var imagePlaceholder: some View {
-        ZStack {
-            Color.primary.opacity(0.08)
-
-            Image(systemName: "figure.run")
-                .font(.title3.weight(.semibold))
+            Text(Self.periodFormatter.string(from: event.startDate).uppercased())
+                .font(.caption2.weight(.bold))
+                .fontWidth(.condensed)
+                .tracking(0.6)
                 .foregroundStyle(.secondary)
         }
-    }
-
-    private var calendarButton: some View {
-        Button {
-            handleCalendarButtonTap()
-        } label: {
-            ZStack {
-                RoundedRectangle(cornerRadius: 7, style: .continuous)
-                    .fill(calendarButtonBackground)
-
-                if isAddingToCalendar {
-                    ProgressView()
-                        .controlSize(.small)
-                } else {
-                    Image(systemName: calendarButtonSymbol)
-                        .font(.callout.weight(.bold))
-                        .foregroundStyle(calendarButtonForeground)
-                }
-            }
-            .frame(width: 34, height: 34)
-        }
-        .buttonStyle(.plain)
-        .disabled(isAddingToCalendar)
-        .accessibilityLabel(calendarButtonAccessibilityLabel)
-        .accessibilityHint(calendarStatus == .added ? "Event already exists in your calendar" : "Creates a calendar event")
-    }
-
-    private var calendarButtonSymbol: String {
-        switch calendarStatus {
-        case .notAdded:
-            return "calendar.badge.plus"
-        case .added:
-            return "calendar.badge.checkmark"
-        }
-    }
-
-    private var calendarButtonForeground: Color {
-        switch calendarStatus {
-        case .notAdded:
-            return .secondary
-        case .added:
-            return Color("CustomGreen")
-        }
-    }
-
-    private var calendarButtonBackground: Color {
-        switch calendarStatus {
-        case .notAdded:
-            return Color.primary.opacity(0.07)
-        case .added:
-            return Color("CustomGreen").opacity(0.14)
-        }
-    }
-
-    private var calendarButtonAccessibilityLabel: String {
-        switch calendarStatus {
-        case .notAdded:
-            return "Add \(event.title) to calendar"
-        case .added:
-            return "\(event.title) is already in your calendar"
-        }
+        .frame(width: Self.leadingColumnWidth)
+        .accessibilityHidden(true)
     }
 
     private var accessibilityLabel: String {
@@ -210,6 +92,18 @@ struct EventCard: View {
         .joined(separator: ", ")
     }
 
+    private static let hourMinuteFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm"
+        return formatter
+    }()
+
+    private static let periodFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "a"
+        return formatter
+    }()
+
     private static let timeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mma"
@@ -217,53 +111,6 @@ struct EventCard: View {
         formatter.pmSymbol = " PM"
         return formatter
     }()
-
-    private func handleCalendarButtonTap() {
-        if calendarStatus == .added {
-            calendarAlert = CalendarAlert(
-                title: "Already in Calendar",
-                message: "\(event.title) is already marked as added."
-            )
-            return
-        }
-
-        addToCalendar()
-    }
-
-    private func addToCalendar() {
-        isAddingToCalendar = true
-        Task {
-            do {
-                let result = try await EventCalendarWriter.shared.addToCalendar(event)
-                calendarStatus = .added
-
-                switch result {
-                case .added:
-                    calendarAlert = CalendarAlert(
-                        title: "Added to Calendar",
-                        message: "\(event.title) was added to your calendar."
-                    )
-                case .alreadyExists:
-                    calendarAlert = CalendarAlert(
-                        title: "Already in Calendar",
-                        message: "\(event.title) is already in your calendar."
-                    )
-                }
-            } catch {
-                calendarAlert = CalendarAlert(
-                    title: "Could Not Add Event",
-                    message: error.localizedDescription
-                )
-            }
-            isAddingToCalendar = false
-        }
-    }
-}
-
-private struct CalendarAlert: Identifiable {
-    let id = UUID()
-    let title: String
-    let message: String
 }
 
 private extension String {

@@ -8,41 +8,37 @@
 import SwiftUI
 
 struct EventCardSkeleton: View {
-    private let thumbnailSize: CGFloat = 70
-
     var body: some View {
-        HStack(alignment: .center, spacing: 12) {
-            ShimmerView()
-                .frame(width: thumbnailSize, height: thumbnailSize)
-                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-
-            VStack(alignment: .leading, spacing: 8) {
+        HStack(alignment: .center, spacing: EventCard.leadingColumnSpacing) {
+            VStack(spacing: 4) {
                 ShimmerView()
-                    .frame(width: 128, height: 16)
+                    .frame(width: EventCard.leadingColumnWidth, height: 20)
                     .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
 
                 ShimmerView()
-                    .frame(maxWidth: .infinity, minHeight: 22, maxHeight: 22)
+                    .frame(width: EventCard.leadingColumnWidth * 0.6, height: 10)
+                    .clipShape(RoundedRectangle(cornerRadius: 3, style: .continuous))
+            }
+            .frame(width: EventCard.leadingColumnWidth)
+
+            VStack(alignment: .leading, spacing: 8) {
+                ShimmerView()
+                    .frame(maxWidth: .infinity, minHeight: 18, maxHeight: 18)
                     .containerRelativeFrame(.horizontal) { length, _ in
-                        length * 0.78
+                        length * 0.72
                     }
                     .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
 
                 ShimmerView()
-                    .frame(maxWidth: .infinity, minHeight: 22, maxHeight: 22)
+                    .frame(maxWidth: .infinity, minHeight: 14, maxHeight: 14)
                     .containerRelativeFrame(.horizontal) { length, _ in
-                        length * 0.52
+                        length * 0.44
                     }
                     .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-
-            ShimmerView()
-                .frame(width: 36, height: 36)
-                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                .frame(width: 44, height: 44)
         }
-        .frame(minHeight: thumbnailSize, alignment: .center)
+        .frame(minHeight: 44, alignment: .center)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

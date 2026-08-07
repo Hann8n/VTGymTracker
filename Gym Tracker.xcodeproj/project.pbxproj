@@ -555,7 +555,6 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Gym Tracker";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
-				INFOPLIST_KEY_NSCalendarsWriteOnlyAccessUsageDescription = "VT Gym Tracker adds selected campus recreation events to your calendar when you tap the calendar button.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera to scan and store your campus ID.";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "This app requires access to Face ID to protect your hokie passport.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -607,7 +606,6 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Gym Tracker";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
-				INFOPLIST_KEY_NSCalendarsWriteOnlyAccessUsageDescription = "VT Gym Tracker adds selected campus recreation events to your calendar when you tap the calendar button.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera to scan and store your campus ID.";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "This app requires access to Face ID to protect your hokie passport.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;

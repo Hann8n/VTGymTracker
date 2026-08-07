@@ -73,7 +73,7 @@ struct EventsSectionBlock: View {
 
                         if eventIndex < group.events.count - 1 {
                             FullBleedDivider()
-                                .padding(.leading, DashboardLayout.horizontalGutter + 84)
+                                .padding(.leading, DashboardLayout.horizontalGutter + EventCard.leadingColumnWidth + EventCard.leadingColumnSpacing)
                         }
                     }
                 }
