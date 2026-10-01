@@ -154,8 +154,12 @@ class GymService: ObservableObject {
             sharedDefaults.set(Date(), forKey: "lastFetchDate")
         }
 
-        // Notify widgets immediately when new data arrives
+        // Notify widgets immediately when new data arrives (iOS only;
+        // watchOS fetches directly over its own network connection and
+        // App Group defaults are per-device, not synced iPhone <-> Watch)
+        #if !os(watchOS)
         WidgetCenter.shared.reloadAllTimelines()
+        #endif
     }
     
     deinit {

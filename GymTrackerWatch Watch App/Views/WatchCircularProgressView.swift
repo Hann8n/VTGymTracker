@@ -44,7 +44,7 @@ struct WatchCircularProgressView: View {
             }
 
             // Percentage Text
-            Text("\(OccupancyMath.wholePercent(fromPercent: percentage))\(showPercentageSymbol ? "%" : "")")
+            Text("\(Int(percentage))\(showPercentageSymbol ? "%" : "")")
                 .font(.system(size: size * fontScale, weight: .bold))
                 .foregroundColor(isEmpty ? Color.gray : .primary)
         }

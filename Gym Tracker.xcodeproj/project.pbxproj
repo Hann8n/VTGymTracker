@@ -713,7 +713,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"GymTrackerWatch Watch App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = GymTrackerWatch;
+				INFOPLIST_KEY_CFBundleDisplayName = "Gym Tracker";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "Hannon.Gym-Tracker--RC-";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -743,7 +743,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"GymTrackerWatch Watch App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = GymTrackerWatch;
+				INFOPLIST_KEY_CFBundleDisplayName = "Gym Tracker";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "Hannon.Gym-Tracker--RC-";
 				LD_RUNPATH_SEARCH_PATHS = (
