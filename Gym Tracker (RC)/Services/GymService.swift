@@ -150,6 +150,10 @@ class GymService: ObservableObject {
             sharedDefaults.set(bw, forKey: "boulderingWallOccupancy")
         }
 
+        if mcComasData != nil || warMemorialData != nil || boulderingWallData != nil {
+            sharedDefaults.set(Date(), forKey: "lastFetchDate")
+        }
+
         // Notify widgets immediately when new data arrives
         WidgetCenter.shared.reloadAllTimelines()
     }
