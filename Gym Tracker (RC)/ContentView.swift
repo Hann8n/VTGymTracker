@@ -149,7 +149,9 @@ struct ContentView: View {
                         }
                     }
                     ToolbarItem(placement: .primaryAction) {
-                        Button(action: { showSettingsPopup.toggle() }) {
+                        Button(action: {
+                            showSettingsPopup.toggle()
+                        }) {
                             Image(systemName: "gearshape.fill")
                         }
                         .controlSize(.regular)

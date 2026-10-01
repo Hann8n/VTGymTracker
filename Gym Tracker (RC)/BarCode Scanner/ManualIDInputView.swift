@@ -88,9 +88,7 @@ struct ManualIDInputView: View {
                     } label: {
                         Image(systemName: "xmark")
                     }
-                    .buttonStyle(.borderedProminent)
-                    .controlSize(.regular)
-                    .tint(.customOrange)
+                    .accessibilityLabel("Close")
                 }
             }
         }

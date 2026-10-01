@@ -9,28 +9,37 @@ import SwiftUI
 
 struct EventCardSkeleton: View {
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            // Title Placeholder
-            ShimmerView()
-                .frame(height: 20)
-                .cornerRadius(4)
-                .padding(.trailing, 200) // Adjust as needed
+        HStack(alignment: .center, spacing: EventCard.leadingColumnSpacing) {
+            VStack(spacing: 4) {
+                ShimmerView()
+                    .frame(width: EventCard.leadingColumnWidth, height: 20)
+                    .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
 
-            // Date Placeholder
-            ShimmerView()
-                .frame(height: 16)
-                .cornerRadius(4)
-                .padding(.trailing, 150) // Adjust as needed
+                ShimmerView()
+                    .frame(width: EventCard.leadingColumnWidth * 0.6, height: 10)
+                    .clipShape(RoundedRectangle(cornerRadius: 3, style: .continuous))
+            }
+            .frame(width: EventCard.leadingColumnWidth)
 
-            // Location Placeholder
-            ShimmerView()
-                .frame(height: 16)
-                .cornerRadius(4)
-                .padding(.trailing, 180) // Adjust as needed
+            VStack(alignment: .leading, spacing: 8) {
+                ShimmerView()
+                    .frame(maxWidth: .infinity, minHeight: 18, maxHeight: 18)
+                    .containerRelativeFrame(.horizontal) { length, _ in
+                        length * 0.72
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+
+                ShimmerView()
+                    .frame(maxWidth: .infinity, minHeight: 14, maxHeight: 14)
+                    .containerRelativeFrame(.horizontal) { length, _ in
+                        length * 0.44
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .frame(minHeight: 44, alignment: .center)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.vertical, 8)
-        .padding(.leading, 30)
     }
 }
 
