@@ -30,12 +30,23 @@ struct UnifiedGymTrackerProvider: TimelineProvider {
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<UnifiedGymTrackerEntry>) -> Void) {
+        let shared = UserDefaults(suiteName: Constants.appGroupID)
+        // Prefer data the app just fetched; avoids a redundant network call
+        // right after the app stored fresh values and reloaded timelines.
+        if let last = shared?.object(forKey: "lastFetchDate") as? Date,
+           Date().timeIntervalSince(last) < 90 {
+            let next = Calendar.current.date(byAdding: .minute, value: 15, to: Date()) ?? Date().addingTimeInterval(15 * 60)
+            completion(Timeline(entries: [createEntry()], policy: .after(next)))
+            return
+        }
         Task {
             let (mc, wm, bw) = await GymOccupancyFetcher.fetchForWidget()
-            let shared = UserDefaults(suiteName: Constants.appGroupID)
-            let mcFinal = mc ?? 0
-            let wmFinal = wm ?? 0
-            let bwFinal = bw ?? 0
+            let last = shared?.object(forKey: "lastFetchDate") as? Date
+            // Only reuse stored values when they are recent; never fossilize stale counts.
+            let sharedFresh = last.map { Date().timeIntervalSince($0) < 15 * 60 } ?? false
+            let mcFinal = mc ?? (sharedFresh ? shared?.integer(forKey: "mcComasOccupancy") ?? 0 : 0)
+            let wmFinal = wm ?? (sharedFresh ? shared?.integer(forKey: "warMemorialOccupancy") ?? 0 : 0)
+            let bwFinal = bw ?? (sharedFresh ? shared?.integer(forKey: "boulderingWallOccupancy") ?? 0 : 0)
 
             if mc != nil { shared?.set(mc!, forKey: "mcComasOccupancy") }
             if wm != nil { shared?.set(wm!, forKey: "warMemorialOccupancy") }
