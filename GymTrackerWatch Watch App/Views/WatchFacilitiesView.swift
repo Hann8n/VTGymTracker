@@ -4,12 +4,11 @@
 import SwiftUI
 
 struct WatchFacilitiesView: View {
-    @ObservedObject private var gymService = GymService.shared
-    @StateObject private var networkMonitor = NetworkMonitor()
-    
+    @ObservedObject private var gymService = WatchGymService.shared
+    @StateObject private var networkMonitor: WatchNetworkMonitor
+
     init() {
-        let networkMonitor = NetworkMonitor()
-        _networkMonitor = StateObject(wrappedValue: networkMonitor)
+        _networkMonitor = StateObject(wrappedValue: WatchNetworkMonitor())
     }
     
     var body: some View {
@@ -18,8 +17,8 @@ struct WatchFacilitiesView: View {
             WatchGymCardView(
                 title: "War Memorial Hall",
                 occupancy: gymService.warMemorialOccupancy ?? 0,
-                maxCapacity: Constants.warMemorialMaxCapacity,
-                facilityId: Constants.warMemorialFacilityId,
+                maxCapacity: WatchGymConstants.warMemorialMaxCapacity,
+                facilityId: WatchGymConstants.warMemorialFacilityId,
                 networkMonitor: networkMonitor,
                 color: .green
             )
@@ -28,8 +27,8 @@ struct WatchFacilitiesView: View {
             WatchGymCardView(
                 title: "McComas Hall",
                 occupancy: gymService.mcComasOccupancy ?? 0,
-                maxCapacity: Constants.mcComasMaxCapacity,
-                facilityId: Constants.mcComasFacilityId,
+                maxCapacity: WatchGymConstants.mcComasMaxCapacity,
+                facilityId: WatchGymConstants.mcComasFacilityId,
                 networkMonitor: networkMonitor,
                 color: .blue
             )
@@ -38,8 +37,8 @@ struct WatchFacilitiesView: View {
             WatchGymCardView(
                 title: "Bouldering Wall",
                 occupancy: gymService.boulderingWallOccupancy ?? 0,
-                maxCapacity: Constants.boulderingWallMaxCapacity,
-                facilityId: Constants.boulderingWallFacilityId,
+                maxCapacity: WatchGymConstants.boulderingWallMaxCapacity,
+                facilityId: WatchGymConstants.boulderingWallFacilityId,
                 networkMonitor: networkMonitor,
                 color: .orange
             )

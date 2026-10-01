@@ -5,11 +5,11 @@ struct WatchGymCardView: View {
     let occupancy: Int
     let maxCapacity: Int
     let facilityId: String
-    @ObservedObject var networkMonitor: NetworkMonitor
+    @ObservedObject var networkMonitor: WatchNetworkMonitor
     let color: Color
     
     private var occupancyPercentage: Double {
-        OccupancyMath.percent(occupancy: occupancy, maxCapacity: maxCapacity)
+        WatchOccupancyMath.percent(occupancy: occupancy, maxCapacity: maxCapacity)
     }
     
     var body: some View {
@@ -38,7 +38,7 @@ struct WatchGymCardView: View {
             // Occupancy numbers
             VStack(spacing: 4) {
                 if networkMonitor.isConnected {
-                    Text("\(occupancy.abbreviatedCount) / \(maxCapacity.abbreviatedCount)")
+                    Text("\(occupancy.watchAbbreviatedCount) / \(maxCapacity.watchAbbreviatedCount)")
                         .font(.caption)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
@@ -80,8 +80,8 @@ struct WatchGymCardView_Previews: PreviewProvider {
                 title: "War Memorial Hall",
                 occupancy: 450,
                 maxCapacity: 1200,
-                facilityId: Constants.warMemorialFacilityId,
-                networkMonitor: NetworkMonitor(),
+                facilityId: WatchGymConstants.warMemorialFacilityId,
+                networkMonitor: WatchNetworkMonitor(),
                 color: .green
             )
             .previewDisplayName("War Memorial - Moderate")
@@ -90,8 +90,8 @@ struct WatchGymCardView_Previews: PreviewProvider {
                 title: "McComas Hall",
                 occupancy: 480,
                 maxCapacity: 600,
-                facilityId: Constants.mcComasFacilityId,
-                networkMonitor: NetworkMonitor(),
+                facilityId: WatchGymConstants.mcComasFacilityId,
+                networkMonitor: WatchNetworkMonitor(),
                 color: .blue
             )
             .previewDisplayName("McComas - Busy")
@@ -100,8 +100,8 @@ struct WatchGymCardView_Previews: PreviewProvider {
                 title: "Bouldering Wall",
                 occupancy: 6,
                 maxCapacity: 8,
-                facilityId: Constants.boulderingWallFacilityId,
-                networkMonitor: NetworkMonitor(),
+                facilityId: WatchGymConstants.boulderingWallFacilityId,
+                networkMonitor: WatchNetworkMonitor(),
                 color: .orange
             )
             .previewDisplayName("Bouldering - Very Busy")
