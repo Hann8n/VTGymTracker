@@ -140,14 +140,20 @@ class GymService: ObservableObject {
         
         if let mc = mcComasData?.occupancy {
             sharedDefaults.set(mc, forKey: "mcComasOccupancy")
+        } else {
+            sharedDefaults.removeObject(forKey: "mcComasOccupancy")
         }
 
         if let wm = warMemorialData?.occupancy {
             sharedDefaults.set(wm, forKey: "warMemorialOccupancy")
+        } else {
+            sharedDefaults.removeObject(forKey: "warMemorialOccupancy")
         }
 
         if let bw = boulderingWallData?.occupancy {
             sharedDefaults.set(bw, forKey: "boulderingWallOccupancy")
+        } else {
+            sharedDefaults.removeObject(forKey: "boulderingWallOccupancy")
         }
 
         if mcComasData != nil || warMemorialData != nil || boulderingWallData != nil {
