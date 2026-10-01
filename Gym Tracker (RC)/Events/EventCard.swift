@@ -30,13 +30,14 @@ struct EventCard: View {
         Button {
             openURL(event.link)
         } label: {
-            HStack(alignment: .center, spacing: Self.leadingColumnSpacing) {
+            HStack(alignment: .top, spacing: Self.leadingColumnSpacing) {
                 timeColumn
+                    .padding(.top, 1)
 
-                VStack(alignment: .leading, spacing: 3) {
+                VStack(alignment: .leading, spacing: 2) {
                     Text(event.title)
-                        .font(.body.weight(.semibold))
-                        .fontWidth(.condensed)
+                        .font(.subheadline)
+                        .lineSpacing(1)
                         .foregroundStyle(.primary)
                         .multilineTextAlignment(.leading)
                         .lineLimit(2)
@@ -44,8 +45,7 @@ struct EventCard: View {
 
                     if !summaryText.isEmpty {
                         Text(summaryText)
-                            .font(.footnote.weight(.medium))
-                            .fontWidth(.condensed)
+                            .font(.footnote)
                             .foregroundStyle(.secondary)
                             .lineLimit(1)
                     }
@@ -65,7 +65,7 @@ struct EventCard: View {
     private var timeColumn: some View {
         VStack(spacing: 0) {
             Text(Self.hourMinuteFormatter.string(from: event.startDate))
-                .font(.system(size: 20, weight: .black, design: .default))
+                .font(.system(size: 17, weight: .bold, design: .default))
                 .fontWidth(.condensed)
                 .monospacedDigit()
                 .foregroundStyle(Color.customOrange)
@@ -73,7 +73,7 @@ struct EventCard: View {
                 .minimumScaleFactor(0.8)
 
             Text(Self.periodFormatter.string(from: event.startDate).uppercased())
-                .font(.caption2.weight(.bold))
+                .font(.caption2.weight(.semibold))
                 .fontWidth(.condensed)
                 .tracking(0.6)
                 .foregroundStyle(.secondary)

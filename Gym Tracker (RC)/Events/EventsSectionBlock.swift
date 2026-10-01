@@ -106,8 +106,7 @@ struct EventsSectionBlock: View {
 
     private var emptyState: some View {
         Text("Nothing scheduled right now")
-            .font(.subheadline.weight(.semibold))
-            .fontWidth(.condensed)
+            .font(.subheadline)
             .foregroundStyle(.secondary)
             .frame(maxWidth: .infinity, alignment: .center)
             .padding(.horizontal, DashboardLayout.horizontalGutter)
@@ -119,8 +118,7 @@ struct EventsSectionBlock: View {
     private func errorState(errorMessage: String) -> some View {
         VStack(spacing: 12) {
             Text(errorMessage)
-                .font(.subheadline.weight(.medium))
-                .fontWidth(.condensed)
+                .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
 
