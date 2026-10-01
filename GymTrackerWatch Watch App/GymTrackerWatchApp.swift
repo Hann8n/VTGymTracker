@@ -11,7 +11,7 @@ import SwiftUI
 struct GymTrackerWatch_App: App {
     var body: some Scene {
         WindowGroup {
-            WatchFacilitiesView()
+            WatchRootView()
         }
     }
 }

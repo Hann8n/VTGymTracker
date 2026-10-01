@@ -56,20 +56,7 @@ struct WatchGymCardView: View {
     }
     
     private var occupancyBackgroundColor: Color {
-        if !networkMonitor.isConnected {
-            return Color.black
-        }
-        
-        switch occupancyPercentage {
-        case 0:
-            return Color.black
-        case 0..<50:
-            return Color("WatchCustomGreen").opacity(0.1)
-        case 50..<75:
-            return Color("WatchCustomOrange").opacity(0.1)
-        default:
-            return Color("WatchCustomMaroon").opacity(0.1)
-        }
+        Color.black
     }
 }
 

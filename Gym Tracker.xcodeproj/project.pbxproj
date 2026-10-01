@@ -232,13 +232,11 @@
 				0408D2132CA62567000DE926 /* Frameworks */,
 				0408D2142CA62567000DE926 /* Resources */,
 				042D05A02CB87D870081F486 /* Embed Foundation Extensions */,
-				04CD88662D4BC2A1008C2EA4 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				042D059A2CB87D870081F486 /* PBXTargetDependency */,
-				04CD88612D4BC2A1008C2EA4 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				0408D2182CA62567000DE926 /* Gym Tracker (RC) */,
