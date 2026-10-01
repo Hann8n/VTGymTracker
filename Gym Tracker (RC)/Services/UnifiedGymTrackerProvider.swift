@@ -33,9 +33,9 @@ struct UnifiedGymTrackerProvider: TimelineProvider {
         Task {
             let (mc, wm, bw) = await GymOccupancyFetcher.fetchForWidget()
             let shared = UserDefaults(suiteName: Constants.appGroupID)
-            let mcFinal = mc ?? shared?.integer(forKey: "mcComasOccupancy") ?? 0
-            let wmFinal = wm ?? shared?.integer(forKey: "warMemorialOccupancy") ?? 0
-            let bwFinal = bw ?? shared?.integer(forKey: "boulderingWallOccupancy") ?? 0
+            let mcFinal = mc ?? 0
+            let wmFinal = wm ?? 0
+            let bwFinal = bw ?? 0
 
             if mc != nil { shared?.set(mc!, forKey: "mcComasOccupancy") }
             if wm != nil { shared?.set(wm!, forKey: "warMemorialOccupancy") }
