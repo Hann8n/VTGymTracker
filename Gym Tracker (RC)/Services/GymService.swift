@@ -13,10 +13,6 @@ import WidgetKit
 import UIKit
 #endif
 
-#if os(iOS)
-import PostHog
-#endif
-
 enum GymServiceError: Error {
     case invalidURL
     case invalidResponse
@@ -119,9 +115,6 @@ class GymService: ObservableObject {
         storeAndNotify(mcComasData: mcData, warMemorialData: wmData, boulderingWallData: bwData)
 
         if !isOnline {
-            #if os(iOS)
-            PostHogSDK.shared.capture("gym_occupancy_fetch_failed")
-            #endif
             print("No occupancy data fetched successfully, scheduling retry...")
             // Retry after 60 seconds to handle transient network failures without immediate retry loop
             DispatchQueue.main.asyncAfter(deadline: .now() + 60) { [weak self] in

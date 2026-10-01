@@ -7,7 +7,6 @@
 
 import Foundation
 import Combine
-import PostHog
 
 // MARK: - NetworkError
 
@@ -118,25 +117,16 @@ class EventsViewModel: ObservableObject {
                 
                 if let error = error {
                     self.useCachedEventsOrShowError(NetworkError.fetchFailed(description: error.localizedDescription))
-                    PostHogSDK.shared.capture("events_fetch_failed", properties: [
-                        "reason": "network_error",
-                        "error": error.localizedDescription,
-                    ])
                     return
                 }
 
                 if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
                     self.useCachedEventsOrShowError(NetworkError.fetchFailed(description: "HTTP \(httpResponse.statusCode)"))
-                    PostHogSDK.shared.capture("events_fetch_failed", properties: [
-                        "reason": "bad_status",
-                        "status_code": httpResponse.statusCode,
-                    ])
                     return
                 }
 
                 guard let data = data else {
                     self.useCachedEventsOrShowError(NetworkError.noData)
-                    PostHogSDK.shared.capture("events_fetch_failed", properties: ["reason": "no_data"])
                     return
                 }
 
@@ -147,10 +137,6 @@ class EventsViewModel: ObservableObject {
                     self.saveCache(with: parsedEvents)
                 } catch {
                     self.useCachedEventsOrShowError(NetworkError.parseFailed)
-                    PostHogSDK.shared.capture("events_fetch_failed", properties: [
-                        "reason": "parse_failed",
-                        "error": error.localizedDescription,
-                    ])
                 }
             }
         }

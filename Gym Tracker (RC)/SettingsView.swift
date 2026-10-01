@@ -8,7 +8,6 @@
 import SwiftUI
 import LocalAuthentication
 import AVFoundation
-import PostHog
 
 struct SettingsView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -99,9 +98,6 @@ struct AppearanceSection: View {
             }
             .pickerStyle(.menu)
             .tint(.customOrange)
-            .onChange(of: appTheme) { _, newTheme in
-                PostHogSDK.shared.capture("theme_changed", properties: ["theme": newTheme])
-            }
         }
     }
 }
@@ -248,7 +244,6 @@ struct CampusIDSection: View {
     }
     
     private func removeCampusID() {
-        PostHogSDK.shared.capture("campus_id_removed")
         gymBarcode = ""
     }
 
@@ -278,7 +273,6 @@ struct CampusIDSection: View {
             AuthenticationService.shared.authenticate(reason: "Authenticate to enable Face ID.") { success, error in
                 if success {
                     faceIDEnabled = true
-                    PostHogSDK.shared.capture("face_id_toggled", properties: ["enabled": true])
                 } else {
                     faceIDEnabled = false
                     if let error = error, AuthenticationService.shared.isBiometricsUnavailable(error: error) {
@@ -290,7 +284,6 @@ struct CampusIDSection: View {
             AuthenticationService.shared.authenticate(reason: "Authenticate to disable Face ID.") { success, error in
                 if success {
                     faceIDEnabled = false
-                    PostHogSDK.shared.capture("face_id_toggled", properties: ["enabled": false])
                 } else {
                     faceIDEnabled = true
                     if let error = error, AuthenticationService.shared.isBiometricsUnavailable(error: error) {

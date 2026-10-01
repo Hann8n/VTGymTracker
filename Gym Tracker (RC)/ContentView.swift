@@ -1,7 +1,6 @@
 import SwiftUI
 import AVFoundation
 import Combine
-import PostHog
 
 struct ContentView: View {
     // MARK: - State Objects and Dependencies
@@ -152,7 +151,6 @@ struct ContentView: View {
                     ToolbarItem(placement: .primaryAction) {
                         Button(action: {
                             showSettingsPopup.toggle()
-                            PostHogSDK.shared.capture("settings_opened")
                         }) {
                             Image(systemName: "gearshape.fill")
                         }
@@ -275,9 +273,7 @@ struct ContentView: View {
                         AdView(
                             ad: loadedAd.config,
                             heroImage: loadedAd.heroImage,
-                            networkMonitor: networkMonitor,
-                            onImpression: { adViewModel.trackImpressionIfNeeded(for: loadedAd.config) },
-                            onTap: { adViewModel.trackTap(for: loadedAd.config) }
+                            networkMonitor: networkMonitor
                         )
                     }
                     .padding(.top, DashboardLayout.cardVerticalPadding)

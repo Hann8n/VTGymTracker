@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import PostHog
 
 @MainActor
 final class AdViewModel: ObservableObject {
@@ -25,7 +24,6 @@ final class AdViewModel: ObservableObject {
 
     @Published private(set) var loadedAd: LoadedAd?
 
-    private var impressionTracker = Set<String>()
     private let adService: AdService
 
     init(adService: AdService = AdService()) {
@@ -60,31 +58,6 @@ final class AdViewModel: ObservableObject {
             }
             loadedAd = await preload(ad: ad)
         }
-    }
-
-    func trackImpressionIfNeeded(for ad: AdConfig) {
-        let impressionKey = "\(ad.id)|\(ad.placement)"
-        guard !impressionTracker.contains(impressionKey) else {
-            return
-        }
-
-        impressionTracker.insert(impressionKey)
-        PostHogSDK.shared.capture("ad_impression", properties: [
-            "ad_id": ad.id,
-            "sponsor": ad.sponsor,
-            "placement": ad.placement,
-            "tier": ad.tier,
-        ])
-    }
-
-    func trackTap(for ad: AdConfig) {
-        PostHogSDK.shared.capture("ad_tapped", properties: [
-            "ad_id": ad.id,
-            "sponsor": ad.sponsor,
-            "placement": ad.placement,
-            "tier": ad.tier,
-            "destination": ad.destinationHost,
-        ])
     }
 
     private func preload(ad: AdConfig) async -> LoadedAd {

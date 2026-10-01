@@ -14,7 +14,6 @@
 		0456A9D22D35A6E30023446D /* CDCodabarView in Frameworks */ = {isa = PBXBuildFile; productRef = 0456A9D12D35A6E30023446D /* CDCodabarView */; };
 		049203C72D0CE45100BB1048 /* SyndiKit in Frameworks */ = {isa = PBXBuildFile; productRef = 049203C62D0CE45100BB1048 /* SyndiKit */; };
 		049203CA2D0CE6EF00BB1048 /* FeedKit in Frameworks */ = {isa = PBXBuildFile; productRef = 049203C92D0CE6EF00BB1048 /* FeedKit */; };
-		04AA00012F000001000C1E0F /* PostHog in Frameworks */ = {isa = PBXBuildFile; productRef = 04AA00022F000001000C1E0F /* PostHog */; };
 		04CD88622D4BC2A1008C2EA4 /* GymTrackerWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 04CD88552D4BC29F008C2EA4 /* GymTrackerWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		04F923D52E78D431000C1E0F /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = 04F923D42E78D431000C1E0F /* XMLCoder */; };
 /* End PBXBuildFile section */
@@ -162,7 +161,6 @@
 				049203CA2D0CE6EF00BB1048 /* FeedKit in Frameworks */,
 				049203C72D0CE45100BB1048 /* SyndiKit in Frameworks */,
 				0456A9D22D35A6E30023446D /* CDCodabarView in Frameworks */,
-				04AA00012F000001000C1E0F /* PostHog in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,7 +250,6 @@
 				0456A9BB2D3577BC0023446D /* CodeScanner */,
 				0456A9D12D35A6E30023446D /* CDCodabarView */,
 				04F923D42E78D431000C1E0F /* XMLCoder */,
-				04AA00022F000001000C1E0F /* PostHog */,
 			);
 			productName = "Gym Tracker (RC)";
 			productReference = 0408D2162CA62567000DE926 /* Gym Tracker RC.app */;
@@ -339,7 +336,6 @@
 				0456A9BA2D3577BC0023446D /* XCRemoteSwiftPackageReference "CodeScanner" */,
 				0456A9D02D35A6E30023446D /* XCRemoteSwiftPackageReference "CDCodabarView" */,
 				04F923D32E78D431000C1E0F /* XCRemoteSwiftPackageReference "XMLCoder" */,
-				04AA00032F000001000C1E0F /* XCRemoteSwiftPackageReference "posthog-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 0408D2172CA62567000DE926 /* Products */;
@@ -574,7 +570,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.5;
+				MARKETING_VERSION = 1.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "Hannon.Gym-Tracker--RC-";
 				PRODUCT_NAME = "Gym Tracker RC";
 				SDKROOT = auto;
@@ -626,7 +622,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.5;
+				MARKETING_VERSION = 1.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "Hannon.Gym-Tracker--RC-";
 				PRODUCT_NAME = "Gym Tracker RC";
 				SDKROOT = auto;
@@ -841,14 +837,6 @@
 				minimumVersion = 9.1.2;
 			};
 		};
-		04AA00032F000001000C1E0F /* XCRemoteSwiftPackageReference "posthog-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/PostHog/posthog-ios";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.57.0;
-			};
-		};
 		04F923D32E78D431000C1E0F /* XCRemoteSwiftPackageReference "XMLCoder" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/CoreOffice/XMLCoder";
@@ -879,11 +867,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 049203C82D0CE6EF00BB1048 /* XCRemoteSwiftPackageReference "FeedKit" */;
 			productName = FeedKit;
-		};
-		04AA00022F000001000C1E0F /* PostHog */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 04AA00032F000001000C1E0F /* XCRemoteSwiftPackageReference "posthog-ios" */;
-			productName = PostHog;
 		};
 		04F923D42E78D431000C1E0F /* XMLCoder */ = {
 			isa = XCSwiftPackageProductDependency;
