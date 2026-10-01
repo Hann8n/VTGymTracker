@@ -41,16 +41,14 @@ struct UnifiedGymTrackerProvider: TimelineProvider {
         }
         Task {
             let (mc, wm, bw) = await GymOccupancyFetcher.fetchForWidget()
-            let last = shared?.object(forKey: "lastFetchDate") as? Date
-            // Only reuse stored values when they are recent; never fossilize stale counts.
-            let sharedFresh = last.map { Date().timeIntervalSince($0) < 15 * 60 } ?? false
-            let mcFinal = mc ?? (sharedFresh ? shared?.integer(forKey: "mcComasOccupancy") ?? 0 : 0)
-            let wmFinal = wm ?? (sharedFresh ? shared?.integer(forKey: "warMemorialOccupancy") ?? 0 : 0)
-            let bwFinal = bw ?? (sharedFresh ? shared?.integer(forKey: "boulderingWallOccupancy") ?? 0 : 0)
+            // No stale reuse: a failed fetch shows 0 (empty state), never a fossilized count.
+            let mcFinal = mc ?? 0
+            let wmFinal = wm ?? 0
+            let bwFinal = bw ?? 0
 
-            if mc != nil { shared?.set(mc!, forKey: "mcComasOccupancy") }
-            if wm != nil { shared?.set(wm!, forKey: "warMemorialOccupancy") }
-            if bw != nil { shared?.set(bw!, forKey: "boulderingWallOccupancy") }
+            if let mc { shared?.set(mc, forKey: "mcComasOccupancy") } else { shared?.removeObject(forKey: "mcComasOccupancy") }
+            if let wm { shared?.set(wm, forKey: "warMemorialOccupancy") } else { shared?.removeObject(forKey: "warMemorialOccupancy") }
+            if let bw { shared?.set(bw, forKey: "boulderingWallOccupancy") } else { shared?.removeObject(forKey: "boulderingWallOccupancy") }
             if mc != nil || wm != nil || bw != nil { shared?.set(Date(), forKey: "lastFetchDate") }
 
             let entry = UnifiedGymTrackerEntry(
