@@ -70,14 +70,6 @@ struct Constants {
     static let adConfigURLString = "https://gymtracker.jackhannon.net/api/ads"
     static let adFetchTimeoutSeconds: TimeInterval = 4
 
-    // PostHog
-    static var postHogAPIKey: String {
-        Bundle.main.object(forInfoDictionaryKey: "POSTHOG_API_KEY") as? String ?? ""
-    }
-    static var postHogHost: String {
-        Bundle.main.object(forInfoDictionaryKey: "POSTHOG_HOST") as? String ?? ""
-    }
-
     // App Group (main app, widget, Watch)
     static let appGroupID = "group.VTGymApp.D8VXFBV8SJ"
     

@@ -24,7 +24,6 @@ final class AdViewModel: ObservableObject {
 
     @Published private(set) var loadedAd: LoadedAd?
 
-    private var impressionTracker = Set<String>()
     private let adService: AdService
 
     init(adService: AdService = AdService()) {
@@ -59,20 +58,6 @@ final class AdViewModel: ObservableObject {
             }
             loadedAd = await preload(ad: ad)
         }
-    }
-
-    func trackImpressionIfNeeded(for ad: AdConfig) {
-        let impressionKey = "\(ad.id)|\(AnalyticsService.shared.sessionID)|\(ad.placement)"
-        guard !impressionTracker.contains(impressionKey) else {
-            return
-        }
-
-        impressionTracker.insert(impressionKey)
-        AnalyticsService.shared.trackAdImpression(ad: ad)
-    }
-
-    func trackTap(for ad: AdConfig) {
-        AnalyticsService.shared.trackAdTap(ad: ad)
     }
 
     private func preload(ad: AdConfig) async -> LoadedAd {

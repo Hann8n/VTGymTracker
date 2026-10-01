@@ -12,8 +12,6 @@ struct AdView: View {
     let ad: AdConfig
     let heroImage: UIImage?
     @ObservedObject var networkMonitor: NetworkMonitor
-    let onImpression: () -> Void
-    let onTap: () -> Void
 
     @Environment(\.openURL) private var openURL
     @Environment(\.colorScheme) private var colorScheme
@@ -28,7 +26,6 @@ struct AdView: View {
     }
 
     private func openAd() {
-        onTap()
         openURL(ad.destinationURL)
     }
 
@@ -42,7 +39,6 @@ struct AdView: View {
         }
         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
         .dashboardCardChrome(networkMonitor: networkMonitor)
-        .onAppear(perform: onImpression)
     }
 
     // MARK: - Text tier (no image)

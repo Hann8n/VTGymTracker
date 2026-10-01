@@ -271,9 +271,7 @@ struct ContentView: View {
                         AdView(
                             ad: loadedAd.config,
                             heroImage: loadedAd.heroImage,
-                            networkMonitor: networkMonitor,
-                            onImpression: { adViewModel.trackImpressionIfNeeded(for: loadedAd.config) },
-                            onTap: { adViewModel.trackTap(for: loadedAd.config) }
+                            networkMonitor: networkMonitor
                         )
                     }
                     .padding(.top, DashboardLayout.cardVerticalPadding)
