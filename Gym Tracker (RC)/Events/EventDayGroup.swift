@@ -6,7 +6,6 @@ struct EventDayGroup: View {
     let events: [Event]
     let now: Date
 
-    /// Shared with `EventCardSkeleton` so loading and loaded states line up.
     static let dateColumnWidth: CGFloat = 44
     static let columnSpacing: CGFloat = 14
 

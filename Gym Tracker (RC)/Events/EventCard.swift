@@ -11,16 +11,16 @@ struct EventCard: View {
 
     // MARK: - Derived content
 
-    /// "Now" while the event is running, "In N min" shortly before it starts.
-    private var statusText: String? {
+    /// "Now" (green) while the event is running, "In N min" (orange) shortly before it starts.
+    private var status: (text: String, color: Color)? {
         if event.startDate <= now && now < event.endDate {
-            return "Now"
+            return (text: "Now", color: Color("CustomGreen"))
         }
 
         let secondsUntilStart = event.startDate.timeIntervalSince(now)
         if secondsUntilStart > 0 && secondsUntilStart <= Self.startingSoonWindow {
             let minutes = max(1, Int((secondsUntilStart / 60).rounded(.up)))
-            return "In \(minutes) min"
+            return (text: "In \(minutes) min", color: Color("CustomOrange"))
         }
 
         return nil
@@ -85,7 +85,7 @@ struct EventCard: View {
         }
     }
 
-    /// One plain line: "Now · 6–7:30 PM · Free · 27 going", with the status word emphasized.
+    /// One plain line: "Now · 6–7:30 PM · Free · 27 going", with the status word in brand color.
     private func metaContent(showsPrice: Bool, showsAttendees: Bool) -> some View {
         let details = [
             timeRangeText,
@@ -96,8 +96,8 @@ struct EventCard: View {
         .joined(separator: " · ")
 
         let line: Text
-        if let statusText {
-            line = Text(statusText).fontWeight(.semibold).foregroundStyle(Color.primary) + Text(" · \(details)")
+        if let status {
+            line = Text(status.text).fontWeight(.bold).foregroundStyle(status.color) + Text(" · \(details)")
         } else {
             line = Text(details)
         }
@@ -114,7 +114,7 @@ struct EventCard: View {
     private var accessibilityLabel: String {
         [
             event.title,
-            statusText,
+            status?.text,
             Self.accessibilityTimeText(start: event.startDate, end: event.endDate),
             priceText,
             attendeeText

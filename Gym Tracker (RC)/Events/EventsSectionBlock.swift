@@ -81,18 +81,14 @@ struct EventsSectionBlock: View {
         }
     }
 
+    /// Only shown on a first launch with nothing cached; otherwise cached events show
+    /// immediately and are swapped for fresh ones when the fetch lands.
     private var loadingState: some View {
-        VStack(spacing: 0) {
-            ForEach(0..<3, id: \.self) { index in
-                EventCardSkeleton()
-
-                if index < 2 {
-                    FullBleedDivider()
-                }
-            }
-        }
-        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-        .dashboardCardChrome(networkMonitor: networkMonitor)
+        ProgressView()
+            .controlSize(.regular)
+            .frame(maxWidth: .infinity, minHeight: 120, alignment: .center)
+            .dashboardCardChrome(networkMonitor: networkMonitor)
+            .accessibilityLabel("Loading events")
     }
 
     private var emptyState: some View {
