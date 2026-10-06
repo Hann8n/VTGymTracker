@@ -96,9 +96,14 @@ enum SharedOccupancyStore {
 
     /// Stored value for `key` if it was fetched within `freshness`, else nil.
     static func fresh(_ key: Key) -> Int? {
+        cached(key, maxAge: freshness)
+    }
+
+    /// Stored value for `key` if it was fetched within `maxAge`, else nil.
+    static func cached(_ key: Key, maxAge: TimeInterval) -> Int? {
         guard let defaults,
               let date = defaults.object(forKey: key.dateKey) as? Date,
-              Date().timeIntervalSince(date) < freshness,
+              Date().timeIntervalSince(date) < maxAge,
               defaults.object(forKey: key.rawValue) != nil
         else { return nil }
         return defaults.integer(forKey: key.rawValue)

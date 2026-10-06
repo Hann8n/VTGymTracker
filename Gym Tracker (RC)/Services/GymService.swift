@@ -61,7 +61,14 @@ class GymService: ObservableObject {
     // 30-second interval balances data freshness with battery and network usage
     private let activeAppInterval: TimeInterval = 30
     
+    // Launch shows the last stored counts until the first live fetch replaces them
+    // (instead of a placeholder 0); older than this, the card shows a spinner instead.
+    private let launchCacheMaxAge: TimeInterval = 12 * 60 * 60
+
     private init() {
+        mcComasOccupancy = SharedOccupancyStore.cached(.mcComas, maxAge: launchCacheMaxAge)
+        warMemorialOccupancy = SharedOccupancyStore.cached(.warMemorial, maxAge: launchCacheMaxAge)
+        boulderingWallOccupancy = SharedOccupancyStore.cached(.boulderingWall, maxAge: launchCacheMaxAge)
         setupAppLifecycleNotifications()
     }
     
