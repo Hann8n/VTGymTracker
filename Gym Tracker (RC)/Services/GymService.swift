@@ -106,13 +106,10 @@ class GymService: ObservableObject {
     
     func fetchAllGymOccupancy() async {
         let (mc, wm, bw) = await GymOccupancyFetcher.fetchAll()
-        let mcData = mc.map { GymOccupancyData(occupancy: $0.occupancy, remaining: $0.remaining) }
-        let wmData = wm.map { GymOccupancyData(occupancy: $0.occupancy, remaining: $0.remaining) }
-        let bwData = bw.map { GymOccupancyData(occupancy: $0.occupancy, remaining: $0.remaining) }
 
         // If any facility succeeds, API is reachable; only mark offline if all fail
         isOnline = mc != nil || wm != nil || bw != nil
-        storeAndNotify(mcComasData: mcData, warMemorialData: wmData, boulderingWallData: bwData)
+        storeAndNotify(mcComas: mc?.occupancy, warMemorial: wm?.occupancy, boulderingWall: bw?.occupancy)
 
         if !isOnline {
             print("No occupancy data fetched successfully, scheduling retry...")
@@ -127,37 +124,20 @@ class GymService: ObservableObject {
 
     // MARK: - Store & Notify
     
-    private func storeAndNotify(mcComasData: GymOccupancyData?, warMemorialData: GymOccupancyData?, boulderingWallData: GymOccupancyData?) {
-        self.mcComasOccupancy = mcComasData?.occupancy
-        self.warMemorialOccupancy = warMemorialData?.occupancy
-        self.boulderingWallOccupancy = boulderingWallData?.occupancy
+    private func storeAndNotify(mcComas: Int?, warMemorial: Int?, boulderingWall: Int?) {
+        // A single failed facility request keeps its last good value while recent, instead of
+        // dropping to nil (rendered as 0). Read before recording so the fallback is the prior value.
+        self.mcComasOccupancy = mcComas ?? SharedOccupancyStore.fresh(.mcComas)
+        self.warMemorialOccupancy = warMemorial ?? SharedOccupancyStore.fresh(.warMemorial)
+        self.boulderingWallOccupancy = boulderingWall ?? SharedOccupancyStore.fresh(.boulderingWall)
         
-        // App Group UserDefaults allows widgets and watch app to access latest occupancy data
-        guard let sharedDefaults = UserDefaults(suiteName: Constants.appGroupID) else {
-            print("Could not access shared defaults.")
-            return
-        }
-        
-        if let mc = mcComasData?.occupancy {
-            sharedDefaults.set(mc, forKey: "mcComasOccupancy")
-        } else {
-            sharedDefaults.removeObject(forKey: "mcComasOccupancy")
-        }
+        // App Group UserDefaults allows widgets to access latest occupancy data
+        SharedOccupancyStore.record(mcComas, for: .mcComas)
+        SharedOccupancyStore.record(warMemorial, for: .warMemorial)
+        SharedOccupancyStore.record(boulderingWall, for: .boulderingWall)
 
-        if let wm = warMemorialData?.occupancy {
-            sharedDefaults.set(wm, forKey: "warMemorialOccupancy")
-        } else {
-            sharedDefaults.removeObject(forKey: "warMemorialOccupancy")
-        }
-
-        if let bw = boulderingWallData?.occupancy {
-            sharedDefaults.set(bw, forKey: "boulderingWallOccupancy")
-        } else {
-            sharedDefaults.removeObject(forKey: "boulderingWallOccupancy")
-        }
-
-        if mcComasData != nil || warMemorialData != nil || boulderingWallData != nil {
-            sharedDefaults.set(Date(), forKey: "lastFetchDate")
+        if mcComas != nil || warMemorial != nil || boulderingWall != nil {
+            SharedOccupancyStore.defaults?.set(Date(), forKey: "lastFetchDate")
         }
 
         // Notify widgets immediately when new data arrives (iOS only;
