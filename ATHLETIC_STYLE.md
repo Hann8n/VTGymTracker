@@ -53,7 +53,10 @@ Apply frosted surface + offline treatment with **`dashboardCardChrome(networkMon
 | `FullBleedDivider` | 1 pt `separator` edge-to-edge inside a card |
 | `CardMaterialBackground` | Reusable frosted fill |
 | `StaggeredAppear` | Section entrance |
-| `EventCard` | One event row (typography aligned with athletic style) |
+| `EventDayGroup` | One day of events: `EventDateTile` on the left, `EventCard` rows on the right |
+| `EventDateTile` | Weekday / big condensed day number / month (hero-number recipe, scaled down) |
+| `EventCard` | One event row: title, time range, status + price `EventTag`s, external-link glyph |
+| `EventTag` | Uppercase condensed pill; green "Live", orange "In N min", neutral price |
 | `AdView` | Sponsored block; matches gutter + frosted chrome |
 
 ## Adding a new dashboard block

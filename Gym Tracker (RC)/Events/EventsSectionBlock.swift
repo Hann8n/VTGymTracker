@@ -5,10 +5,13 @@ struct EventsSectionBlock: View {
     @ObservedObject var networkMonitor: NetworkMonitor
     let motionPolicy: MotionPolicy
 
-    private var groupedEvents: [(date: Date, events: [Event])] {
+    /// Upcoming (not yet ended) events grouped by calendar day, earliest first.
+    private func groupedEvents(now: Date) -> [(date: Date, events: [Event])] {
         let calendar = Calendar.current
-        let grouped = Dictionary(grouping: eventsViewModel.events) { event in
-            calendar.startOfDay(for: event.startDate)
+        let upcoming = eventsViewModel.events.filter { $0.endDate > now }
+        let grouped = Dictionary(grouping: upcoming) { event in
+            // An event already under way is filed under today, not the day it began.
+            calendar.startOfDay(for: max(event.startDate, now))
         }
 
         return grouped.keys.sorted().map { date in
@@ -51,49 +54,37 @@ struct EventsSectionBlock: View {
         .padding(.top, DashboardLayout.sectionSpacingBeforeHeader)
     }
 
+    // MARK: - States
+
+    /// Re-renders every minute so "Live" / "In N min" tags stay current and ended events drop off.
     private var eventsList: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            ForEach(Array(groupedEvents.enumerated()), id: \.element.date) { dayIndex, group in
-                VStack(alignment: .leading, spacing: 0) {
-                    Text(sectionTitle(for: group.date))
-                        .font(.caption.weight(.bold))
-                        .fontWidth(.condensed)
-                        .tracking(0.8)
-                        .foregroundStyle(.secondary)
-                        .textCase(.uppercase)
-                        .padding(.horizontal, DashboardLayout.horizontalGutter)
-                        .padding(.top, dayIndex == 0 ? 14 : 16)
-                        .padding(.bottom, 4)
+        TimelineView(.everyMinute) { context in
+            let days = groupedEvents(now: context.date)
 
-                    ForEach(Array(group.events.enumerated()), id: \.element.id) { eventIndex, event in
-                        EventCard(event: event)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal, DashboardLayout.horizontalGutter)
-                            .padding(.vertical, 10)
+            Group {
+                if days.isEmpty {
+                    emptyContent
+                } else {
+                    VStack(alignment: .leading, spacing: 0) {
+                        ForEach(Array(days.enumerated()), id: \.element.date) { dayIndex, group in
+                            EventDayGroup(date: group.date, events: group.events, now: context.date)
 
-                        if eventIndex < group.events.count - 1 {
-                            FullBleedDivider()
-                                .padding(.leading, DashboardLayout.horizontalGutter + EventCard.leadingColumnWidth + EventCard.leadingColumnSpacing)
+                            if dayIndex < days.count - 1 {
+                                FullBleedDivider()
+                            }
                         }
                     }
                 }
-
-                if dayIndex < groupedEvents.count - 1 {
-                    FullBleedDivider()
-                }
             }
+            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+            .dashboardCardChrome(networkMonitor: networkMonitor)
         }
-        .padding(.bottom, 8)
-        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-        .dashboardCardChrome(networkMonitor: networkMonitor)
     }
 
     private var loadingState: some View {
         VStack(spacing: 0) {
             ForEach(0..<3, id: \.self) { index in
                 EventCardSkeleton()
-                    .padding(.horizontal, DashboardLayout.horizontalGutter)
-                    .padding(.vertical, 12)
 
                 if index < 2 {
                     FullBleedDivider()
@@ -105,55 +96,65 @@ struct EventsSectionBlock: View {
     }
 
     private var emptyState: some View {
-        Text("Nothing scheduled right now")
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-            .frame(maxWidth: .infinity, alignment: .center)
-            .padding(.horizontal, DashboardLayout.horizontalGutter)
-            .padding(.vertical, DashboardLayout.cardVerticalPadding)
-            .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+        emptyContent
             .dashboardCardChrome(networkMonitor: networkMonitor)
     }
 
-    private func errorState(errorMessage: String) -> some View {
-        VStack(spacing: 12) {
-            Text(errorMessage)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
+    private var emptyContent: some View {
+        statusMessage(
+            systemImage: "calendar",
+            title: "Nothing scheduled",
+            detail: "New Rec Sports events will show up here."
+        )
+        .padding(.vertical, DashboardLayout.cardVerticalPadding)
+    }
 
-            Button("Retry") {
+    private func errorState(errorMessage: String) -> some View {
+        VStack(spacing: 14) {
+            statusMessage(
+                systemImage: networkMonitor.isConnected ? "exclamationmark.triangle" : "wifi.slash",
+                title: "Events unavailable",
+                detail: errorMessage
+            )
+
+            Button {
                 eventsViewModel.fetchEvents()
+            } label: {
+                Label("Try Again", systemImage: "arrow.clockwise")
+                    .font(.subheadline.weight(.semibold))
+                    .fontWidth(.condensed)
             }
-            .buttonStyle(.borderedProminent)
+            .buttonStyle(.bordered)
+            .controlSize(.small)
+            .tint(Color("CustomOrange"))
         }
         .frame(maxWidth: .infinity, alignment: .center)
-        .padding(.horizontal, DashboardLayout.horizontalGutter)
         .padding(.vertical, DashboardLayout.cardVerticalPadding)
         .dashboardCardChrome(networkMonitor: networkMonitor)
     }
 
-    private func sectionTitle(for date: Date) -> String {
-        let calendar = Calendar.current
+    /// Icon + uppercase condensed label + footnote, shared by empty and error states.
+    private func statusMessage(systemImage: String, title: String, detail: String) -> some View {
+        VStack(spacing: 6) {
+            Image(systemName: systemImage)
+                .font(.title3.weight(.semibold))
+                .foregroundStyle(.tertiary)
+                .padding(.bottom, 2)
+                .accessibilityHidden(true)
 
-        if calendar.isDateInToday(date) {
-            return "Today"
+            Text(title.uppercased())
+                .font(.caption.weight(.bold))
+                .fontWidth(.condensed)
+                .tracking(0.9)
+                .foregroundStyle(.secondary)
+
+            Text(detail)
+                .font(.footnote)
+                .foregroundStyle(.tertiary)
+                .multilineTextAlignment(.center)
         }
-
-        if calendar.isDateInTomorrow(date) {
-            return "Tomorrow"
-        }
-
-        if calendar.isDateInWeekend(date) {
-            return "This Weekend"
-        }
-
-        return Self.sectionDateFormatter.string(from: date)
+        .frame(maxWidth: .infinity, alignment: .center)
+        .padding(.horizontal, DashboardLayout.horizontalGutter)
+        .accessibilityElement(children: .combine)
     }
-
-    private static let sectionDateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMM d"
-        return formatter
-    }()
 }
