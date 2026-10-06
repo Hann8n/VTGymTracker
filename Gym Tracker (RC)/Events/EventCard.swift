@@ -6,20 +6,21 @@ struct EventCard: View {
 
     @Environment(\.openURL) private var openURL
 
-    /// Events starting within this window get an "In N min" tag.
+    /// Events starting within this window get an "In N min" prefix.
     private static let startingSoonWindow: TimeInterval = 60 * 60
 
     // MARK: - Derived content
 
-    private var statusTag: (text: String, style: EventTag.Style)? {
+    /// "Now" while the event is running, "In N min" shortly before it starts.
+    private var statusText: String? {
         if event.startDate <= now && now < event.endDate {
-            return (text: "Live", style: EventTag.Style.live)
+            return "Now"
         }
 
         let secondsUntilStart = event.startDate.timeIntervalSince(now)
         if secondsUntilStart > 0 && secondsUntilStart <= Self.startingSoonWindow {
             let minutes = max(1, Int((secondsUntilStart / 60).rounded(.up)))
-            return (text: "In \(minutes) min", style: EventTag.Style.soon)
+            return "In \(minutes) min"
         }
 
         return nil
@@ -84,40 +85,36 @@ struct EventCard: View {
         }
     }
 
+    /// One plain line: "Now · 6–7:30 PM · Free · 27 going", with the status word emphasized.
     private func metaContent(showsPrice: Bool, showsAttendees: Bool) -> some View {
-        HStack(spacing: 6) {
-            Text(timeRangeText)
-                .font(.footnote.weight(.medium))
-                .fontWidth(.condensed)
-                .monospacedDigit()
-                .foregroundStyle(.secondary)
-                .lineLimit(1)
-                .fixedSize()
+        let details = [
+            timeRangeText,
+            showsPrice ? priceText : nil,
+            showsAttendees ? attendeeText : nil
+        ]
+        .compactMap { $0 }
+        .joined(separator: " · ")
 
-            if let statusTag {
-                EventTag(text: statusTag.text, style: statusTag.style)
-            }
-
-            if showsPrice, let priceText {
-                EventTag(text: priceText, style: .neutral)
-            }
-
-            if showsAttendees, let attendeeText {
-                Text(attendeeText)
-                    .font(.footnote.weight(.medium))
-                    .fontWidth(.condensed)
-                    .monospacedDigit()
-                    .foregroundStyle(.tertiary)
-                    .lineLimit(1)
-                    .fixedSize()
-            }
+        let line: Text
+        if let statusText {
+            line = Text(statusText).fontWeight(.semibold).foregroundStyle(Color.primary) + Text(" · \(details)")
+        } else {
+            line = Text(details)
         }
+
+        return line
+            .font(.footnote.weight(.medium))
+            .fontWidth(.condensed)
+            .monospacedDigit()
+            .foregroundStyle(.secondary)
+            .lineLimit(1)
+            .fixedSize()
     }
 
     private var accessibilityLabel: String {
         [
             event.title,
-            statusTag?.text,
+            statusText,
             Self.accessibilityTimeText(start: event.startDate, end: event.endDate),
             priceText,
             attendeeText

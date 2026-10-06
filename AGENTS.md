@@ -30,7 +30,7 @@ For CI/automation: `xcodebuild build -scheme "Gym Tracker (RC)" -destination 'pl
 Gym Tracker (RC)/
 ├── Services/           # GymService, GymOccupancyFetcher, OccupancyHTMLParser, Constants, UnifiedGymTrackerProvider, NetworkMonitor, WarningManager, AuthenticationService, GymFacility, WebView
 ├── Ads/                # AdConfig, AdService, AdViewModel, AdView
-├── Events/             # EventsViewModel, Event, EventsSectionBlock, EventDayGroup, EventDateTile, EventCard, EventTag, EventRowButtonStyle, EventCardSkeleton, ShimmerView
+├── Events/             # EventsViewModel, Event, EventsSectionBlock, EventDayGroup, EventDateTile, EventCard, EventRowButtonStyle, EventCardSkeleton
 ├── Components/         # CardMaterialBackground, FullBleedDivider, StaggeredAppear
 ├── BarCode Scanner/    # BarcodeScannerView, BarcodeGenerator, BarcodeDisplayView, ManualIDInputView, BrightnessManager, HokiePassportFieldView
 ├── ContentView.swift, Dashboard*.swift and related card/section components (dashboard style), MotionPolicy.swift, CustomColors.swift, SegmentedProgressBar.swift, SettingsView.swift, PrivacyPolicyView.swift, AppInfo.swift, Alerts.swift — see ATHLETIC_STYLE.md

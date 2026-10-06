@@ -19,19 +19,17 @@ struct EventCardSkeleton: View {
             .frame(width: EventDayGroup.dateColumnWidth)
 
             VStack(alignment: .leading, spacing: 8) {
-                ShimmerView()
-                    .frame(maxWidth: .infinity, minHeight: 16, maxHeight: 16)
+                placeholder
+                    .frame(height: 16)
                     .containerRelativeFrame(.horizontal) { length, _ in
                         length * 0.62
                     }
-                    .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
 
-                ShimmerView()
-                    .frame(maxWidth: .infinity, minHeight: 12, maxHeight: 12)
+                placeholder
+                    .frame(height: 12)
                     .containerRelativeFrame(.horizontal) { length, _ in
                         length * 0.36
                     }
-                    .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
@@ -43,9 +41,14 @@ struct EventCardSkeleton: View {
     }
 
     private func bar(width: CGFloat, height: CGFloat) -> some View {
-        ShimmerView()
+        placeholder
             .frame(width: width, height: height)
-            .clipShape(RoundedRectangle(cornerRadius: 3, style: .continuous))
+    }
+
+    /// Static, unanimated block in the same neutral gray as an empty `SegmentedProgressBar`.
+    private var placeholder: some View {
+        RoundedRectangle(cornerRadius: 4, style: .continuous)
+            .fill(Color.gray.opacity(0.2))
     }
 }
 
