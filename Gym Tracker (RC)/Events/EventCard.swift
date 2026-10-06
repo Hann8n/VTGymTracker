@@ -51,7 +51,7 @@ struct EventCard: View {
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(.primary)
                         .multilineTextAlignment(.leading)
-                        .lineLimit(2)
+                        .lineLimit(3)
                         .fixedSize(horizontal: false, vertical: true)
 
                     metaRow
@@ -60,7 +60,7 @@ struct EventCard: View {
 
                 Image(systemName: "arrow.up.right")
                     .font(.caption.weight(.bold))
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(.secondary)
                     .accessibilityHidden(true)
             }
             .padding(.vertical, 12)
