@@ -24,7 +24,7 @@ facilityId={UUID}&occupancyDisplayType={UUID}
 
 The app tracks three facilities:
 
-- **McComas Hall:** `da73849e-434d-415f-975a-4f9e799b9c39`
+- **McComas Hall:** `232d714e-5b3e-4b0d-9936-e6a738150ec4`
 - **War Memorial Hall:** `55069633-b56e-43b7-a68a-64d79364988d`
 - **Bouldering Wall:** `da838218-ae53-4c6f-b744-2213299033fc`
 
@@ -39,7 +39,7 @@ POST /FacilityOccupancy/GetFacilityData HTTP/1.1
 Host: connect.recsports.vt.edu
 Content-Type: application/x-www-form-urlencoded
 
-facilityId=da73849e-434d-415f-975a-4f9e799b9c39&occupancyDisplayType=00000000-0000-0000-0000-000000004490
+facilityId=232d714e-5b3e-4b0d-9936-e6a738150ec4&occupancyDisplayType=00000000-0000-0000-0000-000000004490
 ```
 
 ## Response Format
