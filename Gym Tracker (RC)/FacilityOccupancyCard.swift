@@ -2,14 +2,15 @@ import SwiftUI
 
 struct FacilityOccupancyCard: View {
     let facilityTitle: String
-    let occupancy: Int
+    /// nil until the first value arrives (no cache and no fetch yet); shows a spinner.
+    let occupancy: Int?
     let maxCapacity: Int
     let segmentCount: Int
     @ObservedObject var networkMonitor: NetworkMonitor
     let motionPolicy: MotionPolicy
 
     private var occupancyRatio: CGFloat {
-        CGFloat(OccupancyMath.fraction(occupancy: occupancy, maxCapacity: maxCapacity))
+        CGFloat(OccupancyMath.fraction(occupancy: occupancy ?? 0, maxCapacity: maxCapacity))
     }
 
     var body: some View {
@@ -27,11 +28,19 @@ struct FacilityOccupancyCard: View {
             HStack(alignment: .lastTextBaseline, spacing: 8) {
                 HStack(alignment: .lastTextBaseline, spacing: 6) {
                     Group {
-                        if motionPolicy.reduceMotion {
-                            Text(occupancy.abbreviatedCount)
+                        if let occupancy {
+                            if motionPolicy.reduceMotion {
+                                Text(occupancy.abbreviatedCount)
+                            } else {
+                                Text(occupancy.abbreviatedCount)
+                                    .contentTransition(.numericText(value: Double(occupancy)))
+                            }
                         } else {
-                            Text(occupancy.abbreviatedCount)
-                                .contentTransition(.numericText(value: Double(occupancy)))
+                            // Keeps the row height of the count so nothing shifts when data lands
+                            Text("0")
+                                .hidden()
+                                .overlay(alignment: .leading) { ProgressView() }
+                                .accessibilityLabel("Loading occupancy")
                         }
                     }
                     .font(.system(size: 40, weight: .black, design: .default))
@@ -48,11 +57,13 @@ struct FacilityOccupancyCard: View {
 
                 Spacer(minLength: 8)
 
-                Text("\(OccupancyMath.wholePercent(occupancy: occupancy, maxCapacity: maxCapacity))%")
-                    .font(.subheadline.weight(.semibold))
-                    .fontWidth(.condensed)
-                    .monospacedDigit()
-                    .foregroundStyle(.secondary)
+                if let occupancy {
+                    Text("\(OccupancyMath.wholePercent(occupancy: occupancy, maxCapacity: maxCapacity))%")
+                        .font(.subheadline.weight(.semibold))
+                        .fontWidth(.condensed)
+                        .monospacedDigit()
+                        .foregroundStyle(.secondary)
+                }
             }
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             .animation(motionPolicy.updateAnimation, value: occupancy)

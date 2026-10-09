@@ -58,6 +58,10 @@ class EventsViewModel: ObservableObject {
         let cachedEvents = loadCache()
         if !cachedEvents.isEmpty {
             self.events = cachedEvents
+        } else {
+            // Nothing to show until the first fetch lands; start in the loading state so the
+            // section renders the skeleton instead of flashing "Nothing scheduled".
+            self.isLoading = true
         }
     }
     
@@ -94,6 +98,7 @@ class EventsViewModel: ObservableObject {
     func fetchEvents() {
         guard networkMonitor.isConnected else {
             DispatchQueue.main.async {
+                self.isLoading = false
                 let cachedEvents = self.loadCache()
                 if cachedEvents.isEmpty {
                     self.errorMessage = NetworkError.noInternet.errorDescription

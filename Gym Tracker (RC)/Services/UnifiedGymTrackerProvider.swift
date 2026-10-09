@@ -41,17 +41,13 @@ struct UnifiedGymTrackerProvider: TimelineProvider {
         }
         Task {
             let (mc, wm, bw) = await GymOccupancyFetcher.fetchForWidget()
-            // Unknown stays nil; a valid zero is an available, empty facility.
-            let mcFinal = mc
-            let wmFinal = wm
-            let bwFinal = bw
-
-            if let mc { shared?.set(mc, forKey: "mcComasOccupancy") } else { shared?.removeObject(forKey: "mcComasOccupancy") }
-            if let wm { shared?.set(wm, forKey: "warMemorialOccupancy") } else { shared?.removeObject(forKey: "warMemorialOccupancy") }
-            if let bw { shared?.set(bw, forKey: "boulderingWallOccupancy") } else { shared?.removeObject(forKey: "boulderingWallOccupancy") }
-            if Constants.forceMockOccupancy {
-                TrackedFacility.individualFacilities.forEach { shared?.removeObject(forKey: $0.fetchDateKey) }
-            }
+            // Retain main's recent per-facility fallback; unavailable never becomes zero.
+            let mcFinal = mc ?? SharedOccupancyStore.fresh(.mcComas)
+            let wmFinal = wm ?? SharedOccupancyStore.fresh(.warMemorial)
+            let bwFinal = bw ?? SharedOccupancyStore.fresh(.boulderingWall)
+            SharedOccupancyStore.record(mc, for: .mcComas)
+            SharedOccupancyStore.record(wm, for: .warMemorial)
+            SharedOccupancyStore.record(bw, for: .boulderingWall)
             if mc != nil || wm != nil || bw != nil { shared?.set(Date(), forKey: "lastFetchDate") }
 
             let entry = UnifiedGymTrackerEntry(
@@ -69,19 +65,15 @@ struct UnifiedGymTrackerProvider: TimelineProvider {
     }
 
     private func createEntry() -> UnifiedGymTrackerEntry {
-        let sharedDefaults = UserDefaults(suiteName: Constants.appGroupID)
-        let recent = (sharedDefaults?.object(forKey: "lastFetchDate") as? Date).map {
-            (0..<90).contains(Date().timeIntervalSince($0))
-        } ?? false
-        let mcOccupancy = sharedDefaults?.object(forKey: "mcComasOccupancy") as? Int
-        let wmOccupancy = sharedDefaults?.object(forKey: "warMemorialOccupancy") as? Int
-        let bwOccupancy = sharedDefaults?.object(forKey: "boulderingWallOccupancy") as? Int
+        let mcOccupancy = SharedOccupancyStore.fresh(.mcComas)
+        let wmOccupancy = SharedOccupancyStore.fresh(.warMemorial)
+        let bwOccupancy = SharedOccupancyStore.fresh(.boulderingWall)
 
         return UnifiedGymTrackerEntry(
             date: Date(),
-            mcComasOccupancy: recent ? mcOccupancy : nil,
-            warMemorialOccupancy: recent ? wmOccupancy : nil,
-            boulderingWallOccupancy: recent ? bwOccupancy : nil,
+            mcComasOccupancy: mcOccupancy,
+            warMemorialOccupancy: wmOccupancy,
+            boulderingWallOccupancy: bwOccupancy,
             maxMcComasCapacity: Constants.mcComasMaxCapacity,
             maxWarMemorialCapacity: Constants.warMemorialMaxCapacity,
             maxBoulderingWallCapacity: Constants.boulderingWallMaxCapacity

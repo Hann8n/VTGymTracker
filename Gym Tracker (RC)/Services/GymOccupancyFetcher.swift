@@ -49,7 +49,7 @@ enum GymOccupancyFetcher {
         }
         let snapshots = await fetchSnapshots()
         let store = OccupancySnapshotStore(defaults: UserDefaults(suiteName: Constants.appGroupID))
-        snapshots.forEach { store.write($0) }
+        snapshots.filter { $0.status == .live }.forEach { store.write($0) }
         func values(_ facility: TrackedFacility) -> (occupancy: Int, remaining: Int)? {
             guard let count = snapshots.first(where: { $0.facility == facility })?.count else { return nil }
             return (count, facility.capacity - count)
@@ -89,5 +89,55 @@ enum GymOccupancyFetcher {
         return OccupancySnapshot(facility: facility, count: nil, fetchedAt: nil, checkedAt: date,
                                  lastSuccessfulFetchAt: previous?.lastSuccessfulFetchAt,
                                  status: .unavailable, unavailableReason: failure)
+    }
+}
+
+// MARK: - Shared (App Group) occupancy store
+
+/// Last-known-good occupancy shared by the app and widgets. A failed fetch reuses a value
+/// only while it is recent, so one bad response never flashes 0 but old counts never fossilize.
+enum SharedOccupancyStore {
+    static let freshness: TimeInterval = 15 * 60
+
+    enum Key: String {
+        case mcComas = "mcComasOccupancy"
+        case warMemorial = "warMemorialOccupancy"
+        case boulderingWall = "boulderingWallOccupancy"
+
+        var dateKey: String { rawValue + "Date" }
+    }
+
+    static var defaults: UserDefaults? { UserDefaults(suiteName: Constants.appGroupID) }
+
+    /// Stored value for `key` if it was fetched within `freshness`, else nil.
+    static func fresh(_ key: Key) -> Int? {
+        cached(key, maxAge: freshness)
+    }
+
+    /// Stored value for `key` if it was fetched within `maxAge`, else nil.
+    static func cached(_ key: Key, maxAge: TimeInterval) -> Int? {
+        guard let defaults,
+              let date = defaults.object(forKey: key.dateKey) as? Date,
+              (0..<maxAge).contains(Date().timeIntervalSince(date)),
+              defaults.object(forKey: key.rawValue) != nil
+        else { return nil }
+        return defaults.integer(forKey: key.rawValue)
+    }
+
+    /// Records a successful fetch, or clears the value once it is no longer fresh.
+    static func record(_ value: Int?, for key: Key) {
+        guard let defaults else { return }
+        if let value {
+            defaults.set(value, forKey: key.rawValue)
+            defaults.set(Date(), forKey: key.dateKey)
+            let facility = TrackedFacility.individualFacilities.first { $0.occupancyKey == key.rawValue }
+            if let facility {
+                if Constants.forceMockOccupancy { defaults.removeObject(forKey: facility.fetchDateKey) }
+                else { defaults.set(Date(), forKey: facility.fetchDateKey) }
+            }
+        } else if fresh(key) == nil {
+            defaults.removeObject(forKey: key.rawValue)
+            // Retain the actual last-success time when the current value expires.
+        }
     }
 }

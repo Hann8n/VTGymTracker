@@ -212,7 +212,7 @@ struct ContentView: View {
         VStack(alignment: .leading, spacing: 0) {
             FacilityOccupancyCard(
                 facilityTitle: "War Memorial Hall",
-                occupancy: gymService.warMemorialOccupancy ?? 0,
+                occupancy: gymService.warMemorialOccupancy,
                 maxCapacity: Constants.warMemorialMaxCapacity,
                 segmentCount: 20,
                 networkMonitor: networkMonitor,
@@ -227,7 +227,7 @@ struct ContentView: View {
         VStack(alignment: .leading, spacing: 0) {
             FacilityOccupancyCard(
                 facilityTitle: "McComas Hall",
-                occupancy: gymService.mcComasOccupancy ?? 0,
+                occupancy: gymService.mcComasOccupancy,
                 maxCapacity: Constants.mcComasMaxCapacity,
                 segmentCount: 20,
                 networkMonitor: networkMonitor,
@@ -242,7 +242,7 @@ struct ContentView: View {
         VStack(alignment: .leading, spacing: 0) {
             FacilityOccupancyCard(
                 facilityTitle: "Bouldering Wall",
-                occupancy: gymService.boulderingWallOccupancy ?? 0,
+                occupancy: gymService.boulderingWallOccupancy,
                 maxCapacity: Constants.boulderingWallMaxCapacity,
                 segmentCount: 8,
                 networkMonitor: networkMonitor,
