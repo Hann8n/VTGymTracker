@@ -1,6 +1,6 @@
 # Current crowds in Siri and Shortcuts
 
-The app exposes one action, **Check Current Crowds**, with a **Facility** parameter:
+The crowds action, **Check Current Crowds**, is exposed, with a **Facility** parameter:
 McComas Hall, War Memorial Hall, Bouldering Wall, or All Facilities (the default).
 It completes in the background and returns an array of typed `FacilityCrowdsEntity`
 results plus a short spoken response. It does not open a screen or require the
@@ -60,7 +60,9 @@ Siri attempts a live fetch first. On failure it may reuse a verified **existing
 app-group current value** fetched within 90 seconds, matching the existing
 widget freshness window. It discloses the original fetch time and actual age;
 age is rechecked after the request. Older/future-dated readings are unavailable.
-There is no 15-minute or 12-hour stale fallback. The old global `lastFetchDate`
+Siri has no 15-minute or 12-hour stale fallback. The app retains main’s existing
+12-hour launch display and 15-minute per-facility fallback; these cannot establish
+Siri freshness. The old global `lastFetchDate`
 cannot establish a facility's freshness, so older installations start without
 eligible Siri fallback until a real successful fetch creates the companion
 per-facility success date. A failure removes the current count and preserves the
@@ -116,3 +118,5 @@ After an app build, validate Xcode's generated system-facing metadata:
 ```sh
 python3 scripts/verify_crowds_metadata.py '/path/to/Gym Tracker RC.app'
 ```
+
+The combined shortcut provider also exposes [recreation event actions](SIRI_EVENTS.md).

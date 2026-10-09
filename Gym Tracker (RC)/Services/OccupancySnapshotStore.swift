@@ -23,6 +23,8 @@ struct OccupancySnapshotStore {
         if let count = snapshot.count, let fetchedAt = snapshot.fetchedAt {
             defaults?.set(count, forKey: snapshot.facility.occupancyKey)
             defaults?.set(fetchedAt, forKey: snapshot.facility.fetchDateKey)
+            // Keep main’s display-cache date aligned with this actual retrieval, including Siri writes.
+            defaults?.set(fetchedAt, forKey: snapshot.facility.occupancyKey + "Date")
         } else {
             defaults?.removeObject(forKey: snapshot.facility.occupancyKey)
         }

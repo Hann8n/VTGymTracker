@@ -67,6 +67,7 @@ final class CrowdsTests: XCTestCase {
         defaults.set(date, forKey: "lastFetchDate")
         XCTAssertNil(store.read(.mcComas, at: date).count)
         store.write(live(.mcComas, 0))
+        XCTAssertEqual(defaults.object(forKey: "mcComasOccupancyDate") as? Date, date)
         XCTAssertEqual(store.read(.mcComas, at: date.addingTimeInterval(90)).count, 0)
         XCTAssertEqual(store.read(.mcComas, at: date.addingTimeInterval(90)).cacheAgeSeconds, 90)
         let expired = store.read(.mcComas, at: date.addingTimeInterval(91))
@@ -77,6 +78,7 @@ final class CrowdsTests: XCTestCase {
         store.write(expired)
         XCTAssertNil(defaults.object(forKey: TrackedFacility.mcComas.occupancyKey))
         XCTAssertEqual(defaults.object(forKey: TrackedFacility.mcComas.fetchDateKey) as? Date, date)
+        XCTAssertEqual(defaults.object(forKey: "mcComasOccupancyDate") as? Date, date)
         // A different facility's success cannot refresh this facility.
         store.write(live(.warMemorial, 600))
         XCTAssertNil(store.read(.mcComas, at: date).count)
@@ -106,7 +108,7 @@ final class CrowdsTests: XCTestCase {
         XCTAssertTrue(CurrentCrowdsIntent.isDiscoverable)
         let result = CurrentCrowdsIntent().response(for: [snapshot])
         XCTAssertEqual(result.value?.first?.count, 0)
-        XCTAssertEqual(GymCrowdsShortcuts.appShortcuts.count, 1)
+        XCTAssertEqual(GymCrowdsShortcuts.appShortcuts.count, 3)
     }
 
     func testDialogUsesPercentagesAndSeparatesClimbingWall() {

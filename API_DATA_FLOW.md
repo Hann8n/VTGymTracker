@@ -258,3 +258,9 @@ GymService.storeAndNotify()
 ## Siri current crowds
 
 See [Siri current crowds](docs/SIRI_CURRENT_CROWDS.md) for the typed result contract, per-facility validation and fetch dates, 90-second explicitly disclosed reuse of existing app-group values on network failure, and deterministic/live verification lanes. The Siri action bypasses screenshot mocks. Widget unknown values are optional and render as “—”; valid zero renders as zero.
+
+## Events through App Intents
+
+`EventsService` shares the existing CampusGroups feed/parser with `EventsViewModel`.
+The existing event cache retains verified retrieval metadata. Upcoming-event search
+and selected-event details expose typed facts and freshness; see [Siri events](docs/SIRI_EVENTS.md).

@@ -119,9 +119,11 @@ enum SharedOccupancyStore {
         guard let defaults,
               let date = defaults.object(forKey: key.dateKey) as? Date,
               (0..<maxAge).contains(Date().timeIntervalSince(date)),
-              defaults.object(forKey: key.rawValue) != nil
+              let count = defaults.object(forKey: key.rawValue) as? Int,
+              let facility = TrackedFacility.individualFacilities.first(where: { $0.occupancyKey == key.rawValue }),
+              (0...facility.capacity).contains(count)
         else { return nil }
-        return defaults.integer(forKey: key.rawValue)
+        return count
     }
 
     /// Records a successful fetch, or clears the value once it is no longer fresh.
@@ -129,11 +131,13 @@ enum SharedOccupancyStore {
         guard let defaults else { return }
         if let value {
             defaults.set(value, forKey: key.rawValue)
-            defaults.set(Date(), forKey: key.dateKey)
             let facility = TrackedFacility.individualFacilities.first { $0.occupancyKey == key.rawValue }
-            if let facility {
-                if Constants.forceMockOccupancy { defaults.removeObject(forKey: facility.fetchDateKey) }
-                else { defaults.set(Date(), forKey: facility.fetchDateKey) }
+            let fetchedAt = facility.flatMap { defaults.object(forKey: $0.fetchDateKey) as? Date }
+            // fetchAll already records each successful response's actual time. Never replace
+            // that time with the later moment when all concurrent requests finish.
+            defaults.set(Constants.forceMockOccupancy ? Date() : (fetchedAt ?? Date()), forKey: key.dateKey)
+            if Constants.forceMockOccupancy, let facility {
+                defaults.removeObject(forKey: facility.fetchDateKey)
             }
         } else if fresh(key) == nil {
             defaults.removeObject(forKey: key.rawValue)

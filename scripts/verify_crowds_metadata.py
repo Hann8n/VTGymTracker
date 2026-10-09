@@ -20,8 +20,33 @@ choices = next(e for e in data["enums"] if e["identifier"] == "TrackedFacility")
 assert {c["identifier"] for c in choices["cases"]} == {"allFacilities", "mcComas", "warMemorial", "boulderingWall"}
 war = next(c for c in choices["cases"] if c["identifier"] == "warMemorial")
 assert "War" in {s["key"] for s in war["displayRepresentation"]["synonyms"]}
-assert len(data["autoShortcuts"]) == 1
+def contains_type(value, expected):
+    if isinstance(value, dict):
+        return value.get("typeName") == expected or any(contains_type(v, expected) for v in value.values())
+    if isinstance(value, list):
+        return any(contains_type(v, expected) for v in value)
+    return False
+
+for identifier, output, parameters in [
+    ("FindUpcomingEventsIntent", "EventSearchResultEntity", {"from", "before", "limit"}),
+    ("GetEventDetailsIntent", "CampusEventEntity", {"event"}),
+]:
+    event_action = data["actions"][identifier]
+    assert event_action["isDiscoverable"] is True
+    assert event_action["openAppWhenRun"] is False
+    assert {p["name"] for p in event_action["parameters"]} == parameters
+    assert contains_type(event_action["outputType"], output), identifier
+
+event_props = {p["identifier"]: p for p in data["entities"]["CampusEventEntity"]["properties"]}
+assert event_props.keys() == {"eventID", "title", "startDate", "endDate", "timeZoneIdentifier", "sourceTimeZoneText", "location", "organizer", "priceText", "eventURL", "status", "fetchedAt", "checkedAt", "cacheAgeSeconds", "availabilityDetail", "sourceFeedURL"}
+for name in ["title", "startDate", "endDate", "sourceTimeZoneText", "location", "organizer", "priceText", "eventURL", "fetchedAt", "cacheAgeSeconds"]:
+    assert event_props[name]["isOptional"] is True, name
+search_props = {p["identifier"]: p for p in data["entities"]["EventSearchResultEntity"]["properties"]}
+assert search_props.keys() == {"events", "returnedCount", "matchingCount", "from", "before", "limit", "status", "fetchedAt", "checkedAt", "cacheAgeSeconds", "rejectedRecordCount", "availabilityDetail", "sourceFeedURL", "sourceLimitation"}
+assert search_props["matchingCount"]["isOptional"] is True
+assert contains_type(search_props["events"], "CampusEventEntity")
+assert len(data["autoShortcuts"]) == 3
 phrases = (app / "Metadata.appintents/root.ssu.yaml").read_text()
-for phrase in ["Check current crowds", "Compare gyms", "Check crowds at", "How busy is"]:
+for phrase in ["Check current crowds", "Compare gyms", "Check crowds at", "How busy is", "Find upcoming events", "Find recreation events", "Get event details", "Get details for"]:
     assert phrase in phrases
-print("PASS: one discoverable background action, four choices/aliases, typed array with 17 properties and optional unknowns, four trained phrases")
+print("PASS: three discoverable background actions; crowds with four choices/aliases and 17 properties; events with 16 factual properties and a 14-property search result; optional unknowns; eight trained phrases")

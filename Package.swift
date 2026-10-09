@@ -26,7 +26,8 @@ let package = Package(
             "Components",
             "DashboardSectionHeader.swift",
             "GymTrackerWidgetExtension.entitlements",
-            "Events",
+            "Events/EventCard.swift", "Events/EventDateTile.swift", "Events/EventsSectionBlock.swift",
+            "Events/EventsViewModel.swift", "Events/EventDayGroup.swift", "Events/EventRowButtonStyle.swift",
             "ContentView.swift",
             "DashboardScrollContainer.swift",
             "PrivacyPolicyView.swift",
@@ -40,8 +41,12 @@ let package = Package(
         ], sources: [
             "Services/CrowdDataStatus.swift", "Services/Constants.swift", "Services/TrackedFacility.swift", "Services/OccupancySnapshot.swift",
             "Services/OccupancySnapshotStore.swift", "Services/OccupancyHTMLParser.swift",
-            "Services/GymOccupancyFetcher.swift", "Services/CrowdsService.swift", "Services/CrowdsDialog.swift", "Intents"
+            "Services/GymOccupancyFetcher.swift", "Services/CrowdsService.swift", "Services/CrowdsDialog.swift", "Intents",
+            "Events/Event.swift", "Events/CampusGroupsEventsParser.swift", "Events/ParsedEventsFeed.swift",
+            "Events/EventsDataStatus.swift", "Events/EventsSnapshot.swift", "Events/EventsCacheStore.swift",
+            "Events/EventsService.swift", "Events/EventsSelection.swift", "Events/EventsDialog.swift"
         ]),
-        .testTarget(name: "CrowdsTests", dependencies: ["GymCrowds"], path: "Tests/CrowdsTests")
+        .testTarget(name: "CrowdsTests", dependencies: ["GymCrowds"], path: "Tests/CrowdsTests"),
+        .testTarget(name: "EventsTests", dependencies: ["GymCrowds"], path: "Tests/EventsTests")
     ]
 )
