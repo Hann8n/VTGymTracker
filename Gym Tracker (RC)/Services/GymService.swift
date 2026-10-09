@@ -138,6 +138,10 @@ class GymService: ObservableObject {
             return
         }
         
+        if Constants.forceMockOccupancy {
+            TrackedFacility.individualFacilities.forEach { sharedDefaults.removeObject(forKey: $0.fetchDateKey) }
+        }
+
         if let mc = mcComasData?.occupancy {
             sharedDefaults.set(mc, forKey: "mcComasOccupancy")
         } else {

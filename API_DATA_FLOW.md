@@ -24,7 +24,7 @@ facilityId={UUID}&occupancyDisplayType={UUID}
 
 The app tracks three facilities:
 
-- **McComas Hall:** `da73849e-434d-415f-975a-4f9e799b9c39`
+- **McComas Hall:** `232d714e-5b3e-4b0d-9936-e6a738150ec4`
 - **War Memorial Hall:** `55069633-b56e-43b7-a68a-64d79364988d`
 - **Bouldering Wall:** `da838218-ae53-4c6f-b744-2213299033fc`
 
@@ -39,7 +39,7 @@ POST /FacilityOccupancy/GetFacilityData HTTP/1.1
 Host: connect.recsports.vt.edu
 Content-Type: application/x-www-form-urlencoded
 
-facilityId=da73849e-434d-415f-975a-4f9e799b9c39&occupancyDisplayType=00000000-0000-0000-0000-000000004490
+facilityId=232d714e-5b3e-4b0d-9936-e6a738150ec4&occupancyDisplayType=00000000-0000-0000-0000-000000004490
 ```
 
 ## Response Format
@@ -109,7 +109,8 @@ The app uses a custom `URLSession` configuration:
 
 ```swift
 let c = URLSessionConfiguration.default
-c.timeoutIntervalForRequest = 30  // 30 second timeout
+c.timeoutIntervalForRequest = 12  // bounded request wait
+c.timeoutIntervalForResource = 15 // bounded total resource wait
 c.requestCachePolicy = .reloadIgnoringLocalCacheData  // Always fetch fresh data
 ```
 
@@ -183,13 +184,13 @@ After parsing:
 
 2. **Partial Success:**
    - If any facility succeeds, `isOnline` remains `true`
-   - Only successful facilities update their values
-   - Failed facilities retain previous values
+   - Successful facilities update their values
+   - Failed facilities clear their current values; their last-success dates remain unchanged
 
 ### Parsing Failures
 
 - If HTML parsing fails, `fetchOne` returns `nil`
-- The facility's occupancy remains unchanged
+- The facility's current occupancy is unavailable, not zero
 - No error is thrown; the app continues with available data
 
 ## Data Storage
@@ -253,3 +254,7 @@ GymService.storeAndNotify()
 - **`OccupancyHTMLParser.swift`:** HTML parsing via regex
 - **`GymService.swift`:** Data management and refresh scheduling
 - **`Constants.swift`:** API URLs, facility IDs, and configuration
+
+## Siri current crowds
+
+See [Siri current crowds](docs/SIRI_CURRENT_CROWDS.md) for the typed result contract, per-facility validation and fetch dates, 90-second explicitly disclosed reuse of existing app-group values on network failure, and deterministic/live verification lanes. The Siri action bypasses screenshot mocks. Widget unknown values are optional and render as “—”; valid zero renders as zero.

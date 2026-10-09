@@ -42,7 +42,7 @@ private extension Double {
 
 struct Constants {
     // Facility IDs
-    static let mcComasFacilityId = "da73849e-434d-415f-975a-4f9e799b9c39"
+    static let mcComasFacilityId = "232d714e-5b3e-4b0d-9936-e6a738150ec4"
     static let warMemorialFacilityId = "55069633-b56e-43b7-a68a-64d79364988d"
     static let boulderingWallFacilityId = "da838218-ae53-4c6f-b744-2213299033fc"
     

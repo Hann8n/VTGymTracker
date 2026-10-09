@@ -103,8 +103,8 @@ struct McComasCircularWidgetView: View {
     let entry: UnifiedGymTrackerEntry
 
     var body: some View {
-        let pct = OccupancyMath.percent(occupancy: entry.mcComasOccupancy, maxCapacity: entry.maxMcComasCapacity)
-        LockScreenSegmentedCircularView(percentage: pct, isEmpty: entry.mcComasOccupancy == 0, totalSegments: 12, label: "MC")
+        let pct = OccupancyMath.percent(occupancy: entry.mcComasOccupancy ?? 0, maxCapacity: entry.maxMcComasCapacity)
+        LockScreenSegmentedCircularView(percentage: pct, isEmpty: entry.mcComasOccupancy == nil, totalSegments: 12, label: "MC")
     }
 }
 
@@ -112,8 +112,8 @@ struct WarMemorialCircularWidgetView: View {
     let entry: UnifiedGymTrackerEntry
 
     var body: some View {
-        let pct = OccupancyMath.percent(occupancy: entry.warMemorialOccupancy, maxCapacity: entry.maxWarMemorialCapacity)
-        LockScreenSegmentedCircularView(percentage: pct, isEmpty: entry.warMemorialOccupancy == 0, totalSegments: 12, label: "WM")
+        let pct = OccupancyMath.percent(occupancy: entry.warMemorialOccupancy ?? 0, maxCapacity: entry.maxWarMemorialCapacity)
+        LockScreenSegmentedCircularView(percentage: pct, isEmpty: entry.warMemorialOccupancy == nil, totalSegments: 12, label: "WM")
     }
 }
 
@@ -121,8 +121,8 @@ struct BoulderingWallCircularWidgetView: View {
     let entry: UnifiedGymTrackerEntry
 
     var body: some View {
-        let pct = OccupancyMath.percent(occupancy: entry.boulderingWallOccupancy, maxCapacity: entry.maxBoulderingWallCapacity)
-        LockScreenSegmentedCircularView(percentage: pct, isEmpty: entry.boulderingWallOccupancy == 0, totalSegments: 8, label: "BW")
+        let pct = OccupancyMath.percent(occupancy: entry.boulderingWallOccupancy ?? 0, maxCapacity: entry.maxBoulderingWallCapacity)
+        LockScreenSegmentedCircularView(percentage: pct, isEmpty: entry.boulderingWallOccupancy == nil, totalSegments: 8, label: "BW")
     }
 }
 
@@ -141,14 +141,14 @@ struct RectangularLockScreenWidgetView: View {
         .padding(.vertical, 6)
     }
 
-    private func row(label: String, occupancy: Int, max: Int) -> some View {
+    private func row(label: String, occupancy: Int?, max: Int) -> some View {
         HStack(alignment: .center, spacing: 6) {
             Text(label)
                 .font(.system(size: 11, weight: .semibold))
                 .foregroundColor(.primary)
                 .lineLimit(1)
             Spacer(minLength: 2)
-            (Text("\(occupancy.abbreviatedCount)")
+            (Text("\(occupancy?.abbreviatedCount ?? "—")")
                 .font(.system(size: 11, weight: .medium))
                 .foregroundColor(.primary)
                 + Text("/\(max.abbreviatedCount)")

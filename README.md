@@ -199,3 +199,7 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 ---
 
 *Virginia Tech is not associated with this project*
+
+### Siri and Shortcuts
+
+Ask “Check current crowds with Gym Tracker” or select **Check Current Crowds** in Shortcuts. Choose one facility or All Facilities to receive typed occupancy and freshness fields with a concise spoken comparison. See [the result contract and verification guide](docs/SIRI_CURRENT_CROWDS.md).
