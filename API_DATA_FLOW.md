@@ -109,7 +109,8 @@ The app uses a custom `URLSession` configuration:
 
 ```swift
 let c = URLSessionConfiguration.default
-c.timeoutIntervalForRequest = 30  // 30 second timeout
+c.timeoutIntervalForRequest = 12  // bounded request wait
+c.timeoutIntervalForResource = 15 // bounded total resource wait
 c.requestCachePolicy = .reloadIgnoringLocalCacheData  // Always fetch fresh data
 ```
 
@@ -183,13 +184,13 @@ After parsing:
 
 2. **Partial Success:**
    - If any facility succeeds, `isOnline` remains `true`
-   - Only successful facilities update their values
-   - Failed facilities retain previous values
+   - Successful facilities update their values
+   - Failed facilities clear their current values; their last-success dates remain unchanged
 
 ### Parsing Failures
 
 - If HTML parsing fails, `fetchOne` returns `nil`
-- The facility's occupancy remains unchanged
+- The facility's current occupancy is unavailable, not zero
 - No error is thrown; the app continues with available data
 
 ## Data Storage
@@ -253,3 +254,13 @@ GymService.storeAndNotify()
 - **`OccupancyHTMLParser.swift`:** HTML parsing via regex
 - **`GymService.swift`:** Data management and refresh scheduling
 - **`Constants.swift`:** API URLs, facility IDs, and configuration
+
+## Siri current crowds
+
+See [Siri current crowds](docs/SIRI_CURRENT_CROWDS.md) for the typed result contract, per-facility validation and fetch dates, 90-second explicitly disclosed reuse of existing app-group values on network failure, and deterministic/live verification lanes. The Siri action bypasses screenshot mocks. Widget unknown values are optional and render as “—”; valid zero renders as zero.
+
+## Events through App Intents
+
+`EventsService` shares the existing CampusGroups feed/parser with `EventsViewModel`.
+The existing event cache retains verified retrieval metadata. Upcoming-event search
+and selected-event details expose typed facts and freshness; see [Siri events](docs/SIRI_EVENTS.md).

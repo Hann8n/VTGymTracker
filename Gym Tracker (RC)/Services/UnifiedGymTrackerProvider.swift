@@ -3,9 +3,9 @@ import SwiftUI
 
 struct UnifiedGymTrackerEntry: TimelineEntry {
     let date: Date
-    let mcComasOccupancy: Int
-    let warMemorialOccupancy: Int
-    let boulderingWallOccupancy: Int
+    let mcComasOccupancy: Int?
+    let warMemorialOccupancy: Int?
+    let boulderingWallOccupancy: Int?
     let maxMcComasCapacity: Int
     let maxWarMemorialCapacity: Int
     let maxBoulderingWallCapacity: Int
@@ -41,12 +41,10 @@ struct UnifiedGymTrackerProvider: TimelineProvider {
         }
         Task {
             let (mc, wm, bw) = await GymOccupancyFetcher.fetchForWidget()
-            // A failed fetch reuses the last good value only while it is recent (see SharedOccupancyStore);
-            // otherwise it shows 0 (empty state), never a fossilized count.
-            let mcFinal = mc ?? SharedOccupancyStore.fresh(.mcComas) ?? 0
-            let wmFinal = wm ?? SharedOccupancyStore.fresh(.warMemorial) ?? 0
-            let bwFinal = bw ?? SharedOccupancyStore.fresh(.boulderingWall) ?? 0
-
+            // Retain main's recent per-facility fallback; unavailable never becomes zero.
+            let mcFinal = mc ?? SharedOccupancyStore.fresh(.mcComas)
+            let wmFinal = wm ?? SharedOccupancyStore.fresh(.warMemorial)
+            let bwFinal = bw ?? SharedOccupancyStore.fresh(.boulderingWall)
             SharedOccupancyStore.record(mc, for: .mcComas)
             SharedOccupancyStore.record(wm, for: .warMemorial)
             SharedOccupancyStore.record(bw, for: .boulderingWall)
@@ -67,10 +65,9 @@ struct UnifiedGymTrackerProvider: TimelineProvider {
     }
 
     private func createEntry() -> UnifiedGymTrackerEntry {
-        let sharedDefaults = UserDefaults(suiteName: Constants.appGroupID)
-        let mcOccupancy = sharedDefaults?.integer(forKey: "mcComasOccupancy") ?? 0
-        let wmOccupancy = sharedDefaults?.integer(forKey: "warMemorialOccupancy") ?? 0
-        let bwOccupancy = sharedDefaults?.integer(forKey: "boulderingWallOccupancy") ?? 0
+        let mcOccupancy = SharedOccupancyStore.fresh(.mcComas)
+        let wmOccupancy = SharedOccupancyStore.fresh(.warMemorial)
+        let bwOccupancy = SharedOccupancyStore.fresh(.boulderingWall)
 
         return UnifiedGymTrackerEntry(
             date: Date(),

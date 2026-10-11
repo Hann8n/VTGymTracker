@@ -41,9 +41,9 @@ iOS app for tracking Virginia Tech gym occupancy and displaying campus events. S
 - Extracts occupancy and remaining capacity integers from HTML response
 
 **EventsViewModel** (`EventsViewModel.swift`)
-- Fetches RSS feed from `https://gobblerconnect.vt.edu/organization/www_recsports_vt_edu/events.rss`
-- XML parsing via `XMLParser` delegate pattern (`RSSParser` class)
-- Caching: JSON file in app caches directory (`cachedEvents.json`)
+- Uses the shared UI-independent `EventsService` and existing Recreational Sports CampusGroups JSON feed
+- Parses source event fields/dates with `CampusGroupsEventsParser`
+- Caching: `cachedEvents.json` envelope with events and original successful retrieval metadata
 - Filters: Only caches events where `endDate > Date()`
 - Network monitoring: Observes `NetworkMonitor.isConnected` via Combine
 
@@ -59,8 +59,8 @@ iOS app for tracking Virginia Tech gym occupancy and displaying campus events. S
 
 **Events:**
 1. `ContentView.onAppear` → `eventsViewModel.fetchEvents()`
-2. RSS feed fetched via `URLSession.dataTask`
-3. XML parsed via `RSSParser` (NSXMLParser delegate)
+2. `EventsService` fetches the CampusGroups JSON feed using async `URLSession`
+3. `CampusGroupsEventsParser` validates source records and Eastern-time dates
 4. Events filtered by `endDate > Date()`
 5. Cached to JSON file, loaded on init if available
 
@@ -173,7 +173,7 @@ Gym Tracker (RC)/
 │   ├── Constants.swift                # Facility IDs, capacities, URLs
 │   └── UnifiedGymTrackerProvider.swift # Widget timeline provider
 ├── Events/
-│   ├── EventsViewModel.swift         # RSS fetching & caching
+│   ├── EventsViewModel.swift         # Shared events service & cache display
 │   └── Event.swift                    # Event model
 ├── BarCode Scanner/
 │   ├── BarcodeScannerView.swift      # Camera scanning UI
@@ -199,3 +199,12 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 ---
 
 *Virginia Tech is not associated with this project*
+
+### Siri and Shortcuts
+
+Ask “Check current crowds with Gym Tracker” or select **Check Current Crowds** in Shortcuts. Choose one facility or All Facilities to receive typed occupancy and freshness fields with a concise spoken comparison. See [the result contract and verification guide](docs/SIRI_CURRENT_CROWDS.md).
+
+## Siri and Shortcuts
+
+[Current crowds](docs/SIRI_CURRENT_CROWDS.md) and [recreation events](docs/SIRI_EVENTS.md)
+return typed factual results and spoken responses without opening the app.

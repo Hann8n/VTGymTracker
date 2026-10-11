@@ -21,6 +21,10 @@ struct Event: Identifiable, Codable {
     let priceText: String
     let actionText: String
     let attendeeCount: Int?
+    let sourceID: String?
+    let sourceTimeZoneText: String?
+
+    var stableIdentifier: String { sourceID.map { "campusgroups:" + $0 } ?? "campusgroups-url:" + link.absoluteString }
 
     init(
         id: UUID = UUID(),
@@ -35,7 +39,9 @@ struct Event: Identifiable, Codable {
         imageURL: URL? = nil,
         priceText: String = "",
         actionText: String = "View",
-        attendeeCount: Int? = nil
+        attendeeCount: Int? = nil,
+        sourceID: String? = nil,
+        sourceTimeZoneText: String? = nil
     ) {
         self.id = id
         self.title = title
@@ -50,6 +56,8 @@ struct Event: Identifiable, Codable {
         self.priceText = priceText
         self.actionText = actionText
         self.attendeeCount = attendeeCount
+        self.sourceID = sourceID
+        self.sourceTimeZoneText = sourceTimeZoneText
     }
 
     init(from decoder: Decoder) throws {
@@ -67,5 +75,7 @@ struct Event: Identifiable, Codable {
         priceText = try container.decodeIfPresent(String.self, forKey: .priceText) ?? ""
         actionText = try container.decodeIfPresent(String.self, forKey: .actionText) ?? "View"
         attendeeCount = try container.decodeIfPresent(Int.self, forKey: .attendeeCount)
+        sourceID = try container.decodeIfPresent(String.self, forKey: .sourceID)
+        sourceTimeZoneText = try container.decodeIfPresent(String.self, forKey: .sourceTimeZoneText)
     }
 }

@@ -26,7 +26,7 @@ struct GymTrackerWidgetEntryView: View {
 // MARK: - Occupancy Row (widget layout; main app uses `FacilityOccupancyCard` + `SegmentedProgressBar`)
 struct OccupancyRowView: View {
     let title: String
-    let occupancy: Int
+    let occupancy: Int?
     let maxCapacity: Int
     let totalSegments: Int
     let circleSize: CGFloat
@@ -38,7 +38,7 @@ struct OccupancyRowView: View {
     let widgetRenderingMode: WidgetRenderingMode
 
     private var percentage: Double {
-        OccupancyMath.percent(occupancy: occupancy, maxCapacity: maxCapacity)
+        OccupancyMath.percent(occupancy: occupancy ?? 0, maxCapacity: maxCapacity)
     }
 
     var body: some View {
@@ -50,7 +50,7 @@ struct OccupancyRowView: View {
                 fontScale: fontScale,
                 widgetRenderingMode: widgetRenderingMode,
                 totalSegments: totalSegments,
-                isEmpty: occupancy == 0,
+                isEmpty: occupancy == nil,
                 showPercentageSymbol: showPercentageInCircle
             )
 
@@ -60,7 +60,7 @@ struct OccupancyRowView: View {
                     .foregroundColor(.primary)
                     .lineLimit(1)
                 // Same size for occupancy and max; keep occupancy primary, max secondary
-                (Text("\(occupancy.abbreviatedCount)")
+                (Text("\(occupancy?.abbreviatedCount ?? "—")")
                     .font(.system(size: countFont))
                     .foregroundColor(.primary)
                     + Text(" / \(maxCapacity.abbreviatedCount)")
@@ -137,13 +137,13 @@ struct SmallWidgetView: View {
 // MARK: - Medium Widget Column (large circle on top, info beneath)
 private struct MediumWidgetColumnView: View {
     let title: String
-    let occupancy: Int
+    let occupancy: Int?
     let maxCapacity: Int
     let totalSegments: Int
     let widgetRenderingMode: WidgetRenderingMode
 
     private var percentage: Double {
-        OccupancyMath.percent(occupancy: occupancy, maxCapacity: maxCapacity)
+        OccupancyMath.percent(occupancy: occupancy ?? 0, maxCapacity: maxCapacity)
     }
 
     var body: some View {
@@ -155,7 +155,7 @@ private struct MediumWidgetColumnView: View {
                 fontScale: 0.26,
                 widgetRenderingMode: widgetRenderingMode,
                 totalSegments: totalSegments,
-                isEmpty: occupancy == 0,
+                isEmpty: occupancy == nil,
                 showPercentageSymbol: true
             )
             .padding(.bottom, 5)
@@ -167,7 +167,7 @@ private struct MediumWidgetColumnView: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.75)
 
-                (Text("\(occupancy.abbreviatedCount)")
+                (Text("\(occupancy?.abbreviatedCount ?? "—")")
                     .font(.system(size: 13))
                     .foregroundColor(.primary)
                     + Text(" / \(maxCapacity.abbreviatedCount)")

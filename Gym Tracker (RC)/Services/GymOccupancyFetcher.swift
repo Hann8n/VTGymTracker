@@ -1,79 +1,94 @@
 import Foundation
 
 enum GymOccupancyFetcher {
-
-    private static let urlSession: URLSession = {
-        let c = URLSessionConfiguration.default
-        c.timeoutIntervalForRequest = 30
-        // Occupancy data must be fresh; caching would show stale counts
-        c.requestCachePolicy = .reloadIgnoringLocalCacheData
-        return URLSession(configuration: c)
+    static let liveSession: URLSession = {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.timeoutIntervalForRequest = 12
+        configuration.timeoutIntervalForResource = 15
+        configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
+        configuration.urlCache = nil
+        return URLSession(configuration: configuration)
     }()
 
-    // Widgets only need occupancy count, not remaining capacity, to save space
-    static func fetchForWidget() async -> (mcComas: Int?, warMemorial: Int?, boulderingWall: Int?) {
-        if Constants.forceMockOccupancy {
-            return (
-                Constants.mockMcComasOccupancy,
-                Constants.mockWarMemorialOccupancy,
-                Constants.mockBoulderingWallOccupancy
-            )
+    /// Siri always uses this real-data path, including in DEBUG. Tests inject URLSession.
+    static func fetchSnapshots(
+        facilities: [TrackedFacility] = TrackedFacility.individualFacilities,
+        session: URLSession = liveSession,
+        previous: [OccupancySnapshot] = [],
+        now: @escaping @Sendable () -> Date = { Date() }
+    ) async -> [OccupancySnapshot] {
+        await withTaskGroup(of: (Int, OccupancySnapshot).self) { group in
+            for (index, facility) in facilities.enumerated() where facility != .allFacilities {
+                group.addTask {
+                    let snapshot = await fetchOne(facility: facility, session: session,
+                                                  previous: previous.first { $0.facility == facility }, now: now)
+                    return (index, snapshot)
+                }
+            }
+            var results: [(Int, OccupancySnapshot)] = []
+            for await result in group { results.append(result) }
+            return results.sorted { $0.0 < $1.0 }.map { $0.1 }
         }
-
-        // Fetch all facilities concurrently for performance
-        async let mc = fetchOne(facilityId: Constants.mcComasFacilityId, maxCapacity: Constants.mcComasMaxCapacity)
-        async let wm = fetchOne(facilityId: Constants.warMemorialFacilityId, maxCapacity: Constants.warMemorialMaxCapacity)
-        async let bw = fetchOne(facilityId: Constants.boulderingWallFacilityId, maxCapacity: Constants.boulderingWallMaxCapacity)
-        let (m, w, b) = await (mc, wm, bw)
-        return (m?.occupancy, w?.occupancy, b?.occupancy)
     }
 
-    // Main app displays both occupancy and remaining capacity
+    // Existing app/widget interfaces remain optional and retain their screenshot mock lane.
+    static func fetchForWidget() async -> (mcComas: Int?, warMemorial: Int?, boulderingWall: Int?) {
+        let result = await fetchAll()
+        return (result.mcComas?.occupancy, result.warMemorial?.occupancy, result.bouldering?.occupancy)
+    }
+
     static func fetchAll() async -> (
         mcComas: (occupancy: Int, remaining: Int)?,
         warMemorial: (occupancy: Int, remaining: Int)?,
         bouldering: (occupancy: Int, remaining: Int)?
     ) {
         if Constants.forceMockOccupancy {
-            return (
-                mcComas: (
-                    occupancy: Constants.mockMcComasOccupancy,
-                    remaining: max(0, Constants.mcComasMaxCapacity - Constants.mockMcComasOccupancy)
-                ),
-                warMemorial: (
-                    occupancy: Constants.mockWarMemorialOccupancy,
-                    remaining: max(0, Constants.warMemorialMaxCapacity - Constants.mockWarMemorialOccupancy)
-                ),
-                bouldering: (
-                    occupancy: Constants.mockBoulderingWallOccupancy,
-                    remaining: max(0, Constants.boulderingWallMaxCapacity - Constants.mockBoulderingWallOccupancy)
-                )
-            )
+            return ((Constants.mockMcComasOccupancy, Constants.mcComasMaxCapacity - Constants.mockMcComasOccupancy),
+                    (Constants.mockWarMemorialOccupancy, Constants.warMemorialMaxCapacity - Constants.mockWarMemorialOccupancy),
+                    (Constants.mockBoulderingWallOccupancy, Constants.boulderingWallMaxCapacity - Constants.mockBoulderingWallOccupancy))
         }
-
-        // Fetch all facilities concurrently for performance
-        async let mc = fetchOne(facilityId: Constants.mcComasFacilityId, maxCapacity: Constants.mcComasMaxCapacity)
-        async let wm = fetchOne(facilityId: Constants.warMemorialFacilityId, maxCapacity: Constants.warMemorialMaxCapacity)
-        async let bw = fetchOne(facilityId: Constants.boulderingWallFacilityId, maxCapacity: Constants.boulderingWallMaxCapacity)
-        let (m, w, b) = await (mc, wm, bw)
-        return (m, w, b)
+        let snapshots = await fetchSnapshots()
+        let store = OccupancySnapshotStore(defaults: UserDefaults(suiteName: Constants.appGroupID))
+        snapshots.filter { $0.status == .live }.forEach { store.write($0) }
+        func values(_ facility: TrackedFacility) -> (occupancy: Int, remaining: Int)? {
+            guard let count = snapshots.first(where: { $0.facility == facility })?.count else { return nil }
+            return (count, facility.capacity - count)
+        }
+        return (values(.mcComas), values(.warMemorial), values(.boulderingWall))
     }
 
-    private static func fetchOne(facilityId: String, maxCapacity: Int) async -> (occupancy: Int, remaining: Int)? {
+    private static func fetchOne(facility: TrackedFacility, session: URLSession,
+                                 previous: OccupancySnapshot?, now: @Sendable () -> Date) async -> OccupancySnapshot {
+        var failure = "Occupancy data unavailable"
         do {
-            var req = URLRequest(url: Constants.facilityDataAPIURL)
-            // API requires POST with form data, not a REST endpoint
-            req.httpMethod = "POST"
-            req.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            req.httpBody = "facilityId=\(facilityId)&occupancyDisplayType=\(Constants.occupancyDisplayType)".data(using: .utf8)
-            let (data, response) = try await urlSession.data(for: req)
-            guard let r = response as? HTTPURLResponse, (200...299).contains(r.statusCode) else { return nil }
-            guard let html = String(data: data, encoding: .utf8) else { return nil }
-            guard let parsed = OccupancyHTMLParser.parse(html) else { return nil }
-            return (parsed.occupancy, parsed.remaining ?? max(0, maxCapacity - parsed.occupancy))
+            var request = URLRequest(url: Constants.facilityDataAPIURL)
+            request.httpMethod = "POST"
+            request.timeoutInterval = 12
+            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            request.httpBody = "facilityId=\(facility.id)&occupancyDisplayType=\(Constants.occupancyDisplayType)".data(using: .utf8)
+            let (data, response) = try await session.data(for: request)
+            if let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode),
+               let html = String(data: data, encoding: .utf8),
+               let reading = OccupancyHTMLParser.parse(html, capacity: facility.capacity, facilityID: facility.id) {
+                let date = now()
+                return OccupancySnapshot(facility: facility, count: reading.occupancy, fetchedAt: date,
+                                         checkedAt: date, lastSuccessfulFetchAt: date, status: .live, unavailableReason: nil)
+            }
+            failure = "RecSports returned no valid occupancy reading"
         } catch {
-            return nil
+            failure = (error as? URLError)?.code == .timedOut ? "RecSports request timed out" : "Unable to reach RecSports"
         }
+        let date = now()
+        // Recheck age AFTER the network attempt; an initially recent value can expire while waiting.
+        if let previous, let count = previous.count, let fetchedAt = previous.fetchedAt,
+           (0...facility.capacity).contains(count),
+           (0...OccupancySnapshotStore.maximumReuseAge).contains(date.timeIntervalSince(fetchedAt)) {
+            return OccupancySnapshot(facility: facility, count: count, fetchedAt: fetchedAt,
+                                     checkedAt: date, lastSuccessfulFetchAt: fetchedAt, status: .cached, unavailableReason: failure)
+        }
+        return OccupancySnapshot(facility: facility, count: nil, fetchedAt: nil, checkedAt: date,
+                                 lastSuccessfulFetchAt: previous?.lastSuccessfulFetchAt,
+                                 status: .unavailable, unavailableReason: failure)
     }
 }
 
@@ -103,10 +118,12 @@ enum SharedOccupancyStore {
     static func cached(_ key: Key, maxAge: TimeInterval) -> Int? {
         guard let defaults,
               let date = defaults.object(forKey: key.dateKey) as? Date,
-              Date().timeIntervalSince(date) < maxAge,
-              defaults.object(forKey: key.rawValue) != nil
+              (0..<maxAge).contains(Date().timeIntervalSince(date)),
+              let count = defaults.object(forKey: key.rawValue) as? Int,
+              let facility = TrackedFacility.individualFacilities.first(where: { $0.occupancyKey == key.rawValue }),
+              (0...facility.capacity).contains(count)
         else { return nil }
-        return defaults.integer(forKey: key.rawValue)
+        return count
     }
 
     /// Records a successful fetch, or clears the value once it is no longer fresh.
@@ -114,10 +131,17 @@ enum SharedOccupancyStore {
         guard let defaults else { return }
         if let value {
             defaults.set(value, forKey: key.rawValue)
-            defaults.set(Date(), forKey: key.dateKey)
+            let facility = TrackedFacility.individualFacilities.first { $0.occupancyKey == key.rawValue }
+            let fetchedAt = facility.flatMap { defaults.object(forKey: $0.fetchDateKey) as? Date }
+            // fetchAll already records each successful response's actual time. Never replace
+            // that time with the later moment when all concurrent requests finish.
+            defaults.set(Constants.forceMockOccupancy ? Date() : (fetchedAt ?? Date()), forKey: key.dateKey)
+            if Constants.forceMockOccupancy, let facility {
+                defaults.removeObject(forKey: facility.fetchDateKey)
+            }
         } else if fresh(key) == nil {
             defaults.removeObject(forKey: key.rawValue)
-            defaults.removeObject(forKey: key.dateKey)
+            // Retain the actual last-success time when the current value expires.
         }
     }
 }
