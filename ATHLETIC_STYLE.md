@@ -53,9 +53,9 @@ Apply frosted surface + offline treatment with **`dashboardCardChrome(networkMon
 | `FullBleedDivider` | 1 pt `separator` edge-to-edge inside a card |
 | `CardMaterialBackground` | Reusable frosted fill |
 | `StaggeredAppear` | Section entrance |
-| `EventDayGroup` | Calendar column aligned to the first event title; 12 pt outer inset and standard horizontal gutter; stacks at accessibility sizes |
+| `EventDayGroup` | Agenda layout: compact date gutter beside a title/time stack, top-aligned with 12 pt outer inset; stacks at accessibility sizes |
 | `EventDateTile` | Weekday / prominent day number / month column; Today is accented, distinct from plain event times |
-| `EventCard` | Semibold condensed headline and centered outlink; plain footnote time and smaller price / attendance wrap below at Dynamic Type sizes |
+| `EventCard` | Standard-width semibold headline and centered outlink, 4 pt title/time gap, 52 pt minimum touch height; supporting details wrap at Dynamic Type sizes |
 | (loading) | Cached events show instantly and refresh in place; a plain `ProgressView` only when nothing is cached. No shimmers or skeletons. |
 | `AdView` | Sponsored block; matches gutter + frosted chrome |
 
@@ -70,3 +70,7 @@ Apply frosted surface + offline treatment with **`dashboardCardChrome(networkMon
 ## Related files (main target)
 
 `DashboardLayout.swift`, `DashboardScrollContainer.swift`, `AthleticFieldBoardBackground.swift`, `CardMaterialBackground.swift`, `FacilityOccupancyCard.swift`, `EventsSectionBlock.swift`, `DashboardSectionHeader.swift`, `FullBleedDivider.swift`, `StaggeredAppear.swift`, `MotionPolicy.swift`, `SegmentedProgressBar.swift`, `Events/EventCard.swift`, `AdView.swift`, `ContentView.swift`
+
+## Events reference
+
+The agenda structure follows the day-grouped Schedule pattern described in [Google Calendar’s iPhone guide](https://support.google.com/calendar/answer/6110849?co=GENIE.Platform%3DiOS&hl=en), adapted to the dashboard’s neutral surfaces and condensed section headings. The date uses a medium-weight day number rather than the occupancy hero-number style. Event titles use standard-width headlines, with smaller secondary time text.

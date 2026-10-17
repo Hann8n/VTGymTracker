@@ -7,16 +7,7 @@ struct EventDateTile: View {
     var isInline = false
 
     @ScaledMetric(relativeTo: .caption2) private var columnWidth: CGFloat = 44
-    @ScaledMetric(relativeTo: .title2) private var daySize: CGFloat = 28
-
-    /// Align the event title with the day number, rather than the smaller weekday above it.
-    static let titleAlignment = VerticalAlignment(DayNumberAlignment.self)
-
-    private enum DayNumberAlignment: AlignmentID {
-        static func defaultValue(in dimensions: ViewDimensions) -> CGFloat {
-            dimensions[.firstTextBaseline]
-        }
-    }
+    @ScaledMetric(relativeTo: .title3) private var daySize: CGFloat = 24
 
     var body: some View {
         Group {
@@ -28,7 +19,7 @@ struct EventDateTile: View {
                     .foregroundStyle(isToday ? Color("CustomOrange") : Color.primary)
                     .fixedSize(horizontal: false, vertical: true)
             } else {
-                VStack(spacing: 2) {
+                VStack(spacing: 0) {
                     Text(isToday ? "Today" : Self.weekdayFormatter.string(from: date))
                         .font(.caption2.weight(.bold))
                         .tracking(0.7)
@@ -36,11 +27,9 @@ struct EventDateTile: View {
                         .foregroundStyle(isToday ? Color("CustomOrange") : Color.secondary)
 
                     Text(Self.dayFormatter.string(from: date))
-                        .font(.system(size: daySize, weight: .black))
-                        .fontWidth(.condensed)
+                        .font(.system(size: daySize, weight: .medium))
                         .monospacedDigit()
                         .foregroundStyle(.primary)
-                        .alignmentGuide(Self.titleAlignment) { $0[.firstTextBaseline] }
 
                     Text(Self.monthFormatter.string(from: date))
                         .font(.caption2.weight(.medium))

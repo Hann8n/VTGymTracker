@@ -47,11 +47,10 @@ struct EventCard: View {
             Task { await AppMetrics.shared.track(.eventOpen) }
             openURL(event.link)
         } label: {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 4) {
                 HStack(alignment: .center, spacing: 12) {
                     Text(event.title)
                         .font(.headline.weight(.semibold))
-                        .fontWidth(.condensed)
                         .foregroundStyle(.primary)
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
@@ -65,7 +64,7 @@ struct EventCard: View {
 
                 metaRow
             }
-            .frame(minHeight: 44, alignment: .leading)
+            .frame(minHeight: 52, alignment: .leading)
             .padding(.trailing, DashboardLayout.horizontalGutter)
             .contentShape(Rectangle())
         }

@@ -17,10 +17,9 @@ struct EventDayGroup: View {
                     eventRows
                 }
             } else {
-                HStack(alignment: EventDateTile.titleAlignment, spacing: 16) {
+                HStack(alignment: .top, spacing: 12) {
                     dateColumn(isInline: false)
                     eventRows
-                        .alignmentGuide(EventDateTile.titleAlignment) { $0[.firstTextBaseline] }
                 }
             }
         }
