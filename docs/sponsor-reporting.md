@@ -10,6 +10,6 @@ Qualified impressions require at least half the card area in the scroll viewport
 
 Users can stop future analytics in Settings → Share Usage Analytics. Disabling also removes the local installation ID; reenabling generates a new one. No Campus ID data, email, name, precise location, event title, or search interval is collected. Delivery is best effort with a two-second timeout, no retry backlog, and no dependency on analytics availability for core functionality. Cloudflare D1 retains raw events for 366 days plus the daily cleanup interval.
 
-The included privacy manifest declares unlinked Device ID and Product Interaction for analytics, no tracking, and the app's own/shared-group UserDefaults usage. The public privacy policy is updated alongside the app. App Store privacy answers should reflect these categories before a public App Store submission.
+The included privacy manifest declares unlinked Device ID, Product Interaction, and Advertising Data for analytics, no tracking, and the app's own/shared-group UserDefaults usage. The public privacy policy is updated alongside the app. App Store privacy answers should reflect these categories before a public App Store submission.
 
 Backend implementation, deployment steps, query definitions, and research references are in the portfolio repository at `gymtracker/docs/analytics-reporting.md`.
