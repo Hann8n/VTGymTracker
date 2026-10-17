@@ -15,7 +15,14 @@ struct FindUpcomingEventsIntent: AppIntent {
 
     func perform() async throws -> some IntentResult & ReturnsValue<EventSearchResultEntity> & ProvidesDialog {
         let snapshot = await EventsService().fetch()
-        return try response(snapshot: snapshot)
+        do {
+            let result = try response(snapshot: snapshot)
+            await AppMetrics.shared.track(.siriEvents, properties: ["status": snapshot.status.rawValue])
+            return result
+        } catch {
+            await AppMetrics.shared.track(.siriEvents, properties: ["status": "invalid_request"])
+            throw error
+        }
     }
 
     func response(snapshot: EventsSnapshot) throws -> some IntentResult & ReturnsValue<EventSearchResultEntity> & ProvidesDialog {

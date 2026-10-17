@@ -11,6 +11,7 @@ struct AdConfig: Codable, Equatable {
     let id: String
     let active: Bool
     let sponsor: String
+    let sponsoredLabel: String
     let headline: String
     let subline: String?
     let cta: String
@@ -27,6 +28,7 @@ struct AdConfig: Codable, Equatable {
         case id
         case active
         case sponsor
+        case sponsoredLabel = "sponsored_label"
         case headline
         case subline
         case cta
@@ -45,6 +47,7 @@ struct AdConfig: Codable, Equatable {
         id = try container.decode(String.self, forKey: .id)
         active = try container.decode(Bool.self, forKey: .active)
         sponsor = try container.decode(String.self, forKey: .sponsor)
+        sponsoredLabel = try container.decodeIfPresent(String.self, forKey: .sponsoredLabel)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "Sponsored"
         headline = try container.decode(String.self, forKey: .headline)
         subline = try container.decodeIfPresent(String.self, forKey: .subline)
         cta = try container.decode(String.self, forKey: .cta)
@@ -68,6 +71,7 @@ struct AdConfig: Codable, Equatable {
         try container.encode(id, forKey: .id)
         try container.encode(active, forKey: .active)
         try container.encode(sponsor, forKey: .sponsor)
+        try container.encode(sponsoredLabel, forKey: .sponsoredLabel)
         try container.encode(headline, forKey: .headline)
         try container.encodeIfPresent(subline, forKey: .subline)
         try container.encode(cta, forKey: .cta)
@@ -104,6 +108,10 @@ struct AdConfig: Codable, Equatable {
     var usesImageLayout: Bool {
         guard imageURL != nil else { return false }
         return tier.lowercased() != "text"
+    }
+
+    var metricProperties: [String: String] {
+        ["ad_id": id, "creative_version": creativeVersion, "placement": placement]
     }
 
     var destinationHost: String {

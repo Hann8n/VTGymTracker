@@ -71,3 +71,8 @@ The `tier` field drives the layout in `AdView`; banner and feature differ only b
 - **`creative_version`**: Optional. Defaults to empty. Used for analytics.
 - **`placement`**: Optional. Defaults to `"home_feed"`.
 - **`start_at`** / **`end_at`**: Optional ISO8601 dates. Default to always-active when omitted.
+
+
+## Content label (1.5.3+)
+
+`sponsored_label` accepts `"Sponsored"`, `"Partner"`, `"Student Organization"`, or `""`. Missing or null values retain the legacy Sponsored subtitle. An explicit empty string hides only the subtitle; the sponsor name remains visible. Set the label in the admin campaign editor; its preview uses the same value. The API validates the choices and preserves empty strings through edits and cloning. Older app versions continue to display their hardcoded Sponsored label.

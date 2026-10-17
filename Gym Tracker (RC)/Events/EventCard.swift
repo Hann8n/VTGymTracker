@@ -44,6 +44,7 @@ struct EventCard: View {
 
     var body: some View {
         Button {
+            Task { await AppMetrics.shared.track(.eventOpen) }
             openURL(event.link)
         } label: {
             HStack(alignment: .center, spacing: 12) {

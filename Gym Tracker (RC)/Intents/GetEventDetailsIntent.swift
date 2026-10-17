@@ -10,7 +10,11 @@ struct GetEventDetailsIntent: AppIntent {
     static var parameterSummary: some ParameterSummary { Summary("Get details for \(\.$event)") }
 
     func perform() async throws -> some IntentResult & ReturnsValue<CampusEventEntity> & ProvidesDialog {
-        response(id: event.id, snapshot: await EventsService().fetch())
+        let snapshot = await EventsService().fetch()
+        let found = snapshot.events.contains { $0.stableIdentifier == event.id && $0.endDate > snapshot.checkedAt }
+        let status = snapshot.status == .unavailable ? "unavailable" : found ? snapshot.status.rawValue : "not_found"
+        await AppMetrics.shared.track(.siriEventDetails, properties: ["status": status])
+        return response(id: event.id, snapshot: snapshot)
     }
 
     func response(id: String, snapshot: EventsSnapshot) -> some IntentResult & ReturnsValue<CampusEventEntity> & ProvidesDialog {

@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Verify Xcode's extracted system-facing contract, not just Swift declarations."""
+"""Verify Xcode's extracted system-facing contract, not just Swift declarations.
+
+Usage: verify_crowds_metadata.py APP [SSU_YAML]
+Archives compile SSU assets; pass the same build's intermediate root.ssu.yaml.
+"""
 import json
 import sys
 from pathlib import Path
@@ -46,7 +50,8 @@ assert search_props.keys() == {"events", "returnedCount", "matchingCount", "from
 assert search_props["matchingCount"]["isOptional"] is True
 assert contains_type(search_props["events"], "CampusEventEntity")
 assert len(data["autoShortcuts"]) == 3
-phrases = (app / "Metadata.appintents/root.ssu.yaml").read_text()
+phrase_path = Path(sys.argv[2]) if len(sys.argv) > 2 else app / "Metadata.appintents/root.ssu.yaml"
+phrases = phrase_path.read_text()
 for phrase in ["Check current crowds", "Compare gyms", "Check crowds at", "How busy is", "Find upcoming events", "Find recreation events", "Get event details", "Get details for"]:
     assert phrase in phrases
 print("PASS: three discoverable background actions; crowds with four choices/aliases and 17 properties; events with 16 factual properties and a 14-property search result; optional unknowns; eight trained phrases")
