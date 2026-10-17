@@ -4,6 +4,8 @@ struct FindUpcomingEventsIntent: AppIntent {
     static var title: LocalizedStringResource = "Find Upcoming Recreation Events"
     static var description = IntentDescription("Find ongoing or upcoming events in Virginia Tech's available Recreational Sports CampusGroups feed. Filter by a date interval and return factual event details with data freshness. Times are Eastern; results are limited to this feed, not all campus events.")
     static var openAppWhenRun = false
+    @available(iOS 26.0, macOS 26.0, watchOS 26.0, tvOS 26.0, visionOS 26.0, *)
+    static var supportedModes: IntentModes { .background }
 
     @Parameter(title: "From") var from: Date?
     @Parameter(title: "Before") var before: Date?

@@ -4,6 +4,8 @@ struct GetEventDetailsIntent: AppIntent {
     static var title: LocalizedStringResource = "Get Recreation Event Details"
     static var description = IntentDescription("Retrieve a selected event's dates, location, organizer, raw price text, link and data freshness from the available Recreational Sports feed. Missing prices are unknown, and locations may require sign-in.")
     static var openAppWhenRun = false
+    @available(iOS 26.0, macOS 26.0, watchOS 26.0, tvOS 26.0, visionOS 26.0, *)
+    static var supportedModes: IntentModes { .background }
 
     @Parameter(title: "Event") var event: CampusEventEntity
 
