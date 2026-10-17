@@ -22,6 +22,7 @@ assert action["isDiscoverable"] is True
 assert action["openAppWhenRun"] is False
 assert action["supportedModes"] == 1  # IntentModes.background, no foreground mode
 assert action["parameters"][0]["name"] == "facility"
+assert action["parameters"][0]["typeSpecificMetadata"][1]["string"]["wrapper"] == "bothGyms"
 assert action["outputType"]["array"]["wrapper"]["memberValueType"]["entity"]["wrapper"]["typeName"] == "FacilityCrowdsEntity"
 props = {p["identifier"]: p for p in data["entities"]["FacilityCrowdsEntity"]["properties"]}
 required = {"facility", "facilityID", "name", "isClimbingFacility", "count", "capacity", "fullnessPercent", "status", "fetchedAt", "checkedAt", "lastSuccessfulFetchAt", "sourceMeasuredAt", "cacheAgeSeconds", "availabilityDetail", "source", "sourceURL", "sourceLimitation"}
@@ -65,6 +66,7 @@ assert contains_type(recommend["outputType"], "FacilityCrowdsEntity")
 assert len(data["autoShortcuts"]) == 4
 phrase_path = Path(sys.argv[2]) if len(sys.argv) > 2 else app / "Metadata.appintents/root.ssu.yaml"
 phrases = phrase_path.read_text()
+assert sum("'{${+prefix} }" in line and "standardAppShortcutNegatives" not in line for line in phrases.splitlines()) == 29
 for phrase in ["Check current crowds", "Compare gyms", "Check crowds at", "How busy is", "Check the ${TrackedFacility} crowds", "Check ${TrackedFacility} crowds", "What are the crowds at", "How crowded is", "What is the occupancy at", "What are the crowds like at", "Check which gym I should go to", "Which gym is less crowded at", "Find a quieter gym", "Find upcoming events", "Find recreation events", "Get event details", "Get details for"]:
     assert phrase in phrases
 print("PASS: four discoverable background actions; crowds with five choices/aliases and 17 properties; events with 16 factual properties and a 14-property search result; optional unknowns; 29 trained phrases; Gym Tracker name and VT Gyms Siri alias")
