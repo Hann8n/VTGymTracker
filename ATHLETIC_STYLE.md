@@ -54,7 +54,7 @@ Apply frosted surface + offline treatment with **`dashboardCardChrome(networkMon
 | `CardMaterialBackground` | Reusable frosted fill |
 | `StaggeredAppear` | Section entrance |
 | `EventDayGroup` | Agenda layout: compact date gutter beside a title/time stack, top-aligned with 12 pt outer inset; stacks at accessibility sizes |
-| `EventDateTile` | Weekday / prominent day number / month column; Today is accented, distinct from plain event times |
+| `EventDateTile` | Outlined weekday/day box; month appears only when entering a new month. Today is accented, distinct from plain event times |
 | `EventCard` | Standard-width semibold headline and centered outlink, 4 pt title/time gap, 52 pt minimum touch height; supporting details wrap at Dynamic Type sizes |
 | (loading) | Cached events show instantly and refresh in place; a plain `ProgressView` only when nothing is cached. No shimmers or skeletons. |
 | `AdView` | Sponsored block; matches gutter + frosted chrome |
@@ -74,3 +74,5 @@ Apply frosted surface + offline treatment with **`dashboardCardChrome(networkMon
 ## Events reference
 
 The agenda structure follows the day-grouped Schedule pattern described in [Google Calendar’s iPhone guide](https://support.google.com/calendar/answer/6110849?co=GENIE.Platform%3DiOS&hl=en), adapted to the dashboard’s neutral surfaces and condensed section headings. The date uses a medium-weight day number rather than the occupancy hero-number style. Event titles use standard-width headlines, with smaller secondary time text.
+
+Event dates sit in compact, subtly outlined boxes in a reserved leading column. Omit the month within the current month; show its abbreviation on the first day group when the agenda enters a different month. Spoken dates retain their full context.

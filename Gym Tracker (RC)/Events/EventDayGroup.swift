@@ -5,6 +5,7 @@ struct EventDayGroup: View {
     let date: Date
     let events: [Event]
     let now: Date
+    var showsMonth = false
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
@@ -29,7 +30,7 @@ struct EventDayGroup: View {
     }
 
     private func dateColumn(isInline: Bool) -> some View {
-        EventDateTile(date: date, isToday: Calendar.current.isDate(date, inSameDayAs: now), isInline: isInline)
+        EventDateTile(date: date, isToday: Calendar.current.isDate(date, inSameDayAs: now), isInline: isInline, showsMonth: showsMonth)
     }
 
     private var eventRows: some View {
