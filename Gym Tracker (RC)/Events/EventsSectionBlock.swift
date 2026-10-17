@@ -20,10 +20,6 @@ struct EventsSectionBlock: View {
         }
     }
 
-    private var headerSubtitle: String {
-        eventSourceName
-    }
-
     private var eventSourceName: String {
         let hostingBodies = Set(eventsViewModel.events.map(\.hostingBody).filter { !$0.isEmpty })
         return hostingBodies.count == 1 ? hostingBodies.first ?? "Recreational Sports" : "Recreational Sports"
@@ -31,10 +27,13 @@ struct EventsSectionBlock: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            DashboardSectionHeader(
-                title: "Upcoming Events",
-                subtitle: headerSubtitle
-            )
+            VStack(alignment: .leading, spacing: 3) {
+                DashboardSectionHeader(title: "Upcoming Events")
+                Text(eventSourceName)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
             .padding(.horizontal, DashboardLayout.horizontalGutter)
 
             Group {
