@@ -10,7 +10,7 @@ let package = Package(
         .target(name: "GymCrowds", path: "Gym Tracker (RC)", exclude: [
             "Ads/AdView.swift", "Ads/AdViewModel.swift",
             "SegmentedProgressBar.swift",
-            "SettingsView.swift",
+            "SettingsView.swift", "Settings.bundle",
             "DashboardLayout.swift",
             "BarCode Scanner",
             "MotionPolicy.swift",
