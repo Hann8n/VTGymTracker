@@ -11,7 +11,11 @@ import UIKit
 struct AdView: View {
     let ad: AdConfig
     let heroImage: UIImage?
+    var isOccluded: Bool = false
     @ObservedObject var networkMonitor: NetworkMonitor
+
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var isVisible = false
 
     @Environment(\.openURL) private var openURL
     @Environment(\.colorScheme) private var colorScheme
@@ -26,6 +30,7 @@ struct AdView: View {
     }
 
     private func openAd() {
+        Task { await AppMetrics.shared.track(.adTap, properties: ad.metricProperties) }
         openURL(ad.destinationURL)
     }
 
@@ -39,6 +44,21 @@ struct AdView: View {
         }
         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
         .dashboardCardChrome(networkMonitor: networkMonitor)
+        .onGeometryChange(for: Bool.self) { proxy in
+            let rect = CGRect(origin: .zero, size: proxy.size)
+            guard let viewport = proxy.bounds(of: .scrollView) else { return false }
+            let visible = rect.intersection(viewport)
+            return !rect.isEmpty && !visible.isNull && visible.width * visible.height >= rect.width * rect.height * 0.5
+        } action: { isVisible = $0 }
+        .task(id: "\(ad.id):\(ad.creativeVersion):\(isVisible):\(scenePhase == .active):\(isOccluded)") {
+            guard isVisible, scenePhase == .active, !isOccluded, ad.isCurrentlyActive, !ad.isDevelopmentPreview else { return }
+            do {
+                try await Task.sleep(for: .seconds(1))
+                try Task.checkCancellation()
+                guard ad.isCurrentlyActive else { return }
+                await AppMetrics.shared.track(.adImpression, properties: ad.metricProperties)
+            } catch { /* Leaving the viewport cancels the impression. */ }
+        }
     }
 
     // MARK: - Text tier (no image)

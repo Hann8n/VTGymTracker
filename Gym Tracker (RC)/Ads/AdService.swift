@@ -32,11 +32,16 @@ struct AdService {
     }
 
     func fetchActiveAdOutcome() async -> ActiveAdOutcome {
-        guard let remoteAd = await fetchRemoteAd() else {
-            return .unavailable
-        }
-        cacheAd(remoteAd)
-        return remoteAd.isCurrentlyActive ? .active(remoteAd) : .inactive
+        guard let requestURL = URL(string: Constants.adConfigURLString) else { return .unavailable }
+        do {
+            let (data, response) = try await session.data(from: requestURL)
+            guard let http = response as? HTTPURLResponse else { return .unavailable }
+            if http.statusCode == 404 { return .inactive }
+            guard (200...299).contains(http.statusCode) else { return .unavailable }
+            let ad = try JSONDecoder().decode(AdConfig.self, from: data)
+            cacheAd(ad)
+            return ad.isCurrentlyActive ? .active(ad) : .inactive
+        } catch { return .unavailable }
     }
 
     func fetchActiveAd() async -> AdConfig? {
@@ -50,25 +55,6 @@ struct AdService {
 
     func lastCacheDate() -> Date? {
         userDefaults.object(forKey: Self.adCacheSavedAtKey) as? Date
-    }
-
-    private func fetchRemoteAd() async -> AdConfig? {
-        guard let requestURL = URL(string: Constants.adConfigURLString) else {
-            return nil
-        }
-
-        do {
-            let (data, response) = try await session.data(from: requestURL)
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                return nil
-            }
-
-            let decoder = JSONDecoder()
-            return try decoder.decode(AdConfig.self, from: data)
-        } catch {
-            return nil
-        }
     }
 
     /// Returns the last successfully fetched ad from UserDefaults. Currently unused —

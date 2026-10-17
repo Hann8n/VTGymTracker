@@ -43,6 +43,7 @@ struct ContentView: View {
             NavigationStack {
                 mainListView
                     .onAppear {
+                        Task { await AppMetrics.shared.activate() }
                         #if DEBUG
                         if adPreviewTier == "gist" {
                             adPreviewTier = "production"
@@ -73,12 +74,16 @@ struct ContentView: View {
                 }
                 .sheet(isPresented: $showSettingsPopup) {
                     SettingsView()
+                        .onAppear { Task { await AppMetrics.shared.track(.settingsOpen) } }
                         .environmentObject(alertManager)
                 }
                 .alert(item: $alertManager.currentAlert) { alertType in
                     alertType.generateAlert(openSettings: {
                         UIApplication.shared.openSettings()
                     })
+                }
+                .onChange(of: isBarcodeDisplayPresented) { _, presented in
+                    if presented { Task { await AppMetrics.shared.track(.passportOpen) } }
                 }
                 .onChange(of: networkMonitor.isConnected) { _, newValue in
                     if newValue {
@@ -103,9 +108,13 @@ struct ContentView: View {
                 #endif
                 .onChange(of: scenePhase) { _, newPhase in
                     switch newPhase {
-                    case .inactive, .background:
+                    case .background:
+                        Task { await AppMetrics.shared.enterBackground() }
+                        isBarcodeDisplayPresented = false
+                    case .inactive:
                         isBarcodeDisplayPresented = false
                     case .active:
+                        Task { await AppMetrics.shared.activate() }
                         if sponsoredAdsEnabled {
                             Task {
                                 #if DEBUG
@@ -259,12 +268,12 @@ struct ContentView: View {
 
     private var sponsoredSection: some View {
         Group {
-            if let loadedAd = adViewModel.loadedAd, sponsoredAdsEnabled {
+            if let loadedAd = adViewModel.loadedAd, sponsoredAdsEnabled, loadedAd.config.isCurrentlyActive {
                 VStack(alignment: .leading, spacing: 0) {
                     VStack(alignment: .leading, spacing: 0) {
                         DashboardSectionHeader(
                             title: loadedAd.config.sponsor,
-                            subtitle: "Sponsored",
+                            subtitle: loadedAd.config.sponsoredLabel,
                             leadingLogo: loadedAd.logoImage
                         )
                             .padding(.horizontal, 16)
@@ -273,6 +282,7 @@ struct ContentView: View {
                         AdView(
                             ad: loadedAd.config,
                             heroImage: loadedAd.heroImage,
+                            isOccluded: isScannerPresented || showManualInput || showSettingsPopup || isBarcodeDisplayPresented || showAddIDChoice,
                             networkMonitor: networkMonitor
                         )
                     }

@@ -71,6 +71,8 @@ struct Constants {
     static let eventsBaseURL = URL(string: "https://virginiatech.campusgroups.com")!
     static let eventsTimeZoneIdentifier = "America/New_York"
 
+    static let metricsURLString = "https://gymtracker.jackhannon.net/api/events"
+
     // Sponsored Ads
     static let adPlacementHomeFeed = "home_feed"
     static let adConfigURLString = "https://gymtracker.jackhannon.net/api/ads"

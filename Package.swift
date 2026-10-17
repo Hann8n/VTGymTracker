@@ -8,7 +8,7 @@ let package = Package(
     products: [.library(name: "GymCrowds", targets: ["GymCrowds"])],
     targets: [
         .target(name: "GymCrowds", path: "Gym Tracker (RC)", exclude: [
-            "Ads",
+            "Ads/AdView.swift", "Ads/AdViewModel.swift",
             "SegmentedProgressBar.swift",
             "SettingsView.swift",
             "DashboardLayout.swift",
@@ -30,7 +30,7 @@ let package = Package(
             "Events/EventsViewModel.swift", "Events/EventDayGroup.swift", "Events/EventRowButtonStyle.swift",
             "ContentView.swift",
             "DashboardScrollContainer.swift",
-            "PrivacyPolicyView.swift",
+            "PrivacyPolicyView.swift", "PrivacyInfo.xcprivacy",
             "Services/GymFacility.swift",
             "Services/AuthenticationService.swift",
             "Services/WarningManager.swift",
@@ -39,6 +39,7 @@ let package = Package(
             "Services/GymService.swift",
             "Services/NetworkMonitor.swift"
         ], sources: [
+            "Services/AppMetrics.swift", "Services/MetricEvent.swift", "Ads/AdConfig.swift", "Ads/AdService.swift",
             "Services/CrowdDataStatus.swift", "Services/Constants.swift", "Services/TrackedFacility.swift", "Services/OccupancySnapshot.swift",
             "Services/OccupancySnapshotStore.swift", "Services/OccupancyHTMLParser.swift",
             "Services/GymOccupancyFetcher.swift", "Services/CrowdsService.swift", "Services/CrowdsDialog.swift", "Intents",

@@ -13,6 +13,7 @@ struct SettingsView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var alertManager: AlertManager
 
+    @AppStorage("usageAnalyticsEnabled") private var usageAnalyticsEnabled: Bool = true
     @AppStorage("appTheme") private var appTheme: String = "Auto"
     @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = true
     @AppStorage("gymBarcode") private var gymBarcode: String = ""
@@ -50,6 +51,20 @@ struct SettingsView: View {
                     adPreviewTier: $adPreviewTier
                 )
                 #endif
+
+                Section {
+                    Toggle("Share Usage Analytics", isOn: $usageAnalyticsEnabled)
+                        .onChange(of: usageAnalyticsEnabled) { _, enabled in
+                            Task {
+                                await AppMetrics.shared.setEnabled(enabled)
+                                if enabled { await AppMetrics.shared.activate() }
+                            }
+                        }
+                } header: {
+                    Text("Privacy")
+                } footer: {
+                    Text("Help improve Gym Tracker with anonymous feature usage and campaign performance. Campus ID details are never included.")
+                }
 
                 AboutSection()
             }

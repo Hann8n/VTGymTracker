@@ -14,7 +14,11 @@ struct CurrentCrowdsIntent: AppIntent {
     }
 
     func perform() async throws -> some IntentResult & ReturnsValue<[FacilityCrowdsEntity]> & ProvidesDialog {
-        response(for: await CrowdsService.currentCrowds(for: facility))
+        let snapshots = await CrowdsService.currentCrowds(for: facility)
+        let status = snapshots.contains { $0.status == .unavailable } ? "unavailable"
+            : snapshots.contains { $0.status == .cached } ? "cached" : "live"
+        await AppMetrics.shared.track(.siriCrowds, properties: ["status": status])
+        return response(for: snapshots)
     }
 
     // Shared by perform() and the deterministic result-contract tests.
