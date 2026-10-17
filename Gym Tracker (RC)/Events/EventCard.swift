@@ -36,6 +36,10 @@ struct EventCard: View {
         return "\(attendeeCount.abbreviatedCount) going"
     }
 
+    private var locationText: String? {
+        event.location.trimmingCharacters(in: .whitespacesAndNewlines).nilIfEmpty
+    }
+
     private var timeRangeText: String {
         Self.timeRangeText(start: event.startDate, end: event.endDate)
     }
@@ -47,13 +51,13 @@ struct EventCard: View {
             Task { await AppMetrics.shared.track(.eventOpen) }
             openURL(event.link)
         } label: {
-            HStack(alignment: .center, spacing: 12) {
-                VStack(alignment: .leading, spacing: 5) {
+            HStack(alignment: .firstTextBaseline, spacing: 12) {
+                VStack(alignment: .leading, spacing: 6) {
                     Text(event.title)
-                        .font(.subheadline.weight(.semibold))
+                        .font(.headline.weight(.semibold))
+                        .fontWidth(.condensed)
                         .foregroundStyle(.primary)
                         .multilineTextAlignment(.leading)
-                        .lineLimit(3)
                         .fixedSize(horizontal: false, vertical: true)
 
                     metaRow
@@ -66,7 +70,7 @@ struct EventCard: View {
                     .accessibilityHidden(true)
             }
             .padding(.vertical, 12)
-            .padding(.trailing, DashboardLayout.horizontalGutter)
+            .padding(.horizontal, DashboardLayout.horizontalGutter)
             .contentShape(Rectangle())
         }
         .buttonStyle(EventRowButtonStyle())
@@ -77,39 +81,31 @@ struct EventCard: View {
         .accessibilityAddTraits(.isButton)
     }
 
-    /// Drops the attendee count, then the price, when the row is too narrow to fit everything.
+    /// Time is always visible. Supporting details wrap instead of disappearing at larger text sizes.
     private var metaRow: some View {
-        ViewThatFits(in: .horizontal) {
-            metaContent(showsPrice: true, showsAttendees: true)
-            metaContent(showsPrice: true, showsAttendees: false)
-            metaContent(showsPrice: false, showsAttendees: false)
+        VStack(alignment: .leading, spacing: 4) {
+            timeLine
+                .font(.footnote)
+                .monospacedDigit()
+                .foregroundStyle(.secondary)
+
+            let details = [locationText, priceText, attendeeText].compactMap { $0 }.joined(separator: " · ")
+            if !details.isEmpty {
+                Text(details)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
         }
+        .multilineTextAlignment(.leading)
+        .fixedSize(horizontal: false, vertical: true)
     }
 
-    /// One plain line: "Now · 6–7:30 PM · Free · 27 going", with the status word in brand color.
-    private func metaContent(showsPrice: Bool, showsAttendees: Bool) -> some View {
-        let details = [
-            timeRangeText,
-            showsPrice ? priceText : nil,
-            showsAttendees ? attendeeText : nil
-        ]
-        .compactMap { $0 }
-        .joined(separator: " · ")
-
-        let line: Text
+    private var timeLine: Text {
         if let status {
-            line = Text(status.text).fontWeight(.bold).foregroundStyle(status.color) + Text(" · \(details)")
+            return Text(status.text).fontWeight(.bold).foregroundStyle(status.color) + Text(" · \(timeRangeText)")
         } else {
-            line = Text(details)
+            return Text(timeRangeText)
         }
-
-        return line
-            .font(.footnote.weight(.medium))
-            .fontWidth(.condensed)
-            .monospacedDigit()
-            .foregroundStyle(.secondary)
-            .lineLimit(1)
-            .fixedSize()
     }
 
     private var accessibilityLabel: String {
@@ -117,6 +113,7 @@ struct EventCard: View {
             event.title,
             status?.text,
             Self.accessibilityTimeText(start: event.startDate, end: event.endDate),
+            locationText,
             priceText,
             attendeeText
         ]
