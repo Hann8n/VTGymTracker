@@ -80,13 +80,7 @@ struct EventsSectionBlock: View {
                 } else {
                     VStack(alignment: .leading, spacing: 0) {
                         ForEach(Array(days.enumerated()), id: \.element.date) { dayIndex, group in
-                            let previousDate = dayIndex == 0 ? context.date : days[dayIndex - 1].date
-                            EventDayGroup(
-                                date: group.date,
-                                events: group.events,
-                                now: context.date,
-                                showsMonth: !Calendar.current.isDate(group.date, equalTo: previousDate, toGranularity: .month)
-                            )
+                            EventDayGroup(date: group.date, events: group.events, now: context.date)
 
                             if dayIndex < days.count - 1 {
                                 FullBleedDivider()
