@@ -83,6 +83,45 @@ final class AdsAndMetricsTests: XCTestCase {
         XCTAssertNotEqual(bodies.last?["distinct_id"] as? String, firstID)
     }
 
+    func testExternalSettingsChangesApplyBeforeResumingOrSiriEvents() async throws {
+        let suite = "NativeSettingsTests.\(UUID())"
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let recorder = RecordedRequests()
+        let metrics = AppMetrics(defaults: defaults, enabledForBuild: true, send: { await recorder.send($0) })
+        await metrics.activate()
+        let first = await recorder.snapshot()
+        let originalID = try XCTUnwrap(first.first?["distinct_id"] as? String)
+        let props = ["ad_id": "campaign", "creative_version": "v1"]
+        await metrics.track(.adImpression, properties: props)
+
+        // Simulate Settings.app writing the shared preference while the app is suspended.
+        defaults.set(false, forKey: AppMetrics.enabledKey)
+        await metrics.activate()
+        await metrics.track(.siriCrowds)
+        XCTAssertNil(defaults.string(forKey: AppMetrics.installationKey))
+        let disabled = await recorder.snapshot()
+        XCTAssertEqual(disabled.count, 2)
+
+        defaults.set(true, forKey: AppMetrics.enabledKey)
+        await metrics.activate()
+        await metrics.track(.adImpression, properties: props)
+        let resumed = await recorder.snapshot()
+        XCTAssertEqual(resumed.count, 4)
+        XCTAssertNotEqual(resumed.last?["distinct_id"] as? String, originalID)
+        XCTAssertEqual(resumed.suffix(2).compactMap { $0["event"] as? String }, ["app_session", "ad_impression"])
+    }
+
+    func testNativeSettingsBundleUsesTheExistingAnalyticsPreference() throws {
+        let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+        let data = try Data(contentsOf: root.appendingPathComponent("Gym Tracker (RC)/Settings.bundle/Root.plist"))
+        let plist = try XCTUnwrap(PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any])
+        let specifiers = try XCTUnwrap(plist["PreferenceSpecifiers"] as? [[String: Any]])
+        let toggle = try XCTUnwrap(specifiers.first { $0["Type"] as? String == "PSToggleSwitchSpecifier" })
+        XCTAssertEqual(toggle["Key"] as? String, AppMetrics.enabledKey)
+        XCTAssertEqual(toggle["DefaultValue"] as? Bool, true)
+    }
+
     func testDevelopmentBuildAndPreviewAdsNeverSend() async throws {
         let suite = "MetricsTests.\(UUID())"
         let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))

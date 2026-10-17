@@ -40,7 +40,7 @@ actor AppMetrics {
     func activate(at now: Date = Date()) async {
         if let backgroundAt, now.timeIntervalSince(backgroundAt) >= 30 * 60 { resetSession() }
         backgroundAt = nil
-        guard !startedForegroundSession, isEnabled else { return }
+        guard isEnabled, !startedForegroundSession else { return }
         startedForegroundSession = true
         await track(.appSession)
     }
@@ -80,7 +80,15 @@ actor AppMetrics {
     }
 
     private var isEnabled: Bool {
-        enabledForBuild && (defaults.object(forKey: Self.enabledKey) as? Bool ?? true)
+        guard enabledForBuild else { return false }
+        let enabled = defaults.object(forKey: Self.enabledKey) as? Bool ?? true
+        // Settings.app writes this same preference while our app may be suspended.
+        // Apply opt-out before any event, including foreground resumes and Siri actions.
+        if !enabled {
+            defaults.removeObject(forKey: Self.installationKey)
+            resetSession()
+        }
+        return enabled
     }
 
     private func resetSession() {
