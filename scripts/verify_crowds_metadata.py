@@ -15,6 +15,7 @@ with (app / "Info.plist").open("rb") as source:
 assert info["CFBundleDisplayName"] == "Gym Tracker"
 assert info["CFBundleName"] == "Gym Tracker"
 assert any(alias["INAlternativeAppName"] == "VT Gym Tracker" for alias in info["INAlternativeAppNames"])
+assert any(alias["INAlternativeAppName"] == "VT Gyms" for alias in info["INAlternativeAppNames"])
 data = json.loads((app / "Metadata.appintents/extract.actionsdata").read_text())
 action = data["actions"]["CurrentCrowdsIntent"]
 assert action["isDiscoverable"] is True
@@ -28,7 +29,7 @@ assert props.keys() == required
 for name in ["count", "fullnessPercent", "fetchedAt", "sourceMeasuredAt", "cacheAgeSeconds", "lastSuccessfulFetchAt"]:
     assert props[name]["isOptional"] is True, name
 choices = next(e for e in data["enums"] if e["identifier"] == "TrackedFacility")
-assert {c["identifier"] for c in choices["cases"]} == {"allFacilities", "mcComas", "warMemorial", "boulderingWall"}
+assert {c["identifier"] for c in choices["cases"]} == {"allFacilities", "bothGyms", "mcComas", "warMemorial", "boulderingWall"}
 war = next(c for c in choices["cases"] if c["identifier"] == "warMemorial")
 assert "War" in {s["key"] for s in war["displayRepresentation"]["synonyms"]}
 def contains_type(value, expected):
@@ -57,9 +58,13 @@ search_props = {p["identifier"]: p for p in data["entities"]["EventSearchResultE
 assert search_props.keys() == {"events", "returnedCount", "matchingCount", "from", "before", "limit", "status", "fetchedAt", "checkedAt", "cacheAgeSeconds", "rejectedRecordCount", "availabilityDetail", "sourceFeedURL", "sourceLimitation"}
 assert search_props["matchingCount"]["isOptional"] is True
 assert contains_type(search_props["events"], "CampusEventEntity")
-assert len(data["autoShortcuts"]) == 3
+recommend = data["actions"]["RecommendGymIntent"]
+assert recommend["openAppWhenRun"] is False and recommend["supportedModes"] == 1
+assert recommend["isDiscoverable"] is True
+assert contains_type(recommend["outputType"], "FacilityCrowdsEntity")
+assert len(data["autoShortcuts"]) == 4
 phrase_path = Path(sys.argv[2]) if len(sys.argv) > 2 else app / "Metadata.appintents/root.ssu.yaml"
 phrases = phrase_path.read_text()
-for phrase in ["Check current crowds", "Compare gyms", "Check crowds at", "How busy is", "Check the ${TrackedFacility} crowds", "Check ${TrackedFacility} crowds", "What are the crowds at", "How crowded is", "What is the occupancy at", "Find upcoming events", "Find recreation events", "Get event details", "Get details for"]:
+for phrase in ["Check current crowds", "Compare gyms", "Check crowds at", "How busy is", "Check the ${TrackedFacility} crowds", "Check ${TrackedFacility} crowds", "What are the crowds at", "How crowded is", "What is the occupancy at", "What are the crowds like at", "Check which gym I should go to", "Which gym is less crowded at", "Find a quieter gym", "Find upcoming events", "Find recreation events", "Get event details", "Get details for"]:
     assert phrase in phrases
-print("PASS: three discoverable background actions; crowds with four choices/aliases and 17 properties; events with 16 factual properties and a 14-property search result; optional unknowns; fifteen trained phrases and the two-word Gym Tracker name")
+print("PASS: four discoverable background actions; crowds with five choices/aliases and 17 properties; events with 16 factual properties and a 14-property search result; optional unknowns; 29 trained phrases; Gym Tracker name and VT Gyms Siri alias")

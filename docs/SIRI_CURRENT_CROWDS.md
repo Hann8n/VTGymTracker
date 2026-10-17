@@ -1,14 +1,21 @@
 # Current crowds in Siri and Shortcuts
 
 The crowds action, **Check Current Crowds**, is exposed, with a **Facility** parameter:
-McComas Hall, War Memorial Hall, Bouldering Wall, or All Facilities (the default).
+Both Gyms (the default), McComas Hall, War Memorial Hall, Bouldering Wall, or All Facilities.
+The default covers only McComas and War Memorial, the two full-service gyms.
+Bouldering is returned only when explicitly selected or asking for All Facilities,
+and is introduced separately in that response.
 It explicitly supports background execution on iOS 26+ and keeps the non-opening
 compatibility flag for iOS 17–25. It completes in the background and returns an array of typed `FacilityCrowdsEntity`
 results plus a short spoken response. It does not open a screen or require the
 app's UI singleton to initialize.
 
-Example phrases use the installed app name, **Gym Tracker**:
+Example phrases use **Gym Tracker**, or its Siri nickname **VT Gyms**:
 
+- “What are the crowds like at McComas Hall using Gym Tracker?”
+- “What are the crowds like at VT Gyms?”
+- “Which gym should I go to at VT Gyms?”
+- “Check which gym I should go to with Gym Tracker.”
 - “Check current crowds with Gym Tracker.”
 - “Check the McComas crowds with Gym Tracker.”
 - “Compare gyms with Gym Tracker.”
@@ -19,14 +26,16 @@ Example phrases use the installed app name, **Gym Tracker**:
 - “What is the occupancy at McComas gym with Gym Tracker?”
 
 The fixed enum includes aliases such as McComas, War, WMH, WMH Service Desk,
-Bouldering, and Climbing Wall. Shortcuts presents the four explicit choices.
+Bouldering, and Climbing Wall. Shortcuts presents five explicit choices, including Both Gyms and All Facilities.
 Siri handles unresolved/ambiguous parameters using that choice set; there is no
 free-text guessing or app-side language model. Speech recognition and actual
 Siri disambiguation must be checked on a device.
 
 ## When Siri does not find the action
 
-Automatic App Shortcut phrases require the app name, **Gym Tracker**. A bare
+Automatic App Shortcut phrases require the app name or a declared app-name synonym.
+**VT Gyms** is a supported Siri nickname, so “at VT Gyms” satisfies the app-name
+placeholder without saying “with Gym Tracker”. The app display name stays **Gym Tracker**. A bare
 question like “What are the crowds at McComas gym?” is not a registered global
 Siri command. In Settings → Siri & Shortcuts, the Shortcuts link opens the app's
 actions. Run **Check Current Crowds** with Facility **McComas Hall** there first.
@@ -64,10 +73,10 @@ is a valid available reading. The result is transient so Shortcuts can pass the
 retrieved values to later actions without a persistent entity query silently
 fetching a different count.
 
-For All Facilities the dialog reports all three records. It compares the two
-gyms using exact calculated percentages, and ranks them only when both responses
-are live. A climbing-wall count is reported separately. There are no forecasts,
-historical records, inferred opening hours, or Foundation Models features.
+For All Facilities the dialog reports all three records. For a specific facility, speech leads with percentage full and a short crowd description.
+At the unchanged UI thresholds, below 50% is quiet, 50–under 75% is getting busy,
+and 75% or more is busy. Counts and capacities remain in the typed result.
+A climbing-wall count is reported separately. There are no forecasts, historical records, inferred opening hours, or Foundation Models features.
 
 ## Shared fetching and freshness
 
@@ -149,3 +158,34 @@ The combined shortcut provider also exposes [recreation event actions](SIRI_EVEN
 
 - [Get to know App Intents: phrases include applicationName](https://developer.apple.com/videos/play/wwdc2025/244/)
 - [ShortcutsLink](https://developer.apple.com/documentation/appintents/shortcutslink)
+
+## Natural crowd responses and gym choice
+
+**Choose a Less Crowded Gym** is a separate background action. It fetches only
+McComas and War Memorial and returns those two typed readings. Speech leads
+with the choice and both percentages, for example “War Memorial is the better
+pick for fewer crowds right now: 25% full, compared with McComas at 75%.” It
+compares percentage full, not raw headcounts, since capacities differ. It does
+not rank the bouldering wall alongside full-service gyms. Differences below one
+percentage point are described as similar; exact capacity ties and two busy
+gyms have explicit responses. If either fresh count is missing or cached, no
+winner is chosen. Cached answers describe the last reading and its age rather
+than claiming the count is current. The existing siri_crowds event also counts
+these crowd-comparison requests, with the same bounded status values.
+
+A single live response says “McComas is 75% full right now—it's busy.” Under 1%
+but nonzero is spoken as “less than 1%” to avoid turning a small crowd into zero.
+RecSports' count is retrieved at invocation; the source still publishes no
+independent measurement timestamp or equipment/queue data.
+
+Apple's guidance supports short, information-first dialogue, no repeated app
+branding in the answer, and a small set of clear actions with familiar options:
+- [Siri dialogue guidance](https://developer.apple.com/design/human-interface-guidelines/siri)
+- [App Shortcuts design](https://developer.apple.com/design/human-interface-guidelines/app-shortcuts)
+- [Phrase matching and app-name synonyms](https://developer.apple.com/videos/play/wwdc2023/10102/)
+- [App-name synonyms, not arbitrary keywords](https://developer.apple.com/library/archive/qa/qa1950/_index.html)
+
+The new VT Gyms name is a declared app nickname, not a global keyword or an
+Apple/VT system integration. Automatic phrases still use applicationName.
+Physical-device phrase matching must verify the nickname after installing the
+new build. Personal shortcuts remain an option for arbitrary custom phrases.
