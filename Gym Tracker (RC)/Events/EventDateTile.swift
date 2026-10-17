@@ -1,20 +1,30 @@
 import SwiftUI
 
-/// A compact date heading shared by all events on the same day.
+/// A calendar badge shared by all events on the same day, distinct from each event's time.
 struct EventDateTile: View {
     let date: Date
     let isToday: Bool
 
     var body: some View {
-        Text(isToday ? "Today · \(Self.dateFormatter.string(from: date))" : Self.dateFormatter.string(from: date))
-            .font(.caption.weight(.semibold))
-            .fontWidth(.condensed)
-            .tracking(0.4)
-            .textCase(.uppercase)
-            .foregroundStyle(isToday ? Color("CustomOrange") : Color.secondary)
-            .fixedSize(horizontal: false, vertical: true)
-            .accessibilityLabel(isToday ? "Today, \(Self.accessibilityFormatter.string(from: date))" : Self.accessibilityFormatter.string(from: date))
-            .accessibilityAddTraits(.isHeader)
+        HStack(alignment: .firstTextBaseline, spacing: 6) {
+            Image(systemName: "calendar")
+                .accessibilityHidden(true)
+            Text(isToday ? "Today · \(Self.dateFormatter.string(from: date))" : Self.dateFormatter.string(from: date))
+                .tracking(0.7)
+                .textCase(.uppercase)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .font(.caption2.weight(.bold))
+        .foregroundStyle(isToday ? Color("CustomOrange") : Color.primary)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 5)
+        .background {
+            RoundedRectangle(cornerRadius: 4, style: .continuous)
+                .fill(isToday ? Color("CustomOrange").opacity(0.12) : Color.primary.opacity(0.06))
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(isToday ? "Today, \(Self.accessibilityFormatter.string(from: date))" : Self.accessibilityFormatter.string(from: date))
+        .accessibilityAddTraits(.isHeader)
     }
 
     // MARK: - Formatters

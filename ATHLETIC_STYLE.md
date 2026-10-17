@@ -54,8 +54,8 @@ Apply frosted surface + offline treatment with **`dashboardCardChrome(networkMon
 | `CardMaterialBackground` | Reusable frosted fill |
 | `StaggeredAppear` | Section entrance |
 | `EventDayGroup` | Compact date heading above full-width event rows; all content shares the standard gutter |
-| `EventDateTile` | Localized weekday, month, and day on one wrapping caption line; Today is accented |
-| `EventCard` | Condensed title and external-link glyph share a text baseline; time and optional location / price / attendance wrap below at Dynamic Type sizes |
+| `EventDateTile` | Compact calendar badge with uppercase bold caption; Today is accented, distinct from plain event times |
+| `EventCard` | Semibold condensed headline and external-link glyph share a text baseline; plain footnote time and smaller location / price / attendance wrap below at Dynamic Type sizes |
 | (loading) | Cached events show instantly and refresh in place; a plain `ProgressView` only when nothing is cached. No shimmers or skeletons. |
 | `AdView` | Sponsored block; matches gutter + frosted chrome |
 

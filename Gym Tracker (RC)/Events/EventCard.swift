@@ -54,7 +54,7 @@ struct EventCard: View {
             HStack(alignment: .firstTextBaseline, spacing: 12) {
                 VStack(alignment: .leading, spacing: 6) {
                     Text(event.title)
-                        .font(.subheadline.weight(.semibold))
+                        .font(.headline.weight(.semibold))
                         .fontWidth(.condensed)
                         .foregroundStyle(.primary)
                         .multilineTextAlignment(.leading)
@@ -85,8 +85,7 @@ struct EventCard: View {
     private var metaRow: some View {
         VStack(alignment: .leading, spacing: 4) {
             timeLine
-                .font(.footnote.weight(.medium))
-                .fontWidth(.condensed)
+                .font(.footnote)
                 .monospacedDigit()
                 .foregroundStyle(.secondary)
 
