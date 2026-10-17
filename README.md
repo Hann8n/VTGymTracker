@@ -202,7 +202,7 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 
 ### Siri and Shortcuts
 
-Ask “Check current crowds with Gym Tracker” or select **Check Current Crowds** in Shortcuts. Choose one facility or All Facilities to receive typed occupancy and freshness fields with a concise spoken comparison. See [the result contract and verification guide](docs/SIRI_CURRENT_CROWDS.md).
+Ask “What are the crowds like at VT Gyms?” or “What are the crowds like at McComas Hall using Gym Tracker?” **Check Current Crowds** defaults to McComas and War Memorial, the two full-service gyms; bouldering is separate. Ask “Which gym should I go to with Gym Tracker?” for a crowd-based choice with **Choose a Less Crowded Gym**. Responses lead with fullness; typed results still include raw counts, capacity, and freshness. See [the result contract and verification guide](docs/SIRI_CURRENT_CROWDS.md).
 
 ## Siri and Shortcuts
 

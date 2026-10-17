@@ -2,15 +2,23 @@ import Foundation
 
 /// Fixed facility choices; identifiers and capacities remain in Constants.
 enum TrackedFacility: String, CaseIterable, Sendable {
-    case allFacilities, mcComas, warMemorial, boulderingWall
+    case allFacilities, bothGyms, mcComas, warMemorial, boulderingWall
 
     static let individualFacilities: [Self] = [.mcComas, .warMemorial, .boulderingWall]
+    static let gyms: [Self] = [.mcComas, .warMemorial]
 
-    var facilities: [Self] { self == .allFacilities ? Self.individualFacilities : [self] }
+    var facilities: [Self] {
+        switch self {
+        case .allFacilities: return Self.individualFacilities
+        case .bothGyms: return Self.gyms
+        default: return [self]
+        }
+    }
 
     var id: String {
         switch self {
         case .allFacilities: return "all"
+        case .bothGyms: return "gyms"
         case .mcComas: return Constants.mcComasFacilityId
         case .warMemorial: return Constants.warMemorialFacilityId
         case .boulderingWall: return Constants.boulderingWallFacilityId
@@ -20,6 +28,7 @@ enum TrackedFacility: String, CaseIterable, Sendable {
     var name: String {
         switch self {
         case .allFacilities: return "All Facilities"
+        case .bothGyms: return "Both Gyms"
         case .mcComas: return "McComas Hall"
         case .warMemorial: return "War Memorial Hall"
         case .boulderingWall: return "Bouldering Wall"
@@ -28,7 +37,7 @@ enum TrackedFacility: String, CaseIterable, Sendable {
 
     var capacity: Int {
         switch self {
-        case .allFacilities: return 0 // Selection only; never returned as a facility reading.
+        case .allFacilities, .bothGyms: return 0 // Selection only; never returned as a facility reading.
         case .mcComas: return Constants.mcComasMaxCapacity
         case .warMemorial: return Constants.warMemorialMaxCapacity
         case .boulderingWall: return Constants.boulderingWallMaxCapacity

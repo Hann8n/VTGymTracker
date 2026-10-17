@@ -12,6 +12,12 @@
 			<key>INAlternativeAppNamePronunciationHint</key>
 			<string>V T gym tracker</string>
 		</dict>
+		<dict>
+			<key>INAlternativeAppName</key>
+			<string>VT Gyms</string>
+			<key>INAlternativeAppNamePronunciationHint</key>
+			<string>V T gyms</string>
+		</dict>
 	</array>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>

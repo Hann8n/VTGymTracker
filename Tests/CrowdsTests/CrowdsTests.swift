@@ -54,7 +54,9 @@ final class CrowdsTests: XCTestCase {
         XCTAssertEqual(Set(aliases).count, aliases.count)
         XCTAssertEqual(TrackedFacility.allFacilities.facilities, [.mcComas, .warMemorial, .boulderingWall])
         XCTAssertEqual(TrackedFacility.warMemorial.facilities, [.warMemorial])
-        XCTAssertEqual(TrackedFacility.caseDisplayRepresentations.count, 4)
+        XCTAssertEqual(TrackedFacility.bothGyms.facilities, [.mcComas, .warMemorial])
+        XCTAssertEqual(CurrentCrowdsIntent().facility, .bothGyms)
+        XCTAssertEqual(TrackedFacility.caseDisplayRepresentations.count, 5)
         XCTAssertEqual(TrackedFacility.caseDisplayRepresentations[.warMemorial]?.synonyms.count, 5)
     }
 
@@ -108,19 +110,57 @@ final class CrowdsTests: XCTestCase {
         XCTAssertTrue(CurrentCrowdsIntent.isDiscoverable)
         let result = CurrentCrowdsIntent().response(for: [snapshot])
         XCTAssertEqual(result.value?.first?.count, 0)
-        XCTAssertEqual(GymCrowdsShortcuts.appShortcuts.count, 3)
+        XCTAssertEqual(GymCrowdsShortcuts.appShortcuts.count, 4)
     }
 
-    func testDialogUsesPercentagesAndSeparatesClimbingWall() {
-        // Raw count is lower at McComas, but percentage is higher.
+    func testDialogLeadsWithFullnessAndUsesExistingBusyThresholds() {
+        XCTAssertEqual(CrowdsDialog.describe([live(.mcComas, 450)]), "McComas is 75% full right now—it's busy.")
+        XCTAssertEqual(CrowdsDialog.describe([live(.mcComas, 300)]), "McComas is 50% full right now—it's getting busy.")
+        XCTAssertEqual(CrowdsDialog.describe([live(.mcComas, 299)]), "McComas is 49% full right now—it's quiet.")
+        XCTAssertTrue(CrowdsDialog.describe([live(.mcComas, 600)]).contains("100% full right now—it's at capacity"))
+        XCTAssertTrue(CrowdsDialog.describe([live(.mcComas, 1)]).contains("less than 1% full"))
+        XCTAssertTrue(CrowdsDialog.describe([live(.mcComas, 0)]).contains("0% full"))
+        let dialog = CrowdsDialog.describe([live(.mcComas, 300), live(.warMemorial, 400), live(.boulderingWall, 0)])
+        XCTAssertTrue(dialog.contains("McComas is 50% full"))
+        XCTAssertTrue(dialog.contains("War Memorial is 33% full"))
+        XCTAssertTrue(dialog.contains("For bouldering: The bouldering wall is 0% full"))
+        XCTAssertFalse(dialog.contains("of 600"))
+    }
+
+    func testRecommendationUsesPercentagesRatherThanHeadcountsAndExcludesWall() {
         let readings = [live(.mcComas, 300), live(.warMemorial, 400), live(.boulderingWall, 0)]
-        let dialog = CrowdsDialog.describe(readings)
-        XCTAssertTrue(dialog.contains("300 of 600, 50% full"))
-        XCTAssertTrue(dialog.contains("400 of 1200, 33% full"))
-        XCTAssertTrue(dialog.contains("War Memorial Hall has lower reported fullness"))
-        XCTAssertTrue(dialog.contains("Bouldering Wall: 0 of 8, 0% full"))
-        XCTAssertTrue(dialog.contains("separate climbing facility"))
-        XCTAssertTrue(CrowdsDialog.describe([live(.mcComas, 300), live(.warMemorial, 600), live(.boulderingWall, 1)]).contains("same reported fullness"))
+        let dialog = CrowdsDialog.recommend(readings)
+        XCTAssertTrue(dialog.hasPrefix("War Memorial is the better pick for fewer crowds right now: 33% full"))
+        XCTAssertTrue(dialog.contains("McComas at 50%"))
+        XCTAssertFalse(dialog.contains("bouldering"))
+        let result = RecommendGymIntent().response(for: Array(readings.prefix(2)))
+        XCTAssertEqual(result.value?.map(\.facility), TrackedFacility.gyms)
+        XCTAssertFalse(RecommendGymIntent.openAppWhenRun)
+        XCTAssertTrue(RecommendGymIntent.isDiscoverable)
+        XCTAssertTrue(CrowdsDialog.recommend([live(.mcComas, 120), live(.warMemorial, 600)]).hasPrefix("McComas is the better pick"))
+    }
+
+    func testRecommendationHandlesTiesNearTiesAndBothBusy() {
+        for counts in [(300,600),(300,601),(0,0)] {
+            let dialog = CrowdsDialog.recommend([live(.mcComas, counts.0), live(.warMemorial, counts.1)])
+            XCTAssertTrue(dialog.contains("Crowds are about the same"))
+            XCTAssertFalse(dialog.contains("better pick"))
+        }
+        XCTAssertTrue(CrowdsDialog.recommend([live(.mcComas, 540), live(.warMemorial, 960)]).contains("Both gyms are busy"))
+        XCTAssertTrue(CrowdsDialog.recommend([live(.mcComas, 600), live(.warMemorial, 1200)]).contains("they're at capacity"))
+    }
+
+    func testCachedAndMissingReadingsNeverSoundCurrentOrProduceRecommendation() {
+        let cached = OccupancySnapshot(facility: .mcComas, count: 450, fetchedAt: date, checkedAt: date.addingTimeInterval(45), lastSuccessfulFetchAt: date, status: .cached, unavailableReason: "Offline")
+        let dialog = CrowdsDialog.describe([cached])
+        XCTAssertTrue(dialog.contains("last reading had McComas at 75% full, about 45 seconds ago"))
+        XCTAssertFalse(dialog.contains("right now"))
+        XCTAssertFalse(dialog.contains("it's busy"))
+        let recommendation = CrowdsDialog.recommend([cached, live(.warMemorial, 600)])
+        XCTAssertTrue(recommendation.contains("There isn't a fresh count for both gyms"))
+        XCTAssertFalse(recommendation.contains("better pick"))
+        XCTAssertFalse(CrowdsDialog.recommend([live(.mcComas, 120)]).contains("better pick"))
+        XCTAssertFalse(CrowdsDialog.recommend([]).contains("better pick"))
     }
 
     func testLiveIntentWithoutUI() async throws {
@@ -129,8 +169,8 @@ final class CrowdsTests: XCTestCase {
         }
         let result = try await CurrentCrowdsIntent().perform()
         let values = try XCTUnwrap(result.value)
-        XCTAssertEqual(values.map(\.facility), TrackedFacility.individualFacilities)
-        XCTAssertEqual(values.count, 3)
+        XCTAssertEqual(values.map(\.facility), TrackedFacility.gyms)
+        XCTAssertEqual(values.count, 2)
         for value in values {
             XCTAssertNil(value.sourceMeasuredAt)
             if value.status == .live {
@@ -141,6 +181,17 @@ final class CrowdsTests: XCTestCase {
             print("LIVE INTENT: \(value.name), count=\(String(describing: value.count)), capacity=\(value.capacity), percent=\(String(describing: value.fullnessPercent)), status=\(value.status.rawValue), fetched=\(String(describing: value.fetchedAt))")
         }
         XCTAssertTrue(values.allSatisfy { $0.status == .live }, "Source must independently verify all three facilities in this lane")
+    }
+
+    func testLiveRecommendationWithoutUI() async throws {
+        guard ProcessInfo.processInfo.environment["VTGYM_LIVE_CHECK"] == "1" else {
+            throw XCTSkip("Explicit live network verification lane only")
+        }
+        let result = try await RecommendGymIntent().perform()
+        let values = try XCTUnwrap(result.value)
+        XCTAssertEqual(values.map(\.facility), TrackedFacility.gyms)
+        XCTAssertTrue(values.allSatisfy { $0.status == .live })
+        XCTAssertFalse(values.contains { $0.facility == .boulderingWall })
     }
 
     func testParserRejectsWrongFacilityIdentity() {
@@ -171,8 +222,8 @@ final class CrowdsTests: XCTestCase {
         XCTAssertNil(results[1].count)
         XCTAssertNil(results[2].fetchedAt)
         let dialog = CrowdsDialog.describe(results)
-        XCTAssertTrue(dialog.contains("War Memorial Hall: occupancy unavailable"))
-        XCTAssertTrue(dialog.contains("live comparison of the two gyms is unavailable"))
+        XCTAssertTrue(dialog.contains("A current crowd count for War Memorial isn't available"))
+        XCTAssertTrue(CrowdsDialog.recommend(results).contains("There isn't a fresh count for both gyms"))
         XCTAssertFalse(dialog.contains("lower reported fullness"))
         XCTAssertEqual(StubProtocol.requestedIDs.sorted(), TrackedFacility.individualFacilities.map(\.id).sorted())
     }
@@ -188,7 +239,7 @@ final class CrowdsTests: XCTestCase {
         XCTAssertEqual(results[0].fetchedAt, date)
         XCTAssertEqual(results[0].cacheAgeSeconds, 60)
         XCTAssertEqual(results[0].unavailableReason, "RecSports request timed out")
-        XCTAssertTrue(CrowdsDialog.describe(results).contains("Cached 60 seconds ago; live data unavailable"))
+        XCTAssertTrue(CrowdsDialog.describe(results).contains("about 60 seconds ago. A fresh count isn't available."))
         XCTAssertEqual(FacilityCrowdsEntity(results[0]).cacheAgeSeconds, 60)
         XCTAssertEqual(StubProtocol.requestTimeout, 12)
     }

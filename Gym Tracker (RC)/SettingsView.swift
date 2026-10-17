@@ -69,14 +69,14 @@ struct SettingsView: View {
 
                 Section {
                     ShortcutsLink()
-                    Text("Try saying: “What are the crowds at McComas gym with Gym Tracker?”")
+                    Text("Try saying: “What are the crowds like at VT Gyms?”\nOr: “Which gym should I go to with Gym Tracker?”")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                         .textSelection(.enabled)
                 } header: {
                     Text("Siri & Shortcuts")
                 } footer: {
-                    Text("Include Gym Tracker when asking Siri. To use your own phrase, create a shortcut with Check Current Crowds, choose McComas Hall, and name it “What are the crowds at McComas gym”. Say that shortcut name to Siri. If an action runs in Shortcuts but Siri does not find it, check that Siri is enabled for Gym Tracker in iOS Settings.")
+                    Text("Siri also knows Gym Tracker as VT Gyms. For a specific gym, try “What are the crowds like at McComas Hall using Gym Tracker?” Gym suggestions compare current fullness, not opening hours or equipment. To use your own phrase, create a shortcut with Check Current Crowds, choose McComas Hall, and name it “What are the crowds at McComas gym”. Say that shortcut name to Siri. If an action runs in Shortcuts but Siri does not find it, check that Siri is enabled for Gym Tracker in iOS Settings.")
                 }
 
                 AboutSection()

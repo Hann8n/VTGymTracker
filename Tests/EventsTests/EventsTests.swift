@@ -211,7 +211,7 @@ final class EventsTests: XCTestCase {
         XCTAssertNil(removed.priceText)
         XCTAssertFalse(FindUpcomingEventsIntent.openAppWhenRun)
         XCTAssertFalse(GetEventDetailsIntent.openAppWhenRun)
-        XCTAssertEqual(GymCrowdsShortcuts.appShortcuts.count, 3)
+        XCTAssertEqual(GymCrowdsShortcuts.appShortcuts.count, 4)
     }
 
     func testLiveEventsIntentWithoutUI() async throws {
