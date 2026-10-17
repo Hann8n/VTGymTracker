@@ -52,7 +52,7 @@ struct EventCard: View {
             openURL(event.link)
         } label: {
             HStack(alignment: .firstTextBaseline, spacing: 12) {
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: 8) {
                     Text(event.title)
                         .font(.headline.weight(.semibold))
                         .fontWidth(.condensed)
@@ -69,7 +69,7 @@ struct EventCard: View {
                     .foregroundStyle(.secondary)
                     .accessibilityHidden(true)
             }
-            .padding(.vertical, 12)
+            .frame(minHeight: 44, alignment: .leading)
             .padding(.horizontal, DashboardLayout.horizontalGutter)
             .contentShape(Rectangle())
         }

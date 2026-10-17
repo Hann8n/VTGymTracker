@@ -7,11 +7,9 @@ struct EventDayGroup: View {
     let now: Date
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .leading, spacing: 8) {
             EventDateTile(date: date, isToday: Calendar.current.isDate(date, inSameDayAs: now))
                 .padding(.horizontal, DashboardLayout.horizontalGutter)
-                .padding(.top, 14)
-                .padding(.bottom, 2)
 
             VStack(alignment: .leading, spacing: 0) {
                 ForEach(Array(events.enumerated()), id: \.element.id) { index, event in
@@ -20,11 +18,13 @@ struct EventDayGroup: View {
                     if index < events.count - 1 {
                         FullBleedDivider()
                             .padding(.horizontal, DashboardLayout.horizontalGutter)
+                            .padding(.vertical, 12)
                     }
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .padding(.vertical, 12)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

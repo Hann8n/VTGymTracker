@@ -48,12 +48,12 @@ Apply frosted surface + offline treatment with **`dashboardCardChrome(networkMon
 |------|------|
 | `DashboardScrollContainer` | `ScrollView` + `AthleticFieldBoardBackground` |
 | `FacilityOccupancyCard` | Single facility: label, count, %, `SegmentedProgressBar` |
-| `EventsSectionBlock` | “Upcoming Events” header + list / empty / error |
+| `EventsSectionBlock` | Compact header with smaller source label; stacks at larger text sizes, followed by list / empty / error |
 | `DashboardSectionHeader` | Title + optional subtitle row |
 | `FullBleedDivider` | 1 pt `separator` edge-to-edge inside a card |
 | `CardMaterialBackground` | Reusable frosted fill |
 | `StaggeredAppear` | Section entrance |
-| `EventDayGroup` | Compact date heading above full-width event rows; all content shares the standard gutter |
+| `EventDayGroup` | Calendar badge above full-width rows; one 12 pt outer inset, 8 pt badge-to-row gap, and standard horizontal gutter |
 | `EventDateTile` | Compact calendar badge with uppercase bold caption; Today is accented, distinct from plain event times |
 | `EventCard` | Semibold condensed headline and external-link glyph share a text baseline; plain footnote time and smaller location / price / attendance wrap below at Dynamic Type sizes |
 | (loading) | Cached events show instantly and refresh in place; a plain `ProgressView` only when nothing is cached. No shimmers or skeletons. |
