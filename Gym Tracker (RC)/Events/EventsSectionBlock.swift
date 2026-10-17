@@ -20,11 +20,6 @@ struct EventsSectionBlock: View {
         }
     }
 
-    private var eventSourceName: String {
-        let hostingBodies = Set(eventsViewModel.events.map(\.hostingBody).filter { !$0.isEmpty })
-        return hostingBodies.count == 1 ? hostingBodies.first ?? "Recreational Sports" : "Recreational Sports"
-    }
-
     private var sectionTitle: some View {
         Text("Upcoming Events".uppercased())
             .font(.subheadline.weight(.bold))
@@ -35,7 +30,7 @@ struct EventsSectionBlock: View {
     }
 
     private var sourceLabel: some View {
-        Text(eventSourceName)
+        Text("Rec Sports")
             .font(.caption)
             .foregroundStyle(.secondary)
     }
@@ -43,7 +38,7 @@ struct EventsSectionBlock: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             ViewThatFits(in: .horizontal) {
-                HStack(alignment: .firstTextBaseline, spacing: 12) {
+                HStack(alignment: .center, spacing: 12) {
                     sectionTitle.fixedSize()
                     Spacer(minLength: 0)
                     sourceLabel.fixedSize()

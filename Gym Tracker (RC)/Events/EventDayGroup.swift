@@ -1,30 +1,48 @@
 import SwiftUI
 
-/// One date heading followed by full-width event rows with a shared leading edge.
+/// One calendar column per day, with aligned event rows and an accessible stacked layout.
 struct EventDayGroup: View {
     let date: Date
     let events: [Event]
     let now: Date
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            EventDateTile(date: date, isToday: Calendar.current.isDate(date, inSameDayAs: now))
-                .padding(.horizontal, DashboardLayout.horizontalGutter)
-
-            VStack(alignment: .leading, spacing: 0) {
-                ForEach(Array(events.enumerated()), id: \.element.id) { index, event in
-                    EventCard(event: event, now: now)
-
-                    if index < events.count - 1 {
-                        FullBleedDivider()
-                            .padding(.horizontal, DashboardLayout.horizontalGutter)
-                            .padding(.vertical, 12)
-                    }
+        Group {
+            if dynamicTypeSize.isAccessibilitySize {
+                VStack(alignment: .leading, spacing: 12) {
+                    dateColumn(isInline: true)
+                        .padding(.trailing, DashboardLayout.horizontalGutter)
+                    eventRows
+                }
+            } else {
+                HStack(alignment: .top, spacing: 12) {
+                    dateColumn(isInline: false)
+                    eventRows
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .padding(.leading, DashboardLayout.horizontalGutter)
         .padding(.vertical, 12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func dateColumn(isInline: Bool) -> some View {
+        EventDateTile(date: date, isToday: Calendar.current.isDate(date, inSameDayAs: now), isInline: isInline)
+    }
+
+    private var eventRows: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            ForEach(Array(events.enumerated()), id: \.element.id) { index, event in
+                EventCard(event: event, now: now)
+                if index < events.count - 1 {
+                    FullBleedDivider()
+                        .padding(.trailing, DashboardLayout.horizontalGutter)
+                        .padding(.vertical, 12)
+                }
+            }
+        }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

@@ -1,26 +1,45 @@
 import SwiftUI
 
-/// A calendar badge shared by all events on the same day, distinct from each event's time.
+/// Calendar column with a distinct day number; an inline date keeps accessibility text readable.
 struct EventDateTile: View {
     let date: Date
     let isToday: Bool
+    var isInline = false
+
+    @ScaledMetric(relativeTo: .caption2) private var columnWidth: CGFloat = 44
+    @ScaledMetric(relativeTo: .title3) private var daySize: CGFloat = 24
 
     var body: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 6) {
-            Image(systemName: "calendar")
-                .accessibilityHidden(true)
-            Text(isToday ? "Today · \(Self.dateFormatter.string(from: date))" : Self.dateFormatter.string(from: date))
-                .tracking(0.7)
-                .textCase(.uppercase)
+        Group {
+            if isInline {
+                Text(isToday ? "Today · \(Self.dateFormatter.string(from: date))" : Self.dateFormatter.string(from: date))
+                    .font(.caption.weight(.bold))
+                    .tracking(0.7)
+                    .textCase(.uppercase)
+                    .foregroundStyle(isToday ? Color("CustomOrange") : Color.primary)
+                    .fixedSize(horizontal: false, vertical: true)
+            } else {
+                VStack(spacing: 0) {
+                    Text(isToday ? "Today" : Self.weekdayFormatter.string(from: date))
+                        .font(.caption2.weight(.bold))
+                        .tracking(0.7)
+                        .textCase(.uppercase)
+                        .foregroundStyle(isToday ? Color("CustomOrange") : Color.secondary)
+
+                    Text(Self.dayFormatter.string(from: date))
+                        .font(.system(size: daySize, weight: .medium))
+                        .monospacedDigit()
+                        .foregroundStyle(.primary)
+
+                    Text(Self.monthFormatter.string(from: date))
+                        .font(.caption2.weight(.medium))
+                        .tracking(0.7)
+                        .textCase(.uppercase)
+                        .foregroundStyle(.secondary)
+                }
+                .frame(width: columnWidth)
                 .fixedSize(horizontal: false, vertical: true)
-        }
-        .font(.caption2.weight(.bold))
-        .foregroundStyle(isToday ? Color("CustomOrange") : Color.primary)
-        .padding(.horizontal, 8)
-        .padding(.vertical, 5)
-        .background {
-            RoundedRectangle(cornerRadius: 4, style: .continuous)
-                .fill(isToday ? Color("CustomOrange").opacity(0.12) : Color.primary.opacity(0.06))
+            }
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(isToday ? "Today, \(Self.accessibilityFormatter.string(from: date))" : Self.accessibilityFormatter.string(from: date))
@@ -28,6 +47,24 @@ struct EventDateTile: View {
     }
 
     // MARK: - Formatters
+
+    private static let weekdayFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.setLocalizedDateFormatFromTemplate("EEE")
+        return formatter
+    }()
+
+    private static let dayFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d"
+        return formatter
+    }()
+
+    private static let monthFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.setLocalizedDateFormatFromTemplate("MMM")
+        return formatter
+    }()
 
     private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -43,7 +80,7 @@ struct EventDateTile: View {
 }
 
 #Preview {
-    VStack(alignment: .leading, spacing: 24) {
+    HStack(alignment: .top, spacing: 24) {
         EventDateTile(date: .now, isToday: true)
         EventDateTile(date: .now.addingTimeInterval(86_400 * 3), isToday: false)
     }
