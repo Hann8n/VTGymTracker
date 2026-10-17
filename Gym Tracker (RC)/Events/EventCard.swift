@@ -36,10 +36,6 @@ struct EventCard: View {
         return "\(attendeeCount.abbreviatedCount) going"
     }
 
-    private var locationText: String? {
-        event.location.trimmingCharacters(in: .whitespacesAndNewlines).nilIfEmpty
-    }
-
     private var timeRangeText: String {
         Self.timeRangeText(start: event.startDate, end: event.endDate)
     }
@@ -51,26 +47,26 @@ struct EventCard: View {
             Task { await AppMetrics.shared.track(.eventOpen) }
             openURL(event.link)
         } label: {
-            HStack(alignment: .firstTextBaseline, spacing: 12) {
-                VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(alignment: .center, spacing: 12) {
                     Text(event.title)
                         .font(.headline.weight(.semibold))
                         .fontWidth(.condensed)
                         .foregroundStyle(.primary)
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
+                        .frame(maxWidth: .infinity, alignment: .leading)
 
-                    metaRow
+                    Image(systemName: "arrow.up.right")
+                        .font(.caption.weight(.bold))
+                        .foregroundStyle(.secondary)
+                        .accessibilityHidden(true)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
 
-                Image(systemName: "arrow.up.right")
-                    .font(.caption.weight(.bold))
-                    .foregroundStyle(.secondary)
-                    .accessibilityHidden(true)
+                metaRow
             }
             .frame(minHeight: 44, alignment: .leading)
-            .padding(.horizontal, DashboardLayout.horizontalGutter)
+            .padding(.trailing, DashboardLayout.horizontalGutter)
             .contentShape(Rectangle())
         }
         .buttonStyle(EventRowButtonStyle())
@@ -89,7 +85,7 @@ struct EventCard: View {
                 .monospacedDigit()
                 .foregroundStyle(.secondary)
 
-            let details = [locationText, priceText, attendeeText].compactMap { $0 }.joined(separator: " · ")
+            let details = [priceText, attendeeText].compactMap { $0 }.joined(separator: " · ")
             if !details.isEmpty {
                 Text(details)
                     .font(.caption)
@@ -113,7 +109,6 @@ struct EventCard: View {
             event.title,
             status?.text,
             Self.accessibilityTimeText(start: event.startDate, end: event.endDate),
-            locationText,
             priceText,
             attendeeText
         ]
