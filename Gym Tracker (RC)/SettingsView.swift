@@ -8,6 +8,7 @@
 import SwiftUI
 import LocalAuthentication
 import AVFoundation
+import AppIntents
 
 struct SettingsView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -64,6 +65,18 @@ struct SettingsView: View {
                     Text("Privacy")
                 } footer: {
                     Text("Help improve Gym Tracker with anonymous feature usage and campaign performance. Campus ID details are never included.")
+                }
+
+                Section {
+                    ShortcutsLink()
+                    Text("Try saying: “What are the crowds at McComas gym with Gym Tracker?”")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .textSelection(.enabled)
+                } header: {
+                    Text("Siri & Shortcuts")
+                } footer: {
+                    Text("Include Gym Tracker when asking Siri. To use your own phrase, create a shortcut with Check Current Crowds, choose McComas Hall, and name it “What are the crowds at McComas gym”. Say that shortcut name to Siri. If an action runs in Shortcuts but Siri does not find it, check that Siri is enabled for Gym Tracker in iOS Settings.")
                 }
 
                 AboutSection()

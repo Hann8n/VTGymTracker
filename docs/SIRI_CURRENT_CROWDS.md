@@ -2,22 +2,48 @@
 
 The crowds action, **Check Current Crowds**, is exposed, with a **Facility** parameter:
 McComas Hall, War Memorial Hall, Bouldering Wall, or All Facilities (the default).
-It completes in the background and returns an array of typed `FacilityCrowdsEntity`
+It explicitly supports background execution on iOS 26+ and keeps the non-opening
+compatibility flag for iOS 17–25. It completes in the background and returns an array of typed `FacilityCrowdsEntity`
 results plus a short spoken response. It does not open a screen or require the
 app's UI singleton to initialize.
 
 Example phrases use the installed app name, **Gym Tracker**:
 
 - “Check current crowds with Gym Tracker.”
+- “Check the McComas crowds with Gym Tracker.”
 - “Compare gyms with Gym Tracker.”
 - “Check crowds at McComas Hall with Gym Tracker.”
 - “How busy is War Memorial Hall in Gym Tracker?”
+- “What are the crowds at McComas gym with Gym Tracker?”
+- “How crowded is McComas gym with Gym Tracker?”
+- “What is the occupancy at McComas gym with Gym Tracker?”
 
 The fixed enum includes aliases such as McComas, War, WMH, WMH Service Desk,
 Bouldering, and Climbing Wall. Shortcuts presents the four explicit choices.
 Siri handles unresolved/ambiguous parameters using that choice set; there is no
 free-text guessing or app-side language model. Speech recognition and actual
 Siri disambiguation must be checked on a device.
+
+## When Siri does not find the action
+
+Automatic App Shortcut phrases require the app name, **Gym Tracker**. A bare
+question like “What are the crowds at McComas gym?” is not a registered global
+Siri command. In Settings → Siri & Shortcuts, the Shortcuts link opens the app's
+actions. Run **Check Current Crowds** with Facility **McComas Hall** there first.
+If it returns a result, fetching and intent execution work; Siri routing remains
+the separate check. Include “with Gym Tracker” in the spoken question.
+
+For that exact question without the app name, create a personal shortcut with
+**Check Current Crowds**, select **McComas Hall**, and rename the shortcut
+**What are the crowds at McComas gym**. Siri can run a personal shortcut by name.
+Check that Siri is enabled for Gym Tracker in iOS Settings. Install and open the
+updated app before testing; launch refreshes the App Shortcuts parameter index.
+Speech recognition and device indexing still require physical-device checks.
+
+Both the bundle display name and bundle name are **Gym Tracker**. The former
+store name **VT Gym Tracker** remains a Siri app-name alias, so existing users
+can say “Check the McComas crowds with VT Gym Tracker”. Bundle IDs,
+repository identifiers, and Swift type names stay stable across updates.
 
 ## Result contract
 
@@ -120,3 +146,6 @@ python3 scripts/verify_crowds_metadata.py '/path/to/Gym Tracker RC.app'
 ```
 
 The combined shortcut provider also exposes [recreation event actions](SIRI_EVENTS.md).
+
+- [Get to know App Intents: phrases include applicationName](https://developer.apple.com/videos/play/wwdc2025/244/)
+- [ShortcutsLink](https://developer.apple.com/documentation/appintents/shortcutslink)

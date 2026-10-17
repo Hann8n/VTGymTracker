@@ -4,15 +4,22 @@
 Usage: verify_crowds_metadata.py APP [SSU_YAML]
 Archives compile SSU assets; pass the same build's intermediate root.ssu.yaml.
 """
+import plistlib
 import json
 import sys
 from pathlib import Path
 
 app = Path(sys.argv[1])
+with (app / "Info.plist").open("rb") as source:
+    info = plistlib.load(source)
+assert info["CFBundleDisplayName"] == "Gym Tracker"
+assert info["CFBundleName"] == "Gym Tracker"
+assert any(alias["INAlternativeAppName"] == "VT Gym Tracker" for alias in info["INAlternativeAppNames"])
 data = json.loads((app / "Metadata.appintents/extract.actionsdata").read_text())
 action = data["actions"]["CurrentCrowdsIntent"]
 assert action["isDiscoverable"] is True
 assert action["openAppWhenRun"] is False
+assert action["supportedModes"] == 1  # IntentModes.background, no foreground mode
 assert action["parameters"][0]["name"] == "facility"
 assert action["outputType"]["array"]["wrapper"]["memberValueType"]["entity"]["wrapper"]["typeName"] == "FacilityCrowdsEntity"
 props = {p["identifier"]: p for p in data["entities"]["FacilityCrowdsEntity"]["properties"]}
@@ -38,6 +45,7 @@ for identifier, output, parameters in [
     event_action = data["actions"][identifier]
     assert event_action["isDiscoverable"] is True
     assert event_action["openAppWhenRun"] is False
+    assert event_action["supportedModes"] == 1
     assert {p["name"] for p in event_action["parameters"]} == parameters
     assert contains_type(event_action["outputType"], output), identifier
 
@@ -52,6 +60,6 @@ assert contains_type(search_props["events"], "CampusEventEntity")
 assert len(data["autoShortcuts"]) == 3
 phrase_path = Path(sys.argv[2]) if len(sys.argv) > 2 else app / "Metadata.appintents/root.ssu.yaml"
 phrases = phrase_path.read_text()
-for phrase in ["Check current crowds", "Compare gyms", "Check crowds at", "How busy is", "Find upcoming events", "Find recreation events", "Get event details", "Get details for"]:
+for phrase in ["Check current crowds", "Compare gyms", "Check crowds at", "How busy is", "Check the ${TrackedFacility} crowds", "Check ${TrackedFacility} crowds", "What are the crowds at", "How crowded is", "What is the occupancy at", "Find upcoming events", "Find recreation events", "Get event details", "Get details for"]:
     assert phrase in phrases
-print("PASS: three discoverable background actions; crowds with four choices/aliases and 17 properties; events with 16 factual properties and a 14-property search result; optional unknowns; eight trained phrases")
+print("PASS: three discoverable background actions; crowds with four choices/aliases and 17 properties; events with 16 factual properties and a 14-property search result; optional unknowns; fifteen trained phrases and the two-word Gym Tracker name")

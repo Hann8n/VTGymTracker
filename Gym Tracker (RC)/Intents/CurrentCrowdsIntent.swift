@@ -4,6 +4,8 @@ struct CurrentCrowdsIntent: AppIntent {
     static var title: LocalizedStringResource = "Check Current Crowds"
     static var description = IntentDescription("Get reported occupancy, capacity, fullness and data freshness for Virginia Tech recreation facilities. Compare McComas Hall and War Memorial Hall; report the Bouldering Wall separately. Counts depend on RecSports swipe data, not a forecast.")
     static var openAppWhenRun = false
+    @available(iOS 26.0, macOS 26.0, watchOS 26.0, tvOS 26.0, visionOS 26.0, *)
+    static var supportedModes: IntentModes { .background }
     static var isDiscoverable = true
 
     @Parameter(title: "Facility", default: .allFacilities)

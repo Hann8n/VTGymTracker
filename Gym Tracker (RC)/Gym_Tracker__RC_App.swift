@@ -7,6 +7,7 @@
 
 import SwiftUI
 import BackgroundTasks
+import AppIntents
 
 @main
 struct Gym_Tracker__RC_App: App {
@@ -16,6 +17,7 @@ struct Gym_Tracker__RC_App: App {
         WindowGroup {
             ContentView()
                 .environmentObject(alertManager)
+                .task { GymCrowdsShortcuts.updateAppShortcutParameters() }
         }
         .backgroundTask(.appRefresh("com.gymtracker.apprefresh")) { await runBackgroundRefresh() }
     }
