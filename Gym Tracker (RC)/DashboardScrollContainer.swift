@@ -8,6 +8,7 @@ struct DashboardScrollContainer<Content: View>: View {
             VStack(alignment: .leading, spacing: 0) {
                 content
             }
+            .scrollTargetLayout()
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             .padding(.top, 4)
             .padding(.bottom, 28)

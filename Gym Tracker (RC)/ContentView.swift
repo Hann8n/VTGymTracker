@@ -25,9 +25,13 @@ struct ContentView: View {
     @AppStorage("appTheme") private var appTheme: String = "Auto"
     @AppStorage("faceIDEnabled") private var faceIDEnabled: Bool = false
     @AppStorage("gymBarcode") private var scannedBarcode: String = ""
-    @AppStorage("sponsoredAdsEnabled") private var sponsoredAdsEnabled: Bool = true
     #if DEBUG
+    @AppStorage("sponsoredAdsEnabled") private var sponsoredAdsEnabled: Bool = true
     @AppStorage("adPreviewTier") private var adPreviewTier: String = "production"
+    #else
+    // The preview toggle is a development preference, not a release feature switch.
+    // Existing debug installs share preferences with TestFlight and App Store builds.
+    private let sponsoredAdsEnabled = true
     #endif
     
     // MARK: - Initializer
@@ -177,31 +181,35 @@ struct ContentView: View {
     
     // MARK: - Main List & Sections
     private var mainListView: some View {
-        DashboardScrollContainer {
-            VStack(alignment: .leading, spacing: 0) {
-                Text("Gym Tracker")
-                    .font(.system(size: 36, weight: .bold, design: .default))
-                    .fontWidth(.condensed)
-                    .tracking(-0.5)
-                    .foregroundStyle(.primary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 8)
-                    .accessibilityAddTraits(.isHeader)
-                    .id("dashboard-title")
-                warMemorialSection
-                    .id("dashboard-war-memorial")
-                mcComasSection
-                    .id("dashboard-mccomas")
-                boulderingWallSection
-                    .id("dashboard-bouldering")
-                VStack(alignment: .leading, spacing: 0) {
-                    sponsoredSection
-                    eventsSection
-                        .id("dashboard-events")
-                }
+        DashboardContentLayout {
+            Text("Gym Tracker")
+                .font(.system(size: 36, weight: .bold, design: .default))
+                .fontWidth(.condensed)
+                .tracking(-0.5)
+                .foregroundStyle(.primary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, DashboardLayout.horizontalGutter)
+                .padding(.bottom, 8)
+                .accessibilityAddTraits(.isHeader)
+                .id("dashboard-title")
+        } occupancy: {
+            warMemorialSection
+                .id("dashboard-war-memorial")
+            mcComasSection
+                .id("dashboard-mccomas")
+            boulderingWallSection
+                .id("dashboard-bouldering")
+            sponsoredSection
                 .animation(motionPolicy.sponsorSectionLayoutAnimation, value: sponsoredSectionLayoutToken)
-            }
+        } events: { isSeparatePane in
+            EventsSectionBlock(
+                eventsViewModel: eventsViewModel,
+                networkMonitor: networkMonitor,
+                motionPolicy: motionPolicy,
+                isSeparatePane: isSeparatePane
+            )
+            .staggeredAppear(index: 4, motionPolicy: motionPolicy)
+            .id("dashboard-events")
         }
     }
 
@@ -259,11 +267,6 @@ struct ContentView: View {
             )
         }
         .staggeredAppear(index: 2, motionPolicy: motionPolicy)
-    }
-
-    private var eventsSection: some View {
-        EventsSectionBlock(eventsViewModel: eventsViewModel, networkMonitor: networkMonitor, motionPolicy: motionPolicy)
-            .staggeredAppear(index: 4, motionPolicy: motionPolicy)
     }
 
     private var sponsoredSection: some View {

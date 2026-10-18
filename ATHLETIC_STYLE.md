@@ -6,7 +6,7 @@ Virginia Tech is not associated with this project.
 
 ## Layer model (bottom → top)
 
-1. **`AthleticFieldBoardBackground`** — Full-screen backdrop on the scrolling dashboard: `systemBackground`, soft maroon/orange gradients, film grain (`AthleticFieldBoardBackground` + `AthleticFilmGrainOverlay`). Applied once via **`DashboardScrollContainer`**.
+1. **`DashboardScrollContainer`** — A semantic system background per scrolling pane; neutral surfaces keep content legible in either appearance.
 2. **Screen chrome** — Large title (“Gym Tracker”), section headers, staggered sections.
 3. **Frosted cards** — **`CardMaterialBackground`**: `thinMaterial` plus a monochrome diagonal wash (not brand colors). Keeps occupancy and events readable.
 4. **In-card structure** — Full-bleed **`FullBleedDivider`** between stacked rows (events list, ad image/copy split).
@@ -46,7 +46,8 @@ Apply frosted surface + offline treatment with **`dashboardCardChrome(networkMon
 
 | Type | Role |
 |------|------|
-| `DashboardScrollContainer` | `ScrollView` + `AthleticFieldBoardBackground` |
+| `DashboardContentLayout` | Compact feed or independent occupancy/events panes using the horizontal size class; system arrangement on iOS 27.1+ |
+| `DashboardScrollContainer` | Scroll view with semantic background and stable section anchors |
 | `FacilityOccupancyCard` | Single facility: label, count, %, `SegmentedProgressBar` |
 | `EventsSectionBlock` | Compact header with smaller source label; stacks at larger text sizes, followed by list / empty / error |
 | `DashboardSectionHeader` | Title + optional subtitle row |
@@ -61,7 +62,7 @@ Apply frosted surface + offline treatment with **`dashboardCardChrome(networkMon
 
 ## Adding a new dashboard block
 
-1. Wrap the screen (or keep) in **`DashboardScrollContainer`** only at the root list — do not stack multiple field backgrounds.
+1. Use **`DashboardContentLayout`** at the dashboard root, and **`DashboardScrollContainer`** once per scrolling pane.
 2. Use **`DashboardLayout.horizontalGutter`** / **`cardVerticalPadding`** for insets unless there is a strong reason not to.
 3. For a full-width card, use **`dashboardCardChrome(networkMonitor:)`** after your content padding.
 4. Separate stacked rows inside one card with **`FullBleedDivider`**.
@@ -69,10 +70,17 @@ Apply frosted surface + offline treatment with **`dashboardCardChrome(networkMon
 
 ## Related files (main target)
 
-`DashboardLayout.swift`, `DashboardScrollContainer.swift`, `AthleticFieldBoardBackground.swift`, `CardMaterialBackground.swift`, `FacilityOccupancyCard.swift`, `EventsSectionBlock.swift`, `DashboardSectionHeader.swift`, `FullBleedDivider.swift`, `StaggeredAppear.swift`, `MotionPolicy.swift`, `SegmentedProgressBar.swift`, `Events/EventCard.swift`, `AdView.swift`, `ContentView.swift`
+`DashboardLayout.swift`, `DashboardContentLayout.swift`, `DashboardScrollContainer.swift`, `AthleticFieldBoardBackground.swift`, `CardMaterialBackground.swift`, `FacilityOccupancyCard.swift`, `EventsSectionBlock.swift`, `DashboardSectionHeader.swift`, `FullBleedDivider.swift`, `StaggeredAppear.swift`, `MotionPolicy.swift`, `SegmentedProgressBar.swift`, `Events/EventCard.swift`, `AdView.swift`, `ContentView.swift`
 
 ## Events reference
 
 The agenda structure follows the day-grouped Schedule pattern described in [Google Calendar’s iPhone guide](https://support.google.com/calendar/answer/6110849?co=GENIE.Platform%3DiOS&hl=en), adapted to the dashboard’s neutral surfaces and condensed section headings. The date uses a medium-weight day number rather than the occupancy hero-number style. Event titles use standard-width headlines, with smaller secondary time text.
 
 Event dates sit in compact, softly filled boxes in a reserved leading column, without a border or visible month label. Center weekday and proportional day-number text in the same width, without extra tracking. Spoken dates retain their full context.
+
+
+## Expanded displays and iPhone Duo
+
+Follow [Apple’s adaptive arrangement guidance](https://developer.apple.com/videos/play/tech-talks/111463/). Compact windows keep the existing occupancy → sponsor → events feed. Regular-width windows put occupancy and events in separate, independently scrolling panes, with the sponsor below occupancy. A single app title and system toolbar sit outside the arrangement; the events pane removes the spacing intended for a section following another card.
+
+On iOS 27.1+, `ArrangementView` with the split style lets the system select a horizontal or vertical split and account for the fold. Keep both axes available so events remain reachable in tall configurations. Earlier systems use equal-width columns in regular width. Select layouts using size classes rather than model names, screen bounds, or device orientation. View models and presentation state remain owned by `ContentView`; section scroll anchors live in the adaptive layout so resizing does not recreate data owners.
