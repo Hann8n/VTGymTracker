@@ -24,7 +24,11 @@ struct BarcodeScannerView: View {
         }
         .preferredColorScheme(.dark)
         .task {
+            #if targetEnvironment(simulator)
+            cameraAuthorized = true
+            #else
             cameraAuthorized = await AVCaptureDevice.requestAccess(for: .video)
+            #endif
             permissionChecked = true
         }
     }
@@ -36,16 +40,8 @@ struct BarcodeScannerView: View {
                 if let cameraError {
                     ContentUnavailableView("Camera unavailable", systemImage: "camera", description: Text(cameraError))
                 } else if cameraAuthorized {
-                    CampusIDCameraView(
-                        torchOn: torchOn,
-                        onCode: saveBarcode,
-                        onError: { cameraError = $0 },
-                        onTorchAvailability: { available in
-                            torchAvailable = available
-                            if !available { torchOn = false }
-                        }
-                    )
-                    .ignoresSafeArea()
+                    cameraPreview
+                        .ignoresSafeArea()
                     scanGuide
                         .allowsHitTesting(false)
                         .accessibilityHidden(true)
@@ -73,6 +69,28 @@ struct BarcodeScannerView: View {
                 }
             }
         }
+    }
+
+    @ViewBuilder private var cameraPreview: some View {
+        #if targetEnvironment(simulator)
+        Color.black
+            .overlay(alignment: .bottom) {
+                Text("Camera preview unavailable in Simulator")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .padding(24)
+            }
+        #else
+        CampusIDCameraView(
+            torchOn: torchOn,
+            onCode: saveBarcode,
+            onError: { cameraError = $0 },
+            onTorchAvailability: { available in
+                torchAvailable = available
+                if !available { torchOn = false }
+            }
+        )
+        #endif
     }
 
     private var flashlightItem: some ToolbarContent {
