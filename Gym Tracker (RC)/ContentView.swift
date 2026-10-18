@@ -21,6 +21,7 @@ struct ContentView: View {
     @State private var showAddIDChoice: Bool = false
     @State private var showAboutPopup: Bool = false
     @State private var showSettingsPopup: Bool = false
+    @State private var usesVerticalToolbar = false
     
     @AppStorage("appTheme") private var appTheme: String = "Auto"
     @AppStorage("faceIDEnabled") private var faceIDEnabled: Bool = false
@@ -45,7 +46,7 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             NavigationStack {
-                mainListView
+                dashboardWithToolbarBehavior
                     .onAppear {
                         Task { await AppMetrics.shared.activate() }
                         #if DEBUG
@@ -153,10 +154,25 @@ struct ContentView: View {
                 }
             }
         }
+        .onGeometryChange(for: Bool.self) { geometry in
+            geometry.size.width > geometry.size.height
+        } action: { isWide in
+            usesVerticalToolbar = isWide
+        }
         .preferredColorScheme(appTheme == "Light" ? .light : appTheme == "Dark" ? .dark : nil)
     }
     
     // MARK: - Main List & Sections
+    @ViewBuilder
+    private var dashboardWithToolbarBehavior: some View {
+        if #available(iOS 27.1, *) {
+            mainListView
+                .toolbarVerticalBehavior(usesVerticalToolbar ? .automatic : .disabled)
+        } else {
+            mainListView
+        }
+    }
+
     private var mainListView: some View {
         DashboardContentLayout {
             Text("Gym Tracker")
@@ -288,27 +304,51 @@ struct ContentView: View {
     @ToolbarContentBuilder
     private var campusIDToolbar: some ToolbarContent {
         if #available(iOS 27.1, *) {
-            ToolbarItem(placement: .bottomBar) {
-                campusIDButton
+            if usesVerticalToolbar {
+                ToolbarItem(placement: .bottomBar) {
+                    campusIDButton
+                        .labelStyle(.iconOnly)
+                        .controlSize(.regular)
+                }
+                .axisBehavior(.verticalPreferred)
+                .visibilityPriority(.high)
+            } else {
+                ToolbarItem(placement: .bottomBar) {
+                    campusIDButton
+                        .labelStyle(.titleAndIcon)
+                        .controlSize(.large)
+                }
+                .axisBehavior(.horizontalOnly)
+                .visibilityPriority(.high)
             }
-            .axisBehavior(.verticalPreferred)
-            .visibilityPriority(.high)
         } else {
             ToolbarItem(placement: .bottomBar) {
                 campusIDButton
+                    .labelStyle(.titleAndIcon)
+                    .controlSize(.large)
             }
         }
     }
 
     private var campusIDButton: some View {
-        Button(action: handlePassportButtonTapped) {
-            Label(
-                scannedBarcode.isEmpty ? "Add Campus ID" : "Show Campus ID",
-                systemImage: scannedBarcode.isEmpty ? "plus.circle.fill" : "barcode"
-            )
+        let title = scannedBarcode.isEmpty ? "Add Campus ID" : "Show Campus ID"
+        let symbol = scannedBarcode.isEmpty ? "plus.circle.fill" : "barcode"
+
+        return Button(action: handlePassportButtonTapped) {
+            if usesVerticalToolbar {
+                Label(title, systemImage: symbol)
+            } else {
+                // Explicit horizontal content keeps UIKit from reducing this
+                // prominent action to a symbol-only bar button.
+                HStack(spacing: 8) {
+                    Image(systemName: symbol)
+                    Text(title)
+                }
+                .font(.body.weight(.semibold))
+                .lineLimit(1)
+            }
         }
-        .labelStyle(CampusIDButtonLabelStyle())
-        .controlSize(.large)
+        .accessibilityLabel(title)
         .confirmationDialog("Add Campus ID", isPresented: $showAddIDChoice, titleVisibility: .visible) {
             Button("Scan Barcode") {
                 showAddIDChoice = false
