@@ -3,6 +3,7 @@ import SwiftUI
 /// Occupancy alongside a scrolling campaign/events feed on expanded displays.
 /// Navigation and data ownership stay outside this layout as the window changes shape.
 struct DashboardContentLayout<Header: View, Occupancy: View, Events: View>: View {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @ViewBuilder let header: () -> Header
     @ViewBuilder let occupancy: () -> Occupancy
@@ -12,8 +13,8 @@ struct DashboardContentLayout<Header: View, Occupancy: View, Events: View>: View
     @State private var eventsPosition: String?
 
     var body: some View {
-        Group {
-            if horizontalSizeClass == .regular {
+        GeometryReader { geometry in
+            if shouldUseSeparatePanes(in: geometry) {
                 VStack(alignment: .leading, spacing: 8) {
                     header()
                         .padding(.top, 4)
@@ -32,10 +33,19 @@ struct DashboardContentLayout<Header: View, Occupancy: View, Events: View>: View
         .background(Color(.systemBackground))
     }
 
+    private func shouldUseSeparatePanes(in geometry: GeometryProxy) -> Bool {
+        guard horizontalSizeClass == .regular else { return false }
+        if #available(iOS 27.1, *),
+           geometry.reservedRegions(kind: .division).contains(where: \.isActive) {
+            return true
+        }
+        return geometry.size.width > geometry.size.height && !dynamicTypeSize.isAccessibilitySize
+    }
+
     @ViewBuilder private var expandedContent: some View {
         if #available(iOS 27.1, *) {
-            // Let the system choose the axis and keep both panes clear of the fold.
-            // Restricting this to horizontal would hide events in taller orientations.
+            // The system places occupancy left/top and the scrolling feed right/bottom,
+            // respecting the active fold. Flat vertical windows use the continuous feed.
             ArrangementView {
                 occupancyPane
             } secondary: {

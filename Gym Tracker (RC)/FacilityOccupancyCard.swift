@@ -9,6 +9,8 @@ struct FacilityOccupancyCard: View {
     @ObservedObject var networkMonitor: NetworkMonitor
     let motionPolicy: MotionPolicy
 
+    @ScaledMetric(relativeTo: .largeTitle) private var countSize: CGFloat = 40
+
     private var occupancyRatio: CGFloat {
         CGFloat(OccupancyMath.fraction(occupancy: occupancy ?? 0, maxCapacity: maxCapacity))
     }
@@ -43,7 +45,7 @@ struct FacilityOccupancyCard: View {
                                 .accessibilityLabel("Loading occupancy")
                         }
                     }
-                    .font(.system(size: 40, weight: .black, design: .default))
+                    .font(.system(size: countSize, weight: .black, design: .default))
                     .fontWidth(.condensed)
                     .monospacedDigit()
                     .foregroundStyle(.primary)

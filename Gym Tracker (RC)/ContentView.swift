@@ -76,6 +76,9 @@ struct ContentView: View {
                     ManualIDInputView(isPresented: $showManualInput)
                         .environmentObject(alertManager)
                 }
+                .sheet(isPresented: $isBarcodeDisplayPresented) {
+                    CampusIDSheet()
+                }
                 .sheet(isPresented: $showSettingsPopup) {
                     SettingsView()
                         .onAppear { Task { await AppMetrics.shared.track(.settingsOpen) } }
@@ -149,9 +152,6 @@ struct ContentView: View {
                     }
                 }
             }
-            if isBarcodeDisplayPresented {
-                BarcodeDisplayOverlayView(isPresented: $isBarcodeDisplayPresented)
-            }
         }
         .preferredColorScheme(appTheme == "Light" ? .light : appTheme == "Dark" ? .dark : nil)
     }
@@ -160,7 +160,7 @@ struct ContentView: View {
     private var mainListView: some View {
         DashboardContentLayout {
             Text("Gym Tracker")
-                .font(.system(size: 36, weight: .bold, design: .default))
+                .font(.largeTitle.weight(.bold))
                 .fontWidth(.condensed)
                 .tracking(-0.5)
                 .foregroundStyle(.primary)
@@ -263,7 +263,7 @@ struct ContentView: View {
                             leadingLogo: loadedAd.logoImage
                         )
                             .padding(.horizontal, 16)
-                            .padding(.bottom, 6)
+                            .padding(.bottom, 8)
 
                         AdView(
                             ad: loadedAd.config,

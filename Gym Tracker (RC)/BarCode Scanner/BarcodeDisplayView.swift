@@ -1,109 +1,41 @@
 import SwiftUI
 
+/// A high-contrast scan surface. The barcode keeps its aspect ratio and white quiet area.
 struct BarcodeDisplayView: View {
     @AppStorage("gymBarcode") private var gymBarcode = ""
-    @State private var cachedBarcodeImage: UIImage? = nil
+    @State private var cachedBarcodeImage: UIImage?
 
     var body: some View {
         VStack(spacing: 16) {
             if let barcodeImage = cachedBarcodeImage {
                 Image(uiImage: barcodeImage)
                     .resizable()
+                    .interpolation(.none)
                     .scaledToFit()
-                    .frame(maxWidth: .infinity, maxHeight: 150)
-                    .padding()
-                    .background(Color.white, in: RoundedRectangle(cornerRadius: 12))
-            } else {
-                Text("No barcode available")
-                    .foregroundColor(.gray)
-                    .frame(maxWidth: .infinity, maxHeight: 150)
-                    .background(Color.white, in: RoundedRectangle(cornerRadius: 12))
-            }
-            
-            Text("Campus ID")
-                .font(.headline)
-                .foregroundColor(.black)
-        }
-        .onAppear {
-            // Generate barcode when view appears
-            cachedBarcodeImage = BarcodeGenerator.shared.generateCodabarBarcode(from: gymBarcode)
-        }
-        .onChange(of: gymBarcode) { _, newValue in
-            // Regenerate barcode only when the barcode string changes
-            cachedBarcodeImage = BarcodeGenerator.shared.generateCodabarBarcode(from: newValue)
-        }
-    }
-}
-
-// MARK: - Glass Close Button
-@available(iOS 26.0, *)
-struct GlassCloseButton: View {
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            Image(systemName: "xmark")
-                .font(.system(size: 20, weight: .semibold))
-                .foregroundColor(.white)
-                .frame(width: 64, height: 64)
-        }
-        .glassEffect(.regular.tint(.customMaroon).interactive(), in: Circle())
-    }
-}
-
-struct FallbackGlassCloseButton: View {
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            Image(systemName: "xmark")
-                .font(.system(size: 20, weight: .semibold))
-        }
-        .buttonStyle(.borderedProminent)
-        .controlSize(.large)
-        .tint(.customMaroon)
-        .clipShape(Circle())
-    }
-}
-
-struct BarcodeDisplayOverlayView: View {
-    @Binding var isPresented: Bool
-
-    var body: some View {
-        ZStack {
-            Color.white
-                .ignoresSafeArea()
-            
-            VStack {
-                BarcodeDisplayView()
-                    .padding(.horizontal)
-                Spacer()
-                
-                Group {
-                    if #available(iOS 26.0, *) {
-                        GlassCloseButton {
-                            isPresented = false
-                        }
-                    } else {
-                        FallbackGlassCloseButton {
-                            isPresented = false
-                        }
+                    .padding(24)
+                    .background(.white, in: RoundedRectangle(cornerRadius: 16))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 16)
+                            .strokeBorder(.black.opacity(0.1), lineWidth: 1)
                     }
-                }
-                .padding(.bottom, 40)
+                    .accessibilityLabel("Campus ID barcode")
+
+                Text("ID ending in \(gymBarcode.filter(\.isNumber).suffix(4))")
+                    .font(.footnote.monospacedDigit())
+                    .foregroundStyle(.secondary)
+            } else {
+                ContentUnavailableView(
+                    "Barcode unavailable",
+                    systemImage: "barcode",
+                    description: Text("Close this screen and check your Campus ID in Settings.")
+                )
             }
-            .padding(.vertical)
         }
-        .environment(\.colorScheme, .light)
-        .transition(.move(edge: .bottom))
-        .onTapGesture {
-            isPresented = false
-        }
-        .onAppear {
-            BrightnessManager.shared.activateBarcodeDisplay()
-        }
-        .onDisappear {
-            BrightnessManager.shared.deactivateBarcodeDisplay()
-        }
+        .onAppear { updateBarcode() }
+        .onChange(of: gymBarcode) { _, _ in updateBarcode() }
+    }
+
+    private func updateBarcode() {
+        cachedBarcodeImage = BarcodeGenerator.shared.generateCodabarBarcode(from: gymBarcode)
     }
 }

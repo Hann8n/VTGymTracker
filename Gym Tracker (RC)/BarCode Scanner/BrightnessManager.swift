@@ -1,13 +1,14 @@
 import UIKit
 
 /// Thread-safe brightness manager that must be called on the main thread
-/// UIScreen.main.brightness must be accessed on the main thread
+/// The presenting screen is resolved from the barcode sheet’s window scene.
 @MainActor
 final class BrightnessManager {
     static let shared = BrightnessManager()
     
     // Store original brightness to restore user's preference after barcode display
     private var originalBrightness: CGFloat?
+    private weak var activeScreen: UIScreen?
     
     private init() {
         // Restore brightness if app backgrounds/closes while barcode is displayed
@@ -21,14 +22,14 @@ final class BrightnessManager {
         NotificationCenter.default.removeObserver(self)
     }
     
-    func activateBarcodeDisplay() {
-        if originalBrightness == nil {
-            originalBrightness = UIScreen.main.brightness
-        }
-        // Maximum brightness improves barcode scanner readability
-        UIScreen.main.brightness = 1.0
+    func activateBarcodeDisplay(on screen: UIScreen) {
+        guard activeScreen !== screen || originalBrightness == nil else { return }
+        restoreBrightness()
+        activeScreen = screen
+        originalBrightness = screen.brightness
+        screen.brightness = 1.0
     }
-    
+
     func deactivateBarcodeDisplay() {
         restoreBrightness()
     }
@@ -42,8 +43,9 @@ final class BrightnessManager {
     
     private func restoreBrightness() {
         if let original = originalBrightness {
-            UIScreen.main.brightness = original
+            activeScreen?.brightness = original
             originalBrightness = nil
+            activeScreen = nil
         }
     }
 }
