@@ -41,16 +41,12 @@ struct ManualIDInputView: View {
                 } header: {
                     Text("Campus ID")
                 } footer: {
-                    VStack(alignment: .center, spacing: 8) {
-                        Label("All data is stored locally on this device", systemImage: "lock.shield")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        Label("Your ID will be formatted as a barcode", systemImage: "barcode")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 12)
+                    Label("Your ID will be stored locally on this device", systemImage: "lock.shield")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 12)
                 }
             }
             .formStyle(.grouped)

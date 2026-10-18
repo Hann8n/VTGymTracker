@@ -42,9 +42,7 @@ struct BarcodeScannerView: View {
                 } else if cameraAuthorized {
                     cameraPreview
                         .ignoresSafeArea()
-                    scanGuide
-                        .allowsHitTesting(false)
-                        .accessibilityHidden(true)
+                    ScannerViewfinder()
                 } else if permissionChecked {
                     ContentUnavailableView {
                         Label("Camera access needed", systemImage: "camera")
@@ -101,17 +99,6 @@ struct BarcodeScannerView: View {
             }
             .disabled(!torchAvailable || cameraError != nil)
             .accessibilityValue(torchOn ? "On" : "Off")
-        }
-    }
-
-    private var scanGuide: some View {
-        GeometryReader { geometry in
-            let width = max(0, min(440, geometry.size.width - 48))
-            let height = min(width * 0.55, geometry.size.height * 0.55)
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(.white.opacity(0.85), lineWidth: 2)
-                .frame(width: width, height: height)
-                .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
         }
     }
 
