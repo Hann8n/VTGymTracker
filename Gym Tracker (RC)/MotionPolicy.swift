@@ -7,12 +7,6 @@ struct MotionPolicy {
         reduceMotion ? .easeOut(duration: 0.14) : .easeOut(duration: 0.26)
     }
 
-    /// First-open stagger on dashboard sections only. Softer than `entryAnimation` so the cascade
-    /// feels calm; list-driven UI (e.g. events) keeps using `entryAnimation`.
-    var staggeredSectionRevealAnimation: Animation {
-        reduceMotion ? .easeOut(duration: 0.14) : .easeInOut(duration: 0.30)
-    }
-
     /// Reflow when sponsor mounts/unmounts — short ease-in-out so “Upcoming Events” shifts feel
     /// tight and even without bounce.
     var sponsorSectionLayoutAnimation: Animation {
