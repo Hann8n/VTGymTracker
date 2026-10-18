@@ -3,16 +3,9 @@ import SwiftUI
 struct ScannerViewfinder: View {
     var body: some View {
         GeometryReader { geometry in
-            let width = max(0, min(440, geometry.size.width - 48))
-            let height = min(width * 0.55, geometry.size.height * 0.55)
-            let viewport = CGRect(
-                x: (geometry.size.width - width) / 2,
-                y: (geometry.size.height - height) / 2,
-                width: width,
-                height: height
-            )
+            let viewport = CampusIDScanLayout.viewport(in: geometry.size)
             // Extend behind translucent system bars while keeping the clear window
-            // centered within the safe camera area, including on an adapted sheet.
+            // aligned with the displayed ID in the upper safe camera area.
             let backdrop = CGRect(
                 x: -geometry.safeAreaInsets.leading,
                 y: -geometry.safeAreaInsets.top,
@@ -28,7 +21,7 @@ struct ScannerViewfinder: View {
 
             RoundedRectangle(cornerRadius: 16)
                 .stroke(.white.opacity(0.85), lineWidth: 2)
-                .frame(width: width, height: height)
+                .frame(width: viewport.width, height: viewport.height)
                 .position(x: viewport.midX, y: viewport.midY)
         }
         .allowsHitTesting(false)

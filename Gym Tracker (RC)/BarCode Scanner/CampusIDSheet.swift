@@ -5,13 +5,17 @@ struct CampusIDSheet: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                BarcodeDisplayView()
-                    .frame(maxWidth: 440)
-                    .padding(24)
-                    .frame(maxWidth: .infinity)
+            GeometryReader { geometry in
+                let viewport = CampusIDScanLayout.viewport(in: geometry.size)
+                ScrollView {
+                    BarcodeDisplayView(scanWindowSize: viewport.size)
+                        .frame(width: viewport.width)
+                        .padding(.top, viewport.minY)
+                        .padding(.bottom, CampusIDScanLayout.horizontalInset)
+                        .frame(maxWidth: .infinity, alignment: .top)
+                }
+                .defaultScrollAnchor(.top)
             }
-            .defaultScrollAnchor(.center)
             .background(Color(.systemBackground))
             .background { BarcodeBrightnessView().frame(width: 0, height: 0) }
             .navigationTitle("Campus ID")

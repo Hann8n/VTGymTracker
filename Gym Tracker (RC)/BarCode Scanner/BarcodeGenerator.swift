@@ -9,7 +9,7 @@ struct BarcodeGenerator {
     
     func generateCodabarBarcode(from input: String) -> UIImage? {
         let barcodeWidth: CGFloat = 300
-        let barcodeHeight: CGFloat = 100
+        let barcodeHeight = barcodeWidth / CampusIDScanLayout.barcodeAspectRatio
         let barcodeSize = CGSize(width: barcodeWidth, height: barcodeHeight)
         
         let codabarView = CDCodabarView()
