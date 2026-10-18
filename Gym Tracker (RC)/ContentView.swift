@@ -185,7 +185,6 @@ struct ContentView: View {
                     motionPolicy: motionPolicy,
                     isSeparatePane: isSeparatePane && !hasActiveSponsoredAd
                 )
-                .staggeredAppear(index: 4, motionPolicy: motionPolicy)
                 .id("dashboard-events")
             }
             .animation(motionPolicy.sponsorSectionLayoutAnimation, value: sponsoredSectionLayoutToken)
@@ -220,7 +219,6 @@ struct ContentView: View {
             )
             FullBleedDivider()
         }
-        .staggeredAppear(index: 0, motionPolicy: motionPolicy)
     }
 
     private var mcComasSection: some View {
@@ -235,7 +233,6 @@ struct ContentView: View {
             )
             FullBleedDivider()
         }
-        .staggeredAppear(index: 1, motionPolicy: motionPolicy)
     }
 
     private var boulderingWallSection: some View {
@@ -249,7 +246,6 @@ struct ContentView: View {
                 motionPolicy: motionPolicy
             )
         }
-        .staggeredAppear(index: 2, motionPolicy: motionPolicy)
     }
 
     private func sponsoredSection(isSeparatePane: Bool) -> some View {

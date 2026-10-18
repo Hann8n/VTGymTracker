@@ -7,7 +7,7 @@ Virginia Tech is not associated with this project.
 ## Layer model (bottom → top)
 
 1. **`DashboardScrollContainer`** — A semantic system background per scrolling pane; neutral surfaces keep content legible in either appearance.
-2. **Screen chrome** — Large title (“Gym Tracker”), section headers, staggered sections.
+2. **Screen chrome** — Large title (“Gym Tracker”) and section headers.
 3. **Frosted cards** — **`CardMaterialBackground`**: `thinMaterial` plus a monochrome diagonal wash (not brand colors). Keeps occupancy and events readable.
 4. **In-card structure** — Full-bleed **`FullBleedDivider`** between stacked rows (events list, ad image/copy split).
 
@@ -39,8 +39,8 @@ Apply frosted surface + offline treatment with **`dashboardCardChrome(networkMon
 ## Motion
 
 - **`MotionPolicy`** derives animations from `accessibilityReduceMotion`.
-- **Entry / updates**: `entryAnimation`, `updateAnimation`, `transition` — pass the same `motionPolicy` into views that animate numbers or swap content.
-- **Staggered sections**: **`staggeredAppear(index:motionPolicy:)`** — capped delay ~12 steps × 55 ms; skips motion when Reduce Motion is on.
+- **Data updates**: `entryAnimation`, `updateAnimation`, `transition` — pass the same `motionPolicy` into views that animate numbers or swap content.
+- **Rotation and resizing**: let iOS coordinate the transition. Keep sections immediately visible when switching layouts; do not replay entrance fades.
 
 ## Component map
 
@@ -53,7 +53,6 @@ Apply frosted surface + offline treatment with **`dashboardCardChrome(networkMon
 | `DashboardSectionHeader` | Title + optional subtitle row |
 | `FullBleedDivider` | 1 pt `separator` edge-to-edge inside a card |
 | `CardMaterialBackground` | Reusable frosted fill |
-| `StaggeredAppear` | Section entrance |
 | `EventDayGroup` | Agenda layout: compact date gutter beside a title/time stack, top-aligned with 12 pt outer inset; stacks at accessibility sizes |
 | `EventDateTile` | Soft-filled weekday/day box without a border or month label; Today is accented, distinct from plain event times |
 | `EventCard` | Standard-width semibold headline and centered outlink, 4 pt title/time gap, 52 pt minimum touch height; supporting details wrap at Dynamic Type sizes |
@@ -66,11 +65,11 @@ Apply frosted surface + offline treatment with **`dashboardCardChrome(networkMon
 2. Use **`DashboardLayout.horizontalGutter`** / **`cardVerticalPadding`** for insets unless there is a strong reason not to.
 3. For a full-width card, use **`dashboardCardChrome(networkMonitor:)`** after your content padding.
 4. Separate stacked rows inside one card with **`FullBleedDivider`**.
-5. For a new section in `ContentView`, add **`staggeredAppear`** with the next index and pass **`motionPolicy`**.
+5. Give new sections stable scroll anchors and scope animations to actual data changes. Keep rotation and resizing under system control.
 
 ## Related files (main target)
 
-`DashboardLayout.swift`, `DashboardContentLayout.swift`, `DashboardScrollContainer.swift`, `AthleticFieldBoardBackground.swift`, `CardMaterialBackground.swift`, `FacilityOccupancyCard.swift`, `EventsSectionBlock.swift`, `DashboardSectionHeader.swift`, `FullBleedDivider.swift`, `StaggeredAppear.swift`, `MotionPolicy.swift`, `SegmentedProgressBar.swift`, `Events/EventCard.swift`, `AdView.swift`, `ContentView.swift`
+`DashboardLayout.swift`, `DashboardContentLayout.swift`, `DashboardScrollContainer.swift`, `AthleticFieldBoardBackground.swift`, `CardMaterialBackground.swift`, `FacilityOccupancyCard.swift`, `EventsSectionBlock.swift`, `DashboardSectionHeader.swift`, `FullBleedDivider.swift`, `MotionPolicy.swift`, `SegmentedProgressBar.swift`, `Events/EventCard.swift`, `AdView.swift`, `ContentView.swift`
 
 ## Events reference
 

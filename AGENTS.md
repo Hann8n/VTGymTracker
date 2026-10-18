@@ -31,7 +31,7 @@ Gym Tracker (RC)/
 ├── Services/           # GymService, GymOccupancyFetcher, OccupancyHTMLParser, Constants, UnifiedGymTrackerProvider, NetworkMonitor, WarningManager, AuthenticationService, GymFacility, WebView
 ├── Ads/                # AdConfig, AdService, AdViewModel, AdView
 ├── Events/             # EventsViewModel, Event, EventsSectionBlock, EventDayGroup, EventDateTile, EventCard, EventRowButtonStyle
-├── Components/         # CardMaterialBackground, FullBleedDivider, StaggeredAppear
+├── Components/         # CardMaterialBackground, FullBleedDivider
 ├── BarCode Scanner/    # BarcodeScannerView, BarcodeGenerator, BarcodeDisplayView, ManualIDInputView, BrightnessManager, HokiePassportFieldView
 ├── ContentView.swift, Dashboard*.swift and related card/section components (dashboard style), MotionPolicy.swift, CustomColors.swift, SegmentedProgressBar.swift, SettingsView.swift, PrivacyPolicyView.swift, AppInfo.swift, Alerts.swift — see ATHLETIC_STYLE.md
 GymTrackerWidget/       # Widget + LockscreenWidget
