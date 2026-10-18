@@ -6,7 +6,7 @@ struct DashboardContentLayout<Header: View, Occupancy: View, Events: View>: View
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @ViewBuilder let header: () -> Header
-    @ViewBuilder let occupancy: () -> Occupancy
+    @ViewBuilder let occupancy: (_ isCompact: Bool) -> Occupancy
     @ViewBuilder let events: (_ isSeparatePane: Bool) -> Events
 
     @State private var occupancyPosition: String?
@@ -15,16 +15,20 @@ struct DashboardContentLayout<Header: View, Occupancy: View, Events: View>: View
     var body: some View {
         GeometryReader { geometry in
             if shouldUseSeparatePanes(in: geometry) {
-                VStack(alignment: .leading, spacing: 8) {
-                    header()
-                        .padding(.top, 4)
-                        .padding(.horizontal, 8)
-                    expandedContent
+                if hasHorizontalFold(in: geometry) {
+                    expandedContent(occupancyAboveFold: true)
+                } else {
+                    VStack(alignment: .leading, spacing: 8) {
+                        header()
+                            .padding(.top, 4)
+                            .padding(.horizontal, 8)
+                        expandedContent(occupancyAboveFold: false)
+                    }
                 }
             } else {
                 DashboardScrollContainer {
                     header()
-                    occupancy()
+                    occupancy(false)
                     events(false)
                 }
                 .scrollPosition(id: $occupancyPosition, anchor: .top)
@@ -42,12 +46,25 @@ struct DashboardContentLayout<Header: View, Occupancy: View, Events: View>: View
         return geometry.size.width > geometry.size.height && !dynamicTypeSize.isAccessibilitySize
     }
 
-    @ViewBuilder private var expandedContent: some View {
+    private func hasHorizontalFold(in geometry: GeometryProxy) -> Bool {
+        if #available(iOS 27.1, *) {
+            return geometry.reservedRegions(kind: .division).contains {
+                $0.isActive && $0.frame.width > $0.frame.height
+            }
+        }
+        return false
+    }
+
+    @ViewBuilder private func expandedContent(occupancyAboveFold: Bool) -> some View {
         if #available(iOS 27.1, *) {
             // The system places occupancy left/top and the scrolling feed right/bottom,
             // respecting the active fold. Flat vertical windows use the continuous feed.
             ArrangementView {
-                occupancyPane
+                if occupancyAboveFold {
+                    FixedOccupancyPane(occupancy: occupancy)
+                } else {
+                    occupancyPane
+                }
             } secondary: {
                 eventsPane
             }
@@ -80,7 +97,7 @@ struct DashboardContentLayout<Header: View, Occupancy: View, Events: View>: View
             DashboardSectionHeader(title: "Live occupancy")
                 .padding(.horizontal, DashboardLayout.horizontalGutter)
                 .padding(.bottom, 8)
-            occupancy()
+            occupancy(false)
         }
         .padding(.top, 4)
     }

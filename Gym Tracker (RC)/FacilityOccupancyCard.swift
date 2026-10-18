@@ -8,8 +8,10 @@ struct FacilityOccupancyCard: View {
     let segmentCount: Int
     @ObservedObject var networkMonitor: NetworkMonitor
     let motionPolicy: MotionPolicy
+    var isCompact = false
 
     @ScaledMetric(relativeTo: .largeTitle) private var countSize: CGFloat = 40
+    @ScaledMetric(relativeTo: .title2) private var compactCountSize: CGFloat = 28
 
     private var occupancyRatio: CGFloat {
         CGFloat(OccupancyMath.fraction(occupancy: occupancy ?? 0, maxCapacity: maxCapacity))
@@ -45,7 +47,7 @@ struct FacilityOccupancyCard: View {
                                 .accessibilityLabel("Loading occupancy")
                         }
                     }
-                    .font(.system(size: countSize, weight: .black, design: .default))
+                    .font(.system(size: isCompact ? compactCountSize : countSize, weight: .black, design: .default))
                     .fontWidth(.condensed)
                     .monospacedDigit()
                     .foregroundStyle(.primary)
@@ -79,8 +81,8 @@ struct FacilityOccupancyCard: View {
             .animation(motionPolicy.updateAnimation, value: occupancy)
         }
         .padding(.horizontal, DashboardLayout.horizontalGutter)
-        .padding(.top, DashboardLayout.horizontalGutter)
-        .padding(.bottom, DashboardLayout.cardVerticalPadding)
+        .padding(.top, isCompact ? 8 : DashboardLayout.horizontalGutter)
+        .padding(.bottom, isCompact ? 8 : DashboardLayout.cardVerticalPadding)
         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
         .dashboardCardChrome(networkMonitor: networkMonitor)
     }
