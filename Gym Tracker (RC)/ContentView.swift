@@ -169,12 +169,12 @@ struct ContentView: View {
                 .padding(.bottom, 8)
                 .accessibilityAddTraits(.isHeader)
                 .id("dashboard-title")
-        } occupancy: { isCompact in
-            warMemorialSection(isCompact: isCompact)
+        } occupancy: {
+            warMemorialSection
                 .id("dashboard-war-memorial")
-            mcComasSection(isCompact: isCompact)
+            mcComasSection
                 .id("dashboard-mccomas")
-            boulderingWallSection(isCompact: isCompact)
+            boulderingWallSection
                 .id("dashboard-bouldering")
         } events: { isSeparatePane in
             VStack(alignment: .leading, spacing: 0) {
@@ -208,7 +208,7 @@ struct ContentView: View {
         MotionPolicy(reduceMotion: reduceMotion)
     }
 
-    private func warMemorialSection(isCompact: Bool) -> some View {
+    private var warMemorialSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             FacilityOccupancyCard(
                 facilityTitle: "War Memorial Hall",
@@ -216,15 +216,14 @@ struct ContentView: View {
                 maxCapacity: Constants.warMemorialMaxCapacity,
                 segmentCount: 20,
                 networkMonitor: networkMonitor,
-                motionPolicy: motionPolicy,
-                isCompact: isCompact
+                motionPolicy: motionPolicy
             )
             FullBleedDivider()
         }
         .staggeredAppear(index: 0, motionPolicy: motionPolicy)
     }
 
-    private func mcComasSection(isCompact: Bool) -> some View {
+    private var mcComasSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             FacilityOccupancyCard(
                 facilityTitle: "McComas Hall",
@@ -232,15 +231,14 @@ struct ContentView: View {
                 maxCapacity: Constants.mcComasMaxCapacity,
                 segmentCount: 20,
                 networkMonitor: networkMonitor,
-                motionPolicy: motionPolicy,
-                isCompact: isCompact
+                motionPolicy: motionPolicy
             )
             FullBleedDivider()
         }
         .staggeredAppear(index: 1, motionPolicy: motionPolicy)
     }
 
-    private func boulderingWallSection(isCompact: Bool) -> some View {
+    private var boulderingWallSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             FacilityOccupancyCard(
                 facilityTitle: "Bouldering Wall",
@@ -248,8 +246,7 @@ struct ContentView: View {
                 maxCapacity: Constants.boulderingWallMaxCapacity,
                 segmentCount: 8,
                 networkMonitor: networkMonitor,
-                motionPolicy: motionPolicy,
-                isCompact: isCompact
+                motionPolicy: motionPolicy
             )
         }
         .staggeredAppear(index: 2, motionPolicy: motionPolicy)
