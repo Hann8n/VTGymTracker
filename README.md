@@ -90,7 +90,8 @@ boulderingWallMaxCapacity: 8
 - Optional `@AppStorage("faceIDEnabled")` for biometric protection
 
 **Scanning:**
-- `BarcodeScannerView` uses `CodeScannerView` (third-party library)
+- `BarcodeScannerView` uses native AVFoundation capture with a serial session queue.
+- On iOS 27.1+, AVKit direction coordination tracks the camera relative to the presenting display; rotation coordination keeps the preview upright.
 - Scans Codabar format (`codeTypes: [.codabar]`)
 - Validation: Ensures start/end characters are A/B/C/D
 - Auto-prefix/suffix if missing: defaults to "A" prefix, "B" suffix
@@ -98,7 +99,7 @@ boulderingWallMaxCapacity: 8
 **Generation:**
 - `BarcodeGenerator` uses `CDCodabarView` (third-party library)
 - Generates `UIImage` from Codabar string
-- Displayed in `BarcodeDisplayOverlayView` with brightness boost via `BrightnessManager`
+- Displayed in the native `CampusIDSheet`, with a white scan area and brightness restoration via `BrightnessManager`.
 
 **Authentication:**
 - `LocalAuthentication` framework for Face ID/Touch ID
@@ -147,7 +148,6 @@ boulderingWallMaxCapacity: 8
 
 ### Dependencies
 
-- **CodeScanner**: Barcode scanning (`CodeScannerView`)
 - **CDCodabarView**: Codabar barcode generation
 - **SwiftUI**: UI framework
 - **Combine**: Reactive data flow
@@ -159,7 +159,7 @@ boulderingWallMaxCapacity: 8
 
 - iOS 17.0+
 - watchOS 10.0+
-- Xcode 16.0+
+- Xcode 27.1+ (for the Duo SDK; deployment remains iOS 17+)
 - Swift 5.9+
 
 ### Project Structure

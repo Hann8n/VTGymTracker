@@ -6,13 +6,13 @@ iOS app for Virginia Tech gym occupancy and campus events. You are a **Senior iO
 
 - **Product**: VT Gym Tracker — gym occupancy and campus events for Virginia Tech
 - **Targets**: Main app, Widget extension, Watch app, Complications
-- **Platform**: iOS 17+, watchOS 10+, Swift 5.9+, Xcode 16+
+- **Platform**: iOS 17+, watchOS 10+, Swift 5.9+, Xcode 27.1+
 - **References**: [README.md](README.md), [API_DATA_FLOW.md](API_DATA_FLOW.md)
 - *Virginia Tech is not associated with this project.*
 
 ## Dev Environment
 
-Open `Gym Tracker.xcodeproj` in Xcode 16+.
+Open `Gym Tracker.xcodeproj` in Xcode 27.1+.
 
 | Command | Purpose |
 |---------|---------|
@@ -42,7 +42,8 @@ GymTrackerComplications/
 - **GymService**: `@MainActor` singleton, `@Published` occupancy; 30s foreground refresh, 60s retry on failure
 - **App Group**: `group.VTGymApp.D8VXFBV8SJ`. Keys: `mcComasOccupancy`, `warMemorialOccupancy`, `boulderingWallOccupancy`, `lastFetchDate`
 - **Target membership**: Shared files must respect `project.pbxproj` exceptions (main app, widget, watch)
-- **Dependencies**: CodeScanner, CDCodabarView, SyndiKit, FeedKit, XMLCoder. Avoid adding dependencies for simple tasks.
+- **Camera**: Native AVFoundation session queue, iOS 17 rotation coordinator, and iOS 27.1 AVKit direction coordinator. Simulator does not verify live barcode decoding or hardware fold transitions.
+- **Dependencies**: CDCodabarView, SyndiKit, FeedKit, XMLCoder. Avoid adding dependencies for simple tasks.
 
 ## Swift / SwiftUI Instructions
 

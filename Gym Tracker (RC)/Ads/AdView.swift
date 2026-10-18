@@ -106,7 +106,6 @@ struct AdView: View {
         VStack(alignment: .leading, spacing: 0) {
             Text(ad.headline)
                 .font(.title3.weight(.bold))
-                .fontWidth(.condensed)
                 .foregroundStyle(.primary)
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
@@ -114,7 +113,6 @@ struct AdView: View {
             if let subline = ad.subline, !subline.isEmpty {
                 Text(subline)
                     .font(.subheadline.weight(.medium))
-                    .fontWidth(.condensed)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.leading)
                     .padding(.top, 6)
@@ -133,8 +131,7 @@ struct AdView: View {
                 HStack(alignment: .center, spacing: 6) {
                     Text(ad.cta)
                         .font(.subheadline.weight(.semibold))
-                        .fontWidth(.condensed)
-                        .lineLimit(2)
+                        .lineLimit(nil)
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
                     Image(systemName: "arrow.up.right")
