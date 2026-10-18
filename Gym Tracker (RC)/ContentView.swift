@@ -296,7 +296,6 @@ struct ContentView: View {
         } else {
             ToolbarItem(placement: .bottomBar) {
                 campusIDButton
-                    .labelStyle(.titleAndIcon)
             }
         }
     }
@@ -304,11 +303,12 @@ struct ContentView: View {
     private var campusIDButton: some View {
         Button(action: handlePassportButtonTapped) {
             Label(
-                scannedBarcode.isEmpty ? "Add Campus ID" : "Show ID",
+                scannedBarcode.isEmpty ? "Add Campus ID" : "Show Campus ID",
                 systemImage: scannedBarcode.isEmpty ? "plus.circle.fill" : "barcode"
             )
         }
-        .controlSize(.regular)
+        .labelStyle(CampusIDButtonLabelStyle())
+        .controlSize(.large)
         .confirmationDialog("Add Campus ID", isPresented: $showAddIDChoice, titleVisibility: .visible) {
             Button("Scan Barcode") {
                 showAddIDChoice = false
