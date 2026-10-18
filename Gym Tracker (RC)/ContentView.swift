@@ -136,30 +136,7 @@ struct ContentView: View {
                 .navigationTitle("")
                 .toolbar {
                     if UIDevice.current.userInterfaceIdiom == .phone {
-                        ToolbarItem(placement: .bottomBar) {
-                            Button(action: handlePassportButtonTapped) {
-                                HStack(spacing: 6) {
-                                    Image(systemName: scannedBarcode.isEmpty ? "plus.circle.fill" : "barcode")
-                                    Text(scannedBarcode.isEmpty ? "Add Campus ID" : "Show ID")
-                                }
-                            }
-                            .controlSize(.regular)
-                            .confirmationDialog("Add Campus ID", isPresented: $showAddIDChoice, titleVisibility: .visible) {
-                                Button("Scan Barcode") {
-                                    showAddIDChoice = false
-                                    isScannerPresented = true
-                                }
-                                Button("Enter ID Number") {
-                                    showAddIDChoice = false
-                                    showManualInput = true
-                                }
-                                Button("Cancel", role: .cancel) {
-                                    showAddIDChoice = false
-                                }
-                            } message: {
-                                Text("Scan barcode or enter your ID number.")
-                            }
-                        }
+                        campusIDToolbar
                     }
                     ToolbarItem(placement: .primaryAction) {
                         Button(action: {
@@ -199,18 +176,24 @@ struct ContentView: View {
                 .id("dashboard-mccomas")
             boulderingWallSection
                 .id("dashboard-bouldering")
-            sponsoredSection
-                .animation(motionPolicy.sponsorSectionLayoutAnimation, value: sponsoredSectionLayoutToken)
         } events: { isSeparatePane in
-            EventsSectionBlock(
-                eventsViewModel: eventsViewModel,
-                networkMonitor: networkMonitor,
-                motionPolicy: motionPolicy,
-                isSeparatePane: isSeparatePane
-            )
-            .staggeredAppear(index: 4, motionPolicy: motionPolicy)
-            .id("dashboard-events")
+            VStack(alignment: .leading, spacing: 0) {
+                sponsoredSection(isSeparatePane: isSeparatePane)
+                EventsSectionBlock(
+                    eventsViewModel: eventsViewModel,
+                    networkMonitor: networkMonitor,
+                    motionPolicy: motionPolicy,
+                    isSeparatePane: isSeparatePane && !hasActiveSponsoredAd
+                )
+                .staggeredAppear(index: 4, motionPolicy: motionPolicy)
+                .id("dashboard-events")
+            }
+            .animation(motionPolicy.sponsorSectionLayoutAnimation, value: sponsoredSectionLayoutToken)
         }
+    }
+
+    private var hasActiveSponsoredAd: Bool {
+        sponsoredAdsEnabled && adViewModel.loadedAd?.config.isCurrentlyActive == true
     }
 
     /// Drives smooth reflow of sections below the fold when the sponsor block mounts/unmounts or toggles.
@@ -269,7 +252,7 @@ struct ContentView: View {
         .staggeredAppear(index: 2, motionPolicy: motionPolicy)
     }
 
-    private var sponsoredSection: some View {
+    private func sponsoredSection(isSeparatePane: Bool) -> some View {
         Group {
             if let loadedAd = adViewModel.loadedAd, sponsoredAdsEnabled, loadedAd.config.isCurrentlyActive {
                 VStack(alignment: .leading, spacing: 0) {
@@ -289,7 +272,7 @@ struct ContentView: View {
                             networkMonitor: networkMonitor
                         )
                     }
-                    .padding(.top, DashboardLayout.cardVerticalPadding)
+                    .padding(.top, isSeparatePane ? 0 : DashboardLayout.cardVerticalPadding)
                 }
                 .id("dashboard-sponsored")
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
@@ -306,6 +289,47 @@ struct ContentView: View {
     
     // MARK: - Toolbar Button Methods
     
+    @ToolbarContentBuilder
+    private var campusIDToolbar: some ToolbarContent {
+        if #available(iOS 27.1, *) {
+            ToolbarItem(placement: .bottomBar) {
+                campusIDButton
+            }
+            .axisBehavior(.verticalPreferred)
+            .visibilityPriority(.high)
+        } else {
+            ToolbarItem(placement: .bottomBar) {
+                campusIDButton
+                    .labelStyle(.titleAndIcon)
+            }
+        }
+    }
+
+    private var campusIDButton: some View {
+        Button(action: handlePassportButtonTapped) {
+            Label(
+                scannedBarcode.isEmpty ? "Add Campus ID" : "Show ID",
+                systemImage: scannedBarcode.isEmpty ? "plus.circle.fill" : "barcode"
+            )
+        }
+        .controlSize(.regular)
+        .confirmationDialog("Add Campus ID", isPresented: $showAddIDChoice, titleVisibility: .visible) {
+            Button("Scan Barcode") {
+                showAddIDChoice = false
+                isScannerPresented = true
+            }
+            Button("Enter ID Number") {
+                showAddIDChoice = false
+                showManualInput = true
+            }
+            Button("Cancel", role: .cancel) {
+                showAddIDChoice = false
+            }
+        } message: {
+            Text("Scan barcode or enter your ID number.")
+        }
+    }
+
     private func handlePassportButtonTapped() {
         if scannedBarcode.isEmpty {
             showAddIDChoice = true

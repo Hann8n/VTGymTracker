@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Two peer sections on an expanded display, a continuous feed in compact windows.
+/// Occupancy alongside a scrolling campaign/events feed on expanded displays.
 /// Navigation and data ownership stay outside this layout as the window changes shape.
 struct DashboardContentLayout<Header: View, Occupancy: View, Events: View>: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
@@ -52,16 +52,27 @@ struct DashboardContentLayout<Header: View, Occupancy: View, Events: View>: View
     }
 
     private var occupancyPane: some View {
-        DashboardScrollContainer {
+        ViewThatFits(in: .vertical) {
+            occupancyContent
+                .fixedSize(horizontal: false, vertical: true)
+            DashboardScrollContainer {
+                occupancyContent
+            }
+            .scrollPosition(id: $occupancyPosition, anchor: .top)
+        }
+        .padding(.horizontal, 8)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .accessibilityIdentifier("dashboard-occupancy-pane")
+    }
+
+    private var occupancyContent: some View {
+        VStack(alignment: .leading, spacing: 0) {
             DashboardSectionHeader(title: "Live occupancy")
                 .padding(.horizontal, DashboardLayout.horizontalGutter)
                 .padding(.bottom, 8)
             occupancy()
         }
-        .scrollPosition(id: $occupancyPosition, anchor: .top)
-        .padding(.horizontal, 8)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .accessibilityIdentifier("dashboard-occupancy-pane")
+        .padding(.top, 4)
     }
 
     private var eventsPane: some View {
