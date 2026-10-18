@@ -29,7 +29,7 @@ let package = Package(
             "Events/EventCard.swift", "Events/EventDateTile.swift", "Events/EventsSectionBlock.swift",
             "Events/EventsViewModel.swift", "Events/EventDayGroup.swift", "Events/EventRowButtonStyle.swift",
             "ContentView.swift",
-            "DashboardScrollContainer.swift",
+            "DashboardScrollContainer.swift", "DashboardContentLayout.swift",
             "PrivacyPolicyView.swift", "PrivacyInfo.xcprivacy",
             "Services/GymFacility.swift",
             "Services/AuthenticationService.swift",

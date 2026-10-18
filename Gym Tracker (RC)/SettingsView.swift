@@ -17,8 +17,8 @@ struct SettingsView: View {
     @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = true
     @AppStorage("gymBarcode") private var gymBarcode: String = ""
     @AppStorage("faceIDEnabled") private var faceIDEnabled: Bool = false
-    @AppStorage("sponsoredAdsEnabled") private var sponsoredAdsEnabled: Bool = true
     #if DEBUG
+    @AppStorage("sponsoredAdsEnabled") private var sponsoredAdsEnabled: Bool = true
     @AppStorage("adPreviewTier") private var adPreviewTier: String = "production"
     #endif
 

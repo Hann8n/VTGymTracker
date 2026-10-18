@@ -4,6 +4,7 @@ struct EventsSectionBlock: View {
     @ObservedObject var eventsViewModel: EventsViewModel
     @ObservedObject var networkMonitor: NetworkMonitor
     let motionPolicy: MotionPolicy
+    var isSeparatePane = false
 
     /// Upcoming (not yet ended) events grouped by calendar day, earliest first.
     private func groupedEvents(now: Date) -> [(date: Date, events: [Event])] {
@@ -49,6 +50,7 @@ struct EventsSectionBlock: View {
                 }
             }
             .padding(.horizontal, DashboardLayout.horizontalGutter)
+            .padding(.vertical, isSeparatePane ? 2 : 0)
 
             Group {
                 if let errorMessage = eventsViewModel.errorMessage {
@@ -64,7 +66,7 @@ struct EventsSectionBlock: View {
             .transition(motionPolicy.transition)
             .animation(motionPolicy.entryAnimation, value: eventsViewModel.events.count)
         }
-        .padding(.top, DashboardLayout.sectionSpacingBeforeHeader)
+        .padding(.top, isSeparatePane ? 0 : DashboardLayout.sectionSpacingBeforeHeader)
     }
 
     // MARK: - States
