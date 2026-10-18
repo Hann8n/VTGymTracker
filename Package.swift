@@ -18,7 +18,6 @@ let package = Package(
             "AppInfo.swift",
             "CustomColors.swift",
             "FacilityOccupancyCard.swift",
-            "FixedOccupancyPane.swift",
             "Preview Content",
             "Gym_Tracker__RC_.entitlements",
             "Gym_Tracker__RC_App.swift",
