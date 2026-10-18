@@ -2,6 +2,7 @@ import SwiftUI
 
 /// A high-contrast scan surface. The barcode keeps its aspect ratio and white quiet area.
 struct BarcodeDisplayView: View {
+    var scanWindowSize: CGSize? = nil
     @AppStorage("gymBarcode") private var gymBarcode = ""
     @State private var cachedBarcodeImage: UIImage?
 
@@ -12,7 +13,11 @@ struct BarcodeDisplayView: View {
                     .resizable()
                     .interpolation(.none)
                     .scaledToFit()
-                    .padding(24)
+                    .frame(
+                        width: scanWindowSize.map { max(0, $0.width - 2 * CampusIDScanLayout.quietArea) },
+                        height: scanWindowSize.map { max(0, $0.height - 2 * CampusIDScanLayout.quietArea) }
+                    )
+                    .padding(CampusIDScanLayout.quietArea)
                     .background(.white, in: RoundedRectangle(cornerRadius: 16))
                     .overlay {
                         RoundedRectangle(cornerRadius: 16)
