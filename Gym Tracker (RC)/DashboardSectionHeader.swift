@@ -40,6 +40,7 @@ struct DashboardSectionHeader: View {
                 .fontWidth(.condensed)
                 .tracking(0.9)
                 .foregroundStyle(.primary)
+                .accessibilityAddTraits(.isHeader)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .frame(minHeight: logoSize)

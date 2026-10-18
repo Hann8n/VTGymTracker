@@ -21,36 +21,10 @@ struct EventsSectionBlock: View {
         }
     }
 
-    private var sectionTitle: some View {
-        Text("Upcoming Events".uppercased())
-            .font(.subheadline.weight(.bold))
-            .fontWidth(.condensed)
-            .tracking(0.9)
-            .foregroundStyle(.primary)
-            .accessibilityAddTraits(.isHeader)
-    }
-
-    private var sourceLabel: some View {
-        Text("Rec Sports")
-            .font(.caption)
-            .foregroundStyle(.secondary)
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            ViewThatFits(in: .horizontal) {
-                HStack(alignment: .center, spacing: 12) {
-                    sectionTitle.fixedSize()
-                    Spacer(minLength: 0)
-                    sourceLabel.fixedSize()
-                }
-                VStack(alignment: .leading, spacing: 4) {
-                    sectionTitle
-                    sourceLabel
-                }
-            }
-            .padding(.horizontal, DashboardLayout.horizontalGutter)
-            .padding(.vertical, isSeparatePane ? 2 : 0)
+            DashboardSectionHeader(title: "Upcoming Events", subtitle: "Rec Sports")
+                .padding(.horizontal, DashboardLayout.horizontalGutter)
 
             Group {
                 if let errorMessage = eventsViewModel.errorMessage {
