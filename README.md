@@ -213,9 +213,8 @@ return typed factual results and spoken responses without opening the app.
 
 iOS and Android ship the same version. `scripts/set_version.py` in Hann8n/Gym-Tracker---Android sets both versions and bumps the iOS build number. Tag both repos `v<version>` to release. See that repo's README for the full flow.
 
-One-time Xcode Cloud setup, so a `v*` tag sends a build to TestFlight:
+One-time Xcode Cloud change, so a `v*` tag sends a build to TestFlight. Releases already build in Xcode Cloud from `main`.
 
-1. In Xcode, open Product > Xcode Cloud > Create Workflow, and pick the Gym Tracker app.
-2. Under Start Conditions, remove the branch condition and add **Tag Changes**, with tags beginning with `v`.
-3. Under Actions, add **Archive**, platform iOS, deployment preparation **TestFlight (Internal Testing Only)**.
-4. Under Post-Actions, add **TestFlight Internal Testing** with your tester group, then save. Xcode Cloud manages signing.
+1. In Xcode, go to Product > Xcode Cloud > Manage Workflows, and open the release workflow.
+2. Under Start Conditions, add **Tag Changes**, with tags beginning with `v`. Keep or remove the `main` branch condition to taste.
+3. Check that the Archive action uses TestFlight deployment preparation and that a TestFlight post-action is set, then save.
