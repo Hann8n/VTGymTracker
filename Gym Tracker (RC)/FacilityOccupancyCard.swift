@@ -8,6 +8,9 @@ struct FacilityOccupancyCard: View {
     let segmentCount: Int
     @ObservedObject var networkMonitor: NetworkMonitor
     let motionPolicy: MotionPolicy
+    /// Upcoming classes for this gym; the card shows the next one when there is any.
+    var classes: [GymClass] = []
+    var onShowClasses: () -> Void = {}
 
     @ScaledMetric(relativeTo: .largeTitle) private var countSize: CGFloat = 40
 
@@ -77,6 +80,11 @@ struct FacilityOccupancyCard: View {
             )
             .padding(.top, 4)
             .animation(motionPolicy.updateAnimation, value: occupancy)
+
+            if !classes.isEmpty {
+                NextClassRow(classes: classes, action: onShowClasses)
+                    .padding(.top, 12)
+            }
         }
         .padding(.horizontal, DashboardLayout.horizontalGutter)
         .padding(.top, DashboardLayout.horizontalGutter)

@@ -37,7 +37,8 @@ let package = Package(
             "Services/WebView.swift",
             "Services/UnifiedGymTrackerProvider.swift",
             "Services/GymService.swift",
-            "Services/NetworkMonitor.swift"
+            "Services/NetworkMonitor.swift",
+            "Classes/ClassScheduleViewModel.swift", "Classes/NextClassRow.swift", "Classes/GymClassesSheet.swift"
         ], sources: [
             "Services/AppMetrics.swift", "Services/MetricEvent.swift", "Ads/AdConfig.swift", "Ads/AdService.swift",
             "Services/CrowdDataStatus.swift", "Services/Constants.swift", "Services/TrackedFacility.swift", "Services/OccupancySnapshot.swift",
@@ -45,9 +46,11 @@ let package = Package(
             "Services/GymOccupancyFetcher.swift", "Services/CrowdsService.swift", "Services/CrowdsDialog.swift", "Intents",
             "Events/Event.swift", "Events/CampusGroupsEventsParser.swift", "Events/ParsedEventsFeed.swift",
             "Events/EventsDataStatus.swift", "Events/EventsSnapshot.swift", "Events/EventsCacheStore.swift",
-            "Events/EventsService.swift", "Events/EventsSelection.swift", "Events/EventsDialog.swift"
+            "Events/EventsService.swift", "Events/EventsSelection.swift", "Events/EventsDialog.swift",
+            "Classes/GymClass.swift", "Classes/EMSClassParser.swift", "Classes/ClassScheduleService.swift"
         ]),
         .testTarget(name: "CrowdsTests", dependencies: ["GymCrowds"], path: "Tests/CrowdsTests"),
-        .testTarget(name: "EventsTests", dependencies: ["GymCrowds"], path: "Tests/EventsTests")
+        .testTarget(name: "EventsTests", dependencies: ["GymCrowds"], path: "Tests/EventsTests"),
+        .testTarget(name: "ClassesTests", dependencies: ["GymCrowds"], path: "Tests/ClassesTests")
     ]
 )

@@ -1,0 +1,23 @@
+[
+ {
+  "id": "102",
+  "title": "Yoga Flow",
+  "room": "Zen Den",
+  "start": "2026-10-21T11:00:00Z",
+  "end": "2026-10-21T12:00:00Z"
+ },
+ {
+  "id": "101",
+  "title": "Cycle & Core",
+  "room": "Studio B (Spin Bikes)",
+  "start": "2026-10-21T21:30:00Z",
+  "end": "2026-10-21T22:15:00Z"
+ },
+ {
+  "id": "106",
+  "title": "HIIT 'n Lift",
+  "room": "F45",
+  "start": "2026-10-22T10:00:00Z",
+  "end": "2026-10-22T10:45:00Z"
+ }
+]

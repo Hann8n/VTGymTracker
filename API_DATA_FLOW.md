@@ -264,3 +264,12 @@ See [Siri current crowds](docs/SIRI_CURRENT_CROWDS.md) for the typed result cont
 `EventsService` shares the existing CampusGroups feed/parser with `EventsViewModel`.
 The existing event cache retains verified retrieval metadata. Upcoming-event search
 and selected-event details expose typed facts and freshness; see [Siri events](docs/SIRI_EVENTS.md).
+
+## Class schedules (EMS)
+
+Each gym card shows the class underway or up next; tapping it opens that gym's schedule. The phone fetches it directly from VT's EMS, never through our server.
+
+- **Request** (`ClassScheduleService.fetch`): `POST https://virginiatech.emscloudservice.com/web/AnonymousServersApi.aspx/CustomBrowseEvents` with JSON `{"date": "<today> 00:00:00", "data": {"BuildingId": 156 or 157, "Format": 1, "EncryptD": "<the gym's public browse page URL>", …}}`. EMS rejects the call without `EncryptD`. `Format: 1` returns about two weeks.
+- **Response** (`EMSClassParser`): `{"d": "<JSON string>"}`; bookings sit under `MonthlyBookingResults` (or `DailyBookingResults`). Only rooms matching `Constants.classRoomKeywords` (studios, spin, Zen Den, F45) count as classes; courts and gym floors carry practices and rentals. Times come from `GmtStart` / `GmtEnd`.
+- **Caching**: `classSchedule.json` in Caches. The cached schedule shows at once and refreshes on launch or foreground once it is 6 hours old. A gym whose fetch fails keeps its cached classes.
+- **Parity**: `Tests/Fixtures/ems` holds an EMS response and the classes it must produce. The Android parser tests read the same files.

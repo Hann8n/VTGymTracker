@@ -7,6 +7,7 @@ struct ContentView: View {
     @StateObject private var networkMonitor: NetworkMonitor
     @StateObject private var eventsViewModel: EventsViewModel
     @StateObject private var adViewModel = AdViewModel()
+    @StateObject private var classSchedule = ClassScheduleViewModel()
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -22,6 +23,7 @@ struct ContentView: View {
     @State private var showAboutPopup: Bool = false
     @State private var showSettingsPopup: Bool = false
     @State private var usesVerticalToolbar = false
+    @State private var classesFacility: TrackedFacility?
     
     @AppStorage("appTheme") private var appTheme: String = "Auto"
     @AppStorage("faceIDEnabled") private var faceIDEnabled: Bool = false
@@ -55,6 +57,7 @@ struct ContentView: View {
                         }
                         #endif
                         scheduleAppRefresh()
+                        Task { await classSchedule.refreshIfStale() }
                         Task {
                             if networkMonitor.isConnected {
                                 await fetchGymOccupancyData()
@@ -76,6 +79,10 @@ struct ContentView: View {
                 .sheet(isPresented: $showManualInput) {
                     ManualIDInputView(isPresented: $showManualInput)
                         .environmentObject(alertManager)
+                }
+                .sheet(item: $classesFacility) { facility in
+                    GymClassesSheet(facility: facility, classes: classSchedule.classes(for: facility),
+                                    isRefreshing: classSchedule.isRefreshing)
                 }
                 .sheet(isPresented: $isBarcodeDisplayPresented) {
                     CampusIDSheet()
@@ -123,6 +130,7 @@ struct ContentView: View {
                         isBarcodeDisplayPresented = false
                     case .active:
                         Task { await AppMetrics.shared.activate() }
+                        Task { await classSchedule.refreshIfStale() }
                         if sponsoredAdsEnabled {
                             Task {
                                 #if DEBUG
@@ -231,7 +239,9 @@ struct ContentView: View {
                 maxCapacity: Constants.warMemorialMaxCapacity,
                 segmentCount: 20,
                 networkMonitor: networkMonitor,
-                motionPolicy: motionPolicy
+                motionPolicy: motionPolicy,
+                classes: classSchedule.classes(for: .warMemorial),
+                onShowClasses: { classesFacility = .warMemorial }
             )
             FullBleedDivider()
         }
@@ -245,7 +255,9 @@ struct ContentView: View {
                 maxCapacity: Constants.mcComasMaxCapacity,
                 segmentCount: 20,
                 networkMonitor: networkMonitor,
-                motionPolicy: motionPolicy
+                motionPolicy: motionPolicy,
+                classes: classSchedule.classes(for: .mcComas),
+                onShowClasses: { classesFacility = .mcComas }
             )
             FullBleedDivider()
         }
