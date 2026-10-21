@@ -71,6 +71,7 @@ final class AdsAndMetricsTests: XCTestCase {
         XCTAssertEqual(bodies.last?["distinct_id"] as? String, firstID)
         let sessions = bodies.compactMap { ($0["properties"] as? [String: String])?["session_id"] }
         XCTAssertNotEqual(sessions[0], sessions[3])
+        XCTAssertEqual((bodies[0]["properties"] as? [String: String])?["platform"], "ios")
         await metrics.setEnabled(false)
         await metrics.track(.eventOpen)
         XCTAssertNil(defaults.string(forKey: AppMetrics.installationKey))

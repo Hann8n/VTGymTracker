@@ -67,6 +67,8 @@ actor AppMetrics {
         values["app_version"] = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "unknown"
         values["build"] = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "unknown"
         values["os_version"] = ProcessInfo.processInfo.operatingSystemVersionString
+        // Lets reports split iOS from Android, which posts to the same endpoint.
+        values["platform"] = "ios"
         guard let url = URL(string: Constants.metricsURLString),
               let body = try? JSONSerialization.data(withJSONObject: [
                 "event_id": UUID().uuidString, "event": event.rawValue, "distinct_id": installID, "properties": values
