@@ -208,3 +208,14 @@ Ask “What are the crowds like at VT Gyms?” or “What are the crowds like at
 
 [Current crowds](docs/SIRI_CURRENT_CROWDS.md) and [recreation events](docs/SIRI_EVENTS.md)
 return typed factual results and spoken responses without opening the app.
+
+## Releasing
+
+iOS and Android ship the same version. `scripts/set_version.py` in Hann8n/Gym-Tracker---Android sets both versions and bumps the iOS build number. Tag both repos `v<version>` to release. See that repo's README for the full flow.
+
+One-time Xcode Cloud setup, so a `v*` tag sends a build to TestFlight:
+
+1. In Xcode, open Product > Xcode Cloud > Create Workflow, and pick the Gym Tracker app.
+2. Under Start Conditions, remove the branch condition and add **Tag Changes**, with tags beginning with `v`.
+3. Under Actions, add **Archive**, platform iOS, deployment preparation **TestFlight (Internal Testing Only)**.
+4. Under Post-Actions, add **TestFlight Internal Testing** with your tester group, then save. Xcode Cloud manages signing.
