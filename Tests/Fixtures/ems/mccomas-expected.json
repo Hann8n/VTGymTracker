@@ -1,23 +1,37 @@
 [
  {
-  "id": "102",
-  "title": "Yoga Flow",
-  "room": "Zen Den",
-  "start": "2026-10-21T11:00:00Z",
-  "end": "2026-10-21T12:00:00Z"
+  "id": "3210865",
+  "title": "Cycle & Yoga",
+  "room": "Studio B (Spin Bikes)",
+  "start": "2026-10-22T15:15:00Z",
+  "end": "2026-10-22T16:00:00Z"
  },
  {
-  "id": "101",
+  "id": "3210879",
+  "title": "Pilates",
+  "room": "Studio B (Spin Bikes)",
+  "start": "2026-10-22T20:15:00Z",
+  "end": "2026-10-22T21:00:00Z"
+ },
+ {
+  "id": "3211246",
+  "title": "Inter. Reformer",
+  "room": "Zen Den",
+  "start": "2026-10-22T21:00:00Z",
+  "end": "2026-10-22T21:45:00Z"
+ },
+ {
+  "id": "3210893",
   "title": "Cycle & Core",
   "room": "Studio B (Spin Bikes)",
-  "start": "2026-10-21T21:30:00Z",
-  "end": "2026-10-21T22:15:00Z"
+  "start": "2026-10-23T14:30:00Z",
+  "end": "2026-10-23T15:15:00Z"
  },
  {
-  "id": "106",
-  "title": "HIIT 'n Lift",
-  "room": "F45",
-  "start": "2026-10-22T10:00:00Z",
-  "end": "2026-10-22T10:45:00Z"
+  "id": "3210749",
+  "title": "Cardio Dance",
+  "room": "Studio A",
+  "start": "2026-10-26T23:30:00Z",
+  "end": "2026-10-27T00:15:00Z"
  }
 ]

@@ -74,6 +74,10 @@ struct Constants {
     static let warMemorialEMSPage = "https://virginiatech.emscloudservice.com/web/CustomBrowseEvents.aspx?data=kQPlyufBOdLP5yFwilocrZj0g72mAUGsd5VZZWvKgjmWaEDNBfd1vKqe0k3e7Rnr5%2b8JVuWvz%2b5jHXlEjZqJ9%2bGYsa4FUwzomR8cTYFhKpr%2fvi%2bdIpbzyq1mcXv0C%2f8xnw3%2f6BCLKkTKObQmhNNynXSKy%2bbRBSNR"
     /// Rooms whose bookings are classes; courts and gym floors carry practices and rentals instead.
     static let classRoomKeywords = ["studio", "spin", "zen den", "f45"]
+    /// Rec Sports books its own classes under this group; clubs and private rentals use their own names.
+    static let classGroupName = "Recreational Sports Aux"
+    /// Rec Sports' own studio bookings that aren't open classes: cleaning, private sessions, HNFE course labs.
+    static let classTitleExclusions = ["closed", "cleaning", "private", "hnfe", "recording", "exercise leadership"]
 
     // Recreational Sports Events
     static let recreationalSportsEventsURL = URL(string: "https://virginiatech.campusgroups.com/mobile_ws/v17/mobile_events_list?range=0&limit=40&filter2=35589&filter4_contains=OR&filter4_notcontains=OR&order=&search_word=")!

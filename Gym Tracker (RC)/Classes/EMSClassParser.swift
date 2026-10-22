@@ -3,7 +3,7 @@ import Foundation
 enum EMSClassParserError: Error { case invalidResponse }
 
 /// Reads EMS `CustomBrowseEvents` responses: `{"d": "<JSON string>"}` whose inner object lists
-/// bookings under `DailyBookingResults` or `MonthlyBookingResults`. Keeps class-room bookings only.
+/// bookings under `DailyBookingResults` or `MonthlyBookingResults`. Keeps Rec Sports' own class-room bookings only.
 enum EMSClassParser {
     static func parse(_ data: Data, roomKeywords: [String] = Constants.classRoomKeywords) throws -> [GymClass] {
         guard let outer = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
@@ -26,7 +26,8 @@ enum EMSClassParser {
                   let room = (booking["Room"] as? String).map(decoded),
                   let start = date(booking["GmtStart"]), let end = date(booking["GmtEnd"]), end > start,
                   roomKeywords.contains(where: { room.localizedCaseInsensitiveContains($0) }),
-                  !title.localizedCaseInsensitiveContains("closed"),
+                  booking["GroupName"] as? String == Constants.classGroupName,
+                  !Constants.classTitleExclusions.contains(where: { title.localizedCaseInsensitiveContains($0) }),
                   seen.insert(id).inserted else { return nil }
             return GymClass(id: id, title: title, room: room, start: start, end: end)
         }
