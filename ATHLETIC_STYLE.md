@@ -51,7 +51,7 @@ Apply frosted surface + offline treatment with **`dashboardCardChrome(networkMon
 | `FacilityOccupancyCard` | Single facility: label, count, %, `SegmentedProgressBar` |
 | `ClassesSectionBlock` | Header, segmented gym picker (a menu at accessibility sizes), then up to four of the next classes and a Full Schedule row. Hidden while nothing is cached or loading |
 | `ClassRow` | Title first. Dashboard (glance): start time · gym, or the room once a gym is chosen. Schedule (detail), as in Calendar's list: time range, then gym · room. "Now" in green replaces the time while a class runs. No boxes or trailing status |
-| `ClassScheduleSheet` | Inline large title beside the standard trailing Close, the gym picker pinned beneath (scroll-edge bar on iOS 26), an inset-grouped list by day, search in the bottom toolbar, pull to refresh |
+| `ClassScheduleSheet` | Standard large title with the trailing Close, like Settings; the gym picker pinned beneath (scroll-edge bar on iOS 26), an inset-grouped list by day, search in the bottom toolbar, pull to refresh |
 | `EventsSectionBlock` | Compact header with smaller source label; stacks at larger text sizes, followed by list / empty / error |
 | `DashboardSectionHeader` | Title + optional subtitle row |
 | `FullBleedDivider` | 1 pt `separator` edge-to-edge inside a card |
@@ -92,7 +92,7 @@ Campus ID uses a native `Label` toolbar item. Vertical dashboard windows keep a 
 
 ## Campus ID and accessibility
 
-Campus ID uses the same standard native sheet as Settings and manual entry, inheriting the app appearance and using the matching trailing Close toolbar item. Keep this screen minimal: barcode and masked ID reference only. Use `CampusIDScanLayout` for both the displayed barcode and the camera window: an upper scan area with up to 64 points of spacing below the native title bar, the same width and height, and a shorter inset when the pane is shallow. Preserve the barcode aspect ratio and white quiet area. Keep the ID sheet top-anchored and scrollable so the masked reference remains accessible at larger text sizes. Resolve brightness from the presenting window’s screen and restore it on dismissal/backgrounding.
+Campus ID uses the same standard native sheet as Settings and manual entry, inheriting the app appearance and using the matching trailing Close toolbar item. Every sheet closes with `SheetCloseButton` (the system close button on iOS 26). Keep this screen minimal: barcode and masked ID reference only. Use `CampusIDScanLayout` for both the displayed barcode and the camera window: an upper scan area with up to 64 points of spacing below the native title bar, the same width and height, and a shorter inset when the pane is shallow. Preserve the barcode aspect ratio and white quiet area. Keep the ID sheet top-anchored and scrollable so the masked reference remains accessible at larger text sizes. Resolve brightness from the presenting window’s screen and restore it on dismissal/backgrounding.
 
 Accessibility text sizes use the full-width dashboard feed. Occupancy counts scale with their related text; campaign copy uses standard-width type. Section headers wrap when needed, and a scaled 20-point logo shares the same minimum row height as headers without a logo. Do not add header background or scrolling changes to fix logo sizing.
 

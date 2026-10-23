@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Every upcoming class by day: a large title beside Close, the gym picker pinned beneath it,
+/// Every upcoming class by day: a standard large title (like Settings), the gym picker pinned beneath it,
 /// and search at the bottom. Cached classes show at once; pull to refresh fetches again.
 struct ClassScheduleSheet: View {
     @ObservedObject var classSchedule: ClassScheduleViewModel
@@ -32,16 +32,15 @@ struct ClassScheduleSheet: View {
             .modifier(PinnedTopBar {
                 ClassGymPicker(selection: $filter)
                     .padding(.horizontal, DashboardLayout.horizontalGutter)
-                    .padding(.vertical, 8)
+                    .padding(.bottom, 8)
             })
             .modifier(BottomSearch(text: $query))
             .refreshable { await classSchedule.refresh() }
             .navigationTitle("Classes")
-            .toolbarTitleDisplayMode(.inlineLarge)
+            .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button { dismiss() } label: { Image(systemName: "xmark") }
-                        .accessibilityLabel("Close")
+                    SheetCloseButton { dismiss() }
                 }
             }
         }

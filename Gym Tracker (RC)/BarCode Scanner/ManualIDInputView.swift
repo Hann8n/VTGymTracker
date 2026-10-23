@@ -79,12 +79,7 @@ struct ManualIDInputView: View {
             .navigationBarBackButtonHidden()
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        isPresented = false
-                    } label: {
-                        Image(systemName: "xmark")
-                    }
-                    .accessibilityLabel("Close")
+                    SheetCloseButton { isPresented = false }
                 }
             }
         }

@@ -22,8 +22,7 @@ struct CampusIDSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Close Campus ID", systemImage: "xmark") { dismiss() }
-                        .labelStyle(.iconOnly)
+                    SheetCloseButton(label: "Close Campus ID") { dismiss() }
                 }
             }
         }
