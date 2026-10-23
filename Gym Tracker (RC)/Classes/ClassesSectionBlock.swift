@@ -1,14 +1,11 @@
 import SwiftUI
 
-/// Dashboard section with the next classes in the chosen gyms; the full schedule opens in a sheet.
+/// Dashboard section with the next classes at both gyms; the gym choice lives in the full schedule, which opens in a sheet.
 struct ClassesSectionBlock: View {
     @ObservedObject var classSchedule: ClassScheduleViewModel
     @ObservedObject var networkMonitor: NetworkMonitor
-    let motionPolicy: MotionPolicy
     var isSeparatePane = false
     let onShowSchedule: () -> Void
-
-    @AppStorage(ClassGymFilter.storageKey) private var filter: ClassGymFilter = .all
 
     /// Enough to see what's coming without pushing events far down the feed.
     static let previewLimit = 4
@@ -18,20 +15,15 @@ struct ClassesSectionBlock: View {
         // ContentView's `showsClasses` mirrors this so the following section keeps its spacing.
         if classSchedule.hasAnyClasses || classSchedule.isRefreshing {
             TimelineView(.everyMinute) { context in
-                let next = classSchedule.schedule.nextDay(filter, after: context.date)
+                let next = classSchedule.schedule.nextDay(.all, after: context.date)
 
                 VStack(alignment: .leading, spacing: 8) {
                     DashboardSectionHeader(title: "Classes", subtitle: next.map { ClassRowText.dayTitle($0.day, now: context.date) })
                         .padding(.horizontal, DashboardLayout.horizontalGutter)
 
-                    ClassGymPicker(selection: $filter)
-                        .padding(.horizontal, DashboardLayout.horizontalGutter)
-                        .padding(.bottom, 4)
-
                     card(next: next, now: context.date)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         .dashboardCardChrome(networkMonitor: networkMonitor)
-                        .animation(motionPolicy.updateAnimation, value: filter)
                 }
                 .padding(.top, isSeparatePane ? 0 : DashboardLayout.sectionSpacingBeforeHeader)
             }
@@ -61,7 +53,7 @@ struct ClassesSectionBlock: View {
                     .fontWidth(.condensed)
                     .tracking(0.9)
                     .foregroundStyle(.secondary)
-                Text("Classes at \(filter == .all ? "either gym" : filter.title) will show up here.")
+                Text("Classes at either gym will show up here.")
                     .font(.footnote)
                     .foregroundStyle(.tertiary)
                     .multilineTextAlignment(.center)
@@ -75,7 +67,7 @@ struct ClassesSectionBlock: View {
 
     private func row(_ scheduled: ScheduledClass, now: Date) -> some View {
         Button(action: onShowSchedule) {
-            ClassRow(scheduled: scheduled, style: .glance, showsGym: filter == .all, now: now)
+            ClassRow(scheduled: scheduled, style: .glance, showsGym: true, now: now)
                 .padding(.horizontal, DashboardLayout.horizontalGutter)
                 .padding(.vertical, 10)
                 .frame(minHeight: 52, alignment: .leading)

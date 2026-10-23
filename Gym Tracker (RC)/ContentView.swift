@@ -204,7 +204,6 @@ struct ContentView: View {
                 ClassesSectionBlock(
                     classSchedule: classSchedule,
                     networkMonitor: networkMonitor,
-                    motionPolicy: motionPolicy,
                     isSeparatePane: isSeparatePane,
                     onShowSchedule: {
                         Task { await AppMetrics.shared.track(.classScheduleOpen) }

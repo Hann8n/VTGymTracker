@@ -49,9 +49,9 @@ Apply frosted surface + offline treatment with **`dashboardCardChrome(networkMon
 | `DashboardContentLayout` | Compact feed or independent occupancy/events panes using the horizontal size class; system arrangement on iOS 27.1+ |
 | `DashboardScrollContainer` | Scroll view with semantic background and stable section anchors |
 | `FacilityOccupancyCard` | Single facility: label, count, %, `SegmentedProgressBar` |
-| `ClassesSectionBlock` | Header, segmented gym picker (a menu at accessibility sizes), then up to four of the next classes and a Full Schedule row. Hidden while nothing is cached or loading |
-| `ClassRow` | Title first. Dashboard (glance): start time · gym, or the room once a gym is chosen. Schedule (detail), as in Calendar's list: time range, then gym · room. "Now" in green replaces the time while a class runs. No boxes or trailing status |
-| `ClassScheduleSheet` | Standard large title with the trailing Close, like Settings; the gym picker pinned beneath (scroll-edge bar on iOS 26), an inset-grouped list by day, search in the bottom toolbar, pull to refresh |
+| `ClassesSectionBlock` | Header, then up to four of the next classes at both gyms and a Full Schedule row (the gym picker lives only in the schedule). Hidden while nothing is cached or loading |
+| `ClassRow` | Title first. Dashboard (glance): start time · gym. Schedule (detail), as in Calendar's list: time range, then gym · room. "Now" in green replaces the time while a class runs. No boxes or trailing status |
+| `ClassScheduleSheet` | Standard large title with the trailing Close, like Settings; the segmented gym picker (a menu at accessibility sizes) pinned beneath it (scroll-edge bar on iOS 26), an inset-grouped list by day, search in the bottom toolbar, pull to refresh |
 | `EventsSectionBlock` | Compact header with smaller source label; stacks at larger text sizes, followed by list / empty / error |
 | `DashboardSectionHeader` | Title + optional subtitle row |
 | `FullBleedDivider` | 1 pt `separator` edge-to-edge inside a card |
