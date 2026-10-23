@@ -1,6 +1,7 @@
 import SwiftUI
 
-/// Every upcoming class by day, filtered by gym and searchable by name. Cached classes show at once.
+/// Every upcoming class by day: a large title beside Close, the gym picker pinned beneath it,
+/// and search at the bottom. Cached classes show at once; pull to refresh fetches again.
 struct ClassScheduleSheet: View {
     @ObservedObject var classSchedule: ClassScheduleViewModel
 
@@ -16,7 +17,9 @@ struct ClassScheduleSheet: View {
                 List {
                     ForEach(days, id: \.day) { day in
                         Section(ClassRowText.dayTitle(day.day, now: context.date)) {
-                            ForEach(day.classes) { row($0, now: context.date) }
+                            ForEach(day.classes) { scheduled in
+                                ClassRow(scheduled: scheduled, style: .detail, showsGym: filter == .all, now: context.date)
+                            }
                         }
                     }
                 }
@@ -26,15 +29,16 @@ struct ClassScheduleSheet: View {
                     if days.isEmpty { emptyState }
                 }
             }
-            .navigationTitle("Classes")
-            .navigationBarTitleDisplayMode(.inline)
-            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Yoga, Cycle, Barre…")
+            .modifier(PinnedTopBar {
+                ClassGymPicker(selection: $filter)
+                    .padding(.horizontal, DashboardLayout.horizontalGutter)
+                    .padding(.vertical, 8)
+            })
+            .modifier(BottomSearch(text: $query))
             .refreshable { await classSchedule.refresh() }
+            .navigationTitle("Classes")
+            .toolbarTitleDisplayMode(.inlineLarge)
             .toolbar {
-                ToolbarItem(placement: .principal) {
-                    ClassGymPicker(selection: $filter)
-                        .fixedSize()
-                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button { dismiss() } label: { Image(systemName: "xmark") }
                         .accessibilityLabel("Close")
@@ -56,35 +60,6 @@ struct ClassScheduleSheet: View {
         }
     }
 
-    private func row(_ scheduled: ScheduledClass, now: Date) -> some View {
-        VStack(alignment: .leading, spacing: 3) {
-            HStack(alignment: .firstTextBaseline, spacing: 12) {
-                Text(scheduled.gymClass.title)
-                    .font(.body.weight(.semibold))
-                Spacer(minLength: 8)
-                Text(EventCard.timeRangeText(start: scheduled.gymClass.start, end: scheduled.gymClass.end))
-                    .font(.subheadline)
-                    .monospacedDigit()
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.trailing)
-            }
-            HStack(alignment: .firstTextBaseline, spacing: 12) {
-                Text(filter == .all ? "\(scheduled.gymName) · \(scheduled.gymClass.room)" : scheduled.gymClass.room)
-                    .foregroundStyle(.secondary)
-                Spacer(minLength: 8)
-                if let status = ClassRowText.status(scheduled, now: now) {
-                    Text(status.text)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(status.color)
-                }
-            }
-            .font(.subheadline)
-        }
-        .padding(.vertical, 2)
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(ClassRowText.accessibilityLabel(scheduled, now: now))
-    }
-
     @ViewBuilder private var emptyState: some View {
         if !query.trimmingCharacters(in: .whitespaces).isEmpty {
             ContentUnavailableView.search(text: query)
@@ -93,6 +68,39 @@ struct ClassScheduleSheet: View {
         } else {
             ContentUnavailableView("No Upcoming Classes", systemImage: "calendar",
                                    description: Text("Rec Sports hasn't scheduled classes here yet."))
+        }
+    }
+}
+
+// MARK: - Bars
+
+/// Pins content under the navigation bar: a scroll-edge bar on iOS 26, a material inset before.
+private struct PinnedTopBar<Bar: View>: ViewModifier {
+    @ViewBuilder let bar: () -> Bar
+
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content.safeAreaBar(edge: .top, content: bar)
+        } else {
+            content.safeAreaInset(edge: .top, spacing: 0) {
+                bar().frame(maxWidth: .infinity).background(.bar)
+            }
+        }
+    }
+}
+
+/// Search in the bottom toolbar on iOS 26; earlier systems keep it under the title.
+private struct BottomSearch: ViewModifier {
+    @Binding var text: String
+    private let prompt = "Yoga, Cycle, Barre…"
+
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content
+                .searchable(text: $text, placement: .toolbar, prompt: prompt)
+                .toolbar { DefaultToolbarItem(kind: .search, placement: .bottomBar) }
+        } else {
+            content.searchable(text: $text, placement: .navigationBarDrawer(displayMode: .always), prompt: prompt)
         }
     }
 }

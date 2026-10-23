@@ -9,8 +9,6 @@ struct ClassesSectionBlock: View {
     let onShowSchedule: () -> Void
 
     @AppStorage(ClassGymFilter.storageKey) private var filter: ClassGymFilter = .all
-    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-    @ScaledMetric(relativeTo: .headline) private var timeColumnWidth: CGFloat = 44
 
     /// Enough to see what's coming without pushing events far down the feed.
     static let previewLimit = 4
@@ -77,60 +75,15 @@ struct ClassesSectionBlock: View {
 
     private func row(_ scheduled: ScheduledClass, now: Date) -> some View {
         Button(action: onShowSchedule) {
-            let layout = dynamicTypeSize.isAccessibilitySize
-                ? AnyLayout(VStackLayout(alignment: .leading, spacing: 4))
-                : AnyLayout(HStackLayout(alignment: .firstTextBaseline, spacing: 12))
-            layout {
-                startTime(scheduled.gymClass.start)
-                    .frame(width: dynamicTypeSize.isAccessibilitySize ? nil : timeColumnWidth, alignment: .leading)
-
-                VStack(alignment: .leading, spacing: 3) {
-                    HStack(alignment: .firstTextBaseline, spacing: 8) {
-                        Text(scheduled.gymClass.title)
-                            .font(.headline.weight(.semibold))
-                            .foregroundStyle(.primary)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        if let status = ClassRowText.status(scheduled, now: now) {
-                            Text(status.text)
-                                .font(.footnote.weight(.bold))
-                                .foregroundStyle(status.color)
-                                .fixedSize()
-                        }
-                    }
-                    Text(filter == .all ? "\(scheduled.gymName) · \(scheduled.gymClass.room)" : scheduled.gymClass.room)
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
-                }
-            }
-            .multilineTextAlignment(.leading)
-            .padding(.horizontal, DashboardLayout.horizontalGutter)
-            .padding(.vertical, 11)
-            .frame(minHeight: 52, alignment: .leading)
-            .contentShape(Rectangle())
+            ClassRow(scheduled: scheduled, style: .glance, showsGym: filter == .all, now: now)
+                .padding(.horizontal, DashboardLayout.horizontalGutter)
+                .padding(.vertical, 10)
+                .frame(minHeight: 52, alignment: .leading)
+                .contentShape(Rectangle())
         }
         .buttonStyle(EventRowButtonStyle())
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(ClassRowText.accessibilityLabel(scheduled, now: now))
         .accessibilityHint("Shows the class schedule")
         .accessibilityAddTraits(.isButton)
-    }
-
-    /// "3:30" over a small "PM", so the column stays narrow and times line up.
-    private func startTime(_ start: Date) -> some View {
-        let clock = start.formatted(.dateTime.hour(.defaultDigits(amPM: .omitted)).minute())
-        let period = start.formatted(.dateTime.hour(.defaultDigits(amPM: .abbreviated))).filter(\.isLetter)
-        return VStack(alignment: .leading, spacing: 0) {
-            Text(clock)
-                .font(.headline.weight(.semibold))
-                .fontWidth(.condensed)
-                .monospacedDigit()
-            Text(period)
-                .font(.caption2.weight(.semibold))
-                .fontWidth(.condensed)
-                .foregroundStyle(.secondary)
-        }
-        .lineLimit(1)
     }
 
     private func scheduleButton(moreCount: Int) -> some View {
