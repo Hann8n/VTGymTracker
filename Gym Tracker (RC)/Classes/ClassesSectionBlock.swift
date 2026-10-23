@@ -26,12 +26,9 @@ struct ClassesSectionBlock: View {
                     DashboardSectionHeader(title: "Classes", subtitle: next.map { ClassRowText.dayTitle($0.day, now: context.date) })
                         .padding(.horizontal, DashboardLayout.horizontalGutter)
 
-                    Picker("Gym", selection: $filter) {
-                        ForEach(ClassGymFilter.allCases) { Text($0.title).tag($0) }
-                    }
-                    .pickerStyle(.segmented)
-                    .padding(.horizontal, DashboardLayout.horizontalGutter)
-                    .padding(.bottom, 4)
+                    ClassGymPicker(selection: $filter)
+                        .padding(.horizontal, DashboardLayout.horizontalGutter)
+                        .padding(.bottom, 4)
 
                     card(next: next, now: context.date)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)

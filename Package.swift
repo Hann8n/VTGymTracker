@@ -38,7 +38,7 @@ let package = Package(
             "Services/UnifiedGymTrackerProvider.swift",
             "Services/GymService.swift",
             "Services/NetworkMonitor.swift",
-            "Classes/ClassScheduleViewModel.swift", "Classes/ClassesSectionBlock.swift", "Classes/ClassScheduleSheet.swift", "Classes/ClassRowText.swift"
+            "Classes/ClassScheduleViewModel.swift", "Classes/ClassesSectionBlock.swift", "Classes/ClassScheduleSheet.swift", "Classes/ClassRowText.swift", "Classes/ClassGymPicker.swift"
         ], sources: [
             "Services/AppMetrics.swift", "Services/MetricEvent.swift", "Ads/AdConfig.swift", "Ads/AdService.swift",
             "Services/CrowdDataStatus.swift", "Services/Constants.swift", "Services/TrackedFacility.swift", "Services/OccupancySnapshot.swift",

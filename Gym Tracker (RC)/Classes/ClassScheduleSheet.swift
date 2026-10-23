@@ -32,11 +32,8 @@ struct ClassScheduleSheet: View {
             .refreshable { await classSchedule.refresh() }
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Picker("Gym", selection: $filter) {
-                        ForEach(ClassGymFilter.allCases) { Text($0.title).tag($0) }
-                    }
-                    .pickerStyle(.segmented)
-                    .fixedSize()
+                    ClassGymPicker(selection: $filter)
+                        .fixedSize()
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button { dismiss() } label: { Image(systemName: "xmark") }
