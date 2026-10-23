@@ -228,6 +228,7 @@ struct ContentView: View {
             FacilityOccupancyCard(
                 facilityTitle: "War Memorial Hall",
                 occupancy: gymService.warMemorialOccupancy,
+                isUnavailable: gymService.hasCompletedFetch && gymService.warMemorialOccupancy == nil,
                 maxCapacity: Constants.warMemorialMaxCapacity,
                 segmentCount: 20,
                 networkMonitor: networkMonitor,
@@ -242,6 +243,7 @@ struct ContentView: View {
             FacilityOccupancyCard(
                 facilityTitle: "McComas Hall",
                 occupancy: gymService.mcComasOccupancy,
+                isUnavailable: gymService.hasCompletedFetch && gymService.mcComasOccupancy == nil,
                 maxCapacity: Constants.mcComasMaxCapacity,
                 segmentCount: 20,
                 networkMonitor: networkMonitor,
@@ -256,6 +258,7 @@ struct ContentView: View {
             FacilityOccupancyCard(
                 facilityTitle: "Bouldering Wall",
                 occupancy: gymService.boulderingWallOccupancy,
+                isUnavailable: gymService.hasCompletedFetch && gymService.boulderingWallOccupancy == nil,
                 maxCapacity: Constants.boulderingWallMaxCapacity,
                 segmentCount: 8,
                 networkMonitor: networkMonitor,

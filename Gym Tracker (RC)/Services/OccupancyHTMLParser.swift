@@ -17,9 +17,11 @@ enum OccupancyHTMLParser {
                 let expected = "occupancyChart-" + facilityID
                 guard let id = attributeValue(tag, attribute: "id"), id == expected || id == expected + "-sm" else { return nil }
             }
-            guard let occupancy = extractInt(tag, attribute: "data-occupancy"),
+            guard var occupancy = extractInt(tag, attribute: "data-occupancy"),
                   let remaining = extractInt(tag, attribute: "data-remaining") else { return nil }
             if let capacity {
+                // Swipes can push the count past capacity; RecSports then reports 0 remaining and shows 100%.
+                if remaining == 0, occupancy > capacity { occupancy = capacity }
                 guard capacity > 0, occupancy <= capacity, remaining <= capacity,
                       occupancy == capacity - remaining else { return nil }
             }

@@ -50,7 +50,7 @@ final class EventsTests: XCTestCase {
         XCTAssertNil(entity.priceText)
         XCTAssertEqual(entity.timeZoneIdentifier, "America/New_York")
         XCTAssertEqual(entity.sourceTimeZoneText, "EDT (GMT-4)")
-        XCTAssertEqual(entity.eventURL?.absoluteString, "https://virginiatech.campusgroups.com/rsvp_boot?id=123")
+        XCTAssertEqual(entity.eventURL?.absoluteString, "https://gobblerconnect.vt.edu/rsvp_boot?id=123")
         let text = EventsDialog.details(event, snapshot: snapshot([event]))
         XCTAssertTrue(text.contains("Price not provided"))
         XCTAssertFalse(text.localizedCaseInsensitiveContains("free"))
@@ -71,7 +71,7 @@ final class EventsTests: XCTestCase {
         XCTAssertEqual(first.stableIdentifier, "campusgroups:123")
         XCTAssertEqual(first.stableIdentifier, refreshed.stableIdentifier)
         let fallback = try XCTUnwrap(feed([item(id: nil)]).events.first)
-        XCTAssertEqual(fallback.stableIdentifier, "campusgroups-url:https://virginiatech.campusgroups.com/rsvp_boot?id=123")
+        XCTAssertEqual(fallback.stableIdentifier, "campusgroups-url:https://gobblerconnect.vt.edu/rsvp_boot?id=123")
         let sameTitle = try feed([item(id: "124"), item(id: "123")]).events
         let current = snapshot(sameTitle)
         XCTAssertEqual(CampusEventQuery.match("climbing", snapshot: current).map(\.id), ["campusgroups:123", "campusgroups:124"])
