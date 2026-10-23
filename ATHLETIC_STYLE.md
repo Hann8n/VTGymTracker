@@ -49,6 +49,8 @@ Apply frosted surface + offline treatment with **`dashboardCardChrome(networkMon
 | `DashboardContentLayout` | Compact feed or independent occupancy/events panes using the horizontal size class; system arrangement on iOS 27.1+ |
 | `DashboardScrollContainer` | Scroll view with semantic background and stable section anchors |
 | `FacilityOccupancyCard` | Single facility: label, count, %, `SegmentedProgressBar` |
+| `ClassesSectionBlock` | Header, segmented gym picker, then up to four of the next classes: start time over AM/PM in a narrow gutter, title, gym · room, and a trailing Now / In N min status. Ends with a Full Schedule row. Hidden while nothing is cached or loading |
+| `ClassScheduleSheet` | Native inset-grouped list by day, with the gym picker in the navigation bar, search, pull to refresh, and the standard trailing Close |
 | `EventsSectionBlock` | Compact header with smaller source label; stacks at larger text sizes, followed by list / empty / error |
 | `DashboardSectionHeader` | Title + optional subtitle row |
 | `FullBleedDivider` | 1 pt `separator` edge-to-edge inside a card |

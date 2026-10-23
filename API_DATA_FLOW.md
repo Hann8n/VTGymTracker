@@ -267,7 +267,7 @@ and selected-event details expose typed facts and freshness; see [Siri events](d
 
 ## Class schedules (EMS)
 
-Each gym card shows the class underway or up next; tapping it opens that gym's schedule. The phone fetches it directly from VT's EMS, never through our server.
+The dashboard's Classes section (below the gyms, above events) lists the next classes for the chosen gyms; Full Schedule opens every upcoming class by day, with search. The gym choice (`classGymFilter`: `all`, `warMemorial`, `mcComas`) is shared by both and remembered. Opening the schedule sends `class_schedule_open`. The phone fetches classes directly from VT's EMS, never through our server.
 
 - **Request** (`ClassScheduleService.fetch`): `POST https://virginiatech.emscloudservice.com/web/AnonymousServersApi.aspx/CustomBrowseEvents` with JSON `{"date": "<today> 00:00:00", "data": {"BuildingId": 156 or 157, "Format": 1, "EncryptD": "<the gym's public browse page URL>", …}}`. EMS rejects the call without `EncryptD`. `Format: 1` returns about two weeks.
 - **Response** (`EMSClassParser`): `{"d": "<JSON string>"}`; bookings sit under `MonthlyBookingResults` (or `DailyBookingResults`). Only rooms matching `Constants.classRoomKeywords` (studios, spin, Zen Den, F45) count as classes; courts and gym floors carry practices and rentals. Studios are also booked by clubs and private groups, so a class must be under `Constants.classGroupName` and its title must avoid `Constants.classTitleExclusions` (cleaning, private sessions, HNFE course labs). Times come from `GmtStart` / `GmtEnd`.

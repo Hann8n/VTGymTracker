@@ -23,7 +23,7 @@ struct ContentView: View {
     @State private var showAboutPopup: Bool = false
     @State private var showSettingsPopup: Bool = false
     @State private var usesVerticalToolbar = false
-    @State private var classesFacility: TrackedFacility?
+    @State private var showClassSchedule = false
     
     @AppStorage("appTheme") private var appTheme: String = "Auto"
     @AppStorage("faceIDEnabled") private var faceIDEnabled: Bool = false
@@ -80,9 +80,8 @@ struct ContentView: View {
                     ManualIDInputView(isPresented: $showManualInput)
                         .environmentObject(alertManager)
                 }
-                .sheet(item: $classesFacility) { facility in
-                    GymClassesSheet(facility: facility, classes: classSchedule.classes(for: facility),
-                                    isRefreshing: classSchedule.isRefreshing)
+                .sheet(isPresented: $showClassSchedule) {
+                    ClassScheduleSheet(classSchedule: classSchedule)
                 }
                 .sheet(isPresented: $isBarcodeDisplayPresented) {
                     CampusIDSheet()
@@ -202,17 +201,33 @@ struct ContentView: View {
                 .id("dashboard-bouldering")
         } events: { isSeparatePane in
             VStack(alignment: .leading, spacing: 0) {
-                sponsoredSection(isSeparatePane: isSeparatePane)
+                ClassesSectionBlock(
+                    classSchedule: classSchedule,
+                    networkMonitor: networkMonitor,
+                    motionPolicy: motionPolicy,
+                    isSeparatePane: isSeparatePane,
+                    onShowSchedule: {
+                        Task { await AppMetrics.shared.track(.classScheduleOpen) }
+                        showClassSchedule = true
+                    }
+                )
+                .id("dashboard-classes")
+                sponsoredSection(isSeparatePane: isSeparatePane && !showsClasses)
                 EventsSectionBlock(
                     eventsViewModel: eventsViewModel,
                     networkMonitor: networkMonitor,
                     motionPolicy: motionPolicy,
-                    isSeparatePane: isSeparatePane && !hasActiveSponsoredAd
+                    isSeparatePane: isSeparatePane && !hasActiveSponsoredAd && !showsClasses
                 )
                 .id("dashboard-events")
             }
             .animation(motionPolicy.sponsorSectionLayoutAnimation, value: sponsoredSectionLayoutToken)
         }
+    }
+
+    /// Matches `ClassesSectionBlock`, which stays hidden with nothing cached and nothing loading.
+    private var showsClasses: Bool {
+        classSchedule.hasAnyClasses || classSchedule.isRefreshing
     }
 
     private var hasActiveSponsoredAd: Bool {
@@ -239,9 +254,7 @@ struct ContentView: View {
                 maxCapacity: Constants.warMemorialMaxCapacity,
                 segmentCount: 20,
                 networkMonitor: networkMonitor,
-                motionPolicy: motionPolicy,
-                classes: classSchedule.classes(for: .warMemorial),
-                onShowClasses: { classesFacility = .warMemorial }
+                motionPolicy: motionPolicy
             )
             FullBleedDivider()
         }
@@ -255,9 +268,7 @@ struct ContentView: View {
                 maxCapacity: Constants.mcComasMaxCapacity,
                 segmentCount: 20,
                 networkMonitor: networkMonitor,
-                motionPolicy: motionPolicy,
-                classes: classSchedule.classes(for: .mcComas),
-                onShowClasses: { classesFacility = .mcComas }
+                motionPolicy: motionPolicy
             )
             FullBleedDivider()
         }

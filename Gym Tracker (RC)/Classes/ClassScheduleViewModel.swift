@@ -14,14 +14,19 @@ final class ClassScheduleViewModel: ObservableObject {
     }
 
     func refreshIfStale(now: Date = Date()) async {
-        guard !isRefreshing else { return }
         if let fetchedAt = schedule.fetchedAt, now.timeIntervalSince(fetchedAt) < ClassScheduleService.refreshAge { return }
+        await refresh(now: now)
+    }
+
+    /// Fetches regardless of age, for pull to refresh.
+    func refresh(now: Date = Date()) async {
+        guard !isRefreshing else { return }
         isRefreshing = true
         schedule = await service.refresh(now: now)
         isRefreshing = false
     }
 
-    func classes(for facility: TrackedFacility, now: Date = Date()) -> [GymClass] {
-        schedule.classes(for: facility, after: now)
+    var hasAnyClasses: Bool {
+        schedule.classes.values.contains { !$0.isEmpty }
     }
 }

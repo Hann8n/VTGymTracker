@@ -9,6 +9,29 @@ struct ClassScheduleService {
         func classes(for facility: TrackedFacility, after now: Date) -> [GymClass] {
             (classes[facility.rawValue] ?? []).filter { $0.end > now }
         }
+
+        /// Classes not yet over in the filtered gyms, earliest first.
+        func upcoming(_ filter: ClassGymFilter, after now: Date) -> [ScheduledClass] {
+            filter.facilities
+                .flatMap { facility in classes(for: facility, after: now).map { ScheduledClass(facility: facility, gymClass: $0) } }
+                .sorted { ($0.gymClass.start, $0.gymClass.title, $0.facility.rawValue) < ($1.gymClass.start, $1.gymClass.title, $1.facility.rawValue) }
+        }
+
+        /// The remaining classes on the next day that has any: today until the last one ends, then tomorrow.
+        func nextDay(_ filter: ClassGymFilter, after now: Date, calendar: Calendar = .current) -> (day: Date, classes: [ScheduledClass])? {
+            let upcoming = upcoming(filter, after: now)
+            guard let first = upcoming.first else { return nil }
+            // A class already underway belongs to today even if it began before midnight.
+            let day = calendar.startOfDay(for: max(first.gymClass.start, now))
+            return (day, upcoming.filter { calendar.startOfDay(for: max($0.gymClass.start, now)) == day })
+        }
+
+        /// Upcoming classes grouped by day, earliest day first.
+        func days(_ filter: ClassGymFilter, after now: Date, calendar: Calendar = .current) -> [(day: Date, classes: [ScheduledClass])] {
+            Dictionary(grouping: upcoming(filter, after: now)) { calendar.startOfDay(for: max($0.gymClass.start, now)) }
+                .sorted { $0.key < $1.key }
+                .map { (day: $0.key, classes: $0.value) }
+        }
     }
 
     /// Schedules rarely change within a day; refreshing on open past this age keeps requests to a few a day.
