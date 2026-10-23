@@ -59,7 +59,8 @@ struct ClassScheduleService {
         }
         guard results.contains(where: { $0.1 != nil }) else { return schedule }
         for case let (facility, classes?) in results { schedule.classes[facility.rawValue] = classes }
-        schedule.fetchedAt = now
+        // Only a complete refresh resets the clock, so a gym that failed is tried again on the next open.
+        if results.allSatisfy({ $0.1 != nil }) { schedule.fetchedAt = now }
         if let cacheURL, let data = try? JSONEncoder().encode(schedule) { try? data.write(to: cacheURL, options: .atomic) }
         return schedule
     }
@@ -78,14 +79,16 @@ struct ClassScheduleService {
         return try EMSClassParser.parse(data)
     }
 
-    /// Mirrors what the EMS browse page sends; `Format: 1` returns about two weeks starting this week.
+    /// Mirrors what the EMS browse page sends. `Format: 1` returns the week either side of `date`, so asking
+    /// for a week from today returns today through two weeks out.
     static func requestBody(buildingID: Int, page: String, now: Date) -> [String: Any] {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.timeZone = TimeZone(identifier: Constants.eventsTimeZoneIdentifier)
         formatter.dateFormat = "yyyy-MM-dd 00:00:00"
+        let center = now.addingTimeInterval(7 * 24 * 60 * 60)
         return [
-            "date": formatter.string(from: now),
+            "date": formatter.string(from: center),
             "data": [
                 "BuildingId": buildingID, "GroupTypeId": -1, "GroupId": -1, "EventTypeId": -1, "RoomId": -1,
                 "StatusId": -1, "ZeroDisplayOnWeb": 1, "HeaderUrl": "", "Title": "", "Format": 1, "Rollup": 0,

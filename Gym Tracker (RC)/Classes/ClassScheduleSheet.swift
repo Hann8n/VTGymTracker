@@ -8,6 +8,7 @@ struct ClassScheduleSheet: View {
     @AppStorage(ClassGymFilter.storageKey) private var filter: ClassGymFilter = .all
     @State private var query = ""
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         NavigationStack {
@@ -18,9 +19,12 @@ struct ClassScheduleSheet: View {
                     ForEach(days, id: \.day) { day in
                         Section(ClassRowText.dayTitle(day.day, now: context.date)) {
                             ForEach(day.classes) { scheduled in
-                                ClassRow(scheduled: scheduled, style: .detail, showsGym: filter == .all, now: context.date)
+                                row(scheduled, now: context.date)
                             }
                         }
+                    }
+                    if !days.isEmpty {
+                        Section {} footer: { passFooter }
                     }
                 }
                 .listStyle(.insetGrouped)
@@ -57,6 +61,30 @@ struct ClassScheduleSheet: View {
             }
             return matches.isEmpty ? nil : (day.day, matches)
         }
+    }
+
+    /// The sign-up button shows only during Rec Sports' pre-registration hour, when it's actionable.
+    private func row(_ scheduled: ScheduledClass, now: Date) -> some View {
+        HStack(spacing: 12) {
+            ClassRow(scheduled: scheduled, style: .detail, showsGym: filter == .all, now: now)
+            if scheduled.isSignUpOpen(at: now) {
+                Button("Sign Up") {
+                    Task { await AppMetrics.shared.track(.classSignUpTap) }
+                    openURL(Constants.classSignUpURL)
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+                .tint(Color("CustomOrange"))
+                .accessibilityHint("Opens Rec Sports sign-up")
+            }
+        }
+    }
+
+    private var passFooter: some View {
+        let link = "[Get a pass](\(Constants.groupExPassURL.absoluteString))"
+        let text = (try? AttributedString(markdown: "Group Ex classes need a Rec Sports pass, and sign-up opens an hour before each class. \(link)"))
+            ?? AttributedString("Group Ex classes need a Rec Sports pass, and sign-up opens an hour before each class.")
+        return Text(text)
     }
 
     @ViewBuilder private var emptyState: some View {

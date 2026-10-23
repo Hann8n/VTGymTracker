@@ -27,7 +27,8 @@ final class ClassesTests: XCTestCase {
     func testRequestCarriesBuildingAndBrowsePage() throws {
         let now = try XCTUnwrap(ISO8601DateFormatter().date(from: "2026-10-21T03:00:00Z")) // Oct 20, 11 PM Eastern
         let body = ClassScheduleService.requestBody(buildingID: 156, page: Constants.mcComasEMSPage, now: now)
-        XCTAssertEqual(body["date"] as? String, "2026-10-20 00:00:00")
+        // EMS answers the week either side of `date`, so a week ahead covers today through two weeks out.
+        XCTAssertEqual(body["date"] as? String, "2026-10-27 00:00:00")
         let data = try XCTUnwrap(body["data"] as? [String: Any])
         XCTAssertEqual(data["BuildingId"] as? Int, 156)
         XCTAssertEqual(data["EncryptD"] as? String, Constants.mcComasEMSPage)
@@ -69,6 +70,41 @@ final class ClassesTests: XCTestCase {
         return GymClass(id: id, title: id, room: "Studio 117", start: start, end: start.addingTimeInterval(minutes * 60))
     }
 
+    func testSkipsFacultyStaffAndCancelledClasses() throws {
+        func booking(_ id: Int, _ title: String) -> String {
+            #"{"Id":\#(id),"EventName":"\#(title)","Room":"Studio 160","GroupName":"Recreational Sports Aux","GmtStart":"2026-10-27T16:15:00","GmtEnd":"2026-10-27T17:00:00"}"#
+        }
+        let bookings = [booking(1, "Barre"), booking(2, "F/S Class"), booking(3, "CANCELLED - Cycle")].joined(separator: ",")
+        let inner = #"{"MonthlyBookingResults":[\#(bookings)]}"#
+        let data = try JSONSerialization.data(withJSONObject: ["d": inner])
+        XCTAssertEqual(try EMSClassParser.parse(data).map(\.title), ["Barre"])
+    }
+
+    func testSignUpOpensAnHourBeforeAndClosesAtTheStart() throws {
+        let start = try date("2026-10-24T14:30:00Z")
+        let scheduled = ScheduledClass(facility: .warMemorial,
+                                       gymClass: GymClass(id: "1", title: "F45", room: "F45 Studio 133A", start: start, end: start.addingTimeInterval(3600)))
+        XCTAssertFalse(scheduled.isSignUpOpen(at: start.addingTimeInterval(-3601)))
+        XCTAssertTrue(scheduled.isSignUpOpen(at: start.addingTimeInterval(-3600)))
+        XCTAssertTrue(scheduled.isSignUpOpen(at: start.addingTimeInterval(-60)))
+        XCTAssertFalse(scheduled.isSignUpOpen(at: start))
+    }
+
+    func testOneFailedGymSavesTheOtherButRetriesNextTime() async throws {
+        let cacheURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".json")
+        defer { try? FileManager.default.removeItem(at: cacheURL) }
+        McComasOnlyProtocol.response = try Data(contentsOf: fixtures.appendingPathComponent("mccomas-response.json"))
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [McComasOnlyProtocol.self]
+        let service = ClassScheduleService(session: URLSession(configuration: configuration), cacheURL: cacheURL)
+
+        let schedule = await service.refresh(now: try date("2026-10-22T12:00:00Z"))
+        XCTAssertFalse(schedule.classes["mcComas", default: []].isEmpty)
+        XCTAssertNil(schedule.classes["warMemorial"])
+        XCTAssertNil(schedule.fetchedAt, "a partial refresh must not delay the failed gym's retry")
+        XCTAssertEqual(service.cached(), schedule)
+    }
+
     func testFailedGymKeepsItsCachedClasses() async throws {
         let cacheURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".json")
         defer { try? FileManager.default.removeItem(at: cacheURL) }
@@ -82,6 +118,35 @@ final class ClassesTests: XCTestCase {
         let schedule = await service.refresh()
         XCTAssertEqual(schedule, cached)
     }
+}
+
+/// Answers McComas (building 156) with a fixture and fails War Memorial, standing in for one gym down.
+private final class McComasOnlyProtocol: URLProtocol {
+    nonisolated(unsafe) static var response = Data()
+
+    override class func canInit(with request: URLRequest) -> Bool { true }
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
+    override func startLoading() {
+        guard let stream = request.httpBodyStream else { return fail() }
+        stream.open()
+        defer { stream.close() }
+        var body = Data()
+        var buffer = [UInt8](repeating: 0, count: 4096)
+        while stream.hasBytesAvailable {
+            let count = stream.read(&buffer, maxLength: buffer.count)
+            guard count > 0 else { break }
+            body.append(buffer, count: count)
+        }
+        guard String(decoding: body, as: UTF8.self).contains("\"BuildingId\":156"),
+              let url = request.url,
+              let http = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil) else { return fail() }
+        client?.urlProtocol(self, didReceive: http, cacheStoragePolicy: .notAllowed)
+        client?.urlProtocol(self, didLoad: Self.response)
+        client?.urlProtocolDidFinishLoading(self)
+    }
+    override func stopLoading() {}
+
+    private func fail() { client?.urlProtocol(self, didFailWithError: URLError(.notConnectedToInternet)) }
 }
 
 /// Fails every request, standing in for an unreachable EMS.

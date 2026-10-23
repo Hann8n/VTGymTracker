@@ -21,6 +21,12 @@ struct ScheduledClass: Hashable, Identifiable, Sendable {
 
     enum Status: Equatable { case underway, startingIn(minutes: Int) }
 
+    /// Rec Sports opens sign-up an hour before each class; after it starts, it's a walk-in.
+    func isSignUpOpen(at now: Date) -> Bool {
+        let start = gymClass.start
+        return start.addingTimeInterval(-Constants.classSignUpWindow) <= now && now < start
+    }
+
     func status(at now: Date) -> Status? {
         if gymClass.isUnderway(at: now) { return .underway }
         let seconds = gymClass.start.timeIntervalSince(now)
