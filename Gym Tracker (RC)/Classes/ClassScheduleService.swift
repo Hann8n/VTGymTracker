@@ -37,10 +37,20 @@ struct ClassScheduleService {
     /// Schedules rarely change within a day; refreshing on open past this age keeps requests to a few a day.
     static let refreshAge: TimeInterval = 6 * 60 * 60
 
-    var session: URLSession = EventsService.liveSession
-    var cacheURL: URL? = try? FileManager.default
-        .url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+    static let liveSession: URLSession = {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.timeoutIntervalForRequest = 12
+        configuration.timeoutIntervalForResource = 20
+        return URLSession(configuration: configuration)
+    }()
+
+    /// In the App Group container, so the Classes widgets read the copy the app keeps fresh (and the other way round).
+    static let sharedCacheURL: URL? = FileManager.default
+        .containerURL(forSecurityApplicationGroupIdentifier: Constants.appGroupID)?
         .appendingPathComponent("classSchedule.json")
+
+    var session: URLSession = Self.liveSession
+    var cacheURL: URL? = Self.sharedCacheURL
 
     func cached() -> Schedule {
         guard let cacheURL, let data = try? Data(contentsOf: cacheURL),

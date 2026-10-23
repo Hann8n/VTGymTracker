@@ -3,6 +3,8 @@ import SwiftUI
 
 struct GymTrackerWidgetEntryView: View {
     var entry: UnifiedGymTrackerEntry
+    /// The class schedule the app shares in the App Group; only the large size lists classes.
+    var classes = ClassScheduleService.Schedule()
     @Environment(\.widgetFamily) var widgetFamily
     @Environment(\.widgetRenderingMode) var widgetRenderingMode
 
@@ -13,6 +15,8 @@ struct GymTrackerWidgetEntryView: View {
                 SmallWidgetView(entry: entry, widgetRenderingMode: widgetRenderingMode)
             case .systemMedium:
                 MediumWidgetView(entry: entry, widgetRenderingMode: widgetRenderingMode)
+            case .systemLarge:
+                LargeWidgetView(entry: entry, classes: classes, widgetRenderingMode: widgetRenderingMode)
             default:
                 EmptyView()
             }
@@ -213,6 +217,108 @@ struct MediumWidgetView: View {
     }
 }
 
+// MARK: - Large Widget (the medium rings, then the next classes)
+struct LargeWidgetView: View {
+    let entry: UnifiedGymTrackerEntry
+    let classes: ClassScheduleService.Schedule
+    let widgetRenderingMode: WidgetRenderingMode
+
+    var body: some View {
+        let next = classes.nextDay(.all, after: entry.date)
+        VStack(alignment: .leading, spacing: 0) {
+            MediumWidgetView(entry: entry, widgetRenderingMode: widgetRenderingMode)
+            Rectangle()
+                .fill(Color.primary.opacity(0.2))
+                .frame(height: 1)
+                .padding(.horizontal, 14)
+            VStack(alignment: .leading, spacing: 8) {
+                WidgetClassesHeader(subtitle: next.map { ClassRowText.dayTitle($0.day, now: entry.date) })
+                if next != nil {
+                    WidgetClassList(classes: Array(classes.upcoming(.all, after: entry.date).prefix(3)), now: entry.date)
+                } else {
+                    Text("No classes scheduled")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .padding(14)
+            Spacer(minLength: 0)
+        }
+    }
+}
+
+// MARK: - Classes (shared with ClassesWidget)
+
+/// "CLASSES" in the dashboard's section style, with the day on the right.
+struct WidgetClassesHeader: View {
+    let subtitle: String?
+
+    var body: some View {
+        HStack(alignment: .firstTextBaseline) {
+            Text("CLASSES")
+                .font(.caption.weight(.bold))
+                .fontWidth(.condensed)
+                .tracking(0.9)
+                .foregroundStyle(.secondary)
+            Spacer(minLength: 4)
+            if let subtitle {
+                Text(subtitle)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        }
+    }
+}
+
+/// Title first, then "10:30 AM · War Memorial" ("Now" in green while it runs), as on the dashboard.
+struct WidgetClassList: View {
+    let classes: [ScheduledClass]
+    let now: Date
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 7) {
+            ForEach(classes) { scheduled in
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(scheduled.gymClass.title)
+                        .font(.subheadline.weight(.semibold))
+                        .lineLimit(1)
+                    (WidgetClassTimeText(scheduled: scheduled, now: now, showsEnd: false).text + Text(" · \(scheduled.gymName)"))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
+    }
+}
+
+/// "10:30 AM" today, "Tomorrow 10:30 AM" or "Sun 10:30 AM" later, or "Now" (green on the Home Screen)
+/// while the class runs.
+struct WidgetClassTimeText: View {
+    let scheduled: ScheduledClass
+    let now: Date
+    let showsEnd: Bool
+    var tintsNow = true
+
+    var text: Text {
+        let gymClass = scheduled.gymClass
+        guard gymClass.isUnderway(at: now) else {
+            let time = gymClass.start.formatted(date: .omitted, time: .shortened)
+            let calendar = Calendar.current
+            if calendar.isDate(gymClass.start, inSameDayAs: now) { return Text(time) }
+            if let tomorrow = calendar.date(byAdding: .day, value: 1, to: now), calendar.isDate(gymClass.start, inSameDayAs: tomorrow) {
+                return Text("Tomorrow \(time)")
+            }
+            return Text("\(gymClass.start.formatted(.dateTime.weekday(.abbreviated))) \(time)")
+        }
+        let nowText = tintsNow ? Text("Now").fontWeight(.semibold).foregroundStyle(Color("CustomGreen")) : Text("Now").fontWeight(.semibold)
+        return showsEnd ? nowText + Text(" · until \(gymClass.end.formatted(date: .omitted, time: .shortened))") : nowText
+    }
+
+    var body: some View { text }
+}
+
 // MARK: - Circular Progress Components
 struct CircularProgressView: View {
     let percentage: Double
@@ -311,11 +417,11 @@ struct GymTrackerWidget: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: UnifiedGymTrackerProvider()) { entry in
-            GymTrackerWidgetEntryView(entry: entry)
+            GymTrackerWidgetEntryView(entry: entry, classes: ClassScheduleService().cached())
         }
         .configurationDisplayName("Gym Tracker")
-        .description("Displays live occupancy for campus gyms")
-        .supportedFamilies([.systemSmall, .systemMedium])
+        .description("Live occupancy for campus gyms, with the next classes at the large size.")
+        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
         .contentMarginsDisabled() // Avoid iOS 17+ system margins that can cause background/edge glitches on open/close
     }
 }

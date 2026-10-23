@@ -1,4 +1,5 @@
 import Foundation
+import WidgetKit
 
 /// Shows the cached class schedule immediately and refreshes it from EMS when it is stale.
 @MainActor
@@ -22,8 +23,10 @@ final class ClassScheduleViewModel: ObservableObject {
     func refresh(now: Date = Date()) async {
         guard !isRefreshing else { return }
         isRefreshing = true
+        let previous = schedule
         schedule = await service.refresh(now: now)
         isRefreshing = false
+        if schedule != previous { WidgetCenter.shared.reloadAllTimelines() }
     }
 
     var hasAnyClasses: Bool {

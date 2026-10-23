@@ -59,7 +59,7 @@ GymTrackerComplications/
 
 - **Occupancy**: POST to RecSports API; parse via OccupancyHTMLParser regex; no caching.
 - **Events**: RSS feed; cache `cachedEvents.json`; filter `endDate > Date()`.
-- **Widget**: App Group UserDefaults; call `WidgetCenter.shared.reloadAllTimelines()` after occupancy updates.
+- **Widget**: App Group UserDefaults; call `WidgetCenter.shared.reloadAllTimelines()` after occupancy updates. Classes share `classSchedule.json` in the App Group container (`ClassesWidget`, and the large gym widget).
 
 ## Anti-Patterns
 
