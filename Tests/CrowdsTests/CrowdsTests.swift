@@ -23,9 +23,16 @@ final class CrowdsTests: XCTestCase {
         XCTAssertEqual(OccupancyHTMLParser.parse(html(600, 0), capacity: 600)?.remaining, 0)
     }
 
+    func testParserReadsAnOvercountWithNothingRemainingAsFull() {
+        // Live Bouldering Wall reading on 2026-10-23: nine swiped in, capacity eight.
+        let full = OccupancyHTMLParser.parse(html(9, 0) + html(9, 0), capacity: 8)
+        XCTAssertEqual(full?.occupancy, 8)
+        XCTAssertEqual(full?.remaining, 0)
+    }
+
     func testParserRejectsMissingMalformedOutOfRangeAndConflictingData() {
         let bad = ["", "<h1>Error</h1>", "<canvas data-remaining=\"600\">",
-                   "<canvas data-occupancy=\"0\">", html(-1, 601), html(601, 0), html(0, 601), html(200, 200),
+                   "<canvas data-occupancy=\"0\">", html(-1, 601), html(601, 1), html(0, 601), html(200, 200),
                    "<canvas data-occupancy=\"1.2\" data-remaining=\"598\">",
                    "<canvas data-occupancy=\"unknown\" data-remaining=\"600\">",
                    "<canvas data-occupancy=\"999999999999999999999999\" data-remaining=\"0\">",

@@ -34,6 +34,8 @@ class GymService: ObservableObject {
     @Published var warMemorialOccupancy: Int? = nil
     @Published var boulderingWallOccupancy: Int? = nil
     @Published var isOnline: Bool = true
+    /// True once a fetch has finished, so a facility still without a reading shows as unavailable, not loading.
+    @Published private(set) var hasCompletedFetch = false
     
     // MARK: - Computed Properties for Remaining Capacity
     
@@ -117,6 +119,7 @@ class GymService: ObservableObject {
         // If any facility succeeds, API is reachable; only mark offline if all fail
         isOnline = mc != nil || wm != nil || bw != nil
         storeAndNotify(mcComas: mc?.occupancy, warMemorial: wm?.occupancy, boulderingWall: bw?.occupancy)
+        hasCompletedFetch = true
 
         if !isOnline {
             print("No occupancy data fetched successfully, scheduling retry...")

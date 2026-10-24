@@ -66,9 +66,9 @@ struct Constants {
     static let occupancyDisplayType = "00000000-0000-0000-0000-000000004490"
 
     // Recreational Sports Events
-    static let recreationalSportsEventsURL = URL(string: "https://virginiatech.campusgroups.com/mobile_ws/v17/mobile_events_list?range=0&limit=40&filter2=35589&filter4_contains=OR&filter4_notcontains=OR&order=&search_word=")!
+    static let recreationalSportsEventsURL = URL(string: "https://gobblerconnect.vt.edu/mobile_ws/v17/mobile_events_list?range=0&limit=40&filter2=35589&filter4_contains=OR&filter4_notcontains=OR&order=&search_word=")!
 
-    static let eventsBaseURL = URL(string: "https://virginiatech.campusgroups.com")!
+    static let eventsBaseURL = URL(string: "https://gobblerconnect.vt.edu")!
     static let eventsTimeZoneIdentifier = "America/New_York"
 
     static let metricsURLString = "https://gymtracker.jackhannon.net/api/events"
