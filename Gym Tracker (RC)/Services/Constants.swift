@@ -65,6 +65,26 @@ struct Constants {
     static let facilityDataAPIURL = URL(string: "https://connect.recsports.vt.edu/FacilityOccupancy/GetFacilityData")!
     static let occupancyDisplayType = "00000000-0000-0000-0000-000000004490"
 
+    // EMS room schedules (group fitness classes per gym). EMS only answers when the request
+    // carries its public browse page link, so each gym keeps that link alongside its building ID.
+    static let emsBrowseEventsURL = URL(string: "https://virginiatech.emscloudservice.com/web/AnonymousServersApi.aspx/CustomBrowseEvents")!
+    static let mcComasEMSBuildingID = 156
+    static let mcComasEMSPage = "https://virginiatech.emscloudservice.com/web/CustomBrowseEvents.aspx?data=xg3Hte%2bNIVKOyGrID6EWKeUfysPb3D6oy8qPxfes2QPm5HyB5hXXiy01z9NL%2bn1P7mAzz0m6k3U15G1gUxHAZkf6Nc4bonc5xWztDBCKcANhaMhHVqaAz83JsAnxOApNnxJx7rWoF9ylORJl5nr6T1fRPPlixwFH0whvDGPT9j8%3d"
+    static let warMemorialEMSBuildingID = 157
+    static let warMemorialEMSPage = "https://virginiatech.emscloudservice.com/web/CustomBrowseEvents.aspx?data=kQPlyufBOdLP5yFwilocrZj0g72mAUGsd5VZZWvKgjmWaEDNBfd1vKqe0k3e7Rnr5%2b8JVuWvz%2b5jHXlEjZqJ9%2bGYsa4FUwzomR8cTYFhKpr%2fvi%2bdIpbzyq1mcXv0C%2f8xnw3%2f6BCLKkTKObQmhNNynXSKy%2bbRBSNR"
+    /// Rooms whose bookings are classes; courts and gym floors carry practices and rentals instead.
+    static let classRoomKeywords = ["studio", "spin", "zen den", "f45"]
+    /// Rec Sports books its own classes under this group; clubs and private rentals use their own names.
+    static let classGroupName = "Recreational Sports Aux"
+    /// Rec Sports' own studio bookings that aren't open classes: cleaning, private sessions, HNFE course labs,
+    /// the Faculty/Staff class ("F/S Class"), and anything renamed as cancelled.
+    static let classTitleExclusions = ["closed", "cleaning", "private", "hnfe", "recording", "exercise leadership", "f/s", "cancel"]
+    /// Group Ex sign-up opens an hour before each class here (Rec Sports' pre-registration policy).
+    static let classSignUpURL = URL(string: "https://connect.recsports.vt.edu/booking")!
+    static let classSignUpWindow: TimeInterval = 60 * 60
+    /// Where students buy the Group Exercise pass every class requires.
+    static let groupExPassURL = URL(string: "https://connect.recsports.vt.edu/Membership/Index")!
+
     // Recreational Sports Events
     static let recreationalSportsEventsURL = URL(string: "https://gobblerconnect.vt.edu/mobile_ws/v17/mobile_events_list?range=0&limit=40&filter2=35589&filter4_contains=OR&filter4_notcontains=OR&order=&search_word=")!
 

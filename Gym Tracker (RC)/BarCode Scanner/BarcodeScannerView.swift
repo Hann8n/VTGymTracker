@@ -57,8 +57,7 @@ struct BarcodeScannerView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Close scanner", systemImage: "xmark") { isPresented = false }
-                        .labelStyle(.iconOnly)
+                    SheetCloseButton(label: "Close scanner") { isPresented = false }
                 }
                 if #available(iOS 27.1, *) {
                     flashlightItem.axisBehavior(.verticalPreferred)

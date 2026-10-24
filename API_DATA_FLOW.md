@@ -264,3 +264,14 @@ See [Siri current crowds](docs/SIRI_CURRENT_CROWDS.md) for the typed result cont
 `EventsService` shares the existing CampusGroups feed/parser with `EventsViewModel`.
 The existing event cache retains verified retrieval metadata. Upcoming-event search
 and selected-event details expose typed facts and freshness; see [Siri events](docs/SIRI_EVENTS.md).
+
+## Class schedules (EMS)
+
+The dashboard's Classes section (below the gyms, above events) lists the next classes at both gyms; Full Schedule opens every upcoming class by day, with a gym choice (`classGymFilter`: `all`, `warMemorial`, `mcComas`, remembered) and search. Opening the schedule sends `class_schedule_open`. The phone fetches classes directly from VT's EMS, never through our server.
+
+- **Request** (`ClassScheduleService.fetch`): `POST https://virginiatech.emscloudservice.com/web/AnonymousServersApi.aspx/CustomBrowseEvents` with JSON `{"date": "<a week from today> 00:00:00", "data": {"BuildingId": 156 or 157, "Format": 1, "EncryptD": "<the gym's public browse page URL>", …}}`. EMS rejects the call without `EncryptD`. `Format: 1` returns the week either side of `date`, so a week ahead covers today through two weeks out.
+- **Response** (`EMSClassParser`): `{"d": "<JSON string>"}`; bookings sit under `MonthlyBookingResults` (or `DailyBookingResults`). Only rooms matching `Constants.classRoomKeywords` (studios, spin, Zen Den, F45) count as classes; courts and gym floors carry practices and rentals. Studios are also booked by clubs and private groups, so a class must be under `Constants.classGroupName` and its title must avoid `Constants.classTitleExclusions` (cleaning, private sessions, HNFE course labs, the Faculty/Staff class, anything marked cancelled). Times come from `GmtStart` / `GmtEnd`.
+- **Caching**: `classSchedule.json` in the App Group container, shared with the widgets (`ClassScheduleService.sharedCacheURL`). The cached schedule shows at once and refreshes on launch or foreground once it is 6 hours old. A gym whose fetch fails keeps its cached classes, and the refresh clock only resets when both gyms succeed, so the failed one is retried on the next open. The app reloads widget timelines when the schedule changes.
+- **Widgets**: `ClassesWidget` (small, medium, large, Lock Screen rectangular and inline) and the large `GymTrackerWidget` read that cache, fetching only when it is stale. Timeline entries land on every class start and end over the next day, so "Now" and the next class turn over without a fetch.
+- **Sign-up**: Rec Sports opens pre-registration an hour before each class. During that hour the schedule shows Sign Up (`Constants.classSignUpURL`, sends `class_signup_tap`), and its footer notes that classes need a Group Ex pass (`Constants.groupExPassURL`).
+- **Parity**: `Tests/Fixtures/ems` holds a trimmed real EMS response (McComas, captured 2026-10-22) and the classes it must produce. The Android parser tests read the same files.

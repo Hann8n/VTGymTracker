@@ -58,12 +58,7 @@ struct SettingsView: View {
             .navigationTitle("Settings")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
-                    }
-                    .accessibilityLabel("Close")
+                    SheetCloseButton { presentationMode.wrappedValue.dismiss() }
                 }
             }
             .alert(item: $alertManager.currentAlert) { alertType in

@@ -7,6 +7,7 @@ struct ContentView: View {
     @StateObject private var networkMonitor: NetworkMonitor
     @StateObject private var eventsViewModel: EventsViewModel
     @StateObject private var adViewModel = AdViewModel()
+    @StateObject private var classSchedule = ClassScheduleViewModel()
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -22,6 +23,7 @@ struct ContentView: View {
     @State private var showAboutPopup: Bool = false
     @State private var showSettingsPopup: Bool = false
     @State private var usesVerticalToolbar = false
+    @State private var showClassSchedule = false
     
     @AppStorage("appTheme") private var appTheme: String = "Auto"
     @AppStorage("faceIDEnabled") private var faceIDEnabled: Bool = false
@@ -55,6 +57,7 @@ struct ContentView: View {
                         }
                         #endif
                         scheduleAppRefresh()
+                        Task { await classSchedule.refreshIfStale() }
                         Task {
                             if networkMonitor.isConnected {
                                 await fetchGymOccupancyData()
@@ -76,6 +79,9 @@ struct ContentView: View {
                 .sheet(isPresented: $showManualInput) {
                     ManualIDInputView(isPresented: $showManualInput)
                         .environmentObject(alertManager)
+                }
+                .sheet(isPresented: $showClassSchedule) {
+                    ClassScheduleSheet(classSchedule: classSchedule)
                 }
                 .sheet(isPresented: $isBarcodeDisplayPresented) {
                     CampusIDSheet()
@@ -123,6 +129,7 @@ struct ContentView: View {
                         isBarcodeDisplayPresented = false
                     case .active:
                         Task { await AppMetrics.shared.activate() }
+                        Task { await classSchedule.refreshIfStale() }
                         if sponsoredAdsEnabled {
                             Task {
                                 #if DEBUG
@@ -194,17 +201,32 @@ struct ContentView: View {
                 .id("dashboard-bouldering")
         } events: { isSeparatePane in
             VStack(alignment: .leading, spacing: 0) {
-                sponsoredSection(isSeparatePane: isSeparatePane)
+                ClassesSectionBlock(
+                    classSchedule: classSchedule,
+                    networkMonitor: networkMonitor,
+                    isSeparatePane: isSeparatePane,
+                    onShowSchedule: {
+                        Task { await AppMetrics.shared.track(.classScheduleOpen) }
+                        showClassSchedule = true
+                    }
+                )
+                .id("dashboard-classes")
+                sponsoredSection(isSeparatePane: isSeparatePane && !showsClasses)
                 EventsSectionBlock(
                     eventsViewModel: eventsViewModel,
                     networkMonitor: networkMonitor,
                     motionPolicy: motionPolicy,
-                    isSeparatePane: isSeparatePane && !hasActiveSponsoredAd
+                    isSeparatePane: isSeparatePane && !hasActiveSponsoredAd && !showsClasses
                 )
                 .id("dashboard-events")
             }
             .animation(motionPolicy.sponsorSectionLayoutAnimation, value: sponsoredSectionLayoutToken)
         }
+    }
+
+    /// Matches `ClassesSectionBlock`, which stays hidden with nothing cached and nothing loading.
+    private var showsClasses: Bool {
+        classSchedule.hasAnyClasses || classSchedule.isRefreshing
     }
 
     private var hasActiveSponsoredAd: Bool {
