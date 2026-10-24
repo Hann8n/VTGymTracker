@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> **Moved.** Gym Tracker now lives in the `Hann8n/gym-tracker` monorepo (iOS in `ios/`, Android in `android/`, backend in `backend/`), with this repo's full history. This repo is archived and read-only.
+
 # Gym Tracker
 
 iOS app for tracking Virginia Tech gym occupancy and displaying campus events. Supports iOS, watchOS, and WidgetKit extensions.
