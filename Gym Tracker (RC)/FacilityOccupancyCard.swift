@@ -4,6 +4,8 @@ struct FacilityOccupancyCard: View {
     let facilityTitle: String
     /// nil until the first value arrives (no cache and no fetch yet); shows a spinner.
     let occupancy: Int?
+    /// A fetch finished without a reading for this facility: show a dash instead of the spinner.
+    var isUnavailable = false
     let maxCapacity: Int
     let segmentCount: Int
     @ObservedObject var networkMonitor: NetworkMonitor
@@ -37,6 +39,10 @@ struct FacilityOccupancyCard: View {
                                 Text(occupancy.abbreviatedCount)
                                     .contentTransition(.numericText(value: Double(occupancy)))
                             }
+                        } else if isUnavailable {
+                            Text("—")
+                                .foregroundStyle(.tertiary)
+                                .accessibilityLabel("Occupancy unavailable")
                         } else {
                             // Keeps the row height of the count so nothing shifts when data lands
                             Text("0")
